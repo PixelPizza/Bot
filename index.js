@@ -1,6 +1,6 @@
 const {Client}=require('discord.js');
 const client=new Client();
-const {token}=require('./config.json');
+const {token,prefix}=require('./config.json');
 const {green}=require('./colors.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed}=require('./functions');
 
@@ -21,6 +21,11 @@ client.on('ready', () => {
 client.on('guildCreate', guild => {
     updateGuildAmount(client);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed(green, "Added", null, null, `${client.user.username} has been added to the guild ${guild.name}`, null, [], null, true, {text: guild.id}));
+    let channel = guild.systemChannel;
+    if (!channel){
+        channel = guild.channels.cache.find(channel => channel.type === "text");
+    }
+    channel.send(createEmbed(green, "Thank you!", null, null, `Thank you for adding me!\nMy prefix is ${prefix}\nUse ${prefix}help for all commands!`));
 });
 
 client.login(token);

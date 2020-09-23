@@ -1,4 +1,4 @@
-const{WebhookClient}=require('discord.js');
+const{WebhookClient,MessageEmbed}=require('discord.js');
 const{botGuild,prefix}=require('./config.json');
 const{voice}=require("./channels.json");
 const{log}=require('./webhooks.json');
@@ -8,3 +8,5 @@ exports.updateMemberSize=(client)=>{const guild=client.guilds.cache.get(botGuild
 exports.updateGuildAmount=(client)=>{const suffixes=["k","m","b"];const activities=["PLAYING","STREAMING","LISTENING","WATCHING"];const activity=activities[Math.floor(Math.random()*activities.length)];const url="http://twitch.tv/";let serverAmout=client.guilds.cache.array().length;let suffixUsed="";for(let suffix in suffixes){if (serverAmout>1000){serverAmout/=1000;suffixUsed=suffix;} else break;}serverAmout=`${serverAmout}${suffixUsed}`;if (activity=="PLAYING"||activity=="STREAMING"){serverAmout=`with ${serverAmout}`;}client.user.setActivity(`${serverAmout} guilds | ${prefix}help`,{type:activity,url:url});}
 
 exports.sendGuildLog=(name, avatar, message)=>{const webhook=new WebhookClient(log.id,log.token);webhook.edit({name:name,avatar:avatar}).then(()=>{webhook.send(message);});}
+
+exports.createEmbed=(color = null, title = null, url = null, author = null, description = null, thumbnail = null, fields = [], image = null, timestamp = false, footer = null)=>{const embedMsg=new MessageEmbed();if(color)embedMsg.setColor(color);if(title)embedMsg.setTitle(title);if(url)embedMsg.setURL(url);if(author.name){if(author.icon&&author.url){embedMsg.setAuthor(author.name,author.icon,author.url);}else if(author.icon&&!author.url){embedMsg.setAuthor(author.name,author.icon);}else if(!author.icon&&author.url){embedMsg.setAuthor(author.name,null,author.url);}else{embedMsg.setAuthor(author.name);}}if(description)embedMsg.setDescription(description);if(thumbnail)embedMsg.setThumbnail(thumbnail);if(fields.length){for(let index in fields){let field=fields[index];if(field.inline){embedMsg.addField(field.name,field.value,true);}else{embedMsg.addField(field.name,field.value);}}}if(image)embedMsg.setImage(image);if(timestamp)embedMsg.setTimestamp();if(footer.text){if(footer.icon){embedMsg.setFooter(footer.text,footer.icon);}embedMsg.setFooter(footer.text);}return embedMsg;}

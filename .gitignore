@@ -2,5 +2,6 @@ node_modules
 config.json
 channels.json
 webhooks.json
+colors.json
 package.json
 package-lock.json

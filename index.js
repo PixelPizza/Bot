@@ -1,6 +1,7 @@
 const {Client} = require('discord.js');
 const client = new Client();
 const {token} = require('./config.json');
+const {updateMemberSize} = require('./functions');
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -11,6 +12,7 @@ client.on('error', error => {
 });
 
 client.on('ready', () => {
+    updateMemberSize(client);
     console.log("Pixel Pizza is ready");
 });
 

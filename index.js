@@ -10,4 +10,8 @@ client.on('error', error => {
     console.error('The websocket connection encountered an error:', error);
 });
 
+client.on('ready', () => {
+    console.log("Pixel Pizza is ready");
+});
+
 client.login(token);

@@ -4,5 +4,6 @@ channels.json
 webhooks.json
 colors.json
 emojis.json
+roles.json
 package.json
 package-lock.json

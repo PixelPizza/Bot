@@ -2,6 +2,7 @@ const {Client}=require('discord.js');
 const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
 const {green,red}=require('./colors.json');
+const {noice2}=require('./emojis.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed}=require('./functions');
 
 process.on('unhandledRejection', error => {
@@ -44,7 +45,7 @@ client.on('guildMemberRemove', member => {
 });
 
 client.on('messageReactionAdd', messageReaction => {
-    if (messageReaction.message.guild.id !== botGuild) return;
+    if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
 });
 
 client.login(token);

@@ -28,4 +28,8 @@ client.on('guildCreate', guild => {
     channel.send(createEmbed(green, "Thank you!", null, null, `Thank you for adding me!\nMy prefix is ${prefix}\nUse ${prefix}help for all commands!`));
 });
 
+client.on('guildDelete', guild => {
+    updateGuildAmount(client);
+});
+
 client.login(token);

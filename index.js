@@ -1,7 +1,7 @@
 const {Client}=require('discord.js');
 const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
-const {green,red}=require('./colors.json');
+const {blue,green,red}=require('./colors.json');
 const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
 const {developer}=require('./roles.json');
@@ -82,6 +82,7 @@ client.on('message', message => {
     console.log(commandName);
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
+    const embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
 });
 
 client.login(token);

@@ -3,5 +3,6 @@ config.json
 channels.json
 webhooks.json
 colors.json
+emojis.json
 package.json
 package-lock.json

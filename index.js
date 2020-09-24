@@ -4,6 +4,7 @@ const {token,prefix,botGuild}=require('./config.json');
 const {green,red}=require('./colors.json');
 const {noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
+const {developer}=require('./roles.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
 
 process.on('unhandledRejection', error => {
@@ -58,6 +59,11 @@ client.on('messageReactionRemove', messageReaction => {
 client.on('message', message => {
     if (message.channel.id === text.logs && !message.webhookID){
         return message.delete();
+    }
+    if (message.channel.id === text.updates && message.member){
+        if (!message.member.roles.cache.get(developer)){
+            message.delete();
+        }
     }
 });
 

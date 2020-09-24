@@ -77,6 +77,9 @@ client.on('message', message => {
             return message.channel.send(embedMsgError);
         }
     }
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const commandName = args.shift().toLowerCase();
+    console.log(commandName);
 });
 
 client.login(token);

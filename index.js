@@ -1,11 +1,12 @@
-const {Client}=require('discord.js');
+const {Client,Collection}=require('discord.js');
 const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
 const {blue,green,red}=require('./colors.json');
 const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
-const {developer}=require('./roles.json');
+const {developer,worker,teacher,staff,director}=require('./roles.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
+client.commands=new Collection();
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -57,6 +58,8 @@ client.on('messageReactionRemove', messageReaction => {
 });
 
 client.on('message', message => {
+    const guild = client.guilds.cache.get(botGuild);
+    const member = guild.members.cache.get(message.author.id);
     if (message.channel.id === text.logs && !message.webhookID){
         return message.delete();
     }
@@ -87,6 +90,32 @@ client.on('message', message => {
     if (message.channel.type == "dm") {
         embedMsg = createEmbed(red, null, null, null, "Our commands are unavailable in DMs");
         return message.channel.send(embedMsg);
+    }
+    let workerBool = false;
+    let teacherBool = false;
+    let staffBool = false;
+    let directorBool = false;
+    if (member){
+        worker.forEach(role => {
+            if (member.roles.cache.get(role)){
+                workerBool = true;
+            }
+        });
+        teacher.forEach(role => {
+            if (member.roles.cache.get(role)){
+                teacherBool = true;
+            }
+        });
+        staff.forEach(role => {
+            if (member.roles.cache.get(role)){
+                staffBool = true;
+            }
+        });
+        director.forEach(role => {
+            if (member.roles.cache.get(role)){
+                directorBool = true;
+            }
+        });
     }
 });
 

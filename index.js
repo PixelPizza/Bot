@@ -141,6 +141,10 @@ client.on('message', message => {
         embedMsg.setColor(red).setTitle('**No arguments**').setDescription(reply);
         return message.channel.send(embedMsg);
     }
+    if (command.args == false && args.length){
+        embedMsg.setColor(red).setTitle('**No arguments needed**').setDescription(`This command doesn't require any arguments, ${message.author}`);
+        return message.channel.send(embedMsg);
+    }
 });
 
 client.login(token);

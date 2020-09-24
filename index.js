@@ -70,6 +70,13 @@ client.on('message', message => {
         message.react(noice).then(console.log).catch(console.error);
     }
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot || message.webhookID) return;
+    if (message.guild){
+        const clientMember = message.guild.members.cache.get(client.user.id);
+        if (!clientMember.hasPermission("CREATE_INSTANT_INVITE")){
+            const embedMsgError = createEmbed(red, "Missing permission", null, null, "I'm missing the `CREATE_INSTANT_INVITE` permission");
+            return message.channel.send(embedMsgError);
+        }
+    }
 });
 
 client.login(token);

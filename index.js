@@ -1,6 +1,6 @@
 const {Client}=require('discord.js');
 const client=new Client();
-const {token,prefix}=require('./config.json');
+const {token,prefix,botGuild}=require('./config.json');
 const {green,red}=require('./colors.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed}=require('./functions');
 
@@ -31,6 +31,10 @@ client.on('guildCreate', guild => {
 client.on('guildDelete', guild => {
     updateGuildAmount(client);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed(red, "Removed", null, null, `${client.user.username} has been removed from the guild ${guild.name}`, null, [], null, true, {text: guild.id}));
+});
+
+client.on('guildMemberAdd', member => {
+    if (member.guild.id !== botGuild) return;
 });
 
 client.login(token);

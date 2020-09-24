@@ -7,6 +7,7 @@ const {text}=require('./channels.json');
 const {developer,worker,teacher,staff,director}=require('./roles.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
 client.commands=new Collection();
+const cooldowns=new Collection();
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -162,6 +163,22 @@ client.on('message', message => {
         embedMsg.setColor(red).setDescription(reply);
         return message.channel.send(embedMsg);
     }
+    if (!cooldowns.has(command.name)) {
+        cooldowns.set(command.name, new Collection());
+    }
+    const now = Date.now();
+    const timestamps = cooldowns.get(command.name);
+    let cooldownAmount = (command.cooldown || 0) * 1000;
+    if (timestamps.has(message.author.id)){
+        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+        if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000;
+            embedMsg.setColor(black).setTitle('**Cooldown**').setDescription(`please wait ${timeLeft} more second(s) before reusing ${command.name}`);
+            return message.channel.send(embedMsg);
+        }
+    }
+    timestamps.set(message.author.id, now);
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 });
 
 client.login(token);

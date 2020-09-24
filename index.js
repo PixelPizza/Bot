@@ -35,6 +35,7 @@ client.on('guildDelete', guild => {
 
 client.on('guildMemberAdd', member => {
     if (member.guild.id !== botGuild) return;
+    updateMemberSize(client);
 });
 
 client.login(token);

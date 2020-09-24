@@ -38,4 +38,8 @@ client.on('guildMemberAdd', member => {
     updateMemberSize(client);
 });
 
+client.on('guildMemberRemove', member => {
+    if (member.guild.id !== botGuild) return;
+});
+
 client.login(token);

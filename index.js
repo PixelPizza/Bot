@@ -133,8 +133,9 @@ client.on('message', message => {
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
         return message.channel.send(embedMsg);
     }
+    let reply;
     if (command.args && !args.length) {
-        let reply = `There were no arguments given, ${message.author}`;
+        reply = `There were no arguments given, ${message.author}`;
         if (command.usage) {
             reply += `\nThe proper usage is: '${prefix}${command.name} ${command.usage}'`;
         }
@@ -143,6 +144,14 @@ client.on('message', message => {
     }
     if (command.args == false && args.length){
         embedMsg.setColor(red).setTitle('**No arguments needed**').setDescription(`This command doesn't require any arguments, ${message.author}`);
+        return message.channel.send(embedMsg);
+    }
+    if (command.minArgs && args.length < command.minArgs){
+        reply = `${prefix}${command.name} takes a minimum of ${command.minArgs} argument(s)`;
+        if (command.usage){
+            reply += `\nThe proper usage is ${prefix}${command.name} ${command.usage}`;
+        }
+        embedMsg.setColor(red).setDescription(reply);
         return message.channel.send(embedMsg);
     }
 });

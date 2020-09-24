@@ -133,6 +133,14 @@ client.on('message', message => {
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
         return message.channel.send(embedMsg);
     }
+    if (command.args && !args.length) {
+        let reply = `There were no arguments given, ${message.author}`;
+        if (command.usage) {
+            reply += `\nThe proper usage is: '${prefix}${command.name} ${command.usage}'`;
+        }
+        embedMsg.setColor(red).setTitle('**No arguments**').setDescription(reply);
+        return message.channel.send(embedMsg);
+    }
 });
 
 client.login(token);

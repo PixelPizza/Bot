@@ -1,7 +1,7 @@
 const {Client}=require('discord.js');
 const client=new Client();
 const {token,prefix}=require('./config.json');
-const {green}=require('./colors.json');
+const {green,red}=require('./colors.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed}=require('./functions');
 
 process.on('unhandledRejection', error => {
@@ -30,6 +30,7 @@ client.on('guildCreate', guild => {
 
 client.on('guildDelete', guild => {
     updateGuildAmount(client);
+    sendGuildLog(guild.name, guild.iconURL(), createEmbed(red, "Removed", null, null, `${client.user.username} has been removed from the guild ${guild.name}`, null, [], null, true, {text: guild.id}));
 });
 
 client.login(token);

@@ -179,6 +179,14 @@ client.on('message', message => {
     }
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    try {
+        command.execute(message, args, client);
+        console.log(`${command.name} executed!`);
+    } catch (error) {
+        console.error(error);
+        embedMsg.setColor(red).setTitle('**Error**').setDescription('there was an error trying to execute that command!');
+        message.channel.send(embedMsg);
+    }
 });
 
 client.login(token);

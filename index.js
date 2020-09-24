@@ -49,4 +49,8 @@ client.on('messageReactionAdd', messageReaction => {
     checkNoiceBoard(messageReaction);
 });
 
+client.on('messageReactionRemove', messageReaction => {
+    if (messageReaction.message.guild.id !== botGuild) return;
+});
+
 client.login(token);

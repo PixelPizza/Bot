@@ -85,10 +85,10 @@ client.on('message', message => {
     console.log(commandName);
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-    let embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
+    const embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
     // check if user is blacklisted
     if (message.channel.type == "dm") {
-        embedMsg = createEmbed(red, null, null, null, "Our commands are unavailable in DMs");
+        embedMsg.setColor(red).setDescription("Our commands are unavailable in DMs");
         return message.channel.send(embedMsg);
     }
     let workerBool = false;
@@ -116,6 +116,22 @@ client.on('message', message => {
                 directorBool = true;
             }
         });
+    }
+    if (command.userType == "worker" && !workerBool){
+        embedMsg.setColor(red).setDescription("You need to be Pixel Pizza worker to use this command!");
+        return message.channel.send(embedMsg);
+    }
+    if (command.userType == "teacher" && !teacherBool){
+        embedMsg.setColor(red).setDescription("You need to be Pixel Pizza teacher to use this command!");
+        return message.channel.send(embedMsg);
+    }
+    if (command.userType == "staff" && !staffBool){
+        embedMsg.setColor(red).setDescription("You need to be Pixel Pizza staff to use this command!");
+        return message.channel.send(embedMsg);
+    }
+    if (command.userType == "director" && !directorBool){
+        embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
+        return message.channel.send(embedMsg);
     }
 });
 

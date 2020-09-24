@@ -3,6 +3,7 @@ const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
 const {green,red}=require('./colors.json');
 const {noice2}=require('./emojis.json');
+const {text}=require('./channels.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
 
 process.on('unhandledRejection', error => {
@@ -52,6 +53,12 @@ client.on('messageReactionAdd', messageReaction => {
 client.on('messageReactionRemove', messageReaction => {
     if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
     checkNoiceBoard(messageReaction);
+});
+
+client.on('message', message => {
+    if (message.channel.id === text.logs && !message.webhookID){
+        return message.delete();
+    }
 });
 
 client.login(token);

@@ -2,7 +2,7 @@ const {Client}=require('discord.js');
 const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
 const {green,red}=require('./colors.json');
-const {noice2}=require('./emojis.json');
+const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
 const {developer}=require('./roles.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
@@ -64,6 +64,10 @@ client.on('message', message => {
         if (!message.member.roles.cache.get(developer)){
             message.delete();
         }
+    }
+    // add exp and check level roles
+    if (message.content.toLowerCase().includes('noice')) {
+        message.react(noice).then(console.log).catch(console.error);
     }
 });
 

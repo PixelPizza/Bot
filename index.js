@@ -3,7 +3,7 @@ const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
 const {green,red}=require('./colors.json');
 const {noice2}=require('./emojis.json');
-const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed}=require('./functions');
+const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -46,6 +46,7 @@ client.on('guildMemberRemove', member => {
 
 client.on('messageReactionAdd', messageReaction => {
     if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
+    checkNoiceBoard(messageReaction);
 });
 
 client.login(token);

@@ -82,7 +82,12 @@ client.on('message', message => {
     console.log(commandName);
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-    const embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
+    let embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
+    // check if user is blacklisted
+    if (message.channel.type == "dm") {
+        embedMsg = createEmbed(red, null, null, null, "Our commands are unavailable in DMs");
+        return message.channel.send(embedMsg);
+    }
 });
 
 client.login(token);

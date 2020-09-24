@@ -51,6 +51,7 @@ client.on('messageReactionAdd', messageReaction => {
 
 client.on('messageReactionRemove', messageReaction => {
     if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
+    checkNoiceBoard(messageReaction);
 });
 
 client.login(token);

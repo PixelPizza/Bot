@@ -154,6 +154,14 @@ client.on('message', message => {
         embedMsg.setColor(red).setDescription(reply);
         return message.channel.send(embedMsg);
     }
+    if (command.maxArgs && args.length > command.maxArgs){
+        reply = `${prefix}${command.name} takes a maximum of ${command.maxArgs} argument(s)`;
+        if (command.usage){
+            reply += `The proper usage is ${prefix}${command.name} ${command.usage}`;
+        } 
+        embedMsg.setColor(red).setDescription(reply);
+        return message.channel.send(embedMsg);
+    }
 });
 
 client.login(token);

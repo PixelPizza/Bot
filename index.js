@@ -69,6 +69,7 @@ client.on('message', message => {
     if (message.content.toLowerCase().includes('noice')) {
         message.react(noice).then(console.log).catch(console.error);
     }
+    if (!message.content.toLowerCase().startsWith(prefix)) return;
 });
 
 client.login(token);

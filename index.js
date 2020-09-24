@@ -43,4 +43,8 @@ client.on('guildMemberRemove', member => {
     updateMemberSize(client);
 });
 
+client.on('messageReactionAdd', messageReaction => {
+    if (messageReaction.message.guild.id !== botGuild) return;
+});
+
 client.login(token);

@@ -1,13 +1,24 @@
+const fs = require('fs');
 const {Client,Collection}=require('discord.js');
 const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
-const {blue,green,red}=require('./colors.json');
+const {blue,green,red,black}=require('./colors.json');
 const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
 const {developer,worker,teacher,staff,director}=require('./roles.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
+const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands=new Collection();
 const cooldowns=new Collection();
+client.worker=false;
+client.teacher=false;
+client.staff=false;
+client.director=false;
+
+for (let file of cmdFiles) {
+    const command = require('./commands/' + file);
+    client.commands.set(command.name, command);
+}
 
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
@@ -92,45 +103,42 @@ client.on('message', message => {
         embedMsg.setColor(red).setDescription("Our commands are unavailable in DMs");
         return message.channel.send(embedMsg);
     }
-    let workerBool = false;
-    let teacherBool = false;
-    let staffBool = false;
-    let directorBool = false;
     if (member){
         worker.forEach(role => {
             if (member.roles.cache.get(role)){
-                workerBool = true;
+                client.worker = true;
             }
         });
         teacher.forEach(role => {
             if (member.roles.cache.get(role)){
-                teacherBool = true;
+                client.teacher = true;
             }
         });
         staff.forEach(role => {
             if (member.roles.cache.get(role)){
-                staffBool = true;
+                client.staff = true;
             }
         });
         director.forEach(role => {
             if (member.roles.cache.get(role)){
-                directorBool = true;
+                client.director = true;
+                client.staff = true;
             }
         });
     }
-    if (command.userType == "worker" && !workerBool){
+    if (command.userType == "worker" && !client.worker){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza worker to use this command!");
         return message.channel.send(embedMsg);
     }
-    if (command.userType == "teacher" && !teacherBool){
+    if (command.userType == "teacher" && !client.teacher){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza teacher to use this command!");
         return message.channel.send(embedMsg);
     }
-    if (command.userType == "staff" && !staffBool){
+    if (command.userType == "staff" && !client.staff){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza staff to use this command!");
         return message.channel.send(embedMsg);
     }
-    if (command.userType == "director" && !directorBool){
+    if (command.userType == "director" && !client.director){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
         return message.channel.send(embedMsg);
     }

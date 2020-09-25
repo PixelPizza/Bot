@@ -50,5 +50,14 @@ module.exports = {
         }
         const name=args[0].toLowerCase();
         const command=commands.get(name)||commands.find(c=>c.aliases&&c.aliases.includes(name));
+        if (!command){
+            embedMsg.setColor(red).setDescription(`that's not an existing command!`);
+            return message.channel.send(embedMsg);
+        }
+        const executableCommand=executableCommands.get(name)||executableCommands.find(c=>c.aliases&&c.aliases.includes(name));
+        if (!executableCommand){
+            embedMsg.setColor(red).setDescription(`You need to be ${command.userType} to execute this command`);
+            return message.channel.send(embedMsg);
+        }
     }
 }

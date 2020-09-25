@@ -85,10 +85,14 @@ client.on('message', message => {
         message.react(noice).then(console.log).catch(console.error);
     }
     if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot || message.webhookID) return;
+    let clientMember;
+    client.canSendEmbeds = true;
     if (message.guild){
-        const clientMember = message.guild.members.cache.get(client.user.id);
+        clientMember = message.guild.members.cache.get(client.user.id);
+        if (!clientMember.hasPermission("EMBED_LINKS")) client.canSendEmbeds = false;
         if (!clientMember.hasPermission("CREATE_INSTANT_INVITE")){
-            const embedMsgError = createEmbed(red, "Missing permission", null, null, "I'm missing the `CREATE_INSTANT_INVITE` permission");
+            let embedMsgError = createEmbed(red, "Missing permission", null, null, "I'm missing the `CREATE_INSTANT_INVITE` permission");
+            if (!client.canSendEmbeds) embedMsgError = "I'm missing the `CREATE_INSTANT_INVITE` permission";
             return message.channel.send(embedMsgError);
         }
     }
@@ -97,7 +101,7 @@ client.on('message', message => {
     console.log(commandName);
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-    const embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
+    let embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
     // check if user is blacklisted
     if (message.channel.type == "dm") {
         embedMsg.setColor(red).setDescription("Our commands are unavailable in DMs");
@@ -128,18 +132,22 @@ client.on('message', message => {
     }
     if (command.userType == "worker" && !client.worker){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza worker to use this command!");
+        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza worker to use this command!";
         return message.channel.send(embedMsg);
     }
     if (command.userType == "teacher" && !client.teacher){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza teacher to use this command!");
+        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza teacher to use this command!";
         return message.channel.send(embedMsg);
     }
     if (command.userType == "staff" && !client.staff){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza staff to use this command!");
+        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza staff to use this command!";
         return message.channel.send(embedMsg);
     }
     if (command.userType == "director" && !client.director){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
+        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza director to use this command!";
         return message.channel.send(embedMsg);
     }
     let reply;
@@ -149,10 +157,12 @@ client.on('message', message => {
             reply += `\nThe proper usage is: '${prefix}${command.name} ${command.usage}'`;
         }
         embedMsg.setColor(red).setTitle('**No arguments**').setDescription(reply);
+        if (!client.canSendEmbeds) embedMsg = reply;
         return message.channel.send(embedMsg);
     }
     if (command.args == false && args.length){
         embedMsg.setColor(red).setTitle('**No arguments needed**').setDescription(`This command doesn't require any arguments, ${message.author}`);
+        if (!client.canSendEmbeds) embedMsg = `This command doesn't require any arguments, ${message.author}`;
         return message.channel.send(embedMsg);
     }
     if (command.minArgs && args.length < command.minArgs){
@@ -161,6 +171,7 @@ client.on('message', message => {
             reply += `\nThe proper usage is ${prefix}${command.name} ${command.usage}`;
         }
         embedMsg.setColor(red).setDescription(reply);
+        if (!client.canSendEmbeds) embedMsg = reply;
         return message.channel.send(embedMsg);
     }
     if (command.maxArgs && args.length > command.maxArgs){
@@ -169,6 +180,7 @@ client.on('message', message => {
             reply += `The proper usage is ${prefix}${command.name} ${command.usage}`;
         } 
         embedMsg.setColor(red).setDescription(reply);
+        if (!client.canSendEmbeds) embedMsg = reply;
         return message.channel.send(embedMsg);
     }
     if (!cooldowns.has(command.name)) {
@@ -182,6 +194,7 @@ client.on('message', message => {
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
             embedMsg.setColor(black).setTitle('**Cooldown**').setDescription(`please wait ${timeLeft} more second(s) before reusing ${command.name}`);
+            if (!client.canSendEmbeds) embedMsg = `please wait ${timeLeft} more second(s) before reusing ${command.name}`;
             return message.channel.send(embedMsg);
         }
     }
@@ -193,6 +206,7 @@ client.on('message', message => {
     } catch (error) {
         console.error(error);
         embedMsg.setColor(red).setTitle('**Error**').setDescription('there was an error trying to execute that command!');
+        if (!client.canSendEmbeds) embedMsg = 'there was an error trying to execute that command!';
         message.channel.send(embedMsg);
     }
 });

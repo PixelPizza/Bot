@@ -90,11 +90,11 @@ client.on('message', message => {
     if (message.guild){
         clientMember = message.guild.members.cache.get(client.user.id);
         if (!clientMember.hasPermission("EMBED_LINKS")) client.canSendEmbeds = false;
-        if (!clientMember.hasPermission("CREATE_INSTANT_INVITE")){
-            let embedMsgError = createEmbed(red, "Missing permission", null, null, "I'm missing the `CREATE_INSTANT_INVITE` permission");
-            if (!client.canSendEmbeds) embedMsgError = "I'm missing the `CREATE_INSTANT_INVITE` permission";
-            return message.channel.send(embedMsgError);
-        }
+    //     if (!clientMember.hasPermission("CREATE_INSTANT_INVITE")){
+    //         let embedMsgError = createEmbed(red, "Missing permission", null, null, "I'm missing the `CREATE_INSTANT_INVITE` permission");
+    //         if (!client.canSendEmbeds) embedMsgError = "I'm missing the `CREATE_INSTANT_INVITE` permission";
+    //         return message.channel.send(embedMsgError);
+    //     }
     }
     const args = message.content.slice(prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
@@ -182,6 +182,16 @@ client.on('message', message => {
         embedMsg.setColor(red).setDescription(reply);
         if (!client.canSendEmbeds) embedMsg = reply;
         return message.channel.send(embedMsg);
+    }
+    if (command.neededPerms && command.neededPerms.length){
+        for(let index in command.neededPerms){
+            let neededPerm = command.neededPerms[index];
+            if (!clientMember.hasPermission(neededPerm)){
+                let embedMsgError = createEmbed(red, "Missing permission", null, null, `I'm missing the '${neededPerm}' permission`);
+                if (!client.canSendEmbeds) embedMsgError = `I'm missing the '${neededPerm}' permission`;
+                return message.channel.send(embedMsgError);
+            }
+        }
     }
     if (!cooldowns.has(command.name)) {
         cooldowns.set(command.name, new Collection());

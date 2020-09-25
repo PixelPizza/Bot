@@ -48,5 +48,7 @@ module.exports = {
                 message.channel.send(embedMsg);
             });
         }
+        const name=args[0].toLowerCase();
+        const command=commands.get(name)||commands.find(c=>c.aliases&&c.aliases.includes(name));
     }
 }

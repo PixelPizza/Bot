@@ -90,11 +90,6 @@ client.on('message', message => {
     if (message.guild){
         clientMember = message.guild.members.cache.get(client.user.id);
         if (!clientMember.hasPermission("EMBED_LINKS")) client.canSendEmbeds = false;
-    //     if (!clientMember.hasPermission("CREATE_INSTANT_INVITE")){
-    //         let embedMsgError = createEmbed(red, "Missing permission", null, null, "I'm missing the `CREATE_INSTANT_INVITE` permission");
-    //         if (!client.canSendEmbeds) embedMsgError = "I'm missing the `CREATE_INSTANT_INVITE` permission";
-    //         return message.channel.send(embedMsgError);
-    //     }
     }
     const args = message.content.slice(prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();

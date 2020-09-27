@@ -104,7 +104,7 @@ client.on('message', message => {
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
     let embedMsg = createEmbed(blue,null,null,{name:message.author.username,icon:message.author.displayAvatarURL()}, null, message.author.displayAvatarURL(), [], null, true, {text:client.user.username,icon:client.user.displayAvatarURL()});
-    if (isBlacklisted(message.author.id))return;
+    if (isBlacklisted(message.author.id))return console.log(0);
     if (message.channel.type == "dm") {
         embedMsg.setColor(red).setDescription("Our commands are unavailable in DMs");
         return sendEmbed(embedMsg,message);

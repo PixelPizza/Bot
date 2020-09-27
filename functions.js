@@ -16,3 +16,9 @@ exports.createEmbed=(color=null,title=null,url=null,author=null,description=null
 exports.checkNoiceBoard=(messageReaction)=>{const guild=messageReaction.message.guild;const member=messageReaction.message.member;const channel=guild.channels.cache.get(text.noiceboard);const emoji=guild.emojis.cache.get(noice2);const embedMsg=this.createEmbed(noiceboard,null,null,{name:member.displayName,icon:member.user.displayAvatarURL()},messageReaction.message.content,null,[{name:"Message",value:`[Jump to message](${messageReaction.message.url})`}],null,true,{text:messageReaction.message.id});const message=channel.messages.cache.find(m=>m.embeds[0].footer.text===messageReaction.message.id);if(messageReaction.count>=noiceboardMinValue){const messageText=`${emoji} ${messageReaction.count} ${messageReaction.message.channel}`;if (!message){return channel.send(messageText,embedMsg);}message.edit(messageText,embedMsg);}else{if(!message)return;message.delete();}}
 
 exports.sendEmbed=(embed,message)=>{if(!message.client.canSendEmbeds)embed=embed.description;message.channel.send(embed);}
+
+exports.addRole=(member,role)=>member.roles.add(role);
+
+exports.removeRole=(member,role)=>member.roles.remove(role);
+
+exports.hasRole=(member,role)=>{return member.roles.cache.get(role);}

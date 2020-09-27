@@ -6,7 +6,7 @@ const {blue,green,red,black}=require('./colors.json');
 const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
 const {developer,worker,teacher,staff,director}=require('./roles.json');
-const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard}=require('./functions');
+const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard,sendEmbed}=require('./functions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands=new Collection();
 const cooldowns=new Collection();
@@ -100,7 +100,11 @@ client.on('message', message => {
     // check if user is blacklisted
     if (message.channel.type == "dm") {
         embedMsg.setColor(red).setDescription("Our commands are unavailable in DMs");
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
+    }
+    if (command.ppOnly && message.guild != guild){
+        embedMsg.setColor(red).setDescription(`This command can only be used in ${guild.name}`);
+        return sendEmbed(embedMsg,message);
     }
     if (member){
         worker.forEach(role => {
@@ -127,23 +131,19 @@ client.on('message', message => {
     }
     if (command.userType == "worker" && !client.worker){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza worker to use this command!");
-        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza worker to use this command!";
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     if (command.userType == "teacher" && !client.teacher){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza teacher to use this command!");
-        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza teacher to use this command!";
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     if (command.userType == "staff" && !client.staff){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza staff to use this command!");
-        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza staff to use this command!";
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     if (command.userType == "director" && !client.director){
         embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
-        if (!client.canSendEmbeds) embedMsg = "You need to be Pixel Pizza director to use this command!";
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     let reply;
     if (command.args && !args.length) {
@@ -152,13 +152,11 @@ client.on('message', message => {
             reply += `\nThe proper usage is: '${prefix}${command.name} ${command.usage}'`;
         }
         embedMsg.setColor(red).setTitle('**No arguments**').setDescription(reply);
-        if (!client.canSendEmbeds) embedMsg = reply;
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     if (command.args == false && args.length){
         embedMsg.setColor(red).setTitle('**No arguments needed**').setDescription(`This command doesn't require any arguments, ${message.author}`);
-        if (!client.canSendEmbeds) embedMsg = `This command doesn't require any arguments, ${message.author}`;
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     if (command.minArgs && args.length < command.minArgs){
         reply = `${prefix}${command.name} takes a minimum of ${command.minArgs} argument(s)`;
@@ -166,8 +164,7 @@ client.on('message', message => {
             reply += `\nThe proper usage is ${prefix}${command.name} ${command.usage}`;
         }
         embedMsg.setColor(red).setDescription(reply);
-        if (!client.canSendEmbeds) embedMsg = reply;
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     if (command.maxArgs && args.length > command.maxArgs){
         reply = `${prefix}${command.name} takes a maximum of ${command.maxArgs} argument(s)`;
@@ -175,16 +172,14 @@ client.on('message', message => {
             reply += `The proper usage is ${prefix}${command.name} ${command.usage}`;
         } 
         embedMsg.setColor(red).setDescription(reply);
-        if (!client.canSendEmbeds) embedMsg = reply;
-        return message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
     if (command.neededPerms && command.neededPerms.length){
         for(let index in command.neededPerms){
             let neededPerm = command.neededPerms[index];
             if (!clientMember.hasPermission(neededPerm)){
                 let embedMsgError = createEmbed(red, "Missing permission", null, null, `I'm missing the '${neededPerm}' permission`);
-                if (!client.canSendEmbeds) embedMsgError = `I'm missing the '${neededPerm}' permission`;
-                return message.channel.send(embedMsgError);
+                return sendEmbed(embedMsgError,message);
             }
         }
     }
@@ -199,8 +194,7 @@ client.on('message', message => {
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
             embedMsg.setColor(black).setTitle('**Cooldown**').setDescription(`please wait ${timeLeft} more second(s) before reusing ${command.name}`);
-            if (!client.canSendEmbeds) embedMsg = `please wait ${timeLeft} more second(s) before reusing ${command.name}`;
-            return message.channel.send(embedMsg);
+            return sendEmbed(embedMsg,message);
         }
     }
     timestamps.set(message.author.id, now);
@@ -211,8 +205,7 @@ client.on('message', message => {
     } catch (error) {
         console.error(error);
         embedMsg.setColor(red).setTitle('**Error**').setDescription('there was an error trying to execute that command!');
-        if (!client.canSendEmbeds) embedMsg = 'there was an error trying to execute that command!';
-        message.channel.send(embedMsg);
+        return sendEmbed(embedMsg,message);
     }
 });
 

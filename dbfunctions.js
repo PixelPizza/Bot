@@ -7,10 +7,11 @@ exports.query=async(query,options=[])=>{return db.query(query,options);}
 exports.addUser=async(userId)=>{if(isNaN(userId)||userId.length!=18)return;const result=await this.query(`SELECT * FROM \`user\` WHERE userId = ?`,[userId]);if(result.length)return;this.query(`INSERT INTO \`user\`(userId) VALUES(?)`,[userId]);}
 exports.addExp=(userId,amount)=>{
     if(isNaN(userId)||userId.length!=18||isNaN(amount))return;
-    this.query(`UPDATE \`user\` SET exp = exp + ? WHERE userId = ?`,[amount,userId]);
-    checkLevel(userId);
+    this.query(`UPDATE \`user\` SET exp = exp + ? WHERE userId = ?`,[amount,userId]).then(()=>{
+        checkLevel(userId);
+    });
 }
-function checkLevel(userId){
+async function checkLevel(userId){
     if(isNaN(userId)||userId.length!=18)return;
     const result=await this.query("SELECT exp, `level` FROM user WHERE userId = ?",[userId]);
     if(!result.length)return;

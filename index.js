@@ -30,7 +30,6 @@ client.on('error', error => {
 });
 
 client.on('ready', () => {
-    addExp(client,"472312270047674378","-160");
     updateGuildAmount(client);
     updateMemberSize(client);
     const guild = client.guilds.cache.get(botGuild);
@@ -88,7 +87,7 @@ client.on('message', message => {
             message.delete();
         }
     }
-    if (message.guild == guild)addExp(message.author.id,1);
+    if (message.guild == guild)addExp(message.author.id,"1");
     if (message.content.toLowerCase().includes('noice')) {
         message.react(noice).then(console.log).catch(console.error);
     }

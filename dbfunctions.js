@@ -2,7 +2,7 @@ const{default: Db}=require('mysql2-async');
 const{baseexp,addexp}=require('./level.json');
 const{host,user,password,database}=require('./database.json');
 const{botGuild}=require('./config.json');
-const{level: levelRoles}=require('./roles.json');
+const{levelRoles}=require('./roles.json');
 const{addRole,removeRole,hasRole}=require('./functions');
 const db_config={host:host,user:user,password:password,database:database,skiptzfix:true};
 let db;function handleError(){try{db=new Db(db_config);}catch(error){if(error.sqlMessage=="Unknown or incorrect time zone: 'UTC'"){setTimeout(handleError,100);}else{throw error;}}}handleError();

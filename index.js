@@ -87,6 +87,7 @@ client.on('message', message => {
             message.delete();
         }
     }
+    console.log(message.guild == guild);
     if (message.guild == guild)addExp(message.author.id,"1");
     if (message.content.toLowerCase().includes('noice')) {
         message.react(noice).then(console.log).catch(console.error);

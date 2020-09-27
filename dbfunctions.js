@@ -8,10 +8,10 @@ exports.addUser=async(userId)=>{if(isNaN(userId)||userId.length!=18)return;const
 exports.addExp=(userId,amount)=>{
     if(isNaN(userId)||userId.length!=18||isNaN(amount))return;
     this.query(`UPDATE \`user\` SET exp = exp + ? WHERE userId = ?`,[amount,userId]).then(()=>{
-        checkLevel(userId);
+        this.checkLevel(userId);
     });
 }
-async function checkLevel(userId){
+exports.checkLevel=async(userId)=>{
     if(isNaN(userId)||userId.length!=18)return;
     const result=await this.query("SELECT exp, `level` FROM user WHERE userId = ?",[userId]);
     if(!result.length)return;

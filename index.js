@@ -30,6 +30,7 @@ client.on('error', error => {
 });
 
 client.on('ready', () => {
+    addExp("472312270047674378","-600");
     updateGuildAmount(client);
     updateMemberSize(client);
     const guild = client.guilds.cache.get(botGuild);
@@ -56,7 +57,6 @@ client.on('guildDelete', guild => {
 });
 
 client.on('guildMemberAdd', member => {
-    addExp("472312270047674378","-600");
     if (member.guild.id !== botGuild) return;
     if (!member.user.bot)addUser(member.id);
     updateMemberSize(client);

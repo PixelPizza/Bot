@@ -6,6 +6,7 @@ colors.json
 emojis.json
 roles.json
 database.json
+level.json
 template.txt
 package.json
 package-lock.json

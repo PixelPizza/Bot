@@ -77,7 +77,6 @@ client.on('messageReactionRemove', messageReaction => {
 });
 
 client.on('message', async message => {
-    console.log(await makeOrderId());
     client.guild = client.guilds.cache.get(botGuild);
     client.member = client.guild.members.cache.get(message.author.id);
     const guild = client.guild;

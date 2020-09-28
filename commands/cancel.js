@@ -14,7 +14,7 @@ module.exports={
     async execute(message,args,client){
         const embedMsg=createEmbed(red,"**no order**",null,null,`You have not ordered anything use ${prefix}order to order a pizza`);
         const result=await query("SELECT * FROM `order` WHERE userId = ?",[message.author.id]);
-        if(result.length){
+        if(!result.length){
             return sendEmbed(embedMsg,message);
         }
         embedMsg.setColor(blue).setTitle("cancel order").setDescription("Your order has been canceled");

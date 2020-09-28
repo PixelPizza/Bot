@@ -187,7 +187,7 @@ client.on('message', async message => {
         for(let index in command.neededPerms){
             let neededPerm = command.neededPerms[index];
             if (!clientMember.hasPermission(neededPerm)){
-                let embedMsgError = createEmbed(red, "Missing permission", null, null, `I'm missing the '${neededPerm}' permission`);
+                let embedMsgError = createEmbed(red, "Missing permission", null, null, `I'm missing the \`${neededPerm}\` permission`);
                 return sendEmbed(embedMsgError,message);
             }
         }

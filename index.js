@@ -7,7 +7,7 @@ const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
 const {developer,worker,teacher,staff,director}=require('./roles.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard,sendEmbed}=require('./functions');
-const {addUser,query,addExp,isBlacklisted}=require('./dbfunctions');
+const {addUser,query,addExp,isBlacklisted,makeOrderId}=require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands=new Collection();
 const cooldowns=new Collection();
@@ -77,8 +77,11 @@ client.on('messageReactionRemove', messageReaction => {
 });
 
 client.on('message', message => {
-    const guild = client.guilds.cache.get(botGuild);
-    const member = guild.members.cache.get(message.author.id);
+    console.log(makeOrderId());
+    client.guild = client.guilds.cache.get(botGuild);
+    client.member = client.guild.members.cache.get(message.author.id);
+    const guild = client.guild;
+    const member = client.member;
     if (message.channel.id === text.logs && !message.webhookID){
         return message.delete();
     }

@@ -28,7 +28,7 @@ module.exports = {
             deliverer=client.guild.members.cache.get(result[0].delivererId)?client.users.cache.get(result[0].delivererId).username:"Deleted Deliverer";
         }
         embedMsg.setColor(blue).setDescription(`***${result[0].order}***`).addFields({name:"Orderer",value:message.author.tag},{name:"Guild",value:guild.name,inline:true},{name:"Ordered in channel",value:`<#${channel}>`,inline:true}).setFooter(`id: ${result[0].orderId} | status: ${result[0].status} | cook: ${cook} | deliverer: ${deliverer}`);
-        if(!client.canSendEmbeds)embedMsg=`${embedMsg.description}\n${embedMsg.fields[0].name}\n\`${embedMsg.fields[0].value}\`\n${embedMsg.fields[1].name}\n\`${embedMsg.fields[1].value}\`\n${embedMsg.fields[2].name}\n${embedMsg.fields[2].value}\n${embedMsg.footer}`;
+        if(!client.canSendEmbeds)embedMsg=`${embedMsg.description}\n${embedMsg.fields[0].name}\n\`${embedMsg.fields[0].value}\`\n${embedMsg.fields[1].name}\n\`${embedMsg.fields[1].value}\`\n${embedMsg.fields[2].name}\n${embedMsg.fields[2].value}\n${embedMsg.footer.text}`;
         message.channel.send(embedMsg);
     }
 }

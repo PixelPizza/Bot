@@ -7,7 +7,7 @@ const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
 const {developer,worker,teacher,staff,director}=require('./roles.json');
 const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard,sendEmbed}=require('./functions');
-const {addUser,query,addExp,isBlacklisted,makeOrderId}=require('./dbfunctions');
+const {addUser,query,addExp,isBlacklisted}=require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands=new Collection();
 const cooldowns=new Collection();

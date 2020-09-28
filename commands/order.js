@@ -28,7 +28,7 @@ module.exports = {
             embedMsg.setTitle(`error`).setColor(red).setDescription("The order has to include the word pizza!");
             return sendEmbed(embedMsg,message);
         }
-        let result=await query("SELECT * FROM `order` WHERE userId = ?",[message.author.id]);
+        result=await query("SELECT * FROM `order` WHERE userId = ?",[message.author.id]);
         if(result.length){
             embedMsg.setColor(red).setDescription(`You have already ordered pizza. please wait until your order has arrived`);
             return sendEmbed(embedMsg,message);

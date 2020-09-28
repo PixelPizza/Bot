@@ -1,6 +1,7 @@
-const{createEmbed, sendEmbed}=require("../functions");
+const{createEmbed,sendEmbed}=require("../functions");
 const{blue,red}=require('../colors.json');
-const { query } = require("../dbfunctions");
+const{query}=require("../dbfunctions");
+const{prefix}=require('../config.json');
 
 module.exports = {
     name: "myorder",

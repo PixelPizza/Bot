@@ -13,7 +13,7 @@ module.exports={
     pponly:false,
     async execute(message,args,client){
         const embedMsg=createEmbed(red,"**no order**",null,null,`You have not ordered anything use ${prefix}order to order a pizza`);
-        const result=await query("SELECT * FORM orders WHERE userId = ?",[message.author.id]);
+        const result=await query("SELECT * FROM orders WHERE userId = ?",[message.author.id]);
         if(result.length){
             return sendEmbed(embedMsg,message);
         }

@@ -17,7 +17,7 @@ module.exports = {
         if(!result.length){
             return sendEmbed(embedMsg);
         }
-        const guild=client.guilds.get(result[0].guildId);
+        const guild=client.guilds.cache.get(result[0].guildId);
         const channel=result[0].channelId;
         let cook="none";
         if(result[0].cookId){

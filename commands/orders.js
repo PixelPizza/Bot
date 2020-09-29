@@ -14,25 +14,27 @@ module.exports={
     pponly:false,
     async execute(message,args,client){
         let embedMsg=createEmbed(blue,`**${this.name}**`);
+        let results;
         if(!args.length){
-            let results=await query("SELECT * FROM `order` WHERE status NOT IN('deleted','delivered')");
-            let ordersString=results.length?"\`":"there are no orders at the moment";
-            for(let i in results){
-                let result=results[i];
-                ordersString+=result.orderId;
-                if(i==results.length-1){
-                    ordersString+="\`";
-                }else{
-                    ordersString+=", ";
-                }
-            }
-            embedMsg.setDescription(ordersString);
-            return sendEmbed(embedMsg,message);
-        }
-        if(!statuses.includes(args[0])){
+            results=await query("SELECT * FROM `order` WHERE status NOT IN('deleted','delivered')");
+        } else if(!statuses.includes(args[0])){
             embedMsg.setColor(red).setDescription(`${args[0]} is not a valid status`).addField("Statuses",statuses.join(", "));
             if(!client.canSendEmbeds)embedMsg=`${embedMsg.description}\n\n${embedMsg.fields[0].name}\n${embedMsg.fields[0].value}`;
             return message.channel.send(embedMsg);
+        } else {
+            results=await query("SELECT * FROM `order` WHERE status = ?",[args[0]]);
         }
+        let ordersString=results.length?"\`":"no orders have been found";
+        for(let i in results){
+            let result=results[i];
+            ordersString+=result.orderId;
+            if(i==results.length-1){
+                ordersString+="\`";
+            }else{
+                ordersString+=", ";
+            }
+        }
+        embedMsg.setDescription(ordersString);
+        return sendEmbed(embedMsg,message);
     }
 }

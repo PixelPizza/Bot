@@ -29,5 +29,10 @@ module.exports={
             embedMsg.setDescription(ordersString);
             return sendEmbed(embedMsg,message);
         }
+        if(!statuses.includes(args[0])){
+            embedMsg.setColor(red).setDescription(`${args[0]} is not a valid status`).addField("Statuses",statuses.join(", "));
+            if(!client.canSendEmbeds)embedMsg=`${embedMsg.description}\n\n${embedMsg.fields[0].name}\n${embedMsg.fields[0].value}`;
+            return message.channel.send(embedMsg);
+        }
     }
 }

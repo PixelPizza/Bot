@@ -22,7 +22,7 @@ module.exports={
             return sendEmbed(embedMsg,message);
         }
         const result=results[0];
-        const orderer=client.users.cache.get(result.userId);
+        const orderer=client.users.cache.get(result.userId).username;
         const guild=client.guilds.cache.get(result.guildId);
         let cook="none";
         if(result.cookId)cook=client.guild.members.cache.get(result.cookId)?client.users.cache.get(result.cookId).username:"Deleted Cook";

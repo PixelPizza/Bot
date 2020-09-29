@@ -1,4 +1,4 @@
-const{createEmbed}=require("../functions");
+const{createEmbed,sendEmbed}=require("../functions");
 const{query}=require("../dbfunctions");
 const{blue,red}=require('../colors.json');
 const{statuses}=require('../config.json');
@@ -26,7 +26,8 @@ module.exports={
                     ordersString+=", ";
                 }
             }
-            console.log(ordersString);
+            embedMsg.setDescription(ordersString);
+            return sendEmbed(embedMsg,message);
         }
     }
 }

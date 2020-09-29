@@ -15,8 +15,8 @@ module.exports={
     async execute(message,args,client){
         let embedMsg=createEmbed(blue,`**${this.name}**`);
         if(!args.length){
-            let result=await query("SELECT * FROM `order` WHERE status NOT IN('deleted','delivered')");
-            let ordersString=result.length?"\`":"there are no orders at the moment";
+            let results=await query("SELECT * FROM `order` WHERE status NOT IN('deleted','delivered')");
+            let ordersString=results.length?"\`":"there are no orders at the moment";
             for(let i in results){
                 let result=results[i];
                 ordersString+=result.orderId;

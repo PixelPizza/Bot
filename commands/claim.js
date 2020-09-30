@@ -1,6 +1,7 @@
-const{createEmbed,hasRole,sendEmbed}=require("../functions");
+const{createEmbed,hasRole,sendEmbed,sendEmbedWithChannel}=require("../functions");
 const{blue,red}=require('../colors.json');
 const{cook}=require('../roles.json');
+const{text}=require('../channels.json');
 const{query}=require("../dbfunctions");
 
 module.exports={
@@ -20,7 +21,7 @@ module.exports={
             embedMsg.setColor(red).setDescription(`You need to have te ${cookRole.name} role in ${client.guild.name} to be able to claim an order`);
             return sendEmbed(embedMsg,message);
         }
-        const results=await query("SELECT * FROM `order` WHERE orderId = ?",[args[0]]);
+        let results=await query("SELECT * FROM `order` WHERE orderId = ?",[args[0]]);
         if(!results.length){
             embedMsg.setColor(red).setDescription(`Order ${args[0]} does not exist`);
             return sendEmbed(embedMsg,message);
@@ -38,6 +39,20 @@ module.exports={
         embedMsg.setDescription(`You have claimed order ${args[0]}`);
         sendEmbed(embedMsg,message);
         embedMsg.setTitle("Confirmation").setDescription(`Your order has been claimed by <@${message.author.id}>`);
-        user.send(embedMsg).catch(console.error);
+        user.send(embedMsg).then(()=>{
+            setTimeout(function(){
+                results=await query("SELECT status FROM `order` WHERE orderId = ?",[args[0]]);
+                if(!results.length)return;
+                if(results[0].status=="claimed"){
+                    embedMsg.setTitle(`**${this.name}**`).setDescription(`Order ${args[0]} has been declaimed because the cook took to long to cook the order`);
+                    query("UPDATE orders SET cookId = NULL, status = 'not claimed' WHERE orderId = ?",[args[0]]).then(()=>{
+                        const channel=client.channels.cache.get(text.kitchen);
+                        sendEmbedWithChannel(embedMsg,client,channel);
+                        embedMsg.setTitle("Confirmation").setDescription(`Your order has been declaimed bacuase the cook took to long to cook the order`);
+                        user.send(embedMsg).catch(console.error);
+                    }).catch(console.error);
+                }
+            },600000);
+        }).catch(console.error);
     }
 }

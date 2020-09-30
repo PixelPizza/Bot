@@ -37,7 +37,7 @@ module.exports={
         const user=client.users.cache.get(results[0].userId);
         query("UPDATE `order` SET cookId = NULL, status = 'not claimed' WHERE orderId = ?",[args[0]]).then(()=>{
             sendEmbed(embedMsg,message);
-            embedMsg.setDescription(`Your order has been unclaimed by the cook who claimed it`);
+            embedMsg.setTitle("Confirmation").setDescription(`Your order has been unclaimed by the cook who claimed it`);
             user.send(embedMsg).catch(console.error);
         });
     }

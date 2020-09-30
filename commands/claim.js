@@ -35,7 +35,7 @@ module.exports={
             return sendEmbed(embedMsg,message);
         }
         const user=client.users.cache.get(results[0].userId);
-        query("UPDATE orders SET cookId = ?, status = 'claimed' WHERE orderId = ?",[message.author.id,args[0]]);
+        query("UPDATE `order` SET cookId = ?, status = 'claimed' WHERE orderId = ?",[message.author.id,args[0]]);
         embedMsg.setDescription(`You have claimed order ${args[0]}`);
         sendEmbed(embedMsg,message);
         embedMsg.setTitle("Confirmation").setDescription(`Your order has been claimed by <@${message.author.id}>`);
@@ -45,7 +45,7 @@ module.exports={
                 if(!results.length)return;
                 if(results[0].status=="claimed"){
                     embedMsg.setTitle(`**${this.name}**`).setDescription(`Order ${args[0]} has been declaimed because the cook took to long to cook the order`);
-                    query("UPDATE orders SET cookId = NULL, status = 'not claimed' WHERE orderId = ?",[args[0]]).then(()=>{
+                    query("UPDATE `order` SET cookId = NULL, status = 'not claimed' WHERE orderId = ?",[args[0]]).then(()=>{
                         const channel=client.channels.cache.get(text.kitchen);
                         sendEmbedWithChannel(embedMsg,client,channel);
                         embedMsg.setTitle("Confirmation").setDescription(`Your order has been declaimed bacuase the cook took to long to cook the order`);

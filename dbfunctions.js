@@ -13,3 +13,17 @@ exports.checkLevel=async(client,userId)=>{if(isNaN(userId)||userId.length!=18)re
 exports.checkLevelRoles=async(client,userId)=>{if(isNaN(userId)||userId.length!=18)return;const result=await this.query("SELECT `level` FROM user WHERE userId = ?",[userId]);if(!result.length)return;const level=result[0].level;const guild=client.guilds.cache.get(botGuild);const member=guild.members.cache.get(userId);if(level>=5&&!hasRole(member,levelRoles.five)){addRole(member,levelRoles.five);}else if(level<5&&hasRole(member,levelRoles.five)){removeRole(member,levelRoles.five);}if(level>=10&&!hasRole(member,levelRoles.ten)){addRole(member,levelRoles.ten);}else if(level<10&&hasRole(member,levelRoles.ten)){removeRole(member,levelRoles.ten);}if(level>=25&&!hasRole(member,levelRoles.twentyfive)){addRole(member,levelRoles.twentyfive);}else if(level<25&&hasRole(member,levelRoles.twentyfive)){removeRole(member,levelRoles.twentyfive);}if(level>=50&&!hasRole(member,levelRoles.fifty)){addRole(member,levelRoles.fifty);}else if(level<50&&hasRole(member,levelRoles.fifty)){removeRole(member,levelRoles.fifty);}if(level>=100&&!hasRole(member,levelRoles.hundered)){addRole(member,levelRoles.hundered);}else if(level<100&&hasRole(member,levelRoles.hundered)){removeRole(member,levelRoles.hundered);}}
 exports.isBlacklisted=async(userId)=>{if(isNaN(userId)||userId.length!=18)return false;const result=await this.query("SELECT * FROM blacklisted WHERE userId = ?",[userId]);if(!result.length)return false;return true;}
 exports.makeOrderId=async()=>{const characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";let id="";for(let i=0;i<idLength;i++){id+=characters.charAt(randomInt(0,characters.length));}const result=await this.query("SELECT orderId FROM `order` WHERE orderId = ?",[id]);if(result.length){return this.makeOrderId();}else{return id;}}
+exports.deleteOrders=async(client)=>{
+    const results=await this.query("SELECT orderId, userId, guildId FROM `order` WHERE status NOT IN('delivered','deleted')");
+    const deletedGuilds=[];
+    for(let result of results){
+        const user=client.users.cache.get(result.userId);
+        const guild=client.guilds.cache.get(result.guildId);
+        if(!user){
+            this.query("DELETE FROM `order` WHERE userId = ?",[result.userId]);
+        } else if (!guild && !deletedGuilds.includes(result.guildId)){
+            deletedGuilds.push(result.guildId);
+            this.query("DELETE FROM `order` WHERE guildId = ?",[result.guildId]);
+        }
+    }
+}

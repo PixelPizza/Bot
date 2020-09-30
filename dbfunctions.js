@@ -17,13 +17,15 @@ exports.deleteOrders=async(client)=>{
     const results=await this.query("SELECT orderId, userId, guildId FROM `order` WHERE status NOT IN('delivered','deleted')");
     const deletedGuilds=[];
     for(let result of results){
-        const user=client.users.cache.get(result.userId);
         const guild=client.guilds.cache.get(result.guildId);
-        if(!user){
-            this.query("DELETE FROM `order` WHERE userId = ?",[result.userId]);
-        } else if (!guild && !deletedGuilds.includes(result.guildId)){
+        if (!guild && !deletedGuilds.includes(result.guildId)){
             deletedGuilds.push(result.guildId);
             this.query("DELETE FROM `order` WHERE guildId = ?",[result.guildId]);
+        } else if (guild) {
+            const member=guild.members.cache.get(result.userId);
+            if(!member){
+                this.query("DELETE FROM `order` WHERE userId = ?",[result.userId]);
+            }
         }
     }
 }

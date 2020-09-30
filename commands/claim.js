@@ -40,7 +40,7 @@ module.exports={
         sendEmbed(embedMsg,message);
         embedMsg.setTitle("Confirmation").setDescription(`Your order has been claimed by <@${message.author.id}>`);
         user.send(embedMsg).then(()=>{
-            setTimeout(function(){
+            setTimeout(async function(){
                 results=await query("SELECT status FROM `order` WHERE orderId = ?",[args[0]]);
                 if(!results.length)return;
                 if(results[0].status=="claimed"){

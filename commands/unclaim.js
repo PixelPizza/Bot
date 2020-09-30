@@ -1,4 +1,4 @@
-const{createEmbed,sendEmbed}=require('../functions');
+const{createEmbed,sendEmbed,hasRole}=require('../functions');
 const{query}=require('../dbfunctions');
 const{cook}=require('../roles.json');
 const{red,blue}=require('../colors.json');

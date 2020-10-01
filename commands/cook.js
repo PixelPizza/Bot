@@ -59,7 +59,8 @@ module.exports={
             const user=client.users.cache.get(results[0].userId);
             user.send(confirmation);
             setTimeout(()=>{
-                query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?;UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?",[args[0],message.author.id]);
+                query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?",[args[0]]);
+                query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?",[message.author.id]);
                 embedMsg.setDescription(`Order ${args[0]} is done cooking`);
                 const deliverChannel=client.channels.cache.get(text.delivery);
                 sendEmbedWithChannel(embedMsg,client,deliverChannel);

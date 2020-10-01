@@ -35,7 +35,7 @@ module.exports={
                 }
                 query("UPDATE `order` SET status = 'deleted' WHERE orderId = ?",[args[0]]);
                 embedMsg.setDescription(`Order ${args[0]} has been removed for violating rule ${m.content}`);
-                if(!client.canSendEmbed)embedMsg=embedMsg.description;
+                if(!client.canSendEmbeds)embedMsg=embedMsg.description;
                 msg.edit(embedMsg);
                 embedMsgDM.setDescription(`Your order has been removed for violation rule:\n${rules[parseInt(m.content) - 1]}\nif you think your order has not violated that rule please join our server and make a complaint in #complaints`).addField("Invite link", "https://discord.com/invite/AW7z9qu");
                 let user = client.users.cache.get(results[0].userId);

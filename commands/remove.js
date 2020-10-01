@@ -14,7 +14,7 @@ module.exports={
     userType:"worker",
     neededPerms:[],
     pponly:false,
-    execute(message,args,client){
+    async execute(message,args,client){
         const embedMsg=createEmbed(blue,"remove order");
         const embedMsgDM=createEmbed(blue,"order removed");
         const results=await query("SELECT * FROM `order` WHERE orderId = ?",[args[0]]);

@@ -1,6 +1,7 @@
 const{createEmbed,hasRole,sendEmbed}=require("../functions");
 const{blue,red}=require('../colors.json');
 const{deliverer}=require('../roles.json');
+const{query}=require('../dbfunctions');
 
 module.exports={
     name:"deliverset",

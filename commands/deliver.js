@@ -34,6 +34,7 @@ module.exports={
             embedMsg.setColor(red).setDescription(`Order ${args[0]} has not been found with the cooked status`);
             return sendEmbed(embedMsg,message);
         }
+        result=results[0];
         const orderer=client.users.cache.get(result.userId);
         if(orderer.id===message.author.id){
             embedMsg.setColor(red).setDescription(`You can't deliver your own order`);

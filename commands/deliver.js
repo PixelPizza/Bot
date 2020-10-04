@@ -23,7 +23,7 @@ module.exports={
             return sendEmbed(embedMsg,message);
         }
         let results=await query("SELECT deliveryMessage FROM worker WHERE workerId = ?",[message.author.id]);
-        if(results[0].deliveryMessage){
+        if(!results[0].deliveryMessage){
             embedMsg.setColor(red).setDescription(`You have not set a delivery message yet. please set one with ppdelset`);
             return sendEmbed(embedMsg,message);
         }

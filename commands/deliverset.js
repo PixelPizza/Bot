@@ -42,6 +42,7 @@ module.exports={
                 }
                 query(`UPDATE worker SET deliveryMessage = ? WHERE workerId = ?`,[m.content,m.author.id]);
                 embedMsg.setDescription("You have succesfully set your new delivery message!");
+                embedMsg.fields=[];
                 sendEmbed(embedMsg,message);
             });
         });

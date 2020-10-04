@@ -23,12 +23,11 @@ module.exports={
             return sendEmbed(embedMsg,message);
         }
         let results=await query("SELECT deliveryMessage FROM worker WHERE workerId = ?",[message.author.id]);
-        if(!results.length){
+        if(results[0].deliveryMessage){
             embedMsg.setColor(red).setDescription(`You have not set a delivery message yet. please set one with ppdelset`);
             return sendEmbed(embedMsg,message);
         }
         let result=results[0];
-        console.log(result);
         let deliveryMessage=result.deliveryMessage;
         results=await query("SELECT * FROM `order` WHERE orderId = ? AND status = 'cooked'",[args[0]]);
         if(!results.length){

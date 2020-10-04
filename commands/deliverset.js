@@ -19,7 +19,7 @@ module.exports={
             return sendEmbed(embedMsg,message);
         }
         embedMsg.addField("**Note**","Do not forget to use *{chef}*, *{customer}*, *{image}* and *{invite}* so we will replace them with it!");
-        sendEmbed(embedMsg).then(() => {
+        sendEmbed(embedMsg,message).then(() => {
             const filter=m=>m.author===message.author;
             const collector=message.channel.createMessageCollector(filter,{max:1});
             collector.on('collect',m=>{

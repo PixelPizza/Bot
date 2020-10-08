@@ -9,7 +9,7 @@ function applyText(canvas,text,size){
     }while(ctx.measureText(text).width>canvas.width-size);
     return ctx.font;
 }
-export async function makeRankImg(user,level,exp,rank,style){
+exports.makeRankImg=(user,level,exp,rank,style)=>{
     const canvas=createCanvas(700,250);
     const ctx=canvas.getContext("2d");
     if(exp<0)exp=0;

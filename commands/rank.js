@@ -14,7 +14,7 @@ module.exports={
     userType:"all",
     neededPerms:[],
     pponly:false,
-    execute(message,args,client){
+    async execute(message,args,client){
         let embedMsg=createEmbed(red,"User not found",null,null,"Could not find user");
         let user=message.author;
         if(args.length){

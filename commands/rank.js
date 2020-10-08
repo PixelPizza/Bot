@@ -1,0 +1,49 @@
+const{createEmbed,sendEmbed}=require("../functions");
+const{red,levels}=require('../colors.json');
+const{query}=require("../dbfunctions");
+const{makeRankImg}=require("../canvasfunctions");
+const{MessageAttachment}=require('discord.js');
+
+module.exports={
+    name:"rank",
+    description:"see your or someone elses rank",
+    aliases:["level"],
+    minArgs:0,
+    usage:"[user]",
+    cooldown:60,
+    userType:"all",
+    neededPerms:[],
+    pponly:false,
+    execute(message,args,client){
+        let embedMsg=createEmbed(red,"User not found",null,null,"Could not find user");
+        let user=message.author;
+        if(args.length){
+            if(message.mentions.users.first()){
+                user=message.mentions.users.first();
+            }else if(!isNaN(parseInt(args[0]))){
+                user=client.users.cache.get(args[0]);
+            }else{
+                let username = args.toString().replace(",", " ");
+                user=client.users.cache.find(u=>u.username.toLowerCase().includes(username.toLowerCase()));
+            }
+            if(!user){
+                return sendEmbed(embedMsg);
+            }
+        }
+        let style={};
+        let results=await query("SELECT userId, `exp`, `level`, styleBack, styleFront, styleExpBack, styleExpFront FROM `user` ORDER BY `level` DESC, exp DESC");
+        let rank=0;
+        let attachment = "User not found";
+        for(let result of results){
+            rank++;
+            if(result.userId!=user.id)continue;
+            style.back=result.styleBack?result.styleBack:levels.back;
+            style.front=result.styleFront?result.styleFront:levels.front;
+            style.expBack=result.styleExpBack?result.styleExpBack:levels.exp_back;
+            style.expFront=result.styleExpFront?result.styleExpFront:levels.exp_front;
+            attachment=new MessageAttachment(makeRankImg(user,result.level,result.exp,rank,style),"rank.png");
+            break;
+        }
+        message.channel.send(attachment);
+    }
+}

@@ -1,6 +1,6 @@
-import{baseexp,addexp}from'./level.json';
-import{black}from'./colors.json';
-import{createCanvas,loadImage}from'canvas';
+const{baseexp,addexp}=require('./level.json');
+const{black}=require('./colors.json');
+const{createCanvas,loadImage}=require('canvas');
 function applyText(canvas,text,size){
     const ctx=canvas.getContext("2d");
     let fontSize=70;

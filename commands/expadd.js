@@ -37,7 +37,7 @@ module.exports={
             sendEmbed(embedMsg,message);
         }
         addExp(client,user.id,amount);
-        embedMsg.setColor(blue).setDescription(`${amount}exp has been added for ${user.tag}`);
+        embedMsg.setColor(blue).setDescription(`${amount} exp has been added for ${user.tag}`);
         sendEmbed(embedMsg,message);
     }
 }

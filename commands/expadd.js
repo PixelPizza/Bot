@@ -32,7 +32,7 @@ module.exports={
                 return sendEmbed(embedMsg);
             }
         }
-        if(!message.guild.members.get(user.id)){
+        if(!client.guild.members.get(user.id)){
             embedMsg.setDescription(`This user is not in Pixel Pizza`);
             sendEmbed(embedMsg,message);
         }

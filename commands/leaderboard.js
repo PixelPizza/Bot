@@ -21,6 +21,7 @@ module.exports={
         }
         const pages=[];
         let page=0;
+        let name=this.name;
         function addPage(){
             const embedMsg=createEmbed(blue,`**${name}**`,null,null,"```md\n").setFooter(`Page ${page+1}`);
             pages.push(embedMsg);

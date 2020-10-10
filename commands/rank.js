@@ -41,7 +41,8 @@ module.exports={
             style.front=result.styleFront?result.styleFront:levels.front;
             style.expBack=result.styleExpBack?result.styleExpBack:levels.exp_back;
             style.expFront=result.styleExpFront?result.styleExpFront:levels.exp_front;
-            attachment=new MessageAttachment(makeRankImg(user,result.level,result.exp,rank,style),"rank.png");
+            const image = await makeRankImg(user,result.level,result.exp,rank,style);
+            attachment=new MessageAttachment(image.toBuffer(),"rank.png");
             break;
         }
         message.channel.send(attachment);

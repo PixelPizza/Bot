@@ -15,7 +15,7 @@ module.exports={
     pponly:true,
     execute(message,args,client){
         let embedMsg=createEmbed(red,"**add exp**",null,null,`${args[0]} is not a number`);
-        if(isNaN(args[0])||args[0]<1)sendEmbed(embedMsg,message);
+        if(isNaN(args[0])||args[0]<1)return sendEmbed(embedMsg,message);
         const amount=args.shift();
         let user=message.author;
         if(args.length){
@@ -34,7 +34,7 @@ module.exports={
         }
         if(!client.guild.members.cache.get(user.id)){
             embedMsg.setDescription(`This user is not in Pixel Pizza`);
-            sendEmbed(embedMsg,message);
+            return sendEmbed(embedMsg,message);
         }
         addExp(client,user.id,amount);
         embedMsg.setColor(blue).setDescription(`${amount} exp has been added for ${user.tag}`);

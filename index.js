@@ -94,9 +94,7 @@ client.on('message', async message => {
                 message.delete();
             }
         }
-        console.log(message.guild == guild);
-        console.log(client.toggles.addExp);
-        if (message.guild == guild && client.toggles.addExp)addExp(client,message.author.id,"1");
+        if (message.guild == guild && client.toggles.addExp)addExp(client,message.author.id,1);
         if (message.content.toLowerCase().includes('noice')) {
             message.react(noice).then(console.log).catch(console.error);
         }
@@ -118,9 +116,7 @@ client.on('message', async message => {
             embedMsg.setColor(red).setDescription("Our commands are unavailable in DMs");
             return sendEmbed(embedMsg,message);
         }
-        console.log(command.removeExp);
-        console.log(message.guild==client.guild);
-        if (command.removeExp && message.guild == client.guild && client.toggles.addExp)addExp(client,message.author.id,"-1");
+        if (command.removeExp && message.guild == client.guild && client.toggles.addExp)addExp(client,message.author.id,-1);
         if (command.ppOnly && message.guild != guild){
             embedMsg.setColor(red).setDescription(`This command can only be used in ${guild.name}`);
             return sendEmbed(embedMsg,message);

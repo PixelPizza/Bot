@@ -33,10 +33,10 @@ module.exports={
         embedMsg.setColor(blue).setTitle(`**${this.name}**`).setDescription(`There are no users in the leaderboard`);
         if(!results.length)return sendEmbed(embedMsg);
         for(let result of results){
+            itemNumber++;
             let member=client.guild.members.cache.get(result.userId);
             if(!member)continue;
             rank++;
-            itemNumber++;
             let user=member.user;
             let rankString=`#${rank} • ${user.username}\n`;
             console.log(itemNumber,results.length);

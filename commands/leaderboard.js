@@ -40,8 +40,9 @@ module.exports={
             let user=member.user;
             let rankString=`#${rank} • ${user.username}\n`;
             if(rank%10==0||itemNumber==results.length)rankString+="```";
-            pages[page].setDescription(pages[page].description+rankString);
+            pages[page].description+=rankString;
             if(rank%10==0&&itemNumber!=results.length){
+                pages[page].description+="```";
                 page++;
                 addPage();
             }

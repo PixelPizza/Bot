@@ -15,6 +15,10 @@ client.worker=false;
 client.teacher=false;
 client.staff=false;
 client.director=false;
+client.toggles={
+    cooldowns:true,
+    addExp:true
+};
 
 for (let file of cmdFiles) {
     const command = require('./commands/' + file);
@@ -90,7 +94,7 @@ client.on('message', async message => {
                 message.delete();
             }
         }
-        if (message.guild == guild)addExp(client,message.author.id,"1");
+        if (message.guild == guild && client.toggles.addExp)addExp(client,message.author.id,"1");
         if (message.content.toLowerCase().includes('noice')) {
             message.react(noice).then(console.log).catch(console.error);
         }
@@ -112,7 +116,7 @@ client.on('message', async message => {
             embedMsg.setColor(red).setDescription("Our commands are unavailable in DMs");
             return sendEmbed(embedMsg,message);
         }
-        if (command.removeExp && message.guild == client.guild)addExp(client,message.author.id,"-1");
+        if (command.removeExp && message.guild == client.guild && client.toggles.addExp)addExp(client,message.author.id,"-1");
         if (command.ppOnly && message.guild != guild){
             embedMsg.setColor(red).setDescription(`This command can only be used in ${guild.name}`);
             return sendEmbed(embedMsg,message);
@@ -194,22 +198,24 @@ client.on('message', async message => {
                 }
             }
         }
-        if (!cooldowns.has(command.name)) {
-            cooldowns.set(command.name, new Collection());
-        }
-        const now = Date.now();
-        const timestamps = cooldowns.get(command.name);
-        let cooldownAmount = (command.cooldown || 0) * 1000;
-        if (timestamps.has(message.author.id)){
-            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-            if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000;
-                embedMsg.setColor(black).setTitle('**Cooldown**').setDescription(`please wait ${timeLeft} more second(s) before reusing ${command.name}`);
-                return sendEmbed(embedMsg,message);
+        if(client.toggles.cooldowns){
+            if (!cooldowns.has(command.name)) {
+                cooldowns.set(command.name, new Collection());
             }
+            const now = Date.now();
+            const timestamps = cooldowns.get(command.name);
+            let cooldownAmount = (command.cooldown || 0) * 1000;
+            if (timestamps.has(message.author.id)){
+                const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+                if (now < expirationTime) {
+                    const timeLeft = (expirationTime - now) / 1000;
+                    embedMsg.setColor(black).setTitle('**Cooldown**').setDescription(`please wait ${timeLeft} more second(s) before reusing ${command.name}`);
+                    return sendEmbed(embedMsg,message);
+                }
+            }
+            timestamps.set(message.author.id, now);
+            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
         }
-        timestamps.set(message.author.id, now);
-        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
         try {
             command.execute(message, args, client);
             console.log(`${command.name} executed!`);

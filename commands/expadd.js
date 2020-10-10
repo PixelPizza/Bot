@@ -15,7 +15,11 @@ module.exports={
     pponly:true,
     execute(message,args,client){
         let embedMsg=createEmbed(red,"**add exp**",null,null,`${args[0]} is not a number`);
-        if(isNaN(args[0])||args[0]<1)return sendEmbed(embedMsg,message);
+        if(isNaN(args[0]))return sendEmbed(embedMsg,message);
+        if(parseInt(args[0])<1){
+            embedMsg.setDescription(`The number can not be any lower than 1`);
+            return sendEmbed(embedMsg);
+        }
         const amount=args.shift();
         let user=message.author;
         if(args.length){

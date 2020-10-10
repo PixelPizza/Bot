@@ -18,7 +18,7 @@ module.exports={
         if(isNaN(args[0]))return sendEmbed(embedMsg,message);
         if(parseInt(args[0])<1){
             embedMsg.setDescription(`The number can not be any lower than 1`);
-            return sendEmbed(embedMsg);
+            return sendEmbed(embedMsg,message);
         }
         const amount=args.shift();
         let user=message.author;

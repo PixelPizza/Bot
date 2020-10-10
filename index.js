@@ -160,7 +160,6 @@ client.on('message', async message => {
             embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
             return sendEmbed(embedMsg,message);
         }
-        console.log(0);
         let reply;
         if (command.args && !args.length) {
             reply = `There were no arguments given, ${message.author}`;
@@ -199,7 +198,6 @@ client.on('message', async message => {
                 }
             }
         }
-        console.log(0);
         if(client.toggles.cooldowns){
             if (!cooldowns.has(command.name)) {
                 cooldowns.set(command.name, new Collection());
@@ -218,7 +216,6 @@ client.on('message', async message => {
             timestamps.set(message.author.id, now);
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
         }
-        console.log(0);
         try {
             command.execute(message, args, client);
             console.log(`${command.name} executed!`);

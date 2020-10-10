@@ -68,5 +68,5 @@ exports.makeRankImg=async(user,level,exp,rank,style)=>{
     ctx.clip();
     const avatar=await loadImage(user.displayAvatarURL({format:"png"}));
     ctx.drawImage(avatar,35,45,160,160);
-    return canvas;
+    return canvas.toBuffer();
 }

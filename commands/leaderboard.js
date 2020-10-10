@@ -39,10 +39,10 @@ module.exports={
             itemNumber++;
             let user=member.user;
             let rankString=`#${rank} • ${user.username}\n`;
+            console.log(itemNumber,results.length);
             if(rank%10==0||itemNumber==results.length)rankString+="```";
             pages[page].description+=rankString;
             if(rank%10==0&&itemNumber!=results.length){
-                pages[page].description+="```";
                 page++;
                 addPage();
             }

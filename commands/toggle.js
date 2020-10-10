@@ -22,7 +22,7 @@ module.exports={
         if(!toggles.includes(args[0])){
             return sendEmbed(embedMsg,message);
         }
-        client.toggles[args[0]]!=client.toggles[args[0]];
+        client.toggles[args[0]]=!client.toggles[args[0]];
         embedMsg.setColor(blue).setDescription(`Toggle ${args[0]} is now set to ${client.toggles[args[0]]}`);
         sendEmbed(embedMsg,message);
     }

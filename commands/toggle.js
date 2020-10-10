@@ -17,7 +17,7 @@ module.exports={
         let embedMsg=createEmbed(red,`**${this.name}**`,null,null,`Toggle ${args[0]} does not exist`);
         const toggles=[];
         for(let toggle in client.toggles){
-            toggles+=toggle;
+            toggles.push(toggle);
         }
         if(!toggles.includes(args[0])){
             return sendEmbed(embedMsg,message);

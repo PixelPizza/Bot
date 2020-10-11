@@ -19,7 +19,7 @@ exports.addExp=async(client,userId,amount)=>{
 }
 exports.setExp=(client,userId,amount)=>{
     amount=parseInt(amount);
-    console.log(client,userId,amount);
+    console.log(userId,amount);
     if(isNaN(userId)||userId.length!=18||isNaN(amount)||amount<0)return;
     this.query("UPDATE `user` SET `exp` = ? WHERE userId = ?",[amount,userId]).then(()=>{
         this.checkLevel(client,userId);

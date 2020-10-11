@@ -8,6 +8,7 @@ roles.json
 database.json
 level.json
 rules.json
+questions.json
 template.txt
 package.json
 package-lock.json

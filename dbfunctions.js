@@ -35,6 +35,7 @@ exports.addLevel=async(client,userId,amount)=>{
 }
 exports.setLevel=(client,userId,amount)=>{
     amount=parseInt(amount);
+    console.log(amount);
     if(isNaN(userId)||userId.length!=18||isNaN(amount)||amount<0)return;
     if(amount==0)return this.setExp(client,userId,amount);
     let neededExp=baseexp*(amount)+addexp*(amount-1);

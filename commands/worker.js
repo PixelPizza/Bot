@@ -32,7 +32,7 @@ module.exports={
         }
         const worker=result[0];
         const guild=client.guild;
-        const member=guild.members.cache.get(args[0]);
+        const member=guild.members.cache.get(user.id);
         if(!worker.deliveryMessage)worker.deliveryMessage = "none";
         embedMsg.addFields({name:"Nickname",value:member.displayName},{name:"Cooks",value:worker.cooks,inline:true},{name:"Deliveries",value:worker.deliveries,inline:true},{name:"Delivery Message",value:worker.deliveryMessage},{name:"Added At",value:worker.addedAt});
         if(!client.canSendEmbeds)embedMsg=`Nickname\n\`${member.displayName}\`\nCooks\n\`${worker.cooks}\`\nDeliveries\n\`${worker.deliveries}\`\nDelivery Message\n\`\`\`\n${worker.deliveryMessage}\n\`\`\`\nAdded At\n\`${worker.addedAt}\``;

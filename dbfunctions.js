@@ -19,6 +19,7 @@ exports.addExp=async(client,userId,amount)=>{
 }
 exports.setExp=(client,userId,amount)=>{
     amount=parseInt(amount);
+    console.log(client,userId,amount);
     if(isNaN(userId)||userId.length!=18||isNaN(amount)||amount<0)return;
     this.query("UPDATE `user` SET `exp` = ? WHERE userId = ?",[amount,userId]).then(()=>{
         this.checkLevel(client,userId);
@@ -35,10 +36,9 @@ exports.addLevel=async(client,userId,amount)=>{
 }
 exports.setLevel=(client,userId,amount)=>{
     amount=parseInt(amount);
-    console.log(amount);
     if(isNaN(userId)||userId.length!=18||isNaN(amount)||amount<0)return;
     if(amount==0)return this.setExp(client,userId,amount);
-    let neededExp=baseexp*(amount)+addexp*(amount-1);
+    const neededExp=baseexp*(amount)+addexp*(amount-1);
     this.setExp(client,userId,neededExp);
 }
 exports.checkLevel=async(client,userId)=>{if(isNaN(userId)||userId.length!=18)return;const result=await this.query("SELECT exp, `level` FROM user WHERE userId = ?",[userId]);if(!result.length)return;const exp=result[0].exp;let level=result[0].level;while(true){let expNeeded=baseexp*(level+1)+addexp*level;let expNeededPrev=baseexp*level+addexp*(level-1);if(exp<expNeededPrev){level--;}else if(exp>=expNeeded){level++;}else{break;}}this.query("UPDATE user SET `level` = ? WHERE userId = ?",[level,userId]).then(()=>{this.checkLevelRoles(client,userId);});}

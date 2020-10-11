@@ -15,19 +15,5 @@ exports.addRole=(member,role)=>member.roles.add(role);
 exports.removeRole=(member,role)=>member.roles.remove(role);
 exports.hasRole=(member,role)=>{return member.roles.cache.get(role);}
 exports.randomInt=(min,max)=>{return Math.floor(Math.random()*max-min)+min;}
-exports.getUser=(message,args,client)=>{
-    let user = null;
-    if(message.mentions.users.first()){
-        user=message.mentions.users.first();
-    }else if(!isNaN(parseInt(args[0]))){
-        user=client.users.cache.get(args[0]);
-    }else{
-        let username=args.toString().replace(",", " ");
-        user=client.users.cache.find(u=>u.username.toLowerCase().includes(username.toLowerCase()));
-    }
-    return user;
-}
-exports.inBotGuild=(client,userId)=>{
-    if(!client.guild.members.cache.get(userId))return false;
-    return true;
-}
+exports.getUser=(message,args,client)=>{let user = null;if(message.mentions.users.first()){user=message.mentions.users.first();}else if(!isNaN(parseInt(args[0]))){user=client.users.cache.get(args[0]);}else{let username=args.toString().replace(",", " ");user=client.users.cache.find(u=>u.username.toLowerCase().includes(username.toLowerCase()));}return user;}
+exports.inBotGuild=(client,userId)=>{if(!client.guild.members.cache.get(userId))return false;return true;}

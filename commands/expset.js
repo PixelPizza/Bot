@@ -27,7 +27,7 @@ module.exports={
             user=getUser(message,args,client);
             if(!user){
                 embedMsg.setDescription("User not found");
-                return sendEmbed(embedMsg);
+                return sendEmbed(embedMsg,message);
             }
         }
         if(!inBotGuild(client,user.id)){

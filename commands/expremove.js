@@ -14,7 +14,7 @@ module.exports={
     neededPerms:[],
     pponly:true,
     removeExp:true,
-    execute(message,args,client){
+    async execute(message,args,client){
         let embedMsg=createEmbed(red,"**remove exp**",null,null,`${args[0]} is not a number`);
         if(isNaN(args[0]))return sendEmbed(embedMsg,message);
         if(parseInt(args[0])<1){

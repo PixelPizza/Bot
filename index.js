@@ -5,8 +5,9 @@ const {token,prefix,botGuild}=require('./config.json');
 const {blue,green,red,black}=require('./colors.json');
 const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
+const {levelRoles}=require('./roles.json');
 const {developer,worker,teacher,staff,director}=require('./roles.json');
-const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard,sendEmbed}=require('./functions');
+const {updateMemberSize,updateGuildAmount,sendGuildLog,createEmbed,checkNoiceBoard,sendEmbed, hasRole}=require('./functions');
 const {addUser,query,addExp,isBlacklisted,deleteOrders}=require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands=new Collection();
@@ -158,6 +159,10 @@ client.on('message', async message => {
         }
         if (command.userType == "director" && !client.director){
             embedMsg.setColor(red).setDescription("You need to be Pixel Pizza director to use this command!");
+            return sendEmbed(embedMsg,message);
+        }
+        if(command.needVip && !hasRole(member,levelRoles.hundered)){
+            embedMsg.setColor(red).setDescription("You need to have the vip role in pixel pizza to use this command!");
             return sendEmbed(embedMsg,message);
         }
         let reply;

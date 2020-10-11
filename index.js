@@ -18,12 +18,24 @@ client.staff=false;
 client.director=false;
 client.toggles={
     cooldowns:true,
-    addExp:true
+    addExp:true,
+    sendEveryone:false
 };
+let everyoneSender;
 
 for (let file of cmdFiles) {
     const command = require('./commands/' + file);
     client.commands.set(command.name, command);
+}
+
+function sendEveryone(){
+    if(everyoneSender)clearTimeout(everyoneSender);
+    const guild=client.guilds.cache.get(botGuild);
+    const channel=guild.channels.cache.get(text.restaurant);
+    everyoneSender = setTimeout(()=>{
+        channel.send("@here, be more active and talk");
+        sendEveryone();
+    },3*60*60*1000);
 }
 
 process.on('unhandledRejection', error => {
@@ -42,6 +54,7 @@ client.on('ready', () => {
         if(!member.user.bot)addUser(member.id);
     });
     query("UPDATE `order` SET status = 'cooked' WHERE status = 'cooking'");
+    sendEveryone();
     console.log("Pixel Pizza is ready");
 });
 
@@ -95,7 +108,10 @@ client.on('message', async message => {
                 message.delete();
             }
         }
-        if (message.guild == guild && client.toggles.addExp)await addExp(client,message.author.id,1);
+        if (message.guild == guild){
+            if (client.toggles.addExp)await addExp(client,message.author.id,1);
+            sendEveryone();
+        }
         if (message.content.toLowerCase().includes('noice')) {
             message.react(noice).then(console.log).catch(console.error);
         }

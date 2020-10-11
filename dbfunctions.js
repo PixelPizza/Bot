@@ -9,7 +9,7 @@ let db;function handleError(){try{db=new Db(db_config);}catch(error){if(error.sq
 exports.query=async(query,options=[])=>{return db.query(query,options);}
 exports.addUser=async(userId)=>{if(isNaN(userId)||userId.length!=18)return;const result=await this.query(`SELECT * FROM \`user\` WHERE userId = ?`,[userId]);if(result.length)return;this.query(`INSERT INTO \`user\`(userId) VALUES(?)`,[userId]);}
 exports.addExp=async(client,userId,amount)=>{
-    return new Promise(resolve=>{
+    return new Promise(async resolve=>{
         amount=parseInt(amount);
         if(isNaN(userId)||userId.length!=18||isNaN(amount))return;
         const results=await this.query("SELECT `exp` FROM `user` WHERE userId = ?",[userId]);
@@ -21,7 +21,7 @@ exports.addExp=async(client,userId,amount)=>{
     });
 }
 exports.setExp=async(client,userId,amount)=>{
-    return new Promise(resolve=>{
+    return new Promise(async resolve=>{
         amount=parseInt(amount);
         if(isNaN(userId)||userId.length!=18||isNaN(amount)||amount<0)return;
         this.query("UPDATE `user` SET `exp` = ? WHERE userId = ?",[amount,userId]).then(()=>{
@@ -31,7 +31,7 @@ exports.setExp=async(client,userId,amount)=>{
     });
 }
 exports.addLevel=async(client,userId,amount)=>{
-    return new Promise(resolve=>{
+    return new Promise(async resolve=>{
         amount=parseInt(amount);
         if(isNaN(userId)||userId.length!=18||isNaN(amount))return;
         const results=await this.query("SELECT `level` FROM `user` WHERE userId = ?",[userId]);
@@ -43,7 +43,7 @@ exports.addLevel=async(client,userId,amount)=>{
     });
 }
 exports.setLevel=async(client,userId,amount)=>{
-    return new Promise(resolve=>{
+    return new Promise(async resolve=>{
         amount=parseInt(amount);
         if(isNaN(userId)||userId.length!=18||isNaN(amount)||amount<0)return;
         if(amount==0)return this.setExp(client,userId,amount);

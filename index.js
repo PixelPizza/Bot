@@ -19,7 +19,9 @@ client.director=false;
 client.toggles={
     cooldowns:true,
     addExp:true,
-    sendEveryone:false
+    sendEveryone:false,
+    roleChecks:true,
+    pponlyChecks:true
 };
 let everyoneSender;
 
@@ -35,7 +37,7 @@ function sendEveryone(){
     everyoneSender = setTimeout(()=>{
         channel.send("@here, be more active and talk");
         sendEveryone();
-    },3*60*60*1000);
+    },1*60*1000);
 }
 
 process.on('unhandledRejection', error => {

@@ -37,7 +37,7 @@ function sendEveryone(){
     everyoneSender = setTimeout(()=>{
         channel.send("@here, be more active and talk");
         sendEveryone();
-    },1*60*1000);
+    },3*60*60*1000);
 }
 
 process.on('unhandledRejection', error => {

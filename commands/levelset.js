@@ -34,7 +34,7 @@ module.exports={
             embedMsg.setDescription(`This user is not in Pixel Pizza`);
             return sendEmbed(embedMsg,message);
         }
-        setLevel(client,user.id,amount);
+        await setLevel(client,user.id,amount);
         embedMsg.setColor(blue).setDescription(`level ${amount} has been set for ${user.tag}`);
         sendEmbed(embedMsg,message);
     }

@@ -21,7 +21,7 @@ module.exports={
                 sendEmbed(embedMsg,message);
             }
         }
-        if(!inBotGuild(user.id)){
+        if(!inBotGuild(client,user.id)){
             embedMsg.setColor(red).setDescription(`This user is not in pixel pizza`);
             sendEmbed(embedMsg,message);
         }

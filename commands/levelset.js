@@ -1,4 +1,4 @@
-const{createEmbed,sendEmbed}=require("../functions");
+const{createEmbed,sendEmbed,getUser,inBotGuild}=require("../functions");
 const{blue,red}=require('../colors.json');
 const{setLevel}=require("../dbfunctions");
 

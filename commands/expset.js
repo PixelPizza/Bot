@@ -1,5 +1,5 @@
 const{setExp}=require("../dbfunctions");
-const{getUser,inBotGuild, sendEmbed}=require("../functions");
+const{getUser,inBotGuild,sendEmbed,createEmbed}=require("../functions");
 const{blue,red}=require('../colors.json');
 
 module.exports={

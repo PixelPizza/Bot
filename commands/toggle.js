@@ -28,7 +28,7 @@ module.exports={
                 sendEmbed(embedMsg,message);
                 message.channel.send("pptoggle sendEveryone");
             }, 60000);
-        } else if (args[0] == "sendEveryone" && !message.author == client.user){
+        } else if (args[0] == "sendEveryone" && message.author != client.user){
             if(randomInt(0, 100) == randomInt(0, 100)){
                 embedMsg.setDescription(`DON'T!`);
                 sendEmbed(embedMsg,message);

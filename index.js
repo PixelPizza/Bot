@@ -104,6 +104,7 @@ client.on('message', async message => {
             message.react(noice).then(console.log).catch(console.error);
         }
         if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
+        console.log(message.content);
         if (message.author.bot && message.content != "pptoggle sendEveryone") return;
         let clientMember;
         client.canSendEmbeds = true;

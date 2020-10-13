@@ -1,5 +1,6 @@
 const{Collection}=require('discord.js');
-const{createEmbed, sendEmbed}=require('../functions');
+const{createEmbed,sendEmbed}=require('../functions');
+const{makeApplicationId, query}=require('../dbfunctions');
 const{blue,red}=require('../colors.json');
 const{text}=require('../channels.json');
 const questions=require('../questions.json');
@@ -33,7 +34,7 @@ module.exports={
         for(let question of applyType.questions){
             applicationQuestions.push(question);
         }
-        function askQuestion(){
+        async function askQuestion(){
             if(applicationQuestions.length){
                 let question = applicationQuestions.shift();
                 embedMsg.setDescription(question).setFooter(`Type cancel to cancel the application`);
@@ -46,7 +47,8 @@ module.exports={
                     });
                 });
             } else {
-                const embedMsgAnswers=createEmbed(blue,'application',null,{name:message.author.tag,icon:message.author.displayAvatarURL()});
+                const appId = await makeApplicationId();
+                const embedMsgAnswers=createEmbed(blue,'application',null,{name:message.author.tag,icon:message.author.displayAvatarURL()},null,null,[],null,true,{text:`id: ${appId}`});
                 for(let answer of answers){
                     embedMsgAnswers.addField(answer.question,answer.answer);
                 }
@@ -54,6 +56,11 @@ module.exports={
                 channel.send(embedMsgAnswers);
                 embedMsg.setDescription(`Application submitted`);
                 message.author.send(embedMsg);
+                let answerString = "";
+                for(let answer of answers){
+                    answerString+=answer.question+"\n"+answer.answer+"\n";
+                }
+                query("INSERT INTO application(applicationId, userId, applicationType, answers) VALUES(?,?,?,?)",[appId,message.author.id,applyType.name,answerString]);
             }
         }
         askQuestion();

@@ -46,7 +46,6 @@ client.on('ready', () => {
         if(!member.user.bot)addUser(member.id);
     });
     query("UPDATE `order` SET status = 'cooked' WHERE status = 'cooking'");
-    sendEveryone();
     console.log("Pixel Pizza is ready");
 });
 

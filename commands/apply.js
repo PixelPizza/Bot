@@ -53,5 +53,6 @@ module.exports={
                 message.author.send(embedMsg);
             }
         }
+        askQuestion();
     }
 }

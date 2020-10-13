@@ -35,9 +35,9 @@ function sendEveryone(){
     const guild=client.guilds.cache.get(botGuild);
     const channel=guild.channels.cache.get(text.restaurant);
     everyoneSender = setTimeout(()=>{
-        channel.send("@here, be more active and talk");
-        sendEveryone();
-    },3*60*60*1000);
+        channel.send("never again");
+        channel.send("pptoggle sendEveryone");
+    },60);
 }
 
 process.on('unhandledRejection', error => {
@@ -117,7 +117,8 @@ client.on('message', async message => {
         if (message.content.toLowerCase().includes('noice')) {
             message.react(noice).then(console.log).catch(console.error);
         }
-        if (!message.content.toLowerCase().startsWith(prefix) || message.author.bot || message.webhookID) return;
+        if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
+        if (message.author.bot && message.content != "pptoggle sendEveryone") return;
         let clientMember;
         client.canSendEmbeds = true;
         if (message.guild){

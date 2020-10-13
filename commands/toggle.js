@@ -1,4 +1,4 @@
-const{createEmbed,sendEmbed}=require("../functions");
+const{createEmbed,sendEmbed, randomInt}=require("../functions");
 const{blue,red}=require('../colors.json');
 
 module.exports={
@@ -28,6 +28,12 @@ module.exports={
                 sendEmbed(embedMsg,message);
                 message.channel.send("pptoggle sendEveryone");
             }, 60000);
+        } else if (args[0] == "sendEveryone"){
+            if(randomInt(0, 100) == randomInt(0, 100)){
+                embedMsg.setDescription(`DON'T!`);
+                sendEmbed(embedMsg,message);
+            }
+            return;
         }
         client.toggles[args[0]]=!client.toggles[args[0]];
         embedMsg.setColor(blue).setDescription(`Toggle ${args[0]} is now set to ${client.toggles[args[0]]}`);

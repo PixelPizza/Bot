@@ -99,7 +99,7 @@ client.on('message', async message => {
                 message.delete();
             }
         }
-        if (message.guild == guild && client.toggles.addExp && !message.author.bot)await addExp(client,message.author.id,1);
+        if (message.guild == guild && client.toggles.addExp && message.author != client.user)await addExp(client,message.author.id,1);
         if (message.content.toLowerCase().includes('noice')) {
             message.react(noice).then(console.log).catch(console.error);
         }

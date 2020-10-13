@@ -30,6 +30,11 @@ module.exports={
             embedMsg.setColor(red).setDescription(`${args[0]} is not an application type\nAll valid application types are ${types.map(type=>type.name).join(", ")}`);
             return sendEmbed(embedMsg,message);
         }
+        const results=await query("SELECT * FROM application WHERE userId = ? AND applicationType = ? AND status = 'none'",[message.author.id,applyType.name]);
+        if(results.length){
+            embedMsg.setColor(red).setDescription(`You have already applied for this type. Please wait until it has been accepted or rejected`);
+            return sendEmbed(embedMsg,message);
+        }
         const applicationQuestions = [];
         for(let question of applyType.questions){
             applicationQuestions.push(question);

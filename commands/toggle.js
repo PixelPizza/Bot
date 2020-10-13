@@ -22,7 +22,7 @@ module.exports={
         if(!toggles.includes(args[0])){
             return sendEmbed(embedMsg,message);
         }
-        if(args[0] == "sendEveryone" && client.toggles.sendEveryone){
+        if(args[0] == "sendEveryone" && !client.toggles.sendEveryone){
             setTimeout(()=>{
                 embedMsg.setColor(blue).setDescription(`Never again!`);
                 sendEmbed(embedMsg,message);

@@ -29,7 +29,10 @@ module.exports={
             embedMsg.setColor(red).setDescription(`${args[0]} is not an application type\nAll valid application types are ${types.map(type=>type.name).join(", ")}`);
             return sendEmbed(embedMsg,message);
         }
-        const applicationQuestions = applyType.questions;
+        const applicationQuestions = [];
+        for(let question of applyType.questions){
+            applicationQuestions.push(question);
+        }
         function askQuestion(){
             if(applicationQuestions.length){
                 let question = applicationQuestions.shift();

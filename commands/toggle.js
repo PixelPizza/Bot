@@ -27,7 +27,7 @@ module.exports={
                 embedMsg.setColor(blue).setDescription(`Never again!`);
                 sendEmbed(embedMsg,message);
                 message.channel.send("pptoggle sendEveryone");
-            }, 60);
+            }, 60000);
         }
         client.toggles[args[0]]=!client.toggles[args[0]];
         embedMsg.setColor(blue).setDescription(`Toggle ${args[0]} is now set to ${client.toggles[args[0]]}`);

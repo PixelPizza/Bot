@@ -30,16 +30,6 @@ for (let file of cmdFiles) {
     client.commands.set(command.name, command);
 }
 
-function sendEveryone(){
-    if(everyoneSender)clearTimeout(everyoneSender);
-    const guild=client.guilds.cache.get(botGuild);
-    const channel=guild.channels.cache.get(text.restaurant);
-    everyoneSender = setTimeout(()=>{
-        channel.send("never again");
-        channel.send("pptoggle sendEveryone");
-    },60);
-}
-
 process.on('unhandledRejection', error => {
     console.error('Unhandled promise rejection:', error);
 });

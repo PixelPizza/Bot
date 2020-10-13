@@ -47,7 +47,9 @@ module.exports={
                     });
                 });
             } else {
-                const appId = await makeApplicationId();
+                const appId = makeApplicationId();
+                console.log(appId);
+                console.log(makeApplicationId());
                 const embedMsgAnswers=createEmbed(blue,'application',null,{name:message.author.tag,icon:message.author.displayAvatarURL()},null,null,[],null,true,{text:`id: ${appId}`});
                 for(let answer of answers){
                     embedMsgAnswers.addField(answer.question,answer.answer);

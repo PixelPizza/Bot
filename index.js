@@ -2,6 +2,18 @@ const fs = require('fs');
 const {Client,Collection}=require('discord.js');
 const client=new Client();
 const {token,prefix,botGuild}=require('./config.json');
+/* 
+colors I use:
+* notice: gray / lightgray
+* info: blue / lightblue
+* success: green
+* bot added: green
+* error: red
+* bot removed: red
+* warning: yellow
+* cooldown: black
+* noiceboard message: noiceboard
+*/
 const {blue,green,red,black}=require('./colors.json');
 const {noice,noice2}=require('./emojis.json');
 const {text}=require('./channels.json');
@@ -23,7 +35,12 @@ client.toggles={
     roleChecks:true,
     pponlyChecks:true
 };
-let everyoneSender;
+client.applications={
+    worker:true,
+    teacher:true,
+    developer:true,
+    staff:true
+};
 
 for (let file of cmdFiles) {
     const command = require('./commands/' + file);

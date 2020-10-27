@@ -138,7 +138,7 @@ exports.makeOrderId = async () => {
 exports.deleteOrders = async (client) => {
     const results = await this.query("SELECT orderId, userId, guildId FROM `order` WHERE status NOT IN('delivered', 'deleted')");
     const deletedGuilds = [];
-    for(let result in results){
+    for(let result of results){
         const guild = client.guilds.cache.get(result.guildId);
         if (!guild && !deletedGuilds.includes(result.guildId)){
             deletedGuilds.push(result.guildId);

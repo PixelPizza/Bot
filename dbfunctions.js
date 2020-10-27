@@ -23,21 +23,21 @@ const handleDisconnect = () => {
 }
 handleDisconnect();
 
-exports.query = (query, options = []) => new Promise((resolve, reject)=>con.execute(query, options, (error, result, fields) => {
+exports.query = (query, options = []) => new Promise((resolve, reject)=>con.execute(query, options, (error, result) => {
     if(error) reject(error);
-    else resolve({result: result, fields: fields});
+    else resolve(result);
 }));
 exports.addUser = userId => {
     if(isNaN(userId) || userId.length != 18) return;
-    this.query("SELECT * FROM `user` WHERE userId = ?", [userId]).then(value => {
-        if(!value.result.length) this.query("INSERT INTO `user`(userId) VALUES(?)", [userId])
+    this.query("SELECT * FROM `user` WHERE userId = ?", [userId]).then(result => {
+        if(!result.length) this.query("INSERT INTO `user`(userId) VALUES(?)", [userId]);
     });
 }
 exports.checkLevelRoles = (client, userId) => {
     if(isNaN(userId) || userId.length != 18) return;
-    this.query("SELECT `level` FROM user WHERE userId = ?", [userId]).then(value => {
-        if(value.result.length){
-            const level = value.result[0].level;
+    this.query("SELECT `level` FROM user WHERE userId = ?", [userId]).then(result => {
+        if(result.length){
+            const level = result[0].level;
             const member = client.guilds.cache.get(botGuild).members.cache.get(userId);
             if(level >= 5 && !hasRole(member, levelRoles.five)){
                 addRole(member, levelRoles.five);
@@ -132,13 +132,13 @@ exports.makeOrderId = async () => {
     for(let i = 0; i < idLength; i++){
         id += characters.charAt(randomInt(0, characters.length));   
     }
-    const result=await this.query("SELECT orderId FROM `order` WHERE orderId = ?",[id]);
+    const result = await this.query("SELECT orderId FROM `order` WHERE orderId = ?",[id]);
     return result.length ? this.makeOrderId() : id;
 }
 exports.deleteOrders = async (client) => {
     const results = await this.query("SELECT orderId, userId, guildId FROM `order` WHERE status NOT IN('delivered', 'deleted')");
     const deletedGuilds = [];
-    for(let result of results){
+    for(let result in results){
         const guild = client.guilds.cache.get(result.guildId);
         if (!guild && !deletedGuilds.includes(result.guildId)){
             deletedGuilds.push(result.guildId);

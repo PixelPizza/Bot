@@ -72,7 +72,7 @@ module.exports = {
             sendEmbedWithChannel(editEmbed(embedMsg, {
                 description: `Order ${args[0]} is done cooking`
             }), client, client.channels.cache.get(text.delivery));
-            user.send(editEmbed(embedMsg, {
+            user.send(editEmbed(confirmation, {
                 description: `Your order has been cooked`
             }));
         });

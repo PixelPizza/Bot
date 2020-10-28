@@ -54,6 +54,6 @@ module.exports = {
         const channel = client.channels.cache.get(text.kitchen); 
         if (!client.canSendEmbeds) embedMsgOrder = embedMsgOrder.description + `\nId: ${id}`; 
         channel.send(embedMsgOrder); 
-        message.channel.send(editEmbed({color: green})); 
+        message.channel.send(editEmbed(embedMsg, {color: green})); 
     } 
 }

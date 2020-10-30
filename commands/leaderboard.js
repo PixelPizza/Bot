@@ -51,7 +51,7 @@ module.exports = {
             console.log(client.guild.members.cache);
             let member = client.guild.members.cache.get(result.userId); 
             if (!member) {
-                if(itemNumber == results.length) rankString += "```";
+                if(itemNumber == results.length) pages[page].description += "```";
                 continue;
             }
             rank++; 

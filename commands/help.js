@@ -71,6 +71,7 @@ module.exports = {
                 console.error(`Could not send help DM to ${message.author.tag}.\n${error}`); 
                 embedMsg.setColor(red).setDescription("I can't DM you. Do you have DMs disabled?"); 
             }).finally(() => { 
+                embedMsg.fields = [];
                 sendEmbed(embedMsg, message); 
             }); 
         } 

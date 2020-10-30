@@ -29,7 +29,7 @@ module.exports = {
         const result = results[0]; 
         const applyer = client.users.cache.get(result.userId);
         let staffMember = "none";
-        if(result.staffId) client.guildMembers.get(result.staffId) ? client.users.cache.get(result.staffId) : "Deleted Staff Member";
+        if(result.staffId) staffMember = client.guildMembers.get(result.staffId) ? client.users.cache.get(result.staffId) : "Deleted Staff Member";
         let answers = JSON.parse(result.answers);
         const fields = [];
         for(let answer of answers){
@@ -44,8 +44,19 @@ module.exports = {
             },
             fields: fields,
             footer: {
-                text: `id: ${args[0]}`
+                text: `id: ${args[0]} | status: ${result.status} | staff: ${staffMember}`
             }
         });
+        if(!client.canSendEmbeds){
+            embedMsg = "";
+            for(let index in fields){
+                const field = fields[index];
+                embedMsg += `${field.name}\n${field.value}`;
+                if(index != fields.length - 1){
+                    embedMsg += "\n";
+                }
+            }
+        }
+        message.channel.send(embedMsg);
     }
 }

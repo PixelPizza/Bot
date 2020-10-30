@@ -1,5 +1,5 @@
 const{WebhookClient,MessageEmbed}=require('discord.js');
-const{botGuild,prefix,noiceboardMinValue}=require('./config.json');
+const{prefix,noiceboardMinValue}=require('./config.json');
 const{voice,text}=require("./channels.json");
 const{log}=require('./webhooks.json');
 const{noice2}=require('./emojis.json');
@@ -7,8 +7,8 @@ const{noiceboard}=require('./colors.json');
 const{isUri}=require('valid-url');
 
 exports.updateMemberSize = client => {
-    const guild=client.guilds.cache.get(botGuild);
-    const bots=guild.members.cache.filter(member=>member.user.bot).size;
+    const guild=client.guild;
+    const bots=client.guildMembers.filter(member=>member.user.bot).size;
     client.channels.cache.get(voice.allMembers).setName(`All members: ${guild.memberCount}`);
     client.channels.cache.get(voice.members).setName(`Members: ${guild.memberCount - bots}`);
     client.channels.cache.get(voice.bots).setName(`Bots: ${bots}`);
@@ -97,7 +97,7 @@ exports.getUser = (message, args, client) => {
     }
     return user;
 }
-exports.inBotGuild = (client, userId) => Boolean(client.guild.members.cache.get(userId));
+exports.inBotGuild = (client, userId) => Boolean(client.guildMembers.get(userId));
 exports.wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 exports.isImage = url => isUri(url) && /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(url);
 exports.capitalize = string => string.charAt(0).toUpperCase() + string.substring(1);

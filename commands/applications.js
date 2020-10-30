@@ -22,7 +22,7 @@ module.exports = {
         });
         let results;
         if(!args.length){
-            results = await query("SELECT applicationId FROM application WHERE status = 'none')");
+            results = await query("SELECT applicationId FROM application WHERE status = 'none'");
         } else if (!statuses.applications.includes(status)){
             embedMsg = editEmbed(embedMsg, {
                 description: `${status} is not a valid status`,

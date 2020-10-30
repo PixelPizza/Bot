@@ -1,5 +1,5 @@
 const{WebhookClient,MessageEmbed}=require('discord.js');
-const{prefix,noiceboardMinValue}=require('./config.json');
+const{botGuild,prefix,noiceboardMinValue}=require('./config.json');
 const{voice,text}=require("./channels.json");
 const{log}=require('./webhooks.json');
 const{noice2}=require('./emojis.json');
@@ -7,7 +7,7 @@ const{noiceboard}=require('./colors.json');
 const{isUri}=require('valid-url');
 
 exports.updateMemberSize = client => {
-    const guild=client.guild;
+    const guild=client.guilds.cache.get(botGuild);
     const bots=client.guildMembers.filter(member=>member.user.bot).size;
     client.channels.cache.get(voice.allMembers).setName(`All members: ${guild.memberCount}`);
     client.channels.cache.get(voice.members).setName(`Members: ${guild.memberCount - bots}`);

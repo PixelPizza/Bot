@@ -12,6 +12,6 @@ module.exports = {
         for (let toggle in client.toggles) { 
             toggles.push(toggle); 
         } 
-        message.channel.send(toggles.toString().replace(",", "\n")); 
+        message.channel.send(toggles.join(", ")); 
     } 
 }

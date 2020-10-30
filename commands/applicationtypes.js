@@ -3,9 +3,9 @@ const { createEmbed, capitalize, sendEmbed } = require("../functions");
 const { blue } = require("../colors.json");
 
 module.exports = {
-    name: "applications",
+    name: "applicationtypes",
     description: "show all application types and if they are opened",
-    aliases: ["apps"],
+    aliases: ["apptypes"],
     args: false,
     cooldown: 30,
     userType: "all",

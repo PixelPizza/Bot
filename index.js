@@ -56,9 +56,9 @@ client.on('error', error => {
     console.error('The websocket connection encountered an error:', error);
 });
 
-client.on('ready', () => {
+client.on('ready', async () => {
     const guild = client.guilds.cache.get(botGuild);
-    client.guildMembers = guild.members.fetch();
+    client.guildMembers = await guild.members.fetch();
     console.log(client.guildMembers);
     updateGuildAmount(client);
     updateMemberSize(client);

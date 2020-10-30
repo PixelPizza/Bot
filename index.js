@@ -58,7 +58,7 @@ client.on('error', error => {
 
 client.on('ready', () => {
     const guild = client.guilds.cache.get(botGuild);
-    client.guildMembers = client.fetchAllMembers();
+    client.guildMembers = guild.members.fetch();
     console.log(client.guildMembers);
     updateGuildAmount(client);
     updateMemberSize(client);

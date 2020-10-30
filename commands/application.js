@@ -30,6 +30,7 @@ module.exports = {
         const applyer = client.users.cache.get(result.userId).username;
         let staffMember = "none";
         if(result.staffId) client.guildMembers.get(result.staffId) ? client.users.cache.get(result.staffId) : "Deleted Staff Member";
-        console.log(result);
+        let answers = JSON.parse(result.answers);
+        console.log(answers);
     }
 }

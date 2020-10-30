@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, randomInt, wait, editEmbed } = require("../functions");
+const { createEmbed, sendEmbed, randomInt, wait, editEmbed, capitalize } = require("../functions");
 const { blue, red } = require('../colors.json');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
     execute(message, args, client) {
         let embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`,
+            title: `**${capitalize(this.name)}**`,
             description: `Toggle ${args[0]} does not exist`
         });
         const toggles = [];

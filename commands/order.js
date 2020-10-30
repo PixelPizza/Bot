@@ -1,4 +1,4 @@
-const { createEmbed, hasRole, sendEmbed, editEmbed } = require("../functions"); 
+const { createEmbed, hasRole, sendEmbed, editEmbed, capitalize } = require("../functions"); 
 const { query, makeOrderId } = require("../dbfunctions"); 
 const { blue, red, green } = require('../colors.json'); 
 const { maxPizzas } = require('../config.json'); 
@@ -18,7 +18,7 @@ module.exports = {
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`,
+            title: `**${capitalize(this.name)}**`,
             description: "Your pizza has been ordered and will be cooked as soon as possible"
         });
         let result = await query("SELECT COUNT(*) as counted FROM `order`"); 
@@ -44,7 +44,7 @@ module.exports = {
         await query("INSERT INTO `order`(orderId,userId,guildId,channelId,status,`order`) VALUES(?,?,?,?,'not claimed',?)", [id, message.author.id, message.guild.id, message.channel.id, order]); 
         const embedMsgOrder = createEmbed({
             color: blue,
-            title: `**${this.name}**`,
+            title: `**${capitalize(this.name)}**`,
             description: `a new order has come in!`,
             timestamp: true,
             footer: {

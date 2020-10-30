@@ -1,5 +1,5 @@
 const { MessageAttachment } = require('discord.js');
-const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait } = require("../functions");
+const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait, capitalize } = require("../functions");
 const { blue, red } = require('../colors.json');
 const { cook } = require('../roles.json');
 const { query } = require("../dbfunctions");
@@ -19,7 +19,7 @@ module.exports = {
     async execute(message, args, client) {
         let embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`
+            title: `**${capitalize(this.name)}**`
         });
         const cookRole = client.guild.roles.cache.get(cook);
         if (!hasRole(client.member, cook)) {

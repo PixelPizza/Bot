@@ -1,5 +1,5 @@
 const { Collection } = require('discord.js');
-const { createEmbed, sendEmbed, editEmbed } = require('../functions');
+const { createEmbed, sendEmbed, editEmbed, capitalize } = require('../functions');
 const { makeApplicationId, query } = require('../dbfunctions');
 const { blue, red, green } = require('../colors.json');
 const { text } = require('../channels.json');
@@ -20,7 +20,7 @@ module.exports = {
     async execute(message, args, client) {
         const embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`
+            title: `**${capitalize(this.name)}**`
         });
         const answers = [];
         const types = new Collection();

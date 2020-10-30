@@ -100,3 +100,4 @@ exports.getUser = (message, args, client) => {
 exports.inBotGuild = (client, userId) => Boolean(client.guild.members.cache.get(userId));
 exports.wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 exports.isImage = url => isUri(url) && /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(url);
+exports.capitalize = string => string.charAt(0).toUpperCase() + string.substring(1);

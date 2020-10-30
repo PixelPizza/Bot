@@ -1,5 +1,5 @@
 const { query } = require('../dbfunctions'); 
-const { createEmbed, sendEmbed, editEmbed } = require("../functions"); 
+const { createEmbed, sendEmbed, editEmbed, capitalize } = require("../functions"); 
 const { blue, red } = require('../colors.json'); 
 
 module.exports = { 
@@ -17,7 +17,7 @@ module.exports = {
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`
+            title: `**${capitalize(this.name)}**`
         });
         const results = await query("SELECT * FROM `order` WHERE orderId = ?", [args[0]]); 
         if (!results.length) { 

@@ -1,4 +1,4 @@
-const { createEmbed } = require("../functions");
+const { createEmbed, capitalize } = require("../functions");
 const { blue } = require('../colors.json');
 
 module.exports = { 
@@ -17,7 +17,7 @@ module.exports = {
         } 
         message.channel.send(createEmbed({
             color: blue,
-            title: "Toggles",
+            title: `**${capitalize(this.name)}**`,
             description: toggles.join(", ")
         })); 
     } 

@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, editEmbed } = require("../functions"); 
+const { createEmbed, sendEmbed, editEmbed, capitalize } = require("../functions"); 
 const { blue, red } = require('../colors.json'); 
 const rules = require('../rules.json'); 
 
@@ -13,7 +13,7 @@ module.exports = {
     execute(message, args, client) { 
         let embedMsg = createEmbed({
             color: blue,
-            title: `**${this.name}**`
+            title: `**${capitalize(this.name)}**`
         });
         return message.author.send(editEmbed(embedMsg, {
             description: `\`\`\`\n${rules.join("\n")}\`\`\``

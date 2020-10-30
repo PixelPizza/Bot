@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, editEmbed } = require("../functions"); 
+const { createEmbed, sendEmbed, editEmbed, capitalize } = require("../functions"); 
 const { red, blue } = require('../colors.json'); 
 const { query } = require("../dbfunctions"); 
 
@@ -42,7 +42,7 @@ module.exports = {
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
                 color: blue,
-                title: `**${this.name}**`,
+                title: `**${capitalize(this.name)}**`,
                 description: `There are no users in the leaderboard`
             })); 
         }

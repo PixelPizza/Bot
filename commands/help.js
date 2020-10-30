@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, editEmbed } = require('../functions'); 
+const { createEmbed, sendEmbed, editEmbed, capitalize } = require('../functions'); 
 const { blue, red } = require('../colors.json'); 
 const { prefix } = require('../config.json'); 
 
@@ -52,7 +52,7 @@ module.exports = {
         } 
         if (!args.length) { 
             return message.author.send(editEmbed(embedMsg, {
-                title: `**${this.name}**`,
+                title: `**${capitalize(this.name)}**`,
                 description: `\nYou can send '${prefix}${this.name} ${this.usage}' to get help for specific commands`,
                 fields: [
                     {

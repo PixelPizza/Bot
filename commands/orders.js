@@ -1,7 +1,6 @@
-const { createEmbed, sendEmbed, editEmbed } = require("../functions"); 
+const { createEmbed, sendEmbed, editEmbed, capitalize } = require("../functions"); 
 const { query } = require("../dbfunctions"); 
 const { blue, red } = require('../colors.json'); 
-const { statuses } = require('../config.json'); 
 
 module.exports = { 
     name: "orders", 
@@ -16,7 +15,7 @@ module.exports = {
         const status = args?.join(" ");
         let embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`
+            title: `**${capitalize(this.name)}**`
         });
         let results; 
         if (!args.length) { 

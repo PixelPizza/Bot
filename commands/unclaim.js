@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, hasRole, editEmbed } = require('../functions'); 
+const { createEmbed, sendEmbed, hasRole, editEmbed, capitalize } = require('../functions'); 
 const { query } = require('../dbfunctions'); 
 const { cook } = require('../roles.json'); 
 const { red, blue, green } = require('../colors.json'); 
@@ -17,7 +17,7 @@ module.exports = {
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`
+            title: `**${capitalize(this.name)}**`
         });
         const cookRole = client.guild.roles.cache.get(cook); 
         if (!hasRole(client.member, cook)) { 

@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, getUser, inBotGuild, editEmbed } = require("../functions"); 
+const { createEmbed, sendEmbed, getUser, inBotGuild, editEmbed, capitalize } = require("../functions"); 
 const { blue, red } = require('../colors.json'); 
 const { query } = require('../dbfunctions'); 
 
@@ -14,7 +14,7 @@ module.exports = {
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
             color: red,
-            title: `**${this.name}**`,
+            title: `**${capitalize(this.name)}**`,
             author: {
                 name: message.author.username,
                 icon: message.author.displayAvatarURL()

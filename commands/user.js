@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, editEmbed, capitalize, getUser } = require('../functions'); 
+const { createEmbed, sendEmbed, editEmbed, capitalize, getUser, inBotGuild } = require('../functions'); 
 const { blue, red } = require('../colors.json'); 
 const { query } = require('../dbfunctions'); 
 
@@ -33,7 +33,7 @@ module.exports = {
             }), message);
         }
         const member = client.guildMembers.get(user.id); 
-        const result = await query("SELECT * FROM user WHERE userId = ?", [userId]); 
+        const result = await query("SELECT * FROM user WHERE userId = ?", [user.id]); 
         if (!result.length || !member) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This user is not in pixel pizza`

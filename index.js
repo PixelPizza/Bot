@@ -24,6 +24,7 @@ const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfun
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 const cooldowns = new Collection();
+client.guildMembers = new Collection();
 client.worker = false;
 client.teacher = false;
 client.staff = false;
@@ -56,9 +57,11 @@ client.on('error', error => {
 });
 
 client.on('ready', () => {
+    const guild = client.guilds.cache.get(botGuild);
+    client.guildMembers = client.fetchAllMembers();
+    console.log(client.guildMembers);
     updateGuildAmount(client);
     updateMemberSize(client);
-    const guild = client.guilds.cache.get(botGuild);
     guild.members.cache.forEach(member => { if (!member.user.bot) addUser(member.id) });
     query("UPDATE `order` SET status = 'cooked' WHERE status = 'cooking'");
     console.log("Pixel Pizza is ready");

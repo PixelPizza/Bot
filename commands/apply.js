@@ -91,14 +91,10 @@ module.exports = {
                     color: green,
                     description: `Application submitted`
                 }));
-                let answerString = "";
-                for (let answer of answers) {
-                    answerString += answer.question + "\n" + answer.answer + "\n";
-                }
                 query(
                     "INSERT INTO application(applicationId, userId, applicationType, answers) \
                     VALUES(?,?,?,?)",
-                    [appId, message.author.id, applyType.name, answerString]
+                    [appId, message.author.id, applyType.name, JSON.stringify(answers)]
                 );
             }
         }

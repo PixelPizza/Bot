@@ -1,4 +1,4 @@
-const { createEmbed, sendEmbed, editEmbed, capitalize } = require('../functions'); 
+const { createEmbed, sendEmbed, editEmbed, capitalize, getUser } = require('../functions'); 
 const { blue, red } = require('../colors.json'); 
 const { query } = require('../dbfunctions'); 
 
@@ -7,8 +7,7 @@ module.exports = {
     description: "get a users info with the users id", 
     args: true, 
     minArgs: 1, 
-    maxArgs: 1, 
-    usage: "<user id>", 
+    usage: "<user>", 
     cooldown: 0, 
     userType: "staff", 
     neededPerms: [], 
@@ -27,13 +26,13 @@ module.exports = {
                 icon: client.user.displayAvatarURL()
             }
         });
-        if (isNaN(args[0]) || args[0].length != 18) { 
+        const user = getUser(message, args, client);
+        if (!user){
             return sendEmbed(editEmbed(embedMsg, {
-                description: `${args[0]} is not a user id`
+                description: "user not found"
             }), message);
-        } 
-        const userId = args[0];  
-        const member = client.guildMembers.get(args[0]); 
+        }
+        const member = client.guildMembers.get(user.id); 
         const result = await query("SELECT * FROM user WHERE userId = ?", [userId]); 
         if (!result.length || !member) { 
             return sendEmbed(editEmbed(embedMsg, {

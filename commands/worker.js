@@ -25,14 +25,11 @@ module.exports = {
                 icon: client.user.displayAvatarURL()
             }
         });
-        let user = message.author; 
-        if (args.length) { 
-            user = getUser(message, args, client); 
-            if (!user) { 
-                return sendEmbed(editEmbed(embedMsg, {
-                    description: `user not found`
-                }), message);
-            } 
+        const user = args.length ? getUser(message, args, client) : message.author;
+        if (!user) { 
+            return sendEmbed(editEmbed(embedMsg, {
+                description: `user not found`
+            }), message);
         } 
         if (!inBotGuild(client, user.id)) { 
             return sendEmbed(editEmbed(embedMsg, {

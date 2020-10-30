@@ -19,7 +19,7 @@ module.exports = {
         });
         for(let application of await query(
             "SELECT * \
-            FROM toggles \
+            FROM toggle \
             WHERE `key` LIKE '%Applications'"
         )){
             embedMsg.addField(application.key.replace("Applications", ""), application.value ? "Open" : "Closed");

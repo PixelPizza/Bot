@@ -60,7 +60,7 @@ client.on('ready', async () => {
     updateMemberSize(client);
     client.guildMembers.forEach(member => { if (!member.user.bot) addUser(member.id) });
     query("UPDATE `order` SET status = 'cooked' WHERE status = 'cooking'");
-    for(let toggle of await query("SELECT * FROM toggles")){
+    for(let toggle of await query("SELECT * FROM toggle")){
         client.toggles[toggle.key] = toggle.value ? true : false;
     }
     console.log("Pixel Pizza is ready");

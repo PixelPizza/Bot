@@ -40,7 +40,7 @@ module.exports = {
         let itemNumber = 0; 
         const results = await query("SELECT userId FROM `user` ORDER BY `level` DESC, exp DESC, userId"); 
         for(let result of results){
-            console.log(result);
+            console.log(result.userId);
         }
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {

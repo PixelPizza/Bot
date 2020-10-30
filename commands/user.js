@@ -26,7 +26,7 @@ module.exports = {
                 icon: client.user.displayAvatarURL()
             }
         });
-        const user = getUser(message, args, client);
+        let user = getUser(message, args, client);
         if (!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "user not found"
@@ -39,7 +39,7 @@ module.exports = {
                 description: `This user is not in pixel pizza`
             }), message);
         } 
-        const user = result[0]; 
+        user = result[0]; 
         embedMsg = editEmbed(embedMsg, {
             color: blue,
             fields: [

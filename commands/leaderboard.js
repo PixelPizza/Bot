@@ -48,7 +48,7 @@ module.exports = {
         }
         for (let result of results) { 
             itemNumber++; 
-            console.log(client.guild.members.cache);
+            console.log(client.guild.members.cache.filter(member => !member.user.bot));
             let member = client.guild.members.cache.get(result.userId); 
             if (!member) {
                 if(itemNumber == results.length) pages[page].description += "```";

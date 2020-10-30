@@ -39,6 +39,7 @@ module.exports = {
         let rank = 0; 
         let itemNumber = 0; 
         const results = await query("SELECT userId FROM `user` ORDER BY `level` DESC, exp DESC, userId"); 
+        console.log(results);
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
                 color: blue,

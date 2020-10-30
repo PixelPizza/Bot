@@ -32,7 +32,6 @@ client.director = false;
 client.toggles = {
     cooldowns: true,
     addExp: true,
-    sendEveryone: false,
     roleChecks: true,
     pponlyChecks: true,
     workerApplications: true,
@@ -64,7 +63,6 @@ client.on('ready', async () => {
     query("SELECT * FROM toggles").then(toggles => {
         client.toggles[toggles.key] = toggles.value ? true : false;
     });
-    console.log(client.toggles);
     console.log("Pixel Pizza is ready");
 });
 

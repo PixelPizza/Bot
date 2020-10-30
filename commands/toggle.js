@@ -1,5 +1,6 @@
 const { createEmbed, sendEmbed, randomInt, wait, editEmbed, capitalize } = require("../functions");
 const { blue, red } = require('../colors.json');
+const { query } = require("../dbfunctions");
 
 module.exports = {
     name: "toggle",
@@ -14,38 +15,24 @@ module.exports = {
     pponly: true,
     removeExp: false,
     execute(message, args, client) {
+        const key = args[0];
         let embedMsg = createEmbed({
             color: red,
             title: `**${capitalize(this.name)}**`,
-            description: `Toggle ${args[0]} does not exist`
+            description: `Toggle ${key} does not exist`
         });
         const toggles = [];
         for (let toggle in client.toggles) {
             toggles.push(toggle);
         }
-        if (!toggles.includes(args[0])) {
+        if (!toggles.includes(key)) {
             return sendEmbed(embedMsg, message);
         }
-        if (args[0] == "sendEveryone" && !client.toggles.sendEveryone) {
-            wait(60000).then(()=>{
-                sendEmbed(editEmbed({
-                    color: blue,
-                    description: `Never again!`
-                }), message);
-                message.channel.send("pptoggle sendEveryone");
-            });
-        } else if (args[0] == "sendEveryone" && message.author != client.user) {
-            if (randomInt(0, 100) == randomInt(0, 100)) {
-                sendEmbed(editEmbed(embedMsg, {
-                    description: `DON'T!`
-                }), message);
-            }
-            return;
-        }
-        client.toggles[args[0]] = !client.toggles[args[0]];
+        client.toggles[key] = !client.toggles[key];
+        query("UPDATE toggles SET `value` = !`value` WHERE `key` = ?", [key]);
         sendEmbed(editEmbed(embedMsg, {
             color: blue,
-            description: `Toggle ${args[0]} is now set to ${client.toggles[args[0]]}`
+            description: `Toggle ${key} is now set to ${client.toggles[key]}`
         }), message);
     }
 }

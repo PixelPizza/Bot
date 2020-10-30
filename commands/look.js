@@ -31,9 +31,9 @@ module.exports = {
         const channel = guild.channels.cache.get(result.channelId); 
         channel.name = channel ? channel.name : "Deleted Channel"; 
         let cook = "none"; 
-        if (result.cookId) cook = client.guild.members.cache.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
+        if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let deliverer = "none"; 
-        if (result.delivererId) deliverer = client.guild.members.cache.get(result.delivererId) ? client.users.cache.get(result.delivererId).username : "Deleted Deliverer"; 
+        if (result.delivererId) deliverer = client.guildMembers.get(result.delivererId) ? client.users.cache.get(result.delivererId).username : "Deleted Deliverer"; 
         embedMsg = editEmbed(embedMsg, {
             color: blue,
             description: `*${result.order}*`,

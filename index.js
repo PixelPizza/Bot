@@ -59,10 +59,9 @@ client.on('error', error => {
 client.on('ready', async () => {
     const guild = client.guilds.cache.get(botGuild);
     client.guildMembers = await guild.members.fetch();
-    console.log(client.guildMembers);
     updateGuildAmount(client);
     updateMemberSize(client);
-    guild.members.cache.forEach(member => { if (!member.user.bot) addUser(member.id) });
+    client.guildMembers.forEach(member => { if (!member.user.bot) addUser(member.id) });
     query("UPDATE `order` SET status = 'cooked' WHERE status = 'cooking'");
     console.log("Pixel Pizza is ready");
 });
@@ -104,12 +103,14 @@ client.on('guildDelete', guild => {
 
 client.on('guildMemberAdd', member => {
     if (member.guild.id !== botGuild) return;
+    client.guildMembers.set(member.user.id, member);
     if (!member.user.bot) addUser(member.id);
     updateMemberSize(client);
 });
 
 client.on('guildMemberRemove', member => {
     if (member.guild.id !== botGuild) return;
+    client.guildMembers.delete(member.user.id);
     updateMemberSize(client);
 });
 
@@ -126,7 +127,7 @@ client.on('messageReactionRemove', messageReaction => {
 client.on('message', async message => {
     deleteOrders(client).then(async () => {
         client.guild = client.guilds.cache.get(botGuild);
-        client.member = client.guild.members.cache.get(message.author.id);
+        client.member = client.guildMembers.get(message.author.id);
         const guild = client.guild;
         const member = client.member;
         if (message.channel.id === text.logs && !message.webhookID) {
@@ -147,7 +148,7 @@ client.on('message', async message => {
         let clientMember;
         client.canSendEmbeds = true;
         if (message.guild) {
-            clientMember = message.guild.members.cache.get(client.user.id);
+            clientMember = message.guild.me;
             if (!clientMember.hasPermission("EMBED_LINKS")) client.canSendEmbeds = false;
         }
         const args = message.content.slice(prefix.length).split(/ +/);

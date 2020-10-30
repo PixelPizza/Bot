@@ -48,7 +48,7 @@ module.exports = {
             }), message);
         } 
         let cook = "none"; 
-        if (result.cookId) cook = client.guild.members.cache.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
+        if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let image = result.imageUrl; 
         let invite = "AW7z9qu"; 
         let guild = client.guilds.cache.get(result.guildId); 

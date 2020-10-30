@@ -46,8 +46,7 @@ module.exports = {
             }), message);
         } 
         const worker = result[0]; 
-        const guild = client.guild; 
-        const member = guild.members.cache.get(user.id); 
+        const member = client.guildMembers.get(user.id); 
         if (!worker.deliveryMessage) worker.deliveryMessage = "none"; 
         embedMsg = editEmbed(embedMsg, {
             color: blue,

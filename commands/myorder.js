@@ -24,11 +24,11 @@ module.exports = {
         channel.name = channel ? channel.name : "Deleted Channel"; 
         let cook = "none"; 
         if (result[0].cookId) { 
-            cook = client.guild.members.cache.get(result[0].cookId) ? client.users.cache.get(result[0].cookId).username : "Deleted Cook"; 
+            cook = client.guildMembers.get(result[0].cookId) ? client.users.cache.get(result[0].cookId).username : "Deleted Cook"; 
         } 
         let deliverer = "none"; 
         if (result[0].delivererId) { 
-            deliverer = client.guild.members.cache.get(result[0].delivererId) ? client.users.cache.get(result[0].delivererId).username : "Deleted Deliverer"; 
+            deliverer = client.guildMembers.get(result[0].delivererId) ? client.users.cache.get(result[0].delivererId).username : "Deleted Deliverer"; 
         } 
         embedMsg = editEmbed(embedMsg, {
             color: blue,

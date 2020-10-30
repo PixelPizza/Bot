@@ -48,7 +48,7 @@ module.exports = {
         }
         for (let result of results) { 
             itemNumber++; 
-            let member = await client.guild.members.fetch(result.userId); 
+            let member = client.guildMembers.get(result.userId); 
             if (!member) {
                 if(itemNumber == results.length) pages[page].description += "```";
                 continue;

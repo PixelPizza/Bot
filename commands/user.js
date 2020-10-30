@@ -32,9 +32,8 @@ module.exports = {
                 description: `${args[0]} is not a user id`
             }), message);
         } 
-        const userId = args[0]; 
-        const guild = client.guild; 
-        const member = guild.members.cache.get(args[0]); 
+        const userId = args[0];  
+        const member = client.guildMembers.get(args[0]); 
         const result = await query("SELECT * FROM user WHERE userId = ?", [userId]); 
         if (!result.length || !member) { 
             return sendEmbed(editEmbed(embedMsg, {

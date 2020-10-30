@@ -46,11 +46,11 @@ module.exports = {
                 description: `There are no users in the leaderboard`
             })); 
         }
-        console.log(pages);
         for (let result of results) { 
             itemNumber++; 
             let member = client.guild.members.cache.get(result.userId); 
             if (!member) continue; 
+            console.log(result);
             rank++; 
             let user = member.user; 
             let rankString = `#${rank} • ${user.username}\n`; 
@@ -61,7 +61,6 @@ module.exports = {
                 addPage(); 
             } 
         } 
-        console.log(pages);
         page = args.length ? args[0] : 1;
         embedMsg = editEmbed(embedMsg, {
             color: red,

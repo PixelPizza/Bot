@@ -1,7 +1,6 @@
 const { createEmbed, sendEmbed, editEmbed } = require("../functions"); 
 const { red, blue } = require('../colors.json'); 
 const { query } = require("../dbfunctions"); 
-const { botGuild } = require('../config.json');
 
 module.exports = { 
     name: "leaderboard", 
@@ -15,7 +14,6 @@ module.exports = {
     neededPerms: [], 
     pponly: false, 
     async execute(message, args, client) { 
-        const guild = client.guilds.cache.get(botGuild);
         const reactions = ['⬅️', '➡️']; 
         let embedMsg = createEmbed({
             color: red,
@@ -50,7 +48,7 @@ module.exports = {
         }
         for (let result of results) { 
             itemNumber++; 
-            let member = guild.members.cache.get(result.userId); 
+            let member = await client.guild.members.fetch(result.userId); 
             if (!member) {
                 if(itemNumber == results.length) pages[page].description += "```";
                 continue;

@@ -15,7 +15,7 @@ module.exports = {
     neededPerms: [], 
     pponly: false, 
     async execute(message, args, client) { 
-        const guild = guilds.cache.get(botGuild);
+        const guild = client.guilds.cache.get(botGuild);
         const reactions = ['⬅️', '➡️']; 
         let embedMsg = createEmbed({
             color: red,

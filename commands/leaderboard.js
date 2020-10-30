@@ -49,8 +49,8 @@ module.exports = {
         for (let result of results) { 
             itemNumber++; 
             let member = client.guild.members.cache.get(result.userId); 
+            console.log(member);
             if (!member) continue; 
-            console.log(result);
             rank++; 
             let user = member.user; 
             let rankString = `#${rank} • ${user.username}\n`; 

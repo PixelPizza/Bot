@@ -34,13 +34,11 @@ client.toggles = {
     addExp: true,
     sendEveryone: false,
     roleChecks: true,
-    pponlyChecks: true
-};
-client.applications = {
-    worker: true,
-    teacher: true,
-    developer: true,
-    staff: true
+    pponlyChecks: true,
+    workerApplications: true,
+    teacherApplications: true,
+    developerApplications: true,
+    staffApplications: true
 };
 
 for (let file of cmdFiles) {
@@ -63,6 +61,9 @@ client.on('ready', async () => {
     updateMemberSize(client);
     client.guildMembers.forEach(member => { if (!member.user.bot) addUser(member.id) });
     query("UPDATE `order` SET status = 'cooked' WHERE status = 'cooking'");
+    query("SELECT * FROM toggles").then(toggles => {
+        console.log(toggles);
+    });
     console.log("Pixel Pizza is ready");
 });
 

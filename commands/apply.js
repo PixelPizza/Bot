@@ -31,7 +31,7 @@ module.exports = {
                 description: `${args[0]} is not an application type\nAll valid application types are ${types.map(type => type.name).join(", ")}`
             }), message);
         }
-        if (!client.applications[applyType.name]) {
+        if (!client.toggles[`${applyType.name}Applications`]){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This application type is closed at the moment`
             }), message);

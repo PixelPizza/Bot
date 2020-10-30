@@ -1,4 +1,6 @@
 const { query } = require("../dbfunctions");
+const { createEmbed, capitalize, sendEmbed } = require("../functions");
+const { blue } = require("../colors.json");
 
 module.exports = {
     name: "applications",
@@ -11,12 +13,17 @@ module.exports = {
     pponly: false,
     removeExp: false,
     async execute(message, args, client) {
-        const applications = {};
+        const embedMsg = createEmbed({
+            color: blue,
+            title: `**${capitalize(this.name)}**`
+        });
         for(let application of await query(
             "SELECT * \
             FROM toggles \
             WHERE `key` LIKE '%Applications'"
-        )) applications[application.key.replace("Aplications", "")] = application.value ? true : false;
-        console.log(applications);
+        )){
+            embedMsg.addField(application.key.replace("Applications", ""), application.value ? "Open" : "Closed");
+        }
+        sendEmbed(embedMsg, message);
     }
 }

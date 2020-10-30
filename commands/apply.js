@@ -75,7 +75,7 @@ module.exports = {
                 const appId = await makeApplicationId();
                 const embedMsgAnswers = createEmbed({
                     color: blue,
-                    title: 'application',
+                    title: 'Application',
                     author: {
                         name: message.author.tag,
                         icon: message.author.displayAvatarURL()

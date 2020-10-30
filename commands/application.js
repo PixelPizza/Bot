@@ -27,10 +27,25 @@ module.exports = {
             }), message);
         }
         const result = results[0]; 
-        const applyer = client.users.cache.get(result.userId).username;
+        const applyer = client.users.cache.get(result.userId);
         let staffMember = "none";
         if(result.staffId) client.guildMembers.get(result.staffId) ? client.users.cache.get(result.staffId) : "Deleted Staff Member";
         let answers = JSON.parse(result.answers);
-        console.log(answers);
+        const fields = [];
+        for(let answer of answers){
+            fields.push({name: answer.question, value: answer.answer});
+        }
+        embedMsg = editEmbed(embedMsg, {
+            color: blue,
+            title: "Application",
+            author: {
+                name: applyer.tag,
+                icon: applyer.displayAvatarURL()
+            },
+            fields: fields,
+            footer: {
+                text: `id: ${args[0]}`
+            }
+        });
     }
 }

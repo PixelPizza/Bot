@@ -39,9 +39,6 @@ module.exports = {
         let rank = 0; 
         let itemNumber = 0; 
         const results = await query("SELECT userId FROM `user` ORDER BY `level` DESC, exp DESC, userId"); 
-        for(let result of results){
-            console.log(result.userId);
-        }
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
                 color: blue,
@@ -49,6 +46,7 @@ module.exports = {
                 description: `There are no users in the leaderboard`
             })); 
         }
+        console.log(pages);
         for (let result of results) { 
             itemNumber++; 
             let member = client.guild.members.cache.get(result.userId); 
@@ -63,8 +61,8 @@ module.exports = {
                 addPage(); 
             } 
         } 
-        if (!args.length) page = 1; 
-        else page = parseInt(args[0]); 
+        console.log(pages);
+        page = args.length ? args[0] : 1;
         embedMsg = editEmbed(embedMsg, {
             color: red,
             title: "Page not found"

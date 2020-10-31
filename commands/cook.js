@@ -1,7 +1,7 @@
 const { MessageAttachment } = require('discord.js');
 const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait, capitalize } = require("../functions");
 const { blue, red, silver } = require('../colors.json');
-const { cook } = require('../roles.json');
+const { cook, deliverer } = require('../roles.json');
 const { query } = require("../dbfunctions");
 const { text } = require('../channels.json');
 
@@ -94,10 +94,12 @@ module.exports = {
             await wait(cookTime * 1000);
             query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?", [args[0]]);
             query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);
-            sendEmbedWithChannel(editEmbed(embedMsg, {
+            embedMsg = editEmbed(embedMsg, {
                 color: blue,
                 description: `Order ${args[0]} is done cooking`
-            }), client, client.channels.cache.get(text.delivery));
+            });
+            if(!client.canSendEmbeds) embedMsg = embedMsg.description;
+            client.channels.cache.get(text.delivery).send(`<@&${deliverer}>`, embedMsg);
             user.send(editEmbed(confirmation, {
                 description: `Your order has been cooked`
             }));

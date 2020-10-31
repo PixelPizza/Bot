@@ -2,7 +2,7 @@ const { createEmbed, hasRole, sendEmbed, editEmbed, capitalize } = require("../f
 const { query, makeOrderId } = require("../dbfunctions"); 
 const { blue, red, green } = require('../colors.json'); 
 const { maxPizzas } = require('../config.json'); 
-const { levelRoles } = require('../roles.json'); 
+const { levelRoles, cook } = require('../roles.json'); 
 const { text } = require('../channels.json'); 
 
 module.exports = { 
@@ -53,7 +53,7 @@ module.exports = {
         });
         const channel = client.channels.cache.get(text.kitchen); 
         if (!client.canSendEmbeds) embedMsgOrder = embedMsgOrder.description + `\nId: ${id}`; 
-        channel.send(embedMsgOrder); 
+        channel.send(`<@&${cook}>`, embedMsgOrder);
         message.channel.send(editEmbed(embedMsg, {color: green})); 
     } 
 }

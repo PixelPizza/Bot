@@ -67,7 +67,10 @@ module.exports = {
             const embedMsgTimer = createEmbed({
                 color: silver,
                 title: "Timer",
-                description: `${Math.floor(cookTime / 60)}m${cookTime % 60}s`
+                description: `${Math.floor(cookTime / 60)}m${cookTime % 60}s`,
+                footer: {
+                    text: `id: ${args[0]}`
+                }
             });
             const timerMessage = await sendEmbedWithChannel(embedMsgTimer, client, client.channels.cache.get(text.kitchen));
             const timer = setInterval(() => {
@@ -86,6 +89,7 @@ module.exports = {
             query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?", [args[0]]);
             query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);
             sendEmbedWithChannel(editEmbed(embedMsg, {
+                color: blue,
                 description: `Order ${args[0]} is done cooking`
             }), client, client.channels.cache.get(text.delivery));
             user.send(editEmbed(confirmation, {

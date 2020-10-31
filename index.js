@@ -13,6 +13,7 @@ colors I use:
 * warning: yellow
 * cooldown: black
 * noiceboard message: noiceboard
+* timer: silver
 */
 const { blue, green, red, black } = require('./colors.json');
 const { noice, noice2 } = require('./emojis.json');

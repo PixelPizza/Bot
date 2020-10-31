@@ -56,8 +56,7 @@ module.exports = {
                 WHERE orderId = ?",
                 [msg.attachments.first().url, args[0]]
             );
-            const cookTime = randomInt(60, 480);
-            embedMsg.setDescription(`The order is cooking for ${Math.floor(cookTime / 60)}m${cookTime % 60}s`);
+            let cookTime = randomInt(60, 480);
             const confirmation = createEmbed({
                 color: blue,
                 title: 'confirmation',
@@ -65,7 +64,6 @@ module.exports = {
             });
             const user = client.users.cache.get(results[0].userId);
             user.send(confirmation);
-            await sendEmbed(embedMsg, message);
             const embedMsgTimer = createEmbed({
                 color: silver,
                 title: "Timer",

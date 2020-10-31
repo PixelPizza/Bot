@@ -1,7 +1,7 @@
 Pixel Pizza
 ==============================
 
-![](https://img.shields.io/github/issues/jaronetje/PixelPizza?color=green&style=plastic) ![](https://img.shields.io/github/issues-closed/jaronetje/PixelPizza?color=red&style=plastic) ![](https://img.shields.io/github/languages/top/jaronetje/PixelPizza?color=yellow&style=plastic) ![](https://img.shields.io/github/package-json/v/jaronetje/PixelPizza/PixelPizzaAlternate?label=version&style=plastic) ![](https://img.shields.io/github/contributors/jaronetje/PixelPizza?style=plastic) ![](https://img.shields.io/github/last-commit/jaronetje/PixelPizza/PixelPizzaAlternate?style=plastic) ![](https://img.shields.io/github/package-json/keywords/jaronetje/PixelPizza)
+![](https://img.shields.io/github/issues/jaronetje/PixelPizza?color=green&style=plastic) ![](https://img.shields.io/github/issues-closed/jaronetje/PixelPizza?color=red&style=plastic) ![](https://img.shields.io/github/languages/top/jaronetje/PixelPizza?color=yellow&style=plastic) ![](https://img.shields.io/github/package-json/v/jaronetje/PixelPizza/PixelPizzaAlternate?label=version&style=plastic) ![](https://img.shields.io/github/contributors/jaronetje/PixelPizza?style=plastic) ![](https://img.shields.io/github/last-commit/jaronetje/PixelPizza/PixelPizzaAlternate?style=plastic) ![](https://img.shields.io/github/package-json/keywords/jaronetje/PixelPizza?style=plastic)
 
 <br />
 

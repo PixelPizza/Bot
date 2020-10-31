@@ -1,0 +1,27 @@
+{
+  "name": "pixel-pizza",
+  "version": "1.0.0",
+  "description": "An alternate version of the pixel pizza bot for if the website is down",
+  "main": "index.js",
+  "scripts": {
+    "start": "node pixelpizza.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaronetje/PixelPizzaAlternate.git"
+  },
+  "keywords": [],
+  "author": "Pixel Pizza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaronetje/PixelPizzaAlternate/issues"
+  },
+  "homepage": "https://github.com/jaronetje/PixelPizzaAlternate#readme",
+  "dependencies": {
+    "@types/node": "^14.14.5",
+    "canvas": "^2.6.1",
+    "discord.js": "^12.4.1",
+    "mysql2": "^2.2.5",
+    "valid-url": "^1.0.9"
+  }
+}

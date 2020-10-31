@@ -1,6 +1,6 @@
 const { MessageAttachment } = require('discord.js');
 const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait, capitalize } = require("../functions");
-const { blue, red } = require('../colors.json');
+const { blue, red, silver } = require('../colors.json');
 const { cook } = require('../roles.json');
 const { query } = require("../dbfunctions");
 const { text } = require('../channels.json');
@@ -65,7 +65,25 @@ module.exports = {
             });
             const user = client.users.cache.get(results[0].userId);
             user.send(confirmation);
-            sendEmbed(embedMsg, message);
+            await sendEmbed(embedMsg, message);
+            const embedMsgTimer = createEmbed({
+                color: silver,
+                title: "Timer",
+                description: `${Math.floor(cookTime / 60)}m${cookTime % 60}s`
+            });
+            const timerMessage = await sendEmbedWithChannel(embedMsgTimer, client, client.channels.cache.get(text.kitchen));
+            const timer = setInterval(() => {
+                cookTime--;
+                const cookMinutes = Math.floor(cookTime / 60);
+                let timerString = `${cookTime % 60}s`;
+                if(cookMinutes >= 1) timerString = `${cookMinutes}m${timerString}`;
+                embedMsgTimer.description = timerString;
+                timerMessage.edit(embedMsgTimer);
+                if(cookTime == 0){
+                    timerMessage.delete({reason: "timer ran out"});
+                    clearTimeout(timer);
+                }
+            }, 1000);
             await wait(cookTime * 1000);
             query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?", [args[0]]);
             query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);

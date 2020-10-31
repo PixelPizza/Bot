@@ -1,5 +1,5 @@
 <div align="left">
-  <img width="50px" src="https://user-images.githubusercontent.com/60853956/97776540-4c446980-1b69-11eb-9fdc-98b4ab65be6b.png">
+  <img align="left" width="50px" src="https://user-images.githubusercontent.com/60853956/97776540-4c446980-1b69-11eb-9fdc-98b4ab65be6b.png">
   <h1 align="left">Pixel Pizza</h1>
 </div>
 

@@ -10,7 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/jaronetje/PixelPizzaAlternate.git"
   },
-  "keywords": [],
+  "keywords": [
+    "Pixel Pizza",
+    "Discord.js",
+    "Node.js"
+  ],
   "author": "Pixel Pizza",
   "license": "ISC",
   "bugs": {

@@ -16,6 +16,13 @@ module.exports = {
     userType: "worker",
     neededPerms: [],
     pponly: false,
+    getTimeAsString(time){
+        let minutes = Math.floor(time / 60);
+        minutes = minutes >= 10 ? minutes.toString() : `0${minutes.toString()}`;
+        let seconds = time % 60;
+        seconds = seconds >= 10 ? seconds.toString() : `0${seconds.toString()}`;
+        return `${minutes}:${seconds}`;
+    },
     async execute(message, args, client) {
         let embedMsg = createEmbed({
             color: red,
@@ -67,7 +74,7 @@ module.exports = {
             const embedMsgTimer = createEmbed({
                 color: silver,
                 title: "Timer",
-                description: `${Math.floor(cookTime / 60)}m${cookTime % 60}s`,
+                description: this.getTimeAsString(cookTime),
                 footer: {
                     text: `id: ${args[0]}`
                 }
@@ -75,10 +82,9 @@ module.exports = {
             const timerMessage = await sendEmbedWithChannel(embedMsgTimer, client, client.channels.cache.get(text.kitchen));
             const timer = setInterval(() => {
                 cookTime-=10;
-                const cookMinutes = Math.floor(cookTime / 60);
-                let timerString = `${cookTime % 60}s`;
-                if(cookMinutes >= 1) timerString = `${cookMinutes}m${timerString}`;
-                embedMsgTimer.description = timerString;
+                let timerString = this.getTimeAsString(cookTime);
+                if(client.canSendEmbeds) embedMsgTimer.description = timerString;
+                else embedMsgTimer = timerString;
                 timerMessage.edit(embedMsgTimer);
                 if(cookTime == 0){
                     timerMessage.delete({reason: "timer ran out"});

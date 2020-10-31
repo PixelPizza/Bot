@@ -71,7 +71,7 @@ module.exports = {
             });
             const timerMessage = await sendEmbedWithChannel(embedMsgTimer, client, client.channels.cache.get(text.kitchen));
             const timer = setInterval(() => {
-                cookTime--;
+                cookTime-=10;
                 const cookMinutes = Math.floor(cookTime / 60);
                 let timerString = `${cookTime % 60}s`;
                 if(cookMinutes >= 1) timerString = `${cookMinutes}m${timerString}`;

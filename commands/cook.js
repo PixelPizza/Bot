@@ -56,7 +56,7 @@ module.exports = {
                 WHERE orderId = ?",
                 [msg.attachments.first().url, args[0]]
             );
-            let cookTime = randomInt(60, 480);
+            let cookTime = randomInt(6, 48) * 10;
             const confirmation = createEmbed({
                 color: blue,
                 title: 'confirmation',
@@ -81,7 +81,7 @@ module.exports = {
                     timerMessage.delete({reason: "timer ran out"});
                     clearTimeout(timer);
                 }
-            }, 1000);
+            }, 10000);
             await wait(cookTime * 1000);
             query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?", [args[0]]);
             query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);

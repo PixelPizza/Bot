@@ -5,7 +5,7 @@
 
 <br />
 
-![](https://img.shields.io/discord/709698572035162143?label=Discord%20Chat)
+[![](https://img.shields.io/discord/709698572035162143?label=Discord%20Chat)](https://www.discord.com/invite/MzbsFPe)
 
 Description
 ---

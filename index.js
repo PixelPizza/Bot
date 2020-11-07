@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { Client, Collection } = require('discord.js');
-const client = new Client();
+const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const { token, prefix, botGuild } = require('./config.json');
 /* 
 colors I use:
@@ -115,12 +115,26 @@ client.on('guildMemberRemove', member => {
     updateMemberSize(client);
 });
 
-client.on('messageReactionAdd', messageReaction => {
+client.on('messageReactionAdd', async messageReaction => {
+    if(messageReaction.partial){
+        try{
+            messageReaction = await messageReaction.fetch();
+        } catch (error) {
+            return console.error('Could not fetch the reaction: ', error);
+        }
+    }
     if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
     checkNoiceBoard(messageReaction);
 });
 
 client.on('messageReactionRemove', messageReaction => {
+    if(messageReaction.partial){
+        try{
+            messageReaction = await messageReaction.fetch();
+        } catch (error) {
+            return console.error('Could not fetch the reaction: ', error);
+        }
+    }
     if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
     checkNoiceBoard(messageReaction);
 });

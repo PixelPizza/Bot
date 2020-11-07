@@ -1,6 +1,7 @@
 const { createEmbed, sendEmbed, editEmbed, capitalize } = require('../functions'); 
 const { blue, red } = require('../colors.json'); 
 const { prefix } = require('../config.json'); 
+const { error } = require('../consolefunctions');
 
 module.exports = { 
     name: "help", 
@@ -67,8 +68,8 @@ module.exports = {
             })).then(() => { 
                 if (message.channel.type === "dm") return; 
                 embedMsg.setDescription("I've sent you a DM with all commands"); 
-            }).catch(error => { 
-                console.error(`Could not send help DM to ${message.author.tag}.\n${error}`); 
+            }).catch(err => {
+                error(`Could not send help DM to ${message.author.tag}`, err);
                 embedMsg.setColor(red).setDescription("I can't DM you. Do you have DMs disabled?"); 
             }).finally(() => { 
                 embedMsg.fields = [];

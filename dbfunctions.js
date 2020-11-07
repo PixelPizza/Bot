@@ -4,6 +4,7 @@ const {baseexp, addexp} = require('./level.json');
 const {botGuild, idLength} = require('./config.json');
 const {levelRoles} = require('./roles.json');
 const {host, user, password, database} = require('./database.json');
+const { error } = require("./consolefunctions");
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
 let con;
@@ -11,12 +12,12 @@ const handleDisconnect = () => {
     con = mysql.createConnection({host: host, user: user, password: password, database: database});
     con.connect(err => {
         if(err){
-            console.log('error when connecting to db:', err);
+            error('DB connection error', err);
             setTimeout(handleDisconnect, 2000);
         }
     });
     con.on('error', err => {
-        console.log('db error', err);
+        error('DB error', err);
         if(err.code === 'PROTOCOL_CONNECTION_LOST')handleDisconnect();
         else throw err;
     });

@@ -2,6 +2,7 @@ const { createEmbed, sendEmbed, hasRole, editEmbed, capitalize } = require('../f
 const { query } = require('../dbfunctions'); 
 const { cook } = require('../roles.json'); 
 const { red, blue, green } = require('../colors.json'); 
+const { error } = require('../consolefunctions');
 
 module.exports = { 
     name: "unclaim", 
@@ -46,7 +47,7 @@ module.exports = {
                 color: blue,
                 title: "Confirmation",
                 description: `Your order has been unclaimed by the cook who claimed it`
-            })).catch(console.error); 
+            })).catch(err => error(`Could not send confirmation to ${message.author.tag}`, err)); 
         }); 
     } 
 }

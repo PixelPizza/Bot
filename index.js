@@ -22,6 +22,7 @@ const { levelRoles, verified } = require('./roles.json');
 const { developer, worker, teacher, staff, director } = require('./roles.json');
 const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, hasRole, sendEmbedWithChannel, editEmbed } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
+const { error, success, log } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 const cooldowns = new Collection();
@@ -46,12 +47,12 @@ for (let file of cmdFiles) {
     client.commands.set(command.name, command);
 }
 
-process.on('unhandledRejection', error => {
-    console.error('Unhandled promise rejection:', error);
+process.on('unhandledRejection', err => {
+    error('Unhandled promise rejection', err);
 });
 
-client.on('error', error => {
-    console.error('The websocket connection encountered an error:', error);
+client.on('error', err => {
+    error('Websocket connection error', err);
 });
 
 client.on('ready', async () => {
@@ -64,7 +65,7 @@ client.on('ready', async () => {
     for(let toggle of await query("SELECT * FROM toggle")){
         client.toggles[toggle.key] = toggle.value ? true : false;
     }
-    console.log("Pixel Pizza is ready");
+    success('Ready', `${client.user.username} is ready`);
 });
 
 client.on('guildCreate', guild => {
@@ -119,15 +120,15 @@ client.on('messageReactionAdd', async (messageReaction, user) => {
     if(messageReaction.partial){
         try{
             messageReaction = await messageReaction.fetch();
-        } catch (error) {
-            return console.error('Could not fetch the reaction: ', error);
+        } catch (err) {
+            return error('Could not fetch reaction', err);
         }
     }
     if (user.partial){
         try{
             user = await user.fetch();
-        } catch (error){
-            return console.error('Could not fetch user: ', error);
+        } catch (err){
+            return error('Could not fetch user', err);
         }
     }
     if (messageReaction.message.guild.id !== botGuild) return;
@@ -135,12 +136,19 @@ client.on('messageReactionAdd', async (messageReaction, user) => {
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 
-client.on('messageReactionRemove', messageReaction => {
+client.on('messageReactionRemove', async (messageReaction, user) => {
     if(messageReaction.partial){
         try{
             messageReaction = await messageReaction.fetch();
-        } catch (error) {
-            return console.error('Could not fetch the reaction: ', error);
+        } catch (err) {
+            return error('Could not fetch reaction', err);
+        }
+    }
+    if (user.partial){
+        try{
+            user = await user.fetch();
+        } catch (err){
+            return error('Could not fetch user', err);
         }
     }
     if (messageReaction.message.guild.id !== botGuild) return;
@@ -164,10 +172,9 @@ client.on('message', async message => {
         }
         if (message.guild == guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
         if (message.content.toLowerCase().includes('noice')) {
-            message.react(noice).then(console.log).catch(console.error);
+            message.react(noice).catch(err => error('Could not add noice reaction', err));
         }
         if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
-        console.log(message.content);
         if (message.author.bot && message.content != "pptoggle sendEveryone") return;
         let clientMember;
         client.canSendEmbeds = true;
@@ -177,7 +184,7 @@ client.on('message', async message => {
         }
         const args = message.content.slice(prefix.length).split(/ +/);
         const commandName = args.shift().toLowerCase();
-        console.log(commandName);
+        log(`Command used by ${message.author.tag}`, commandName);
         const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
         if (!command) return;
         let embedMsg = createEmbed({
@@ -322,16 +329,16 @@ client.on('message', async message => {
         }
         try {
             command.execute(message, args, client);
-            console.log(`${command.name} executed!`);
-        } catch (error) {
-            console.error(error);
+            log("Command executed", `${command.name} has been executed`);
+        } catch (err) {
+            error(`Could not execute ${command.name}`, err);
             return sendEmbed(editEmbed(embedMsg, {
                 title: '**Error**',
                 description: 'there was an error trying to execute that command!'
             }), message);
         }
-    }).catch(error => {
-        console.error(error);
+    }).catch(err => {
+        error('Could not delete orders', err);
     });
 });
 

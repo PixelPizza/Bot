@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Client, Collection } = require('discord.js');
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-const { token, prefix, botGuild } = require('./config.json');
+const { token, prefix, botGuild, verification } = require('./config.json');
 /* 
 colors I use:
 * notice: gray / lightgray
@@ -18,7 +18,7 @@ colors I use:
 const { blue, green, red, black } = require('./colors.json');
 const { noice, noice2 } = require('./emojis.json');
 const { text } = require('./channels.json');
-const { levelRoles } = require('./roles.json');
+const { levelRoles, verified } = require('./roles.json');
 const { developer, worker, teacher, staff, director } = require('./roles.json');
 const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, hasRole, sendEmbedWithChannel, editEmbed } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
@@ -115,7 +115,7 @@ client.on('guildMemberRemove', member => {
     updateMemberSize(client);
 });
 
-client.on('messageReactionAdd', async messageReaction => {
+client.on('messageReactionAdd', async (messageReaction, user) => {
     if(messageReaction.partial){
         try{
             messageReaction = await messageReaction.fetch();
@@ -123,8 +123,16 @@ client.on('messageReactionAdd', async messageReaction => {
             return console.error('Could not fetch the reaction: ', error);
         }
     }
-    if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
-    checkNoiceBoard(messageReaction);
+    if (user.partial){
+        try{
+            user = await user.fetch();
+        } catch (error){
+            return console.error('Could not fetch user: ', error);
+        }
+    }
+    if (messageReaction.message.guild.id !== botGuild) return;
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") client.guildMembers.get(user.id)?.roles.add(verified, `${user.tag} reacted to the verification message`);
+    if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 
 client.on('messageReactionRemove', messageReaction => {
@@ -135,8 +143,9 @@ client.on('messageReactionRemove', messageReaction => {
             return console.error('Could not fetch the reaction: ', error);
         }
     }
-    if (messageReaction.message.guild.id !== botGuild || messageReaction.emoji.id !== noice2) return;
-    checkNoiceBoard(messageReaction);
+    if (messageReaction.message.guild.id !== botGuild) return;
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") client.guildMembers.get(user.id)?.roles.remove(verified, `${user.tag} removed their reaction from the verification message`);
+    if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 
 client.on('message', async message => {

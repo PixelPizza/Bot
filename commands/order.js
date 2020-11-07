@@ -1,7 +1,7 @@
 const { createEmbed, hasRole, sendEmbed, editEmbed, capitalize, randomInt } = require("../functions"); 
 const { query, makeOrderId } = require("../dbfunctions"); 
 const { blue, red, green } = require('../colors.json'); 
-const { maxPizzas } = require('../config.json'); 
+const { maxPizzas, prefix } = require('../config.json'); 
 const { levelRoles, cook } = require('../roles.json'); 
 const { text } = require('../channels.json'); 
 const ingredients = require('../ingredients.json');
@@ -33,7 +33,7 @@ module.exports = {
         if (!order.toLowerCase().includes("pizza") && order != "random") { 
             return sendEmbed(editEmbed(embedMsg, {
                 title: `error`,
-                description: "The order has to include the word pizza!"
+                description: `The order has to include the word pizza or you can use ${prefix}${this.name} random to order a random pizza`
             }), message);
         } 
         result = await query("SELECT * FROM `order` WHERE userId = ? AND status NOT IN('delivered','deleted')", [message.author.id]); 

@@ -1,53 +1,52 @@
-const{WebhookClient,MessageEmbed}=require('discord.js');
-const{botGuild,prefix,noiceboardMinValue}=require('./config.json');
-const{voice,text}=require("./channels.json");
-const{log}=require('./webhooks.json');
-const{noice2}=require('./emojis.json');
-const{noiceboard}=require('./colors.json');
-const{isUri}=require('valid-url');
+const { WebhookClient, MessageEmbed } = require('discord.js');
+const { prefix, noiceboardMinValue } = require('./config.json');
+const { voice, text } = require("./channels.json");
+const { log } = require('./webhooks.json');
+const { noice2 } = require('./emojis.json');
+const { noiceboard } = require('./colors.json');
+const { isUri } = require('valid-url');
 
 exports.updateMemberSize = client => {
-    const guild=client.guilds.cache.get(botGuild);
-    const bots=client.guildMembers.filter(member=>member.user.bot).size;
-    client.channels.cache.get(voice.allMembers).setName(`All members: ${guild.memberCount}`);
-    client.channels.cache.get(voice.members).setName(`Members: ${guild.memberCount - bots}`);
-    client.channels.cache.get(voice.bots).setName(`Bots: ${bots}`);
+    const [bots, members] = client.guildMembers.partition(member => member.user.bot);
+    client.channels.cache.get(voice.allMembers).setName(`All members: ${client.guildMembers.size}`);
+    client.channels.cache.get(voice.members).setName(`Members: ${members.size}`);
+    client.channels.cache.get(voice.bots).setName(`Bots: ${bots.size}`);
 }
 exports.updateGuildAmount = client => {
-    const activities = ["PLAYING","STREAMING","LISTENING","WATCHING"];
-    const activity = activities[Math.floor(Math.random()*activities.length)];
+    const activities = ["PLAYING", "STREAMING", "LISTENING", "WATCHING"];
+    const activity = activities[Math.floor(Math.random() * activities.length)];
     let serverAmout = client.guilds.cache.array().length;
     let suffixUsed = "";
-    for(let suffix in ["k","m","b"]){
-        if(serverAmout > 1000){
+    for (let suffix in ["k", "m", "b"]) {
+        if (serverAmout > 1000) {
             serverAmout /= 1000;
             suffixUsed = suffix;
         } else break;
     }
     serverAmout += suffixUsed;
     serverAmout = activity == "PLAYING" || activity == "STREAMING" ? `with ${serverAmout}` : serverAmout;
-    client.user.setActivity(`${serverAmout} guilds | ${prefix}help`,{type:activity,url:"http://twitch.tv/"});
+    client.user.setActivity(`${serverAmout} guilds | ${prefix}help`, { type: activity, url: "http://twitch.tv/" });
 }
 exports.sendGuildLog = async (name, avatar, message) => {
     const webhook = new WebhookClient(log.id, log.token);
-    await webhook.edit({name:name, avatar:avatar});
+    await webhook.edit({ name: name, avatar: avatar });
     webhook.send(message);
 }
-exports.createEmbed = (options = {color: "", title: "", url: "", author: {name: "", icon: "", url: ""}, description: "", thumbnail: "", fields: [{name: "", value: "", inline: false}], image: "", timestamp: false, footer: {text: "", icon: ""}}) => this.editEmbed(new MessageEmbed(), options);
-exports.editEmbed = (embedMsg, options = {color: "", title: "", url: "", author: {name: "", icon: "", url: ""}, description: "", thumbnail: "", fields: [{name: "", value: "", inline: false}], image: "", timestamp: false, footer: {text: "", icon: ""}})=>{
-    if(options.color) embedMsg.setColor(options.color);
-    if(options.title) embedMsg.setTitle(options.title);
-    if(options.url) embedMsg.setURL(options.url);
-    if(options.author?.name) embedMsg.setAuthor(options.author.name, options.author.icon, options.author.url);
-    if(options.description) embedMsg.setDescription(options.description);
-    if(options.thumbnail) embedMsg.setThumbnail(options.thumbnail);
-    for(let index in options.fields){
+exports.createEmbed = (options = { color: "", title: "", url: "", author: { name: "", icon: "", url: "" }, description: "", thumbnail: "", fields: [{ name: "", value: "", inline: false }], image: "", timestamp: false, footer: { text: "", icon: "" } }) => this.editEmbed(new MessageEmbed(), options);
+exports.editEmbed = (embedMsg, options = { color: "", title: "", url: "", author: { name: "", icon: "", url: "" }, description: "", thumbnail: "", fields: [{ name: "", value: "", inline: false }], image: "", timestamp: false, footer: { text: "", icon: "" } }) => {
+    if (options.color) embedMsg.setColor(options.color);
+    if (options.title) embedMsg.setTitle(options.title);
+    if (options.url) embedMsg.setURL(options.url);
+    if (options.author?.name) embedMsg.setAuthor(options.author.name, options.author.icon, options.author.url);
+    if (options.description) embedMsg.setDescription(options.description);
+    if (options.thumbnail) embedMsg.setThumbnail(options.thumbnail);
+    for (let index in options.fields) {
         const field = options.fields[index];
-        if(field.name && field.value) embedMsg.addField(field.name, field.value, field.inline);
+        if (field.name && field.value) embedMsg.addField(field.name, field.value, field.inline);
     }
-    if(options.image) embedMsg.setImage(options.image);
-    if(options.timestamp) embedMsg.setTimestamp();
-    if(options.footer?.text) embedMsg.setFooter(options.footer.text, options.footer.icon);
+    if (options.image) embedMsg.setImage(options.image);
+    if (options.timestamp) embedMsg.setTimestamp();
+    if (options.footer?.text) embedMsg.setFooter(options.footer.text, options.footer.icon);
     return embedMsg;
 }
 exports.checkNoiceBoard = messageReaction => {
@@ -59,7 +58,7 @@ exports.checkNoiceBoard = messageReaction => {
         color: noiceboard,
         author: {
             name: member.displayName,
-            icon:member.user.displayAvatarURL
+            icon: member.user.displayAvatarURL
         },
         description: messageReaction.message.content,
         fields: [{
@@ -67,16 +66,16 @@ exports.checkNoiceBoard = messageReaction => {
             value: `[Jump to message](${messageReaction.message.url})`
         }],
         timestamp: true,
-        footer: {text: messageReaction.message.id}
+        footer: { text: messageReaction.message.id }
     });
     const message = channel.messages.cache.find(m => m.embeds[0].footer.text === messageReaction.message.id);
-    if(messageReaction.count >= noiceboardMinValue){
+    if (messageReaction.count >= noiceboardMinValue) {
         const messageText = `${emoji} ${messageReaction.count} ${messageReaction.message.channel}`;
-        if(!message){
-            return channel.send(messageText,embedMsg);
+        if (!message) {
+            return channel.send(messageText, embedMsg);
         }
         message.edit(messageText, embedMsg);
-    } else if(message){
+    } else if (message) {
         message.delete();
     }
 }
@@ -88,12 +87,12 @@ exports.hasRole = (member, role) => Boolean(member.roles.cache.get(role));
 exports.randomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 exports.getUser = (message, args, client) => {
     let user = null;
-    if(message.mentions.users.first()) {
+    if (message.mentions.users.first()) {
         user = message.mentions.users.first();
-    } else if(!isNaN(parseInt(args[0]))) {
+    } else if (!isNaN(parseInt(args[0]))) {
         user = client.users.cache.get(args[0]);
     } else {
-        user = client.users.cache.find(u => u.username.toLowerCase().includes(args.toString().replace(",", " ").toLowerCase()));
+        user = client.users.cache.find(u => u.username.toLowerCase().includes(args.toString().replace(",", " ").toLowerCase())) || client.guildMembers.find(member => member.displayName.toLowerCase().includes(args.toString().replace(",", " ").toLowerCase())).user;
     }
     return user;
 }

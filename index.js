@@ -20,7 +20,7 @@ const { noice, noice2 } = require('./emojis.json');
 const { text } = require('./channels.json');
 const { verified } = require('./roles.json');
 const { developer, worker, teacher, staff, director } = require('./roles.json');
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip } = require('./functions');
+const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
 const { error, success, log } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -132,7 +132,7 @@ client.on('messageReactionAdd', async (messageReaction, user) => {
         }
     }
     if (messageReaction.message.guild.id !== botGuild) return;
-    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") client.guildMembers.get(user.id)?.roles.add(verified, `${user.tag} reacted to the verification message`);
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") addRole(client.guildMembers.get(user.id), verified);
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 
@@ -152,7 +152,7 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
         }
     }
     if (messageReaction.message.guild.id !== botGuild) return;
-    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") client.guildMembers.get(user.id)?.roles.remove(verified, `${user.tag} removed their reaction from the verification message`);
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") removeRole(client.guildMembers.get(user.id), verified);
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 

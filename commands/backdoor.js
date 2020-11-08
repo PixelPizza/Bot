@@ -12,6 +12,7 @@ module.exports = {
     neededPerms: ["CREATE_INSTANT_INVITE"],
     pponly: true,
     removeExp: false,
+    needVip: false,
     async execute(message, args, client) {
         const guild = getGuild(args, client);
         if(!guild){

@@ -10,6 +10,7 @@ module.exports = {
     neededPerms: [], 
     pponly: true, 
     removeExp: false, 
+    needVip: false,
     execute(message, args, client) { 
         const toggles = []; 
         for (let toggle in client.toggles) { 

@@ -16,6 +16,7 @@ module.exports = {
     userType: "all", 
     neededPerms: ["CREATE_INSTANT_INVITE"], 
     pponly: false, 
+    needVip: false,
     getIngredient: () => ingredients[Math.floor(Math.random() * ingredients.length)],
     async execute(message, args, client) { 
         let embedMsg = createEmbed({

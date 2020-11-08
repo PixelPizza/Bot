@@ -140,6 +140,7 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
     if(messageReaction.partial){
         try{
             messageReaction = await messageReaction.fetch();
+            log('TEST MESSAGEREACTION PARTIAL', messageReaction.message.content);
         } catch (err) {
             return error('Could not fetch reaction', err);
         }
@@ -147,6 +148,7 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
     if (user.partial){
         try{
             user = await user.fetch();
+            log('TEST USER PARTIAL', user.username);
         } catch (err){
             return error('Could not fetch user', err);
         }

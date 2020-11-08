@@ -1,4 +1,4 @@
-const { createEmbed, hasRole, sendEmbed, editEmbed, capitalize, randomInt } = require("../functions"); 
+const { createEmbed, sendEmbed, editEmbed, capitalize, randomInt, isVip } = require("../functions"); 
 const { query, makeOrderId } = require("../dbfunctions"); 
 const { blue, red, green } = require('../colors.json'); 
 const { maxPizzas, prefix } = require('../config.json'); 
@@ -25,7 +25,7 @@ module.exports = {
             description: "Your pizza has been ordered and will be cooked as soon as possible"
         });
         let result = await query("SELECT COUNT(*) as counted FROM `order`"); 
-        if (result[0].counted >= maxPizzas && !hasRole(client.member, levelRoles.hundered)) { 
+        if (result[0].counted >= maxPizzas && !isVip(client.member)) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The maximum pizza amount has been reached! please try again later`
             }), message);

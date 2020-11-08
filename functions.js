@@ -102,6 +102,7 @@ exports.setCooldown = (client, commandName, userId, seconds) => {
     const ms = seconds * 1000;
     if (!timestamps.has(userId) || now >= timestamps.get(userId) + ms){
         timestamps.set(userId, now);
-        setTimeout(() => timestamps.delete(message.author.id), ms);
+        setTimeout(() => timestamps.delete(userId), ms);
+        client.cooldowns.set(commandName, timestamps);
     }
 }

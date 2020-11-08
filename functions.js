@@ -103,6 +103,5 @@ exports.setCooldown = (client, commandName, userId, seconds) => {
     if (!timestamps.has(userId) || now >= timestamps.get(userId) + ms){
         timestamps.set(userId, now);
         setTimeout(() => timestamps.delete(userId), ms);
-        client.cooldowns.set(commandName, timestamps);
     }
 }

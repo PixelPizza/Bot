@@ -1,4 +1,4 @@
-const { WebhookClient, MessageEmbed } = require('discord.js');
+const { WebhookClient, MessageEmbed, Collection } = require('discord.js');
 const { prefix, noiceboardMinValue } = require('./config.json');
 const { voice, text } = require("./channels.json");
 const { log } = require('./webhooks.json');
@@ -93,3 +93,15 @@ exports.inBotGuild = (client, userId) => Boolean(client.guildMembers.get(userId)
 exports.wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 exports.isImage = url => isUri(url) && /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(url);
 exports.capitalize = string => string.charAt(0).toUpperCase() + string.substring(1);
+exports.setCooldown = (client, commandName, userId, seconds) => {
+    if (!client.cooldowns.has(commandName)) {
+        client.cooldowns.set(commandName, new Collection());
+    }
+    const now = Date.now();
+    const timestamps = client.cooldowns.get(commandName);
+    const ms = seconds * 1000;
+    if (!timestamps.has(userId) || now >= timestamps.get(userId) + ms){
+        timestamps.set(userId, now);
+        setTimeout(() => timestamps.delete(message.author.id), ms);
+    }
+}

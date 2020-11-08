@@ -25,7 +25,7 @@ const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfun
 const { error, success, log } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
-const cooldowns = new Collection();
+client.cooldowns = new Collection();
 client.guildMembers = new Collection();
 client.worker = false;
 client.teacher = false;
@@ -300,11 +300,11 @@ client.on('message', async message => {
             }
         }
         if (client.toggles.cooldowns) {
-            if (!cooldowns.has(command.name)) {
-                cooldowns.set(command.name, new Collection());
+            if (!client.cooldowns.has(command.name)) {
+                client.cooldowns.set(command.name, new Collection());
             }
             const now = Date.now();
-            const timestamps = cooldowns.get(command.name);
+            const timestamps = client.cooldowns.get(command.name);
             let cooldownAmount = (command.cooldown || 0) * 1000;
             if (timestamps.has(message.author.id)) {
                 const expirationTime = timestamps.get(message.author.id) + cooldownAmount;

@@ -30,7 +30,7 @@ module.exports = {
             return sendEmbed(embedMsg, message);
         }
         client.toggles[key] = !client.toggles[key];
-        query("UPDATE toggles SET `value` = !`value` WHERE `key` = ?", [key]);
+        query("UPDATE toggle SET `value` = !`value` WHERE `key` = ?", [key]);
         sendEmbed(editEmbed(embedMsg, {
             color: blue,
             description: `Toggle ${key} is now set to ${client.toggles[key]}`

@@ -152,10 +152,9 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
         }
     }
     if (messageReaction.message.guild.id !== botGuild) return;
-    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") {
-        console.log("not verified");
-        client.guildMembers.get(user.id)?.roles.remove(verified, `${user.tag} removed their reaction from the verification message`);
-    }
+    console.log(messageReaction.message.id === verification);
+    console.log(messageReaction.emoji.name == "✅");
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") client.guildMembers.get(user.id)?.roles.remove(verified, `${user.tag} removed their reaction from the verification message`);
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 

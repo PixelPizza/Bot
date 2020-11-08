@@ -162,14 +162,7 @@ client.on('message', async message => {
         client.member = client.guildMembers.get(message.author.id);
         const guild = client.guild;
         const member = client.member;
-        if (message.channel.id === text.logs && !message.webhookID) {
-            return message.delete();
-        }
-        if (message.channel.id === text.updates && message.member) {
-            if (!message.member.roles.cache.get(developer)) {
-                message.delete();
-            }
-        }
+        if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) return message.delete();
         if (message.guild == guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
         if (message.content.toLowerCase().includes('noice')) {
             message.react(noice).catch(err => error('Could not add noice reaction', err));

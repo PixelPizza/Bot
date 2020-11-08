@@ -15,12 +15,12 @@ colors I use:
 * noiceboard message: noiceboard
 * timer: silver
 */
-const { blue, green, red, black } = require('./colors.json');
+const { green, red, black } = require('./colors.json');
 const { noice, noice2 } = require('./emojis.json');
 const { text } = require('./channels.json');
-const { levelRoles, verified } = require('./roles.json');
+const { verified } = require('./roles.json');
 const { developer, worker, teacher, staff, director } = require('./roles.json');
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, hasRole, sendEmbedWithChannel, editEmbed } = require('./functions');
+const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
 const { error, success, log } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -248,7 +248,7 @@ client.on('message', async message => {
                 description: "You need to be Pixel Pizza director to use this command!"
             }), message);
         }
-        if (command.needVip && !hasRole(member, levelRoles.hundered)) {
+        if (command.needVip && !isVip(member)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: "You need to have the vip role in pixel pizza to use this command!"
             }), message);

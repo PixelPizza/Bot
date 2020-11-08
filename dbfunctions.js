@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const {addRole, removeRole, hasRole, randomInt} = require('./functions');
+const {addRole, removeRole, hasRole, randomInt, isVip} = require('./functions');
 const {baseexp, addexp} = require('./level.json');
 const {botGuild, idLength} = require('./config.json');
 const {levelRoles} = require('./roles.json');
@@ -60,9 +60,9 @@ exports.checkLevelRoles = (client, userId) => {
             } else if(hasRole(member, levelRoles.fifty)){
                 removeRole(member, levelRoles.fifty);
             }
-            if(level >= 100 && !hasRole(member, levelRoles.hundered)){
+            if(level >= 100 && !isVip(member)){
                 addRole(member, levelRoles.hundered);
-            } else if(hasRole(member, levelRoles.hundered)){
+            } else if(isVip(member)){
                 removeRole(member, levelRoles.hundered);
             }
         }

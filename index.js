@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Client, Collection } = require('discord.js');
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-const { token, prefix, botGuild, verification } = require('./config.json');
+const { token, prefix, botGuild, verification, workerRoles } = require('./config.json');
 /* 
 colors I use:
 * notice: gray / lightgray
@@ -18,11 +18,12 @@ colors I use:
 const { green, red, black } = require('./colors.json');
 const { noice, noice2 } = require('./emojis.json');
 const { text } = require('./channels.json');
-const { verified } = require('./roles.json');
+const { verified, pings, cook, deliverer } = require('./roles.json');
 const { developer, worker, teacher, staff, director } = require('./roles.json');
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole } = require('./functions');
+const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
 const { error, success, log } = require('./consolefunctions');
+const { memory } = require('console');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 client.cooldowns = new Collection();
@@ -131,8 +132,13 @@ client.on('messageReactionAdd', async (messageReaction, user) => {
             return error('Could not fetch user', err);
         }
     }
+    const member = client.guildMembers.get(user.id);
     if (messageReaction.message.guild.id !== botGuild) return;
-    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") addRole(client.guildMembers.get(user.id), verified);
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") addRole(member, verified);
+    if (messageReaction.message.id === workerRoles){
+        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) addRole(member, pings.cook);
+        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) addRole(member, pings.deliver);
+    }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 
@@ -153,6 +159,10 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
     }
     if (messageReaction.message.guild.id !== botGuild) return;
     if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") removeRole(client.guildMembers.get(user.id), verified);
+    if (messageReaction.message.id === workerRoles){
+        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) removeRole(member, pings.cook);
+        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) removeRole(member, pings.deliver);
+    }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
 

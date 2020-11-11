@@ -41,5 +41,5 @@ exports.sendServerLog = async (title = "", text) => {
         name: "Console",
         reason: "Just to be sure the name is right"
     });
-    logger.send(`${title}\n${text}`);
+    logger.send(`[${title}] ${text}`);
 }

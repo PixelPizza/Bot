@@ -49,11 +49,13 @@ for (let file of cmdFiles) {
 }
 
 process.on('unhandledRejection', err => {
-    error('Unhandled promise rejection', err.stack.length > 2000 ? err.message : err.stack);
+    const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
+    error('Unhandled promise rejection', message);
 });
 
 client.on('error', err => {
-    error('Websocket connection error', err.stack.length > 2000 ? err.message : err.stack);
+    const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
+    error('Websocket connection error', message);
 });
 
 client.on('ready', async () => {

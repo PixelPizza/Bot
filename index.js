@@ -49,11 +49,11 @@ for (let file of cmdFiles) {
 }
 
 process.on('unhandledRejection', err => {
-    error('Unhandled promise rejection', err);
+    error('Unhandled promise rejection', err.stack.length > 2000 ? err.message : err.stack);
 });
 
 client.on('error', err => {
-    error('Websocket connection error', err);
+    error('Websocket connection error', err.stack.length > 2000 ? err.message : err.stack);
 });
 
 client.on('ready', async () => {

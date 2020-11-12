@@ -104,4 +104,6 @@ exports.setCooldown = (client, commandName, userId, seconds) => {
         timestamps.set(userId, now);
         setTimeout(() => timestamps.delete(userId), ms);
     }
+    console.log(client.cooldowns.get(commandName));
+    console.log(client.cooldowns.get(commandName).get(userId));
 }

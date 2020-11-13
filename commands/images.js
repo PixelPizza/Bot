@@ -1,4 +1,6 @@
 const gis = require('g-i-s');
+const { createEmbed } = require('../functions');
+const { blue } = require('../colors.json');
 
 module.exports = {
     name: "images",
@@ -15,7 +17,31 @@ module.exports = {
     needVip: false,
     async execute(message, args, client) {
         gis(args.join(' '), (error, results) => {
-            message.channel.send(results.slice(0, 5).map(result => result.url).join("\n"));
+            if(error) throw error;
+            const pages = [];
+            results.forEach((result) => {
+                pages.push(createEmbed({
+                    color: blue,
+                    title: `**Image**`,
+                    fields: [
+                        {
+                            name: `URL`,
+                            value: result.url
+                        }, 
+                        {
+                            name: `Width`,
+                            value: result.width
+                        }, 
+                        {
+                            name: `Height`,
+                            value: result.height
+                        }
+                    ],
+                    image: result.url
+                }));
+            });
+            console.log(pages);
+            message.channel.send(pages[0]);
         });
     }
 }

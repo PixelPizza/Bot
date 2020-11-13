@@ -15,7 +15,7 @@ module.exports = {
     needVip: false,
     async execute(message, args, client) {
         gis(args.join(' '), (error, results) => {
-            message.channel.send(results.slice(0, 20).map(result => result.url).join("\n"));
+            message.channel.send(results.slice(0, 5).map(result => result.url).join("\n"));
         });
     }
 }

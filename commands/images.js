@@ -32,11 +32,11 @@ module.exports = {
                         }, 
                         {
                             name: `Width`,
-                            value: result.width
+                            value: `${result.width} pixels`
                         }, 
                         {
                             name: `Height`,
-                            value: result.height
+                            value: `${result.height} pixels`
                         }
                     ]
                 }));

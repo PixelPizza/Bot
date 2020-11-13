@@ -34,11 +34,13 @@ module.exports = {
                                 }, 
                                 {
                                     name: `Width`,
-                                    value: `${result.width} pixels`
+                                    value: `${result.width} pixels`,
+                                    inline: true
                                 }, 
                                 {
                                     name: `Height`,
-                                    value: `${result.height} pixels`
+                                    value: `${result.height} pixels`,
+                                    inline: true
                                 }
                             ]
                         }));

@@ -1,5 +1,5 @@
 const gis = require('g-i-s');
-const { createEmbed, sendEmbed } = require('../functions');
+const { createEmbed, sendEmbed, isImage } = require('../functions');
 const { blue } = require('../colors.json');
 
 module.exports = {
@@ -21,6 +21,7 @@ module.exports = {
                 if(error) throw error;
                 const pages = [];
                 results.forEach((result) => {
+                    if(!isImage(result.url)) return;
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({
                             color: blue,

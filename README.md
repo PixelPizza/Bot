@@ -13,6 +13,6 @@ An alternate version of the pixel pizza bot for if the website is down
 
 Visual Studio Code Extension
 ---
-I have made [a visual studio code extension](https://marketplace.visualstudio.com/items?itemName=PixelPizza.pixel-pizza-snippets) for Pixel Pizza developers
+I have made a [visual studio code extension](https://marketplace.visualstudio.com/items?itemName=PixelPizza.pixel-pizza-snippets) for Pixel Pizza developers
 This currently has
 * command snippet

@@ -23,6 +23,8 @@ module.exports = {
                 pages.push(createEmbed({
                     color: blue,
                     title: `**Image**`,
+                    description: args.join(" "),
+                    thumbnail: result.url,
                     fields: [
                         {
                             name: `URL`,
@@ -36,8 +38,7 @@ module.exports = {
                             name: `Height`,
                             value: result.height
                         }
-                    ],
-                    image: result.url
+                    ]
                 }));
             });
             console.log(pages);

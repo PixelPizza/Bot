@@ -24,7 +24,7 @@ module.exports = {
                     color: blue,
                     title: `**Image**`,
                     description: args.join(" "),
-                    thumbnail: result.url,
+                    image: result.url,
                     fields: [
                         {
                             name: `URL`,

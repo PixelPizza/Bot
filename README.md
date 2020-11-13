@@ -10,3 +10,10 @@
 Description
 ---
 An alternate version of the pixel pizza bot for if the website is down
+
+Visual Studio Code Extension
+---
+I have made a [visual studio code extension](https://marketplace.visualstudio.com/items?itemName=PixelPizza.pixel-pizza-snippets) for Pixel Pizza developers which currently has
+* _ppcom_ command snippet
+
+[Github Project](https://github.com/jaronetje/pixel-pizza-snippets)

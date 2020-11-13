@@ -53,7 +53,7 @@ module.exports = {
                         pages.push(result.url);
                     }
                 });
-                if(!pages.length) return message.edit("Could not find any images");
+                if(!pages.length) return msg.edit("Could not find any images");
                 msg.delete();
                 message.channel.send(pages[0]).then(msg => msg.react('⏪').then(() => msg.react('⏩').then(() => {
                     let page = 0;

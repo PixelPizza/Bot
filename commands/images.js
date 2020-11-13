@@ -47,7 +47,7 @@ module.exports = {
             });
             message.channel.send(pages[0]).then(msg => msg.react('⏪').then(() => msg.react('⏩').then(() => {
                 let page = 0;
-                msg.createMessageCollector((reaction, user) => message.author.id === user.id && ['⏪', '⏩'].includes(reaction.emoji.name)).on('collect', (reaction) => {
+                msg.createReactionCollector((reaction, user) => message.author.id === user.id && ['⏪', '⏩'].includes(reaction.emoji.name)).on('collect', (reaction) => {
                     switch(reaction.emoji.name){
                         case '⏪':
                             if(page == 0){

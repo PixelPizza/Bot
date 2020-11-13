@@ -1,6 +1,7 @@
 const gis = require('g-i-s');
-const { createEmbed, sendEmbed, isImage } = require('../functions');
+const { createEmbed, isImage } = require('../functions');
 const { blue } = require('../colors.json');
+const { restricedDomains } = require('../config.json');
 
 module.exports = {
     name: "images",
@@ -17,7 +18,10 @@ module.exports = {
     needVip: false,
     async execute(message, args, client) {
         message.channel.send('Searching for images').then(msg => {
-            gis(args.join(' '), (error, results) => {
+            gis({
+                searchTerm: args.join(' '),
+                filterOutDomains: restricedDomains
+            }, (error, results) => {
                 if(error) throw error;
                 const pages = [];
                 results.forEach((result) => {

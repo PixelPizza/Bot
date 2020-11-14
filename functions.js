@@ -110,7 +110,7 @@ exports.setCooldown = (client, commandName, userId, seconds) => {
 exports.request = (url, method = "GET") => new Promise((resolve, reject) => {
     if(!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) return;
     https.request({
-        hostname: url.substring(0, url.indexOf("/") != -1 ? url.indexOf("/") : url.length),
+        hostname: url.substring(8, url.indexOf("/") != -1 ? url.indexOf("/") : url.length),
         path: url.indexOf("/") != -1 ? url.substring(url.indexOf("/")) : "/",
         method: method
     }, resolve).on('error', reject).end();

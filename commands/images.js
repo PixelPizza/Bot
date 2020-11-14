@@ -27,7 +27,6 @@ module.exports = {
                 results.forEach(async result => {
                     const response = await request(result.url);
                     if(!isImage(result.url) || response.statusCode != 200) return;
-                    console.log("hey");
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({
                             color: blue,
@@ -54,6 +53,7 @@ module.exports = {
                     } else {
                         pages.push(result.url);
                     }
+                    console.log(pages);
                 });
                 if(!pages.length) return msg.edit("Could not find any images");
                 msg.delete();

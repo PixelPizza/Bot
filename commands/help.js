@@ -92,7 +92,7 @@ module.exports = {
             }), message);
         } 
         embedMsg.setColor(blue).addField('**Name**', command.name); 
-        if (command.aliases) embedMsg.addField('**Aliases**', command.aliases.join(', ')); 
+        if (command.aliases?.length) embedMsg.addField('**Aliases**', command.aliases.join(', ')); 
         if (command.description) embedMsg.addField('**Description**', command.description); 
         if (command.usage) embedMsg.addField('**Usage**', `${prefix}${command.name} ${command.usage}`); 
         embedMsg.addField('**Cooldown**', `${command.cooldown || 0} second(s)`); 

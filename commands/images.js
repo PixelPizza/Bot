@@ -25,8 +25,9 @@ module.exports = {
                 if(error) throw error;
                 const pages = [];
                 for(let result of results){
+                    let response;
                     try {
-                        const response = await request(result.url);
+                        response = await request(result.url);
                     } catch (error) {
                         console.log(error);
                         continue;

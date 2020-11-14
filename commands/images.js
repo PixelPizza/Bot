@@ -26,7 +26,7 @@ module.exports = {
                 const pages = [];
                 results.forEach(async result => {
                     const response = await request(result.url);
-                    console.log(response);
+                    console.log(response.statusCode);
                     if(!isImage(result.url) || response.statusCode != 200) return;
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({

@@ -53,7 +53,6 @@ module.exports = {
                     } else {
                         pages.push(result.url);
                     }
-                    console.log(pages);
                 }
                 if(!pages.length) return msg.edit("Could not find any images");
                 msg.delete();

@@ -26,8 +26,7 @@ module.exports = {
                 const pages = [];
                 for(let result of results){
                     const response = await request(result.url);
-                    if(!isImage(result.url) || response.statusCode != 200) return;
-                    console.log(result.url);
+                    if(!isImage(result.url) || response.statusCode != 200) continue;
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({
                             color: blue,

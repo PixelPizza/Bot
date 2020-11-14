@@ -7,6 +7,7 @@ const { noiceboard } = require('./colors.json');
 const { levelRoles } = require('./roles.json');
 const { isUri } = require('valid-url');
 const https = require('https');
+const {URL} = require('url');
 
 exports.updateMemberSize = client => {
     const [bots, members] = client.guildMembers.partition(member => member.user.bot);
@@ -109,9 +110,12 @@ exports.setCooldown = (client, commandName, userId, seconds) => {
 }
 exports.request = (url, method = "GET") => new Promise((resolve, reject) => {
     if(!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) return;
+    const newUrl = new URL(url);
     https.request({
-        hostname: url.substring(8, url.indexOf("/", 8) != -1 ? url.indexOf("/", 8) : url.length),
-        path: url.indexOf("/") != -1 ? url.substring(url.indexOf("/")) : "/",
-        method: method
+        hostname: newUrl.hostname,
+        port: newUrl.port,
+        path: newUrl.pathname,
+        method: method,
+        protocol: newUrl.protocol
     }, resolve).on('error', reject).end();
 });

@@ -69,8 +69,7 @@ module.exports = {
                     }
                 }
                 if(!pages.length) return msg.edit("Could not find any images");
-                msg.delete();
-                message.channel.send(pages[0]).then(msg => {
+                msg.edit(`results: ${pages.length}`, {embed: pages[0]}).then(() => {
                     if(pages.length == 1) return;
                     msg.react('⏪').then(() => msg.react('⏩').then(() => {
                         let page = 0;

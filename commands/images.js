@@ -1,5 +1,5 @@
 const gis = require('g-i-s');
-const { createEmbed, isImage } = require('../functions');
+const { createEmbed, isImage, request } = require('../functions');
 const { blue } = require('../colors.json');
 const { restricedDomains } = require('../config.json');
 
@@ -21,11 +21,12 @@ module.exports = {
             gis({
                 searchTerm: args.join(' '),
                 filterOutDomains: restricedDomains
-            }, (error, results) => {
+            }, async (error, results) => {
                 if(error) throw error;
                 const pages = [];
                 results.forEach((result) => {
-                    if(!isImage(result.url)) return;
+                    const response = await request(result.url);
+                    if(!isImage(result.url) || response.statusCode != 200) return;
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({
                             color: blue,

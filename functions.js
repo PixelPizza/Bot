@@ -7,6 +7,7 @@ const { noiceboard } = require('./colors.json');
 const { levelRoles } = require('./roles.json');
 const { isUri } = require('valid-url');
 const https = require('https');
+const http = require('http');
 const {URL} = require('url');
 
 exports.updateMemberSize = client => {
@@ -111,7 +112,8 @@ exports.setCooldown = (client, commandName, userId, seconds) => {
 exports.request = (url, method = "GET") => new Promise((resolve, reject) => {
     if(!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) return;
     const newUrl = new URL(url);
-    https.request({
+    const protocol = newUrl.protocol === "https:" ? https : http;
+    protocol.request({
         hostname: newUrl.hostname,
         port: newUrl.port,
         path: newUrl.pathname,

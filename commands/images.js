@@ -24,9 +24,13 @@ module.exports = {
             }, async (error, results) => {
                 if(error) throw error;
                 const pages = [];
-                console.log(results.length);
                 for(let result of results){
-                    const response = await request(result.url);
+                    try {
+                        const response = await request(result.url);
+                    } catch (error) {
+                        console.log(error);
+                        continue;
+                    }
                     if(!isImage(result.url) || response.statusCode != 200) continue;
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({

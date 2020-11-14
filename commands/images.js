@@ -24,6 +24,7 @@ module.exports = {
             }, async (error, results) => {
                 if(error) throw error;
                 const pages = [];
+                console.log(results.length);
                 for(let result of results){
                     const response = await request(result.url);
                     if(!isImage(result.url) || response.statusCode != 200) continue;

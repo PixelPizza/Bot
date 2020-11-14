@@ -39,7 +39,7 @@ module.exports = {
                         console.log(error);
                         continue;
                     }
-                    if(!isImage(result.url) || response.statusCode != 200 || (max && index >= max-1)) continue;
+                    if(!isImage(result.url) || response.statusCode != 200 || (max && index >= max)) continue;
                     index++;
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({

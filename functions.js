@@ -115,9 +115,7 @@ exports.request = (url, method = "GET") => new Promise((resolve, reject) => {
     const protocol = newUrl.protocol === "https:" ? https : http;
     protocol.request({
         hostname: newUrl.hostname,
-        port: newUrl.port,
         path: newUrl.pathname,
-        method: method,
-        protocol: newUrl.protocol
+        method: method
     }, resolve).on('error', reject).end();
 });

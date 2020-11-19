@@ -23,7 +23,7 @@ const { verified, pings, cook, deliverer } = require('./roles.json');
 const { developer, worker, teacher, staff, director } = require('./roles.json');
 const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
-const { error, success, log } = require('./consolefunctions');
+const { error, success, log, notice } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 client.cooldowns = new Collection();
@@ -51,6 +51,10 @@ for (let file of cmdFiles) {
 process.on('unhandledRejection', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
     error('Unhandled promise rejection', message);
+});
+
+process.on('exit', () => {
+    notice('Exited', `${client.user.username} has stopped`);
 });
 
 client.on('error', err => {

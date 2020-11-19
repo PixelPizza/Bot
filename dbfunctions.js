@@ -1,15 +1,22 @@
+const fs = require('fs');
 const mysql = require("mysql2");
 const {addRole, removeRole, hasRole, randomInt, isVip} = require('./functions');
 const {baseexp, addexp} = require('./level.json');
 const {botGuild, idLength} = require('./config.json');
 const {levelRoles} = require('./roles.json');
-const {host, user, password, database} = require('./database.json');
+const secrets = fs.existsSync("./secrets.json") ? require('./secrets.json') : null;
+const database = secrets ? secrets.database : {
+    host: process.env.DATABASE_HOST, 
+    user: process.env.DATABASE_USER, 
+    password: process.env.DATABASE_PASS, 
+    database: process.env.DATABASE_DB
+};
 const { error } = require("./consolefunctions");
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
 let con;
 const handleDisconnect = () => {
-    con = mysql.createConnection({host: host, user: user, password: password, database: database});
+    con = mysql.createConnection(database);
     con.connect(err => {
         if(err){
             error('DB connection error', err);

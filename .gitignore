@@ -1,14 +1,3 @@
 node_modules
 build
-config.json
-channels.json
-webhooks.json
-colors.json
-emojis.json
-roles.json
-database.json
-level.json
-rules.json
-questions.json
-template.txt
-package-lock.json
+secrets.json

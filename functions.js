@@ -55,7 +55,7 @@ exports.editEmbed = (embedMsg, options = { color: "", title: "", url: "", author
 }
 exports.checkNoiceBoard = messageReaction => {
     const guild = messageReaction.message.guild;
-    const member = messageReaction.member.member;
+    const member = messageReaction.message.member;
     const channel = guild.channels.cache.get(text.noiceboard);
     const emoji = guild.emojis.cache.get(noice2);
     const embedMsg = this.createEmbed({

@@ -11,6 +11,56 @@ Description
 ---
 An alternate version of the pixel pizza bot for if the website is down
 
+Commands
+---
+### Director Commands
+* expadd
+* expremove
+* expset
+* leveladd
+* levelremove
+* levelset
+
+### Staff Commands
+* application
+* applications
+* backdoor
+* toggle
+* toggles
+* user
+* worker
+
+### Teacher Commands
+None
+
+### Worker Commands
+* change
+* claim
+* cook
+* deliver
+* deliverset
+* images
+* look
+* orders
+* remove
+* unclaim
+
+### Vip Commands
+None
+
+### Others
+* applicationtypes
+* apply
+* cancel
+* help
+* invite
+* leaderboard
+* myorder
+* order
+* ping
+* rank
+* rules
+
 Visual Studio Code Extension
 ---
 I have made a [visual studio code extension](https://marketplace.visualstudio.com/items?itemName=PixelPizza.pixel-pizza-snippets) for Pixel Pizza developers which currently has

@@ -12,7 +12,6 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
-    needVip: false,
     async execute(message, args, client) {
         const permInt = FLAGS.CREATE_INSTANT_INVITE | FLAGS.SEND_MESSAGES | FLAGS.EMBED_LINKS;
         sendEmbed(createEmbed({

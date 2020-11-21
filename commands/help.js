@@ -14,7 +14,6 @@ module.exports = {
     userType: "all", 
     neededPerms: [], 
     removeExp: false, 
-    needVip: false, 
     execute(message, args, client) { 
         let embedMsg = createEmbed({
             color: blue,

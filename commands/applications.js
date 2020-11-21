@@ -14,7 +14,6 @@ module.exports = {
     neededPerms: [],
     pponly: true,
     removeExp: false,
-    needVip: false,
     async execute(message, args, client) {
         const status = args.join(" ");
         let embedMsg = createEmbed({

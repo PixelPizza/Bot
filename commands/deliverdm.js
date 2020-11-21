@@ -17,7 +17,6 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
-    needVip: false,
     async execute(message, args, client) {
         let embedMsg = createEmbed({ 
             color: red, 

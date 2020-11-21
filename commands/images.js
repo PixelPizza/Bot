@@ -15,7 +15,6 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
-    needVip: false,
     async execute(message, args, client) {
         message.channel.send('Searching for images\nThis may take some time depending on the amount of results').then(msg => {
             const max = !isNaN(parseInt(args[args.length-1])) ? parseInt(args[args.length-1]) : 0;

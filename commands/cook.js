@@ -16,7 +16,6 @@ module.exports = {
     userType: "worker",
     neededPerms: [],
     pponly: false,
-    needVip: false,
     getTimeAsString(time){
         let minutes = Math.floor(time / 60);
         minutes = minutes >= 10 ? minutes.toString() : `0${minutes.toString()}`;

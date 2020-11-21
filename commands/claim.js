@@ -14,7 +14,6 @@ module.exports = {
     cooldown: 0,
     userType: "worker",
     pponly: false,
-    needVip: false,
     async execute(message, args, client) {
         let embedMsg = createEmbed({
             color: red,

@@ -14,7 +14,6 @@ module.exports = {
     neededPerms: [],
     pponly: true,
     removeExp: false,
-    needVip: false,
     execute(message, args, client) {
         const key = args[0];
         let embedMsg = createEmbed({

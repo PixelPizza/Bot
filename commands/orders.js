@@ -12,7 +12,6 @@ module.exports = {
     userType: "worker", 
     neededPerms: [], 
     pponly: false, 
-    needVip: false,
     async execute(message, args, client) { 
         const status = args?.join(" ");
         let embedMsg = createEmbed({

@@ -87,7 +87,7 @@ Commands
 </details>
 
 <details>
-  <summary>Others</summary>
+  <summary>Other Commands</summary>
   
   * applicationtypes
     * show all application types and if they are opened

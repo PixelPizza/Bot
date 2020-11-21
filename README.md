@@ -17,23 +17,36 @@ Commands
   <summary>Director Commands</summary>
   
   * expadd
+    * add exp to a user
   * expremove
+    * remove exp from a user
   * expset
+    * set the exp of a user
   * leveladd
+    * add levels to a user
   * levelremove
+    * remove levels from a user
   * levelset
+    * set the level of a user
 </details>
 
 <details>
   <summary>Staff Commands</summary>
 
   * application
+    * look at an application by application id
   * applications
+    * show all applications
   * backdoor
+    * get invite link of a guild (this is used for if the invite is lost or has been expired)
   * toggle
+    * toggle a setting on or off
   * toggles
+    * shows all toggles
   * user
+    * get a users info with the users id
   * worker
+    * get info on a pixel pizza worker with the user id
 </details>
 
 <details>
@@ -46,15 +59,25 @@ Commands
   <summary>Worker Commands</summary>
   
   * change
+    * change the image of a cooking or cooked order
   * claim
+    * claim an order as cook
   * cook
+    * cook an order
   * deliver
+    * deliver an order
   * deliverset
+    * set your delivery message
   * images
+    * search for images
   * look
+    * look at an order by order id
   * orders
+    * show all orders
   * remove
+    * remove an order if it doesn't follow the rules
   * unclaim
+    * unclaim a claimed order
 </details>
 
 <details>
@@ -67,16 +90,27 @@ Commands
   <summary>Others</summary>
   
   * applicationtypes
+    * show all application types and if they are opened
   * apply
+    * apply in pixel pizza for worker, developer, staff or teacher
   * cancel
+    * cancel your order
   * help
+    * list of all executable commands
   * invite
+    * invite the bot
   * leaderboard
+    * see the pixel pizza ranking leaderboard
   * myorder
+    * see your current order
   * order
+    * order a pizza
   * ping
+    * ping the bot
   * rank
+    * see your or someone elses rank
   * rules
+    * show the rules of pixel pizza
 </details>
 
 Visual Studio Code Extension

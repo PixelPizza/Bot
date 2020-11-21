@@ -27,7 +27,7 @@ module.exports = {
             }), message);
         } 
         const result = results[0]; 
-        const orderer = client.users.cache.get(result.userId).username; 
+        const orderer = client.users.cache.get(result.userId)?.username || "Unknown orderer"; 
         const guild = client.guilds.cache.get(result.guildId); 
         const channel = guild.channels.cache.get(result.channelId); 
         channel.name = channel ? channel.name : "Deleted Channel"; 

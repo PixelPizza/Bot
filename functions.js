@@ -104,10 +104,9 @@ exports.setCooldown = (client, commandName, userId, seconds) => {
     const timestamps = client.cooldowns.get(commandName);
     const ms = seconds * 1000;
     if (!timestamps.has(userId) || now >= timestamps.get(userId) + ms){
-        timestamps.set(userId, now);
+        timestamps.set(userId, now + ms);
         setTimeout(() => timestamps.delete(userId), ms);
     }
-    console.log(now, client.cooldowns.get(commandName));
 }
 exports.request = (url, method = "GET") => new Promise((resolve, reject) => {
     if(!["GET", "POST", "PUT", "DELETE", "PATCH"].includes(method)) return;

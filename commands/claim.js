@@ -1,6 +1,6 @@
 const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, editEmbed, wait, capitalize } = require("../functions");
 const { blue, red, gray, green } = require('../colors.json');
-const { cook } = require('../roles.json');
+const { cook, ceo } = require('../roles.json');
 const { text } = require('../channels.json');
 const { query } = require("../dbfunctions");
 
@@ -36,10 +36,12 @@ module.exports = {
                 description: `Order ${args[0]} has not been found with the not claimed status`
             }), message);
         }
-        if (!client.toggles.cookOwnOrder && message.author.id == results[0].userId) {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: "You can't claim your own order"
-            }), message);
+        if(!hasRole(client.member, ceo)){
+            if (!client.toggles.cookOwnOrder && message.author.id == results[0].userId) {
+                return sendEmbed(editEmbed(embedMsg, {
+                    description: "You can't claim your own order"
+                }), message);
+            }
         }
         const user = client.users.cache.get(results[0].userId);
         query("UPDATE `order` SET cookId = ?, status = 'claimed' WHERE orderId = ?", [message.author.id, args[0]]);

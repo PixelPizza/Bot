@@ -1,6 +1,6 @@
 const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = require("../functions");
 const { green, red } = require('../colors.json'); 
-const { deliverer } = require('../roles.json'); 
+const { deliverer, ceo } = require('../roles.json'); 
 const { query } = require("../dbfunctions"); 
 const { orderCooldown, invite } = require('../config.json');
 
@@ -44,11 +44,13 @@ module.exports = {
         } 
         result = results[0]; 
         const orderer = client.users.cache.get(result.userId); 
-        if (!client.toggles.deliverOwnOrder && orderer.id === message.author.id) {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: `You can't deliver your own order`
-            }), message);
-        } 
+        if(!hasRole(client.member, ceo)){
+            if (!client.toggles.deliverOwnOrder && orderer.id === message.author.id) {
+                return sendEmbed(editEmbed(embedMsg, {
+                    description: `You can't deliver your own order`
+                }), message);
+            } 
+        }
         const member = client.guildMembers.get(orderer.id);
         let cook = "none"; 
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 

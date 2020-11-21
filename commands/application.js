@@ -1,7 +1,6 @@
 const { query } = require('../dbfunctions'); 
 const { createEmbed, sendEmbed, editEmbed, capitalize } = require("../functions"); 
 const { blue, red } = require('../colors.json'); 
-const questions = require('../questions.json');
 
 module.exports = {
     name: "application",

@@ -2,7 +2,7 @@ const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = requi
 const { blue, red } = require('../colors.json'); 
 const { deliverer } = require('../roles.json'); 
 const { query } = require("../dbfunctions"); 
-const { orderCooldown } = require('../config.json');
+const { orderCooldown, invite } = require('../config.json');
 
 module.exports = { 
     name: "deliver", 
@@ -49,10 +49,10 @@ module.exports = {
                 description: `You can't deliver your own order`
             }), message);
         } 
+        const member = client.guildMembers.get(orderer.id);
         let cook = "none"; 
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let image = result.imageUrl; 
-        let invite = "AW7z9qu"; 
         let guild = client.guilds.cache.get(result.guildId); 
         let channel = client.channels.cache.get(result.channelId) ?? guild.systemChannel; 
         channel.createInvite({ maxAge: 0, reason: "Delivering an order" }).then(guildInvite => { 
@@ -66,7 +66,7 @@ module.exports = {
                         title: `Confirmation`,
                         description: `Your order is now being delivered by ${message.author}`
                     })); 
-                    if(!client.member || !isVip(client.member)) setCooldown(client, "order", orderer.id, orderCooldown);
+                    if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
                 }); 
             }); 
         }); 

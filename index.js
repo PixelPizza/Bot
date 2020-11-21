@@ -54,10 +54,6 @@ process.on('unhandledRejection', err => {
     error('Unhandled promise rejection', message);
 });
 
-process.on('exit', () => {
-    notice('Exited', `${client.user.username} has stopped`);
-});
-
 client.on('error', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
     error('Websocket connection error', message);
@@ -336,7 +332,6 @@ client.on('message', async message => {
             }
             timestamps.set(message.author.id, now);
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-            console.log(client.cooldowns.get(command.name));
         }
         try {
             command.execute(message, args, client);

@@ -43,7 +43,7 @@ module.exports = {
         } 
         result = results[0]; 
         const orderer = client.users.cache.get(result.userId); 
-        if (orderer.id === message.author.id) {
+        if (!client.toggles.deliverOwnOrder && orderer.id === message.author.id) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You can't deliver your own order`
             }), message);

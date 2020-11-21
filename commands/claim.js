@@ -36,7 +36,7 @@ module.exports = {
                 description: `Order ${args[0]} has not been found with the not claimed status`
             }), message);
         }
-        if (message.author.id == results[0].userId) {
+        if (!client.toggles.cookOwnOrder && message.author.id == results[0].userId) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: "You can't claim your own order"
             }), message);

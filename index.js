@@ -39,7 +39,9 @@ client.toggles = {
     workerApplications: true,
     teacherApplications: true,
     developerApplications: true,
-    staffApplications: true
+    staffApplications: true,
+    cookOwnOrder: false,
+    deliverOwnOrder: false
 };
 
 for (let file of cmdFiles) {

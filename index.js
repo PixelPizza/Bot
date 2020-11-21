@@ -35,7 +35,6 @@ client.director = false;
 client.toggles = {
     cooldowns: true,
     addExp: true,
-    roleChecks: true,
     pponlyChecks: true,
     workerApplications: true,
     teacherApplications: true,
@@ -216,7 +215,7 @@ client.on('message', async message => {
             }), message);
         }
         if (command.removeExp && message.guild == client.guild && client.toggles.addExp && !message.author.bot) await addExp(client, message.author.id, -1);
-        if (command.ppOnly && message.guild != guild && !pponlyexceptions.includes(message.guild.id)) {
+        if (client.toggles.pponlyChecks && command.ppOnly && message.guild != guild && !pponlyexceptions.includes(message.guild.id)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This command can only be used in ${guild.name}`
             }), message);
@@ -264,7 +263,7 @@ client.on('message', async message => {
                 description: "You need to be Pixel Pizza director to use this command!"
             }), message);
         }
-        if (command.needVip && !isVip(member)) {
+        if (command.userType == "vip" && !isVip(member)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: "You need to have the vip role in pixel pizza to use this command!"
             }), message);

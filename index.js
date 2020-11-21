@@ -334,6 +334,7 @@ client.on('message', async message => {
             }
             timestamps.set(message.author.id, now);
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+            console.log(client.cooldowns.get(command.name));
         }
         try {
             command.execute(message, args, client);

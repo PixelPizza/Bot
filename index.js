@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Client, Collection } = require('discord.js');
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-const { prefix, botGuild, verification, workerRoles } = require('./config.json');
+const { prefix, botGuild, verification, workerRoles, pponlyexceptions } = require('./config.json');
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
 /* 
 colors I use:
@@ -216,7 +216,7 @@ client.on('message', async message => {
             }), message);
         }
         if (command.removeExp && message.guild == client.guild && client.toggles.addExp && !message.author.bot) await addExp(client, message.author.id, -1);
-        if (command.ppOnly && message.guild != guild) {
+        if (command.ppOnly && message.guild != guild && !pponlyexceptions.includes(message.guild.id)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This command can only be used in ${guild.name}`
             }), message);

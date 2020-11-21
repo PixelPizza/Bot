@@ -26,5 +26,8 @@
         "facebook.com",
         "instagram.com",
         "twitter.com"
+    ],
+    "pponlyexceptions": [
+        "762346707920879636"
     ]
 }

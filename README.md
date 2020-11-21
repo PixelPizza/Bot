@@ -13,53 +13,71 @@ An alternate version of the pixel pizza bot for if the website is down
 
 Commands
 ---
-### Director Commands
-* expadd
-* expremove
-* expset
-* leveladd
-* levelremove
-* levelset
+<details>
+  <summary>Director Commands</summary>
+  
+  * expadd
+  * expremove
+  * expset
+  * leveladd
+  * levelremove
+  * levelset
+</details>
 
-### Staff Commands
-* application
-* applications
-* backdoor
-* toggle
-* toggles
-* user
-* worker
+<details>
+  <summary>Staff Commands</summary>
 
-### Teacher Commands
-None
+  * application
+  * applications
+  * backdoor
+  * toggle
+  * toggles
+  * user
+  * worker
+</details>
 
-### Worker Commands
-* change
-* claim
-* cook
-* deliver
-* deliverset
-* images
-* look
-* orders
-* remove
-* unclaim
+<details>
+  <summary>Teacher Commands</summary>
 
-### Vip Commands
-None
+  None
+</details>
 
-### Others
-* applicationtypes
-* apply
-* cancel
-* help
-* invite
-* leaderboard
-* myorder
-* order
-* ping
-* rank
-* rules
+<details>
+  <summary>Worker Commands</summary>
+  
+  * change
+  * claim
+  * cook
+  * deliver
+  * deliverset
+  * images
+  * look
+  * orders
+  * remove
+  * unclaim
+</details>
+
+<details>
+  <summary>Vip Commands</summary>
+  
+  None
+</details>
+
+<details>
+  <summary>Others</summary>
+  
+  * applicationtypes
+  * apply
+  * cancel
+  * help
+  * invite
+  * leaderboard
+  * myorder
+  * order
+  * ping
+  * rank
+  * rules
+</details>
 
 Visual Studio Code Extension
 ---

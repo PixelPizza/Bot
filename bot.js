@@ -28,11 +28,6 @@ const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'
 client.commands = new Collection();
 client.cooldowns = new Collection();
 client.guildMembers = new Collection();
-var guildMembers = new Collection();
-client.worker = false;
-client.teacher = false;
-client.staff = false;
-client.director = false;
 client.toggles = {
     cooldowns: true,
     addExp: true,
@@ -128,7 +123,7 @@ client.on('guildMemberRemove', member => {
 
 client.on('guildMemberUpdate', (oldMember, newMember) => {
     if(oldMember.guild.id !== botGuild) return;
-    client.guildMembers.set(oldMember.id, newMember);
+    client.guildMembers.set(oldMember.user.id, newMember);
 });
 
 client.on('messageReactionAdd', async (messageReaction, user) => {
@@ -230,49 +225,54 @@ client.on('message', async message => {
                 description: `This command can only be used in ${guild.name}`
             }), message);
         }
+        let isWorker = false;
+        let isTeacher = false;
+        let isStaff = false;
+        let isDirector = false;
         if (member) {
             worker.forEach(role => {
                 if (hasRole(member, role)) {
-                    client.worker = true;
+                    isWorker = true;
                 }
             });
             teacher.forEach(role => {
+                console.log(hasRole(member, role), member.roles.cache.has(role));
                 if (hasRole(member, role)) {
-                    client.teacher = true;
+                    isTeacher = true;
                 }
             });
             staff.forEach(role => {
                 if (hasRole(member, role)) {
-                    client.staff = true;
+                    isStaff = true;
                 }
             });
             director.forEach(role => {
                 if (hasRole(member, role)) {
-                    client.director = true;
-                    //client.staff = true;
+                    isDirector = true;
                 }
             });
         }
-        console.log(client.worker, client.teacher, client.staff, client.director);
-        if (command.userType == "worker" && !client.worker) {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: "You need to be Pixel Pizza worker to use this command!"
-            }), message);
-        }
-        if (command.userType == "teacher" && !client.teacher) {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: "You need to be Pixel Pizza teacher to use this command!"
-            }), message);
-        }
-        if (command.userType == "staff" && !client.staff) {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: "You need to be Pixel Pizza staff to use this command!"
-            }), message);
-        }
-        if (command.userType == "director" && !client.director) {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: "You need to be Pixel Pizza director to use this command!"
-            }), message);
+        if(!isDirector){
+            if (command.userType == "worker" && !isWorker) {
+                return sendEmbed(editEmbed(embedMsg, {
+                    description: "You need to be Pixel Pizza worker to use this command!"
+                }), message);
+            }
+            if (command.userType == "teacher" && !isTeacher) {
+                return sendEmbed(editEmbed(embedMsg, {
+                    description: "You need to be Pixel Pizza teacher to use this command!"
+                }), message);
+            }
+            if (command.userType == "staff" && !isStaff) {
+                return sendEmbed(editEmbed(embedMsg, {
+                    description: "You need to be Pixel Pizza staff to use this command!"
+                }), message);
+            }
+            if (command.userType == "director" && !isDirector) {
+                return sendEmbed(editEmbed(embedMsg, {
+                    description: "You need to be Pixel Pizza director to use this command!"
+                }), message);
+            }
         }
         if (command.userType == "vip" && !isVip(member)) {
             return sendEmbed(editEmbed(embedMsg, {

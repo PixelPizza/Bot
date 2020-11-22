@@ -23,7 +23,7 @@ module.exports = {
             title: "deliver" 
         }); 
         const deliverRole = client.guild.roles.cache.get(deliverer); 
-        if (!hasRole(client.member, deliverer)) {
+        if (!hasRole(client, client.member, deliverer)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${deliverRole.name} role to be able to deliver`
             }), message);
@@ -44,7 +44,7 @@ module.exports = {
         } 
         result = results[0]; 
         const orderer = client.users.cache.get(result.userId); 
-        if(!hasRole(client.member, ceo)){
+        if(!hasRole(client, client.member, ceo)){
             if (!client.toggles.deliverOwnOrder && orderer.id === message.author.id) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: `You can't deliver your own order`
@@ -59,7 +59,7 @@ module.exports = {
         orderer.send(deliveryMessage).then(() => {
             query("UPDATE `order` SET status = 'delivered', delivererId = ? WHERE orderId = ?", [message.author.id, args[0]]); 
             query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
-            if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
+            if(!member || !isVip(client, member)) setCooldown(client, "order", orderer.id, orderCooldown);
             sendEmbed(createEmbed({
                 color: green,
                 title: '**Delivered**',

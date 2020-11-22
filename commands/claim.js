@@ -20,7 +20,7 @@ module.exports = {
             title: `**${capitalize(this.name)}**`
         });
         const cookRole = client.guild.roles.cache.get(cook);
-        if (!hasRole(client.member, cook)) {
+        if (!hasRole(client, client.member, cook)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${cookRole.name} role in ${client.guild.name} to be able to claim an order`
             }), message);
@@ -36,7 +36,7 @@ module.exports = {
                 description: `Order ${args[0]} has not been found with the not claimed status`
             }), message);
         }
-        if(!hasRole(client.member, ceo)){
+        if(!hasRole(client, client.member, ceo)){
             if (!client.toggles.cookOwnOrder && message.author.id == results[0].userId) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: "You can't claim your own order"

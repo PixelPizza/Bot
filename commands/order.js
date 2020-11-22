@@ -24,7 +24,7 @@ module.exports = {
             description: "Your pizza has been ordered and will be cooked as soon as possible"
         });
         let result = await query("SELECT COUNT(*) as counted FROM `order` WHERE status NOT IN('delivered', 'deleted')"); 
-        if (result[0].counted >= maxPizzas && !isVip(client.member)) { 
+        if (result[0].counted >= maxPizzas && !isVip(client, client.member)) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The maximum pizza amount has been reached! please try again later`
             }), message);

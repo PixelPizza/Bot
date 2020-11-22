@@ -29,7 +29,7 @@ module.exports = {
             title: `**${capitalize(this.name)}**`
         });
         const cookRole = client.guild.roles.cache.get(cook);
-        if (!hasRole(client.member, cook)) {
+        if (!hasRole(client, client.member, cook)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${cookRole.name} role in ${client.guild.name} to be able to cook an order`
             }), message);

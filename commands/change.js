@@ -21,7 +21,7 @@ module.exports = {
             color: red,
             title: "change image"
         });
-        if (!hasRole(client.member, cook)) {
+        if (!hasRole(client, client.member, cook)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${client.guild.roles.cache.get(cook).name} role in ${client.guild.name} to be able to claim an order`
             }), message);

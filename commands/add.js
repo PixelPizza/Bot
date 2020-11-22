@@ -37,7 +37,7 @@ module.exports = {
                 description: "This user is already worker"
             }), message);
         }
-        addRole(member, work);
+        addRole(client, member, work);
         query("INSERT INTO worker(workerId) VALUES(?)", [user.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: green,

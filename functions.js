@@ -10,6 +10,7 @@ const https = require('https');
 const http = require('http');
 const {URL} = require('url');
 
+const getRole = (client, role) => client.guild.roles.cache.get(role);
 exports.updateMemberSize = client => {
     const [bots, members] = client.guildMembers.partition(member => member.user.bot);
     client.channels.cache.get(voice.allMembers).setName(`All members: ${client.guildMembers.size}`);
@@ -85,10 +86,10 @@ exports.checkNoiceBoard = messageReaction => {
 }
 exports.sendEmbed = (embed, message) => message.channel.send(message.client.canSendEmbeds ? embed : embed.description);
 exports.sendEmbedWithChannel = (embed, client, channel) => channel.send(client.canSendEmbeds ? embed : embed.description);
-exports.addRole = (member, role) => member.roles.add(role);
-exports.removeRole = (member, role) => member.roles.remove(role);
-exports.hasRole = (member, role) => Boolean(member.roles.cache.get(role));
-exports.isVip = (member) => Boolean(member.roles.cache.get(levelRoles.hundered));
+exports.addRole = (client, member, role) => member.roles.add(getRole(client, role));
+exports.removeRole = (client, member, role) => member.roles.remove(getRole(client, role));
+exports.hasRole = (client, member, role) => Boolean(member.roles.cache.get(getRole(client, role)));
+exports.isVip = (client, member) => Boolean(member.roles.cache.get(getRole(client, levelRoles.hundered)));
 exports.randomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 exports.getUser = (message, args, client) => (message.mentions.users.first() || client.users.cache.find(user => user.id == args[0] || user.username.toLowerCase().includes(args.join(" ").toLowerCase()))) || client.guildMembers.find(member => member.displayName.toLowerCase().includes(args.join(" ").toLowerCase()))?.user;
 exports.getGuild = (args, client) => client.guilds.cache.find(guild => guild.id == args.join(" ") || guild.name.toLowerCase().includes(args.join(" ").toLowerCase()));

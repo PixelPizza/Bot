@@ -126,6 +126,11 @@ client.on('guildMemberRemove', member => {
     updateMemberSize(client);
 });
 
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+    if(oldMember.guild.id !== botGuild) return;
+    client.guildMembers.set(oldMember.id, newMember);
+});
+
 client.on('messageReactionAdd', async (messageReaction, user) => {
     if(messageReaction.partial){
         try{
@@ -244,10 +249,11 @@ client.on('message', async message => {
             director.forEach(role => {
                 if (hasRole(member, role)) {
                     client.director = true;
-                    client.staff = true;
+                    //client.staff = true;
                 }
             });
         }
+        console.log(client.worker, client.teacher, client.staff, client.director);
         if (command.userType == "worker" && !client.worker) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: "You need to be Pixel Pizza worker to use this command!"

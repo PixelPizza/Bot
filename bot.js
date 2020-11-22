@@ -145,8 +145,8 @@ client.on('messageReactionAdd', async (messageReaction, user) => {
     if (messageReaction.message.guild.id !== botGuild) return;
     if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") addRole(client, member, verified);
     if (messageReaction.message.id === workerRoles){
-        if(messageReaction.emoji.name == "🍳" && hasRole(client, member, cook)) addRole(client, member, pings.cook);
-        if(messageReaction.emoji.name == "📫" && hasRole(client, member, deliverer)) addRole(client, member, pings.deliver);
+        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) addRole(client, member, pings.cook);
+        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) addRole(client, member, pings.deliver);
     }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
@@ -170,8 +170,8 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
     if (messageReaction.message.guild.id !== botGuild) return;
     if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") removeRole(client, member, verified);
     if (messageReaction.message.id === workerRoles){
-        if(messageReaction.emoji.name == "🍳" && hasRole(client, member, cook)) removeRole(client, member, pings.cook);
-        if(messageReaction.emoji.name == "📫" && hasRole(client, member, deliverer)) removeRole(client, member, pings.deliver);
+        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) removeRole(client, member, pings.cook);
+        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) removeRole(client, member, pings.deliver);
     }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
@@ -227,22 +227,22 @@ client.on('message', async message => {
         }
         if (member) {
             worker.forEach(role => {
-                if (hasRole(client, member, role)) {
+                if (hasRole(member, role)) {
                     client.worker = true;
                 }
             });
             teacher.forEach(role => {
-                if (hasRole(client, member, role)) {
+                if (hasRole(member, role)) {
                     client.teacher = true;
                 }
             });
             staff.forEach(role => {
-                if (hasRole(client, member, role)) {
+                if (hasRole(member, role)) {
                     client.staff = true;
                 }
             });
             director.forEach(role => {
-                if (hasRole(client, member, role)) {
+                if (hasRole(member, role)) {
                     client.director = true;
                     client.staff = true;
                 }
@@ -268,7 +268,7 @@ client.on('message', async message => {
                 description: "You need to be Pixel Pizza director to use this command!"
             }), message);
         }
-        if (command.userType == "vip" && !isVip(client, member)) {
+        if (command.userType == "vip" && !isVip(member)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: "You need to have the vip role in pixel pizza to use this command!"
             }), message);

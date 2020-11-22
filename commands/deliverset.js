@@ -19,7 +19,7 @@ module.exports = {
             description: "please tell me your delivery message now"
         });
         const deliverRole = client.guild.roles.cache.get(deliverer);
-        if(!hasRole(client, client.member, deliverer)){
+        if(!hasRole(client.member, deliverer)){
             return sendEmbed(editEmbed(embedMsg, {
                 color: red,
                 description: `You need to have the ${deliverRole.name} role to be able to set your delivery message!`

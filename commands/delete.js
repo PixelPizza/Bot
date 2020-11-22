@@ -50,6 +50,6 @@ module.exports = {
                     value: "You **do not** need to remove any roles from the user"
                 }
             ]
-        }));
+        }), message);
     }
 }

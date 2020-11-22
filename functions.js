@@ -87,8 +87,8 @@ exports.sendEmbed = (embed, message) => message.channel.send(message.client.canS
 exports.sendEmbedWithChannel = (embed, client, channel) => channel.send(client.canSendEmbeds ? embed : embed.description);
 exports.addRole = (member, role) => member.roles.add(role);
 exports.removeRole = (member, role) => member.roles.remove(role);
-exports.hasRole = (member, role) => Boolean(member.roles.cache.get(role));
-exports.isVip = (member) => Boolean(member.roles.cache.get(levelRoles.hundered));
+exports.hasRole = (member, role) => member.roles.cache.has(role);
+exports.isVip = (member) => member.roles.cache.has(levelRoles.hundered);
 exports.randomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 exports.getUser = (message, args, client) => (message.mentions.users.first() || client.users.cache.find(user => user.id == args[0] || user.username.toLowerCase().includes(args.join(" ").toLowerCase()))) || client.guildMembers.find(member => member.displayName.toLowerCase().includes(args.join(" ").toLowerCase()))?.user;
 exports.getGuild = (args, client) => client.guilds.cache.find(guild => guild.id == args.join(" ") || guild.name.toLowerCase().includes(args.join(" ").toLowerCase()));

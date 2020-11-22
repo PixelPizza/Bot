@@ -117,5 +117,6 @@ Visual Studio Code Extension
 ---
 I have made a [visual studio code extension](https://marketplace.visualstudio.com/items?itemName=PixelPizza.pixel-pizza-snippets) for Pixel Pizza developers which currently has
 * _ppcom_ command snippet
+* _ppembed_ command snippet
 
 [Github Project](https://github.com/jaronetje/pixel-pizza-snippets)

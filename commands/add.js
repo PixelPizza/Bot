@@ -10,7 +10,7 @@ module.exports = {
     minArgs: 1,
     usage: "<user>",
     cooldown: 0,
-    userType: "staff",
+    userType: "teacher",
     neededPerms: [],
     pponly: true,
     removeExp: false,
@@ -37,7 +37,7 @@ module.exports = {
                 description: "This user is already worker"
             }), message);
         }
-        addRole(client, member, work);
+        addRole(member, work);
         query("INSERT INTO worker(workerId) VALUES(?)", [user.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: green,

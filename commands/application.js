@@ -29,7 +29,7 @@ module.exports = {
         const applyer = client.users.cache.get(result.userId);
         let staffMember = "none";
         if(result.staffId) staffMember = client.guildMembers.get(result.staffId) ? client.users.cache.get(result.staffId) : "Deleted Staff Member";
-        let answers = JSON.parse(result.answers);
+        let answers = result.answers;
         const fields = [];
         for(let answer of answers){
             fields.push({name: answer.question, value: answer.answer});

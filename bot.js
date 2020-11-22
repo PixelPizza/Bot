@@ -21,7 +21,7 @@ const { noice, noice2 } = require('./emojis.json');
 const { text } = require('./channels.json');
 const { verified, pings, cook, deliverer } = require('./roles.json');
 const { developer, worker, teacher, staff, director } = require('./roles.json');
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole } = require('./functions');
+const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole, getRole } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
 const { error, success, log, notice } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -143,10 +143,10 @@ client.on('messageReactionAdd', async (messageReaction, user) => {
     }
     const member = client.guildMembers.get(user.id);
     if (messageReaction.message.guild.id !== botGuild) return;
-    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") addRole(client, member, verified);
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") addRole(member, verified);
     if (messageReaction.message.id === workerRoles){
-        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) addRole(client, member, pings.cook);
-        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) addRole(client, member, pings.deliver);
+        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) addRole(member, pings.cook);
+        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) addRole(member, pings.deliver);
     }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
@@ -168,10 +168,10 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
     }
     const member = client.guildMembers.get(user.id);
     if (messageReaction.message.guild.id !== botGuild) return;
-    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") removeRole(client, member, verified);
+    if (messageReaction.message.id === verification && messageReaction.emoji.name == "✅") removeRole(member, verified);
     if (messageReaction.message.id === workerRoles){
-        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) removeRole(client, member, pings.cook);
-        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) removeRole(client, member, pings.deliver);
+        if(messageReaction.emoji.name == "🍳" && hasRole(member, cook)) removeRole(member, pings.cook);
+        if(messageReaction.emoji.name == "📫" && hasRole(member, deliverer)) removeRole(member, pings.deliver);
     }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });

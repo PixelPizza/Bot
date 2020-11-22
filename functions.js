@@ -10,7 +10,6 @@ const https = require('https');
 const http = require('http');
 const {URL} = require('url');
 
-const getRole = (client, role) => client.guild.roles.cache.get(role);
 exports.updateMemberSize = client => {
     const [bots, members] = client.guildMembers.partition(member => member.user.bot);
     client.channels.cache.get(voice.allMembers).setName(`All members: ${client.guildMembers.size}`);
@@ -86,8 +85,8 @@ exports.checkNoiceBoard = messageReaction => {
 }
 exports.sendEmbed = (embed, message) => message.channel.send(message.client.canSendEmbeds ? embed : embed.description);
 exports.sendEmbedWithChannel = (embed, client, channel) => channel.send(client.canSendEmbeds ? embed : embed.description);
-exports.addRole = (client, member, role) => member.roles.add(getRole(client, role));
-exports.removeRole = (client, member, role) => member.roles.remove(getRole(client, role));
+exports.addRole = (member, role) => member.roles.add(role);
+exports.removeRole = (member, role) => member.roles.remove(role);
 exports.hasRole = (member, role) => Boolean(member.roles.cache.get(role));
 exports.isVip = (member) => Boolean(member.roles.cache.get(levelRoles.hundered));
 exports.randomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;

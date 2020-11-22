@@ -48,29 +48,29 @@ exports.checkLevelRoles = (client, userId) => {
             const level = result[0].level;
             const member = client.guilds.cache.get(botGuild).members.cache.get(userId);
             if(level >= 5 && !hasRole(member, levelRoles.five)){
-                addRole(client, member, levelRoles.five);
+                addRole(member, levelRoles.five);
             } else if(hasRole(member, levelRoles.five)){
-                removeRole(client, member, levelRoles.five);
+                removeRole(member, levelRoles.five);
             }
             if(level >= 10 && !hasRole(member, levelRoles.ten)){
-                addRole(client, member, levelRoles.ten);
+                addRole(member, levelRoles.ten);
             } else if(hasRole(member, levelRoles.ten)){
-                removeRole(client, member, levelRoles.ten);
+                removeRole(member, levelRoles.ten);
             }
             if(level >= 25 && !hasRole(member, levelRoles.twentyfive)){
-                addRole(client, member, levelRoles.twentyfive);
+                addRole(member, levelRoles.twentyfive);
             } else if(hasRole(member, levelRoles.twentyfive)){
-                removeRole(client, member, levelRoles.twentyfive);
+                removeRole(member, levelRoles.twentyfive);
             }
             if(level >= 50 && !hasRole(member, levelRoles.fifty)){
-                addRole(client, member, levelRoles.fifty);
+                addRole(member, levelRoles.fifty);
             } else if(hasRole(member, levelRoles.fifty)){
-                removeRole(client, member, levelRoles.fifty);
+                removeRole(member, levelRoles.fifty);
             }
             if(level >= 100 && !isVip(member)){
-                addRole(client, member, levelRoles.hundered);
+                addRole(member, levelRoles.hundered);
             } else if(isVip(member)){
-                removeRole(client, member, levelRoles.hundered);
+                removeRole(member, levelRoles.hundered);
             }
         }
     });

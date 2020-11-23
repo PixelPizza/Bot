@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Client, Collection, GuildMemberManager } = require('discord.js');
+const { Client, Collection } = require('discord.js');
 const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const { prefix, botGuild, verification, workerRoles, pponlyexceptions } = require('./config.json');
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
@@ -19,9 +19,8 @@ colors I use:
 const { green, red, black } = require('./colors.json');
 const { noice, noice2 } = require('./emojis.json');
 const { text } = require('./channels.json');
-const { verified, pings, cook, deliverer } = require('./roles.json');
-const { developer, worker, teacher, staff, director } = require('./roles.json');
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole, getRole } = require('./functions');
+const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = require('./roles.json');
+const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole } = require('./functions');
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
 const { error, success, log, notice } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));

@@ -4,8 +4,7 @@
   "description": "An alternate version of the pixel pizza bot for if the website is down",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "tsc --project ./ts"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

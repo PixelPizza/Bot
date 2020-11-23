@@ -62,7 +62,7 @@ exports.checkNoiceBoard = messageReaction => {
         color: noiceboard,
         author: {
             name: member.displayName,
-            icon: member.user.displayAvatarURL
+            icon: member.user.displayAvatarURL()
         },
         description: messageReaction.message.content,
         fields: [{

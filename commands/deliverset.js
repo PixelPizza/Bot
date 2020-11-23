@@ -26,11 +26,18 @@ module.exports = {
             }), message);
         }
         sendEmbed(editEmbed(embedMsg, {
-            fields: [{
-                name: "**Note**",
-                value: "Do not forget to use *{chef}*, *{customer}*, *{image}* and *{invite}* so we will replace them with it!",
-                inline: false
-            }]
+            fields: [
+                {
+                    name: "**Note**",
+                    value: "Do not forget to use *{chef}*, *{customer}*, *{image}* and *{invite}* so we will replace them with it!",
+                    inline: false
+                },
+                {
+                    name: "**Note**",
+                    value: "Supported variables are *{chef}*, *{customer}*, *{image}*, *{invite}*, *{deliverer}*, *{orderID}* and *{order}*",
+                    inline: false
+                }
+            ]
         }), message).then(() => {
             const collector = message.channel.createMessageCollector(m => m.author === message.author, {max:1});
             collector.on('collect', m => {
@@ -45,16 +52,6 @@ module.exports = {
                 const customerAmount = (m.content.match(/{customer}/g) || []).length;
                 if(!chefAmount || !imageAmount || !inviteAmount || !customerAmount){
                     return sendEmbed(embedMsg, message);
-                }
-                if(chefAmount > 2){
-                    return sendEmbed(editEmbed(embedMsgError, {
-                        description: `You can use {chef} 1 or 2 times`
-                    }), message);
-                }
-                if(imageAmount > 1 || inviteAmount > 1 || customerAmount > 1){
-                    return sendEmbed(editEmbed(embedMsgError, {
-                        description: `You can use {customer}, {image} and {invite} 1 time! please try again!`
-                    }), message);
                 }
                 query(`UPDATE worker SET deliveryMessage = ? WHERE workerId = ?`, [m.content, m.author.id]);
                 embedMsg.fields = [];

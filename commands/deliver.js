@@ -57,7 +57,14 @@ module.exports = {
         let guild = client.guilds.cache.get(result.guildId); 
         let channel = client.channels.cache.get(result.channelId) ?? guild.systemChannel; 
         channel.createInvite({ maxAge: 0, reason: "Delivering an order" }).then(guildInvite => { 
-            deliveryMessage = deliveryMessage.replace("{chef}", cook).replace("{customer}", `\`<@${orderer.id}>\``).replace("{image}", image).replace("{invite}", invite); 
+            deliveryMessage = deliveryMessage
+            .replace(/{chef}/g, cook)
+            .replace(/{customer}/g, `\`<@${orderer.id}>\``)
+            .replace(/{image}/g, image)
+            .replace(/{invite}/g, invite)
+            .replace(/{deliverer}/g, `\`<@${message.author.id}>\``)
+            .replace(/{orderID}/g, args[0]) 
+            .replace(/{order}/g, result.order);
             message.author.send(deliveryMessage).then(() => { 
                 message.author.send(`Don't send this link to the orderer!\n${guildInvite.url}`).then(() => { 
                     query("UPDATE `order` SET status = 'delivered', delivererId = ? WHERE orderId = ?", [message.author.id, args[0]]); 

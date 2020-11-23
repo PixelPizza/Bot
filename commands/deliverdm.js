@@ -55,7 +55,14 @@ module.exports = {
         let cook = "none"; 
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let image = result.imageUrl; 
-        deliveryMessage = deliveryMessage.replace("{chef}", cook).replace("{customer}", `<@${orderer.id}>`).replace("{image}", image).replace("{invite}", invite); 
+        deliveryMessage = deliveryMessage
+        .replace(/{chef}/g, cook)
+        .replace(/{customer}/g, `<@${orderer.id}>`)
+        .replace(/{image}/g, image)
+        .replace(/{invite}/g, invite)
+        .replace(/{deliverer}/g, `<@${message.author.id}>`)
+        .replace(/{orderID}/g, args[0])
+        .replace(/{order}/g, result.order);
         orderer.send(deliveryMessage).then(() => {
             query("UPDATE `order` SET status = 'delivered', delivererId = ? WHERE orderId = ?", [message.author.id, args[0]]); 
             query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);

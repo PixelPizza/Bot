@@ -28,7 +28,7 @@ module.exports = {
         const result = results[0]; 
         const applyer = client.users.cache.get(result.userId);
         let staffMember = "none";
-        if(result.staffId) staffMember = client.guildMembers.get(result.staffId) ? client.users.cache.get(result.staffId) : "Deleted Staff Member";
+        if(result.staffId) staffMember = client.guildMembers.get(result.staffId) || "Deleted Staff Member";
         let answers = result.answers;
         const fields = [];
         for(let answer of answers){
@@ -43,7 +43,7 @@ module.exports = {
             },
             fields: fields,
             footer: {
-                text: `id: ${args[0]} | status: ${result.status} | staff: ${staffMember}`
+                text: `id: ${args[0]} | status: ${result.status} | staff: ${staffMember.displayName}`
             }
         });
         if(!client.canSendEmbeds){

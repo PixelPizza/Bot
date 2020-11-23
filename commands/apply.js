@@ -52,22 +52,33 @@ module.exports = {
             if (applicationQuestions.length) {
                 let question = applicationQuestions.shift();
                 message.author.send(editEmbed(embedMsg, {
+                    color: blue,
                     description: question,
-                    footer: `Type cancel to cancel the application`
+                    footer: {
+                       text: `Type cancel to cancel the application` 
+                    }
                 })).then(msg => {
                     const collector = msg.channel.createMessageCollector(m => m.author === message.author, { max: 1 });
-                    collector.on('collect', msg => {
-                        if (msg.content.toLowerCase() == "cancel") {
+                    collector.on('collect', ms => {
+                        if (ms.content.toLowerCase() == "cancel") {
                             return msg.edit(editEmbed(embedMsg, {
                                 color: green,
                                 title: "Canceled",
                                 description: "Application canceled"
                             }));
+                        } else if(ms.content.length > 1024){
+                            message.author.send(createEmbed({
+                                color: red,
+                                title: "Answer too long",
+                                description: "The answer can not be longer than 1024 characters"
+                            }));
+                            applicationQuestions.unshift(question);
+                        } else {
+                            answers.push({
+                                question: question,
+                                answer: ms.content
+                            });
                         }
-                        answers.push({
-                            question: question,
-                            answer: msg.content
-                        });
                         askQuestion();
                     });
                 });

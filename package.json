@@ -28,7 +28,6 @@
     "discord.js": "^12.4.1",
     "g-i-s": "^2.1.6",
     "mysql2": "^2.2.5",
-    "pixel-pizza": "file:classes/pixel-pizza",
     "valid-url": "^1.0.9"
   },
   "engines": {

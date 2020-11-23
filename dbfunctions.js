@@ -2,8 +2,8 @@ const fs = require('fs');
 const mysql = require("mysql2");
 const {addRole, removeRole, hasRole, randomInt, isVip} = require('./functions');
 const {baseexp, addexp} = require('./level.json');
-const {botGuild, idLength} = require('./config.json');
-const {levelRoles} = require('./roles.json');
+const {botGuild, idLength, proAmount} = require('./config.json');
+const {levelRoles, proCook, proDeliverer} = require('./roles.json');
 const secrets = fs.existsSync("./secrets.json") ? require('./secrets.json') : null;
 const database = secrets ? secrets.database : {
     host: process.env.DATABASE_HOST, 
@@ -166,4 +166,22 @@ exports.makeApplicationId = async () => {
     }
     const result = await this.query("SELECT applicationId FROM `application` WHERE applicationId = ?", [id]);
     return result.length ? this.makeApplicationId() : id;
+}
+exports.checkProChef = async member => {
+    const workers = await this.query("SELECT * FROM worker WHERE workerId = ?", [member.user.id]);
+    if(!workers.length) return;
+    if(workers[0].cooks >= proAmount && !hasRole(member, proCook)){
+        addRole(member, proCook);
+    } else if(workers[0].cooks < proAmount && hasRole(member, proCook)){
+        removeRole(member, proCook);
+    }
+}
+exports.checkProDeliverer = async member => {
+    const workers = await this.query("SELECT * FROM worker WHERE workerId = ?", [member.user.id]);
+    if(!workers.length) return;
+    if(workers[0].deliveries >= proAmount && !hasRole(member, proDeliverer)){
+        addRole(member, proDeliverer);
+    } else if(workers[0].deliveries < proAmount && hasRole(member, proDeliverer)){
+        removeRole(member, proDeliverer);
+    }
 }

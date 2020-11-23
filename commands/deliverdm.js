@@ -1,7 +1,7 @@
 const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = require("../functions");
 const { green, red } = require('../colors.json'); 
 const { deliverer, ceo } = require('../roles.json'); 
-const { query } = require("../dbfunctions"); 
+const { query, checkProDeliverer } = require("../dbfunctions"); 
 const { orderCooldown, invite } = require('../config.json');
 
 module.exports = {
@@ -65,6 +65,7 @@ module.exports = {
                 title: '**Delivered**',
                 description: 'The order has been delivered'
             }), message);
+            checkProDeliverer(client.member);
         });
     }
 }

@@ -1,7 +1,7 @@
 const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = require("../functions");
 const { blue, red } = require('../colors.json'); 
 const { deliverer, ceo } = require('../roles.json'); 
-const { query } = require("../dbfunctions"); 
+const { query, checkProDeliverer } = require("../dbfunctions"); 
 const { orderCooldown, invite } = require('../config.json');
 
 module.exports = { 
@@ -68,6 +68,7 @@ module.exports = {
                         description: `Your order is now being delivered by ${message.author}`
                     })); 
                     if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
+                    checkProDeliverer(client.member);
                 }); 
             }); 
         }); 

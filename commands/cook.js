@@ -2,7 +2,7 @@ const { MessageAttachment } = require('discord.js');
 const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait, capitalize } = require("../functions");
 const { blue, red, silver } = require('../colors.json');
 const { cook, pings } = require('../roles.json');
-const { query } = require("../dbfunctions");
+const { query, checkProChef } = require("../dbfunctions");
 const { text } = require('../channels.json');
 
 module.exports = {
@@ -103,6 +103,7 @@ module.exports = {
             user.send(editEmbed(confirmation, {
                 description: `Your order has been cooked`
             }));
+            checkProChef(client.member);
         });
     }
 }

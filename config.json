@@ -5,6 +5,7 @@
     "botGuild": "709698572035162143",
     "noiceboardMinValue": 3,
     "maxPizzas": 20,
+    "proAmount": 250,
     "idLength": 5,
     "orderCooldown": 300,
     "statuses": {

@@ -1,4 +1,4 @@
-const { blue, red, gray, green } = require("../colors.json");
+const { red, gray, green } = require("../colors.json");
 const { query } = require("../dbfunctions");
 const { createEmbed, capitalize, sendEmbed, editEmbed } = require("../functions");
 
@@ -31,14 +31,14 @@ module.exports = {
                 description: "You can't reject your own application"
             }), message);
         }
-        const user = client.users.cache.get(applications[0].userId) || "Unknown";
+        const member = client.guildMembers.get(applications[0].userId) || "Unknown";
         await query("UPDATE application SET status = 'rejected', staffId = ? WHERE applicationId = ?", [message.author.id, args[0]]);
         sendEmbed(editEmbed(embedMsg, {
             color: green,
-            description: `${user} has been rejected`
+            description: `${member} has been rejected`
         }), message);
-        if(user != "Unknown"){
-            user.send(createEmbed({
+        if(member != "Unknown"){
+            member.user.send(createEmbed({
                 color: gray,
                 title: "Rejected",
                 description: "Your application has been rejected"

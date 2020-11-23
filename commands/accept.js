@@ -1,6 +1,6 @@
 const { green, gray, red } = require("../colors.json");
 const { query } = require("../dbfunctions");
-const { sendEmbed, editEmbed, createEmbed } = require("../functions");
+const { sendEmbed, capitalize, editEmbed, createEmbed } = require("../functions");
 
 module.exports = {
     name: "accept",

@@ -14,7 +14,7 @@ module.exports = {
     userType: "all", 
     neededPerms: [], 
     removeExp: false, 
-    execute(message, args, client) { 
+    execute(message, args, client, userTypes = {worker: false, teacher: false, staff: false, director: false}) { 
         let embedMsg = createEmbed({
             color: blue,
             author: {
@@ -28,7 +28,7 @@ module.exports = {
                 icon: client.user.displayAvatarURL()
             }
         });
-        let { commands, worker, teacher, staff, director } = message.client; 
+        let { commands } = message.client, { worker, teacher, staff, director } = userTypes;
         let executableCommands = commands.filter(command => command.userType == "all"); 
         if (worker) { 
             commands.filter(command => command.userType == "worker").each(command => { 

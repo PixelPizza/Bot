@@ -1,7 +1,7 @@
 const PixelPizza = require("pixel-pizza");
 const { createEmbed, sendEmbed, editEmbed, capitalize, error } = PixelPizza; 
 const { blue, red } = PixelPizza.colors; 
-const rules = PixelPizza.rules; 
+const {rules} = PixelPizza.rules; 
 
 module.exports = { 
     name: "rules", 

@@ -2,7 +2,7 @@ const PixelPizza = require("pixel-pizza");
 const { createEmbed, sendEmbed, editEmbed } = PixelPizza; 
 const { blue, red } = PixelPizza.colors; 
 const { query } = require("../dbfunctions"); 
-const rules = PixelPizza.rules; 
+const {rules} = PixelPizza.rules; 
 
 module.exports = { 
     name: "remove", 

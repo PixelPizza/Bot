@@ -1,10 +1,11 @@
 'use strict';
 
 const infinite = function*(){
-    let index = 0;
+    let index = 1;
     while(true) yield index++;
 }
-const generator = infinite();
+const rulesGenerator = infinite();
+const anarchyGenerator = infinite();
 
 let rules = [
     "No NSFW",
@@ -24,13 +25,26 @@ let rules = [
     "Do not attempt to bypass the word blacklist",
     "Use COMMON SENSE",
     "Don't ping temmie or any role that temmie has, you will get warned by him, watch out",
-    "Ping <@779726306655862814>(@ping if Pizza takes too long to cook) if your pizza takes too long to cook",
+    "Ping <@779726306655862814>(<@&779726306655862814>) if your pizza takes too long to cook",
     "We are Pixel Pizza, We do not serve any other foods than Pizza. (except on anarchy day)",
     "Give workers time to cook and deliver orders. They also do things besides cooking and delivering"
 ];
 
+let anarchyRules = [
+    "No pizzas related to child exploitation (this includes Pedophilia, Child abuse, or any other form of exploitation to minors)",
+    "No pizzas that are related to death, depression, disorders, or mortal illnesses",
+    "No pizzas which includes gore",
+    "Don't ping temmie or any role that temmie has, you will get warned by him, watch out",
+    "Ping <@472312270047674378>(<@&779726306655862814>) if your pizza takes too long to cook",
+    "Give workers time to cook and deliver orders. They also do things besides cooking and delivering"
+];
+
 for(let index in rules){
-    rules[index] = `[${generator.next().value}] ${rules[index]}`;
+    rules[index] = `[${rulesGenerator.next().value}] ${rules[index]}`;
 }
 
-module.exports = rules;
+for(let index in anarchyRules){
+    anarchyRules[index] = `[${anarchyGenerator.next().value}] ${anarchyRules[index]}`;
+}
+
+module.exports = {rules: rules, anarchyRules: anarchyRules};

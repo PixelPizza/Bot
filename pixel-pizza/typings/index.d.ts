@@ -138,7 +138,10 @@ declare module 'pixel-pizza' {
         }
     }
 
-    export const rules: string[];
+    export const rules: {
+        rules: string[],
+        anarchyRules: string[]
+    };
 
     export const config: {
         prefix: string,

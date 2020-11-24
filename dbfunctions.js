@@ -1,9 +1,10 @@
+const PixelPizza = require("pixel-pizza");
 const fs = require('fs');
 const mysql = require("mysql2");
-const {addRole, removeRole, hasRole, randomInt, isVip} = require('./functions');
-const {baseexp, addexp} = require('./level.json');
-const {botGuild, idLength, proAmount} = require('./config.json');
-const {levelRoles, proCook, proDeliverer} = require('./roles.json');
+const {addRole, removeRole, hasRole, randomInt, isVip, error} = PixelPizza;
+const {baseexp, addexp} = PixelPizza.level;
+const {botGuild, idLength, proAmount} = PixelPizza.config;
+const {levelRoles, proCook, proDeliverer} = PixelPizza.roles;
 const secrets = fs.existsSync("./secrets.json") ? require('./secrets.json') : null;
 const database = secrets ? secrets.database : {
     host: process.env.DATABASE_HOST, 
@@ -11,7 +12,6 @@ const database = secrets ? secrets.database : {
     password: process.env.DATABASE_PASS, 
     database: process.env.DATABASE_DB
 };
-const { error } = require("./consolefunctions");
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
 let con;

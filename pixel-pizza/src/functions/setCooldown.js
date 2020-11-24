@@ -1,5 +1,7 @@
 'use strict';
 
+const {Collection} = require("discord.js");
+
 const setCooldown = (client, commandName, userId, seconds) => {
     if (!client.cooldowns.has(commandName)) {
         client.cooldowns.set(commandName, new Collection());

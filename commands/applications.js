@@ -1,7 +1,8 @@
-const { createEmbed, capitalize, editEmbed, sendEmbed } = require("../functions");
-const { red, blue } = require('../colors.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, capitalize, editEmbed, sendEmbed } = PixelPizza;
+const { red, blue } = PixelPizza.colors;
 const { query } = require("../dbfunctions");
-const { statuses } = require('../config.json');
+const { statuses } = PixelPizza.config;
 
 module.exports = {
     name: "applications",
@@ -17,7 +18,7 @@ module.exports = {
     async execute(message, args, client) {
         const status = args.join(" ");
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         let results;
@@ -46,7 +47,7 @@ module.exports = {
             }
         }
         sendEmbed(editEmbed(embedMsg, {
-            color: blue,
+            color: blue.hex,
             description: orderString
         }), message);
     }

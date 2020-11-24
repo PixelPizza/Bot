@@ -1,7 +1,8 @@
-const { createEmbed, sendEmbed, editEmbed } = require("../functions"); 
-const { blue, red } = require('../colors.json'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed } = PixelPizza; 
+const { blue, red } = PixelPizza.colors; 
 const { query } = require("../dbfunctions"); 
-const { prefix } = require('../config.json'); 
+const { prefix } = PixelPizza.config; 
 
 module.exports = { 
     name: "myorder", 
@@ -13,7 +14,7 @@ module.exports = {
     pponly: false, 
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: "**order**",
             description: `You have not ordered anything use ${prefix}order to order a pizza`
         });
@@ -31,7 +32,7 @@ module.exports = {
             deliverer = client.guildMembers.get(result[0].delivererId) ? client.users.cache.get(result[0].delivererId).username : "Deleted Deliverer"; 
         } 
         embedMsg = editEmbed(embedMsg, {
-            color: blue,
+            color: blue.hex,
             description: `***${result[0].order}***`,
             fields: [
                 { name: "Orderer", value: message.author.tag }, 

@@ -1,5 +1,6 @@
-const { createEmbed, sendEmbed, randomInt, wait, editEmbed, capitalize } = require("../functions");
-const { blue, red } = require('../colors.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza;
+const { blue, red } = PixelPizza.colors;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
     execute(message, args, client) {
         const key = args[0];
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`,
             description: `Toggle ${key} does not exist`
         });
@@ -31,7 +32,7 @@ module.exports = {
         client.toggles[key] = !client.toggles[key];
         query("UPDATE toggle SET `value` = !`value` WHERE `key` = ?", [key]);
         sendEmbed(editEmbed(embedMsg, {
-            color: blue,
+            color: blue.hex,
             description: `Toggle ${key} is now set to ${client.toggles[key]}`
         }), message);
     }

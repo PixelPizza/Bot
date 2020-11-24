@@ -1,7 +1,7 @@
-const { createEmbed, sendEmbed, getUser } = require("../functions"); 
-const { red, levels } = require('../colors.json'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, getUser, makeRankImg } = PixelPizza; 
+const { red, levels } = PixelPizza.colors; 
 const { query } = require("../dbfunctions"); 
-const { makeRankImg } = require("../canvasfunctions"); 
 const { MessageAttachment } = require('discord.js'); 
 
 module.exports = { 
@@ -16,7 +16,7 @@ module.exports = {
     pponly: false, 
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: "User not found",
             description: "Could not find user"
         });
@@ -34,10 +34,10 @@ module.exports = {
         for (let result of results) { 
             rank++; 
             if (result.userId != user.id) continue; 
-            style.back = result.styleBack ?? levels.back; 
-            style.front = result.styleFront ?? levels.front; 
-            style.expBack = result.styleExpBack ?? levels.exp_back; 
-            style.expFront = result.styleExpFront ?? levels.exp_front; 
+            style.back = result.styleBack ?? levels.back.hex; 
+            style.front = result.styleFront ?? levels.front.hex; 
+            style.expBack = result.styleExpBack ?? levels.expback.hex; 
+            style.expFront = result.styleExpFront ?? levels.expfront.hex; 
             const image = await makeRankImg(user, result.level, result.exp, rank, style); 
             attachment = new MessageAttachment(image.toBuffer(), "rank.png"); 
             break; 

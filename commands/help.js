@@ -1,7 +1,7 @@
-const { createEmbed, sendEmbed, editEmbed, capitalize } = require('../functions'); 
-const { blue, red } = require('../colors.json'); 
-const { prefix } = require('../config.json'); 
-const { error } = require('../consolefunctions');
+const PixelPizza = require('pixel-pizza');
+const { createEmbed, sendEmbed, editEmbed, capitalize, error } = PixelPizza; 
+const { blue, red } = PixelPizza.colors; 
+const { prefix } = PixelPizza.config; 
 
 module.exports = { 
     name: "help", 
@@ -16,7 +16,7 @@ module.exports = {
     removeExp: false, 
     execute(message, args, client, userTypes = {worker: false, teacher: false, staff: false, director: false}) { 
         let embedMsg = createEmbed({
-            color: blue,
+            color: blue.hex,
             author: {
                 name: message.author.username,
                 icon: message.author.displayAvatarURL()
@@ -69,7 +69,7 @@ module.exports = {
                 embedMsg.setDescription("I've sent you a DM with all commands"); 
             }).catch(err => {
                 error(`Could not send help DM to ${message.author.tag}`, err);
-                embedMsg.setColor(red).setDescription("I can't DM you. Do you have DMs disabled?"); 
+                embedMsg.setColor(red.hex).setDescription("I can't DM you. Do you have DMs disabled?"); 
             }).finally(() => { 
                 embedMsg.fields = [];
                 sendEmbed(embedMsg, message); 
@@ -79,18 +79,18 @@ module.exports = {
         const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name)); 
         if (!command) { 
             return sendEmbed(editEmbed(embedMsg, {
-                color: red,
+                color: red.hex,
                 description: `that's not an existing command!`
             }), message); 
         } 
         const executableCommand = executableCommands.get(name) || executableCommands.find(c => c.aliases && c.aliases.includes(name)); 
         if (!executableCommand) { 
             return sendEmbed(editEmbed(embedMsg, {
-                color: red,
+                color: red.hex,
                 description: `You need to be ${command.userType} to execute this command`
             }), message);
         } 
-        embedMsg.setColor(blue).addField('**Name**', command.name); 
+        embedMsg.setColor(blue.hex).addField('**Name**', command.name); 
         if (command.aliases?.length) embedMsg.addField('**Aliases**', command.aliases.join(', ')); 
         if (command.description) embedMsg.addField('**Description**', command.description); 
         if (command.usage) embedMsg.addField('**Usage**', `${prefix}${command.name} ${command.usage}`); 

@@ -1,7 +1,8 @@
-const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, editEmbed, wait, capitalize } = require("../functions");
-const { blue, red, gray, green } = require('../colors.json');
-const { cook, ceo } = require('../roles.json');
-const { text } = require('../channels.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, editEmbed, wait, capitalize } = PixelPizza;
+const { blue, red, gray, green } = PixelPizza.colors;
+const { cook, ceo } = PixelPizza.roles;
+const { text } = PixelPizza.channels;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
     pponly: false,
     async execute(message, args, client) {
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const cookRole = client.guild.roles.cache.get(cook);
@@ -46,11 +47,11 @@ module.exports = {
         const user = client.users.cache.get(results[0].userId);
         query("UPDATE `order` SET cookId = ?, status = 'claimed' WHERE orderId = ?", [message.author.id, args[0]]);
         sendEmbed(editEmbed(embedMsg, {
-            color: green,
+            color: green.hex,
             description: `You have claimed order ${args[0]}`
         }), message);
         user.send(editEmbed(embedMsg, {
-            color: blue,
+            color: blue.hex,
             title: "**confirmation**",
             description: `Your order has been claimed by <@${message.author.id}>`
         }));
@@ -60,12 +61,12 @@ module.exports = {
         if (results[0].status == "claimed") {
             query("UPDATE `order` SET cookId = NULL, status = 'not claimed' WHERE orderId = ?", [args[0]]);
             sendEmbedWithChannel(editEmbed(embedMsg, {
-                color: gray,
+                color: gray.hex,
                 title: "**claim canceled**",
                 description: `Order ${args[0]} has been declaimed because the cook took to long to cook the order`
             }), client, client.channels.cache.get(text.kitchen));
             user.send(editEmbed(embedMsg, {
-                color: blue,
+                color: blue.hex,
                 title: "**confirmation**",
                 description: `Your order has been declaimed bacuase the cook took to long to cook the order`
             }));

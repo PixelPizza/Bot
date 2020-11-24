@@ -1,7 +1,8 @@
 const fs = require('fs');
-const { Client, Collection } = require('discord.js');
-const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-const { prefix, botGuild, verification, workerRoles, pponlyexceptions } = require('./config.json');
+const PixelPizza = require("pixel-pizza");
+const { Collection } = require('discord.js');
+const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const { prefix, botGuild, verification, workerRoles, pponlyexceptions } = PixelPizza.config;
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
 /* 
 colors I use:
@@ -16,13 +17,12 @@ colors I use:
 * noiceboard message: noiceboard
 * timer: silver
 */
-const { green, red, black } = require('./colors.json');
-const { noice, noice2 } = require('./emojis.json');
-const { text } = require('./channels.json');
-const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = require('./roles.json');
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole } = require('./functions');
+const { green, red, black } = PixelPizza.colors;
+const { noice, noice2 } = PixelPizza.emojis;
+const { text } = PixelPizza.channels;
+const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = PixelPizza.roles;
+const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
-const { error, success, log, notice } = require('./consolefunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 client.cooldowns = new Collection();
@@ -75,7 +75,7 @@ client.on('ready', async () => {
 client.on('guildCreate', guild => {
     updateGuildAmount(client);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
-        color: green,
+        color: green.hex,
         title: "Added",
         description: `${client.user.username} has been added to the guild ${guild.name}`,
         timestamp: true,
@@ -88,7 +88,7 @@ client.on('guildCreate', guild => {
         channel = guild.channels.cache.find(channel => channel.type === "text");
     }
     sendEmbedWithChannel(createEmbed({
-        color: green,
+        color: green.hex,
         title: "Thank you!",
         description: `Thank you for adding me!\nMy prefix is ${prefix}\nUse ${prefix}help for all commands!`
     }), client, channel);
@@ -97,7 +97,7 @@ client.on('guildCreate', guild => {
 client.on('guildDelete', guild => {
     updateGuildAmount(client);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
-        color: red,
+        color: red.hex,
         title: "Removed",
         description: `${client.user.username} has been removed from the guild ${guild.name}`,
         timestamp: true,
@@ -200,7 +200,7 @@ client.on('message', async message => {
         const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
         if (!command) return;
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             author: {
                 name: message.author.username,
                 icon: message.author.displayAvatarURL()
@@ -235,7 +235,6 @@ client.on('message', async message => {
                 }
             });
             teacher.forEach(role => {
-                console.log(hasRole(member, role), member.roles.cache.has(role));
                 if (hasRole(member, role)) {
                     isTeacher = true;
                 }
@@ -336,7 +335,7 @@ client.on('message', async message => {
                 if (now < expirationTime) {
                     const timeLeft = (expirationTime - now) / 1000;
                     return sendEmbed(editEmbed(embedMsg, {
-                        color: black,
+                        color: black.hex,
                         title: '**Cooldown**',
                         description: `please wait ${timeLeft} more second(s) before reusing ${command.name}`
                     }), message);
@@ -346,7 +345,7 @@ client.on('message', async message => {
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
         }
         try {
-            command.execute(message, args, client);
+            command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector});
             log("Command executed", `${command.name} has been executed`);
         } catch (err) {
             error(`Could not execute ${command.name}`, err);

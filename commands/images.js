@@ -1,7 +1,8 @@
+const PixelPizza = require("pixel-pizza");
 const gis = require('g-i-s');
-const { createEmbed, isImage, request } = require('../functions');
-const { blue } = require('../colors.json');
-const { restricedDomains } = require('../config.json');
+const { createEmbed, isImage, request } = PixelPizza;
+const { blue } = PixelPizza.colors;
+const { restricedDomains } = PixelPizza.config;
 
 module.exports = {
     name: "images",
@@ -42,7 +43,7 @@ module.exports = {
                     index++;
                     if(client.canSendEmbeds){
                         pages.push(createEmbed({
-                            color: blue,
+                            color: blue.hex,
                             title: `**Image**`,
                             description: args.join(" "),
                             image: result.url,

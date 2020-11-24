@@ -1,8 +1,8 @@
-const { createEmbed, sendEmbed, hasRole, editEmbed, capitalize } = require('../functions'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, hasRole, editEmbed, capitalize, error } = PixelPizza; 
 const { query } = require('../dbfunctions'); 
-const { cook } = require('../roles.json'); 
-const { red, blue, green } = require('../colors.json'); 
-const { error } = require('../consolefunctions');
+const { cook } = PixelPizza.roles; 
+const { red, blue, green } = PixelPizza.colors; 
 
 module.exports = { 
     name: "unclaim", 
@@ -17,7 +17,7 @@ module.exports = {
     pponly: false, 
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const cookRole = client.guild.roles.cache.get(cook); 
@@ -40,11 +40,11 @@ module.exports = {
         const user = client.users.cache.get(results[0].userId); 
         query("UPDATE `order` SET cookId = NULL, status = 'not claimed' WHERE orderId = ?", [args[0]]).then(() => { 
             sendEmbed(editEmbed(embedMsg, {
-                color: green,
+                color: green.hex,
                 description: `You have unclaimed order ${args[0]}`
             }), message); 
             user.send(editEmbed(embedMsg, {
-                color: blue,
+                color: blue.hex,
                 title: "Confirmation",
                 description: `Your order has been unclaimed by the cook who claimed it`
             })).catch(err => error(`Could not send confirmation to ${message.author.tag}`, err)); 

@@ -1,7 +1,8 @@
-const {green, red} = require('../colors.json');
-const {creators} = require('../config.json');
+const PixelPizza = require("pixel-pizza");
+const {green, red} = PixelPizza.colors;
+const {creators} = PixelPizza.config;
 const { query } = require('../dbfunctions');
-const { createEmbed, capitalize, getUser, sendEmbed, editEmbed } = require('../functions');
+const { createEmbed, capitalize, getUser, sendEmbed, editEmbed } = PixelPizza;
 
 module.exports = {
     name: "blacklist",
@@ -17,7 +18,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const user = getUser(message, args, client);
@@ -44,7 +45,7 @@ module.exports = {
         }
         query("INSERT INTO blacklisted(userId) VALUES(?)", [user.id]);
         sendEmbed(editEmbed(embedMsg, {
-            color: green,
+            color: green.hex,
             description: `${user} has been blacklisted`
         }), message);
     }

@@ -1,8 +1,9 @@
-const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = require("../functions");
-const { green, red } = require('../colors.json'); 
-const { deliverer, ceo } = require('../roles.json'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = PixelPizza;
+const { green, red } = PixelPizza.colors; 
+const { deliverer, ceo } = PixelPizza.roles; 
 const { query, checkProDeliverer } = require("../dbfunctions"); 
-const { orderCooldown, invite } = require('../config.json');
+const { orderCooldown, invite } = PixelPizza.config;
 
 module.exports = {
     name: "deliverdm",
@@ -19,7 +20,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         let embedMsg = createEmbed({ 
-            color: red, 
+            color: red.hex, 
             title: "deliver" 
         }); 
         const deliverRole = client.guild.roles.cache.get(deliverer); 
@@ -68,7 +69,7 @@ module.exports = {
             query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
             if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
             sendEmbed(createEmbed({
-                color: green,
+                color: green.hex,
                 title: '**Delivered**',
                 description: 'The order has been delivered'
             }), message);

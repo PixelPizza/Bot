@@ -1,5 +1,6 @@
-const { createEmbed, getGuild, sendEmbed, capitalize } = require("../functions");
-const { red } = require('../colors.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, getGuild, sendEmbed, capitalize } = PixelPizza;
+const { red } = PixelPizza.colors;
 
 module.exports = {
     name: "backdoor",
@@ -16,7 +17,7 @@ module.exports = {
         const guild = getGuild(args, client);
         if(!guild){
             return sendEmbed(createEmbed({
-                color: red,
+                color: red.hex,
                 title: `**${capitalize(this.name)}**`,
                 description: 'Could not find guild, please be more specific'
             }), message);

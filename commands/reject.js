@@ -1,6 +1,7 @@
-const { red, gray, green } = require("../colors.json");
+const PixelPizza = require("pixel-pizza");
+const { red, gray, green } = PixelPizza.colors;
 const { query } = require("../dbfunctions");
-const { createEmbed, capitalize, sendEmbed, editEmbed } = require("../functions");
+const { createEmbed, capitalize, sendEmbed, editEmbed } = PixelPizza;
 
 module.exports = {
     name: "reject",
@@ -17,7 +18,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const applications = await query("SELECT * FROM application WHERE applicationId = ? AND status = 'none'", [args[0]]);
@@ -34,12 +35,12 @@ module.exports = {
         const member = client.guildMembers.get(applications[0].userId) || "Unknown";
         await query("UPDATE application SET status = 'rejected', staffId = ? WHERE applicationId = ?", [message.author.id, args[0]]);
         sendEmbed(editEmbed(embedMsg, {
-            color: green,
+            color: green.hex,
             description: `${member} has been rejected`
         }), message);
         if(member != "Unknown"){
             member.user.send(createEmbed({
-                color: gray,
+                color: gray.hex,
                 title: "Rejected",
                 description: "Your application has been rejected"
             }));

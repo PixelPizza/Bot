@@ -1,6 +1,8 @@
-const{baseexp,addexp}=require('./level.json');
-const{black}=require('./colors.json');
-const{createCanvas,loadImage}=require('canvas');
+'use strict';
+
+const {baseexp, addexp} = require("../../data/level");
+const {black} = require("../../data/colors");
+const {createCanvas, loadImage} = require("canvas");
 
 const applyText = (canvas, text, size) => {
     const ctx = canvas.getContext("2d");
@@ -8,7 +10,7 @@ const applyText = (canvas, text, size) => {
     do ctx.font = `${fontSize-=10}px sans-serif`;
     while(ctx.measureText(text).width > canvas.width - size);
 }
-exports.makeRankImg = async (user, level, exp, rank, style) => {
+const makeRankImg = async (user, level, exp, rank, style) => {
     const canvas = createCanvas(700, 250);
     const ctx = canvas.getContext("2d");
     exp = exp < 0 ? 0 : exp;
@@ -67,3 +69,5 @@ exports.makeRankImg = async (user, level, exp, rank, style) => {
     ctx.drawImage(await loadImage(user.displayAvatarURL({format:"png"})), 35, 45, 160, 160);
     return canvas;
 }
+
+module.exports = makeRankImg;

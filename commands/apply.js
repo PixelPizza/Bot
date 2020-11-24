@@ -1,7 +1,8 @@
 const { Collection } = require('discord.js');
-const { createEmbed, sendEmbed, editEmbed, capitalize } = require('../functions');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza;
 const { makeApplicationId, query } = require('../dbfunctions');
-const { blue, red, green } = require('../colors.json');
+const { blue, red, green } = PixelPizza.colors;
 const { text } = require('../channels.json');
 const questions = require('../questions.json');
 
@@ -19,7 +20,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const answers = [];
@@ -52,7 +53,7 @@ module.exports = {
             if (applicationQuestions.length) {
                 let question = applicationQuestions.shift();
                 message.author.send(editEmbed(embedMsg, {
-                    color: blue,
+                    color: blue.hex,
                     description: question,
                     footer: {
                        text: `Type cancel to cancel the application` 
@@ -62,13 +63,13 @@ module.exports = {
                     collector.on('collect', ms => {
                         if (ms.content.toLowerCase() == "cancel") {
                             return msg.edit(editEmbed(embedMsg, {
-                                color: green,
+                                color: green.hex,
                                 title: "Canceled",
                                 description: "Application canceled"
                             }));
                         } else if(ms.content.length > 1024){
                             message.author.send(createEmbed({
-                                color: red,
+                                color: red.hex,
                                 title: "Answer too long",
                                 description: "The answer can not be longer than 1024 characters"
                             }));
@@ -85,7 +86,7 @@ module.exports = {
             } else {
                 const appId = await makeApplicationId();
                 const embedMsgAnswers = createEmbed({
-                    color: blue,
+                    color: blue.hex,
                     title: 'Application',
                     author: {
                         name: message.author.tag,
@@ -99,7 +100,7 @@ module.exports = {
                 const channel = client.channels.cache.get(text.applications);
                 channel.send(embedMsgAnswers);
                 message.author.send(editEmbed(embedMsg, {
-                    color: green,
+                    color: green.hex,
                     description: `Application submitted`
                 }));
                 query(

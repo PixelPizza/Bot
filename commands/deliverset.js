@@ -1,6 +1,7 @@
-const {createEmbed, hasRole, sendEmbed, editEmbed} = require("../functions");
-const {blue, red} = require('../colors.json');
-const {deliverer} = require('../roles.json');
+const PixelPizza = require("pixel-pizza");
+const {createEmbed, hasRole, sendEmbed, editEmbed} = PixelPizza;
+const {blue, red} = PixelPizza.colors;
+const {deliverer} = PixelPizza.roles;
 const {query} = require('../dbfunctions');
 
 module.exports = {
@@ -14,14 +15,14 @@ module.exports = {
     pponly: false,
     execute(message, args, client){
         let embedMsg = createEmbed({
-            color: blue,
+            color: blue.hex,
             title: "Set delivery message",
             description: "please tell me your delivery message now"
         });
         const deliverRole = client.guild.roles.cache.get(deliverer);
         if(!hasRole(client.member, deliverer)){
             return sendEmbed(editEmbed(embedMsg, {
-                color: red,
+                color: red.hex,
                 description: `You need to have the ${deliverRole.name} role to be able to set your delivery message!`
             }), message);
         }
@@ -42,7 +43,7 @@ module.exports = {
             const collector = message.channel.createMessageCollector(m => m.author === message.author, {max:1});
             collector.on('collect', m => {
                 const embedMsgError = createEmbed({
-                    color: red,
+                    color: red.hex,
                     title: "Set delivery message",
                     description: "This delivery message does not contain {chef}, {customer}, {image} or {invite}! please try again!"
                 });

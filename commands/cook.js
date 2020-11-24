@@ -1,9 +1,10 @@
 const { MessageAttachment } = require('discord.js');
-const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait, capitalize } = require("../functions");
-const { blue, red, silver } = require('../colors.json');
-const { cook, pings } = require('../roles.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait, capitalize } = PixelPizza;
+const { blue, red, silver } = PixelPizza.colors;
+const { cook, pings } = PixelPizza.roles;
 const { query, checkProChef } = require("../dbfunctions");
-const { text } = require('../channels.json');
+const { text } = PixelPizza.channels;
 
 module.exports = {
     name: "cook",
@@ -25,7 +26,7 @@ module.exports = {
     },
     async execute(message, args, client) {
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const cookRole = client.guild.roles.cache.get(cook);
@@ -65,14 +66,14 @@ module.exports = {
             );
             let cookTime = randomInt(6, 48) * 10;
             const confirmation = createEmbed({
-                color: blue,
+                color: blue.hex,
                 title: 'confirmation',
                 description: 'Your order is now being cooked'
             });
             const user = client.users.cache.get(results[0].userId);
             user.send(confirmation);
             const embedMsgTimer = createEmbed({
-                color: silver,
+                color: silver.hex,
                 title: "Timer",
                 description: this.getTimeAsString(cookTime),
                 footer: {
@@ -95,7 +96,7 @@ module.exports = {
             query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?", [args[0]]);
             query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);
             embedMsg = editEmbed(embedMsg, {
-                color: blue,
+                color: blue.hex,
                 description: `Order ${args[0]} is done cooking`
             });
             if(!client.canSendEmbeds) embedMsg = embedMsg.description;

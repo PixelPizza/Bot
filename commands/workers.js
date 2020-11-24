@@ -1,6 +1,7 @@
+const PixelPizza = require("pixel-pizza");
 const { query } = require("../dbfunctions");
-const { sendEmbed, createEmbed, capitalize, editEmbed } = require("../functions");
-const { blue, red } = require('../colors.json');
+const { sendEmbed, createEmbed, capitalize, editEmbed } = PixelPizza;
+const { blue, red } = PixelPizza.colors;
 
 module.exports = {
     name: "workers",
@@ -13,7 +14,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const workers = await query("SELECT * FROM worker");
@@ -23,7 +24,7 @@ module.exports = {
             const member = client.guildMembers.get(worker.workerId);
             if(client.canSendEmbeds){
                 pages.push(createEmbed({
-                    color: blue,
+                    color: blue.hex,
                     title: member.displayName,
                     fields: [
                         {

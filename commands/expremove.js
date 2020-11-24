@@ -1,5 +1,6 @@
-const { createEmbed, sendEmbed, getUser, inBotGuild, editEmbed } = require("../functions"); 
-const { blue, red } = require('../colors.json'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, getUser, inBotGuild, editEmbed } = PixelPizza; 
+const { blue, red } = PixelPizza.colors; 
 const { addExp } = require("../dbfunctions"); 
 
 module.exports = { 
@@ -16,7 +17,7 @@ module.exports = {
     removeExp: true, 
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: "**remove exp**",
             description: `${args[0]} is not a number`
         });
@@ -43,7 +44,7 @@ module.exports = {
         } 
         await addExp(client, user.id, -amount); 
         sendEmbed(editEmbed(embedMsg, {
-            color: blue,
+            color: blue.hex,
             description: `${amount} exp has been removed for ${user.tag}`
         }), message); 
     } 

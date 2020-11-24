@@ -1,5 +1,6 @@
-const { createEmbed, sendEmbed, getUser, inBotGuild, editEmbed, capitalize } = require("../functions"); 
-const { blue, red } = require('../colors.json'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, getUser, inBotGuild, editEmbed, capitalize } = PixelPizza; 
+const { blue, red } = PixelPizza.colors; 
 const { query } = require('../dbfunctions'); 
 
 module.exports = { 
@@ -13,7 +14,7 @@ module.exports = {
     removeExp: false, 
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`,
             author: {
                 name: message.author.username,
@@ -46,7 +47,7 @@ module.exports = {
         const member = client.guildMembers.get(user.id); 
         if (!worker.deliveryMessage) worker.deliveryMessage = "none"; 
         embedMsg = editEmbed(embedMsg, {
-            color: blue,
+            color: blue.hex,
             fields: [
                 { name: "Nickname", value: member.displayName }, 
                 { name: "Cooks", value: worker.cooks, inline: true }, 

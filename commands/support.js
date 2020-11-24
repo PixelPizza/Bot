@@ -1,7 +1,7 @@
-const { Invite } = require('discord.js');
-const { text } = require('../channels.json');
-const { blue } = require('../colors.json');
-const { sendEmbed, createEmbed } = require('../functions');
+const PixelPizza = require("pixel-pizza");
+const { text } = PixelPizza.channels;
+const { blue } = PixelPizza.colors;
+const { sendEmbed, createEmbed } = PixelPizza;
 
 module.exports = {
     name: "support",
@@ -16,7 +16,7 @@ module.exports = {
         const channel = client.guild.channels.cache.get(text.restaurant);
         const invite = await channel.createInvite({maxAge: 0, maxUses: 0, unique: false});
         sendEmbed(createEmbed({
-            color: blue,
+            color: blue.hex,
             title: "**Invite link**",
             description: invite.url
         }), message);

@@ -1,5 +1,6 @@
-const { sendEmbed, createEmbed, capitalize } = require("../functions");
-const { blue } = require('../colors.json');
+const PixelPizza = require("pixel-pizza");
+const { sendEmbed, createEmbed } = PixelPizza;
+const { blue } = PixelPizza.colors;
 
 module.exports = {
     name: "ping",
@@ -12,7 +13,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         sendEmbed(createEmbed({
-            color: blue,
+            color: blue.hex,
             fields: [
                 {
                     name: "Message Latency",

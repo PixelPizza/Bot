@@ -1,6 +1,7 @@
+const PixelPizza = require("pixel-pizza");
 const { query } = require('../dbfunctions'); 
-const { createEmbed, sendEmbed, editEmbed, capitalize } = require("../functions"); 
-const { blue, red } = require('../colors.json'); 
+const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza; 
+const { blue, red } = PixelPizza.colors; 
 
 module.exports = {
     name: "application",
@@ -16,7 +17,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         const results = await query("SELECT * FROM application WHERE applicationId = ?", [args[0]]); 
@@ -35,7 +36,7 @@ module.exports = {
             fields.push({name: answer.question, value: answer.answer});
         }
         embedMsg = editEmbed(embedMsg, {
-            color: blue,
+            color: blue.hex,
             title: "Application",
             author: {
                 name: applyer.tag,

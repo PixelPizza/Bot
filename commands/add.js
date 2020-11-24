@@ -1,6 +1,7 @@
-const { createEmbed, getUser, sendEmbed, editEmbed, addRole } = require("../functions");
-const { red, green } = require('../colors.json');
-const { work } = require('../roles.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, getUser, sendEmbed, editEmbed, addRole } = PixelPizza;
+const { red, green } = PixelPizza.colors;
+const { work } = PixelPizza.roles;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: "**Add worker**"
         });
         const user = getUser(message, args, client);
@@ -40,7 +41,7 @@ module.exports = {
         addRole(member, work);
         query("INSERT INTO worker(workerId) VALUES(?)", [user.id]);
         sendEmbed(editEmbed(embedMsg, {
-            color: green,
+            color: green.hex,
             description: `${user} has been added as worker`,
             fields: [
                 {

@@ -1,5 +1,6 @@
-const { createEmbed, sendEmbed } = require("../functions");
-const { blue } = require('../colors.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed } = PixelPizza;
+const { blue } = PixelPizza.colors;
 
 module.exports = {
     name: "servers",
@@ -15,7 +16,7 @@ module.exports = {
         const pages = [];
         client.guilds.cache.each(guild => {
             pages.push(createEmbed({
-                color: blue,
+                color: blue.hex,
                 title: "**Server**",
                 description: guild.name,
                 fields: [

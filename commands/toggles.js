@@ -1,5 +1,6 @@
-const { createEmbed, capitalize } = require("../functions");
-const { blue } = require('../colors.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, capitalize } = PixelPizza;
+const { blue } = PixelPizza.colors;
 
 module.exports = { 
     name: "toggles", 
@@ -16,7 +17,7 @@ module.exports = {
             toggles.push(toggle); 
         } 
         message.channel.send(createEmbed({
-            color: blue,
+            color: blue.hex,
             title: `**${capitalize(this.name)}**`,
             description: toggles.join(", ")
         })); 

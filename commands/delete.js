@@ -1,6 +1,7 @@
-const { createEmbed, getUser, removeRole, sendEmbed, editEmbed } = require("../functions");
-const { red, green } = require('../colors.json');
-const { work, deliverer, cook } = require('../roles.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, getUser, removeRole, sendEmbed, editEmbed } = PixelPizza;
+const { red, green } = PixelPizza.colors;
+const { work, deliverer, cook } = PixelPizza.roles;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
     removeExp: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: "**Delete worker**"
         });
         const user = getUser(message, args, client);
@@ -42,7 +43,7 @@ module.exports = {
         removeRole(member, deliverer);
         query("DELETE FROM worker WHERE workerId = ?", [user.id]);
         sendEmbed(editEmbed(embedMsg, {
-            color: green,
+            color: green.hex,
             description: `${user} has been deleted as worker`,
             fields: [
                 {

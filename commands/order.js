@@ -1,10 +1,11 @@
-const { createEmbed, sendEmbed, editEmbed, capitalize, randomInt, isVip } = require("../functions"); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed, capitalize, randomInt, isVip } = PixelPizza; 
 const { query, makeOrderId } = require("../dbfunctions"); 
-const { blue, red, green } = require('../colors.json'); 
-const { maxPizzas, prefix } = require('../config.json'); 
-const { pings } = require('../roles.json'); 
-const { text } = require('../channels.json'); 
-const ingredients = require('../ingredients.json');
+const { blue, red, green } = PixelPizza.colors; 
+const { maxPizzas, prefix } = PixelPizza.config; 
+const { pings } = PixelPizza.roles; 
+const { text } = PixelPizza.channels; 
+const ingredients = PixelPizza.ingredients;
 
 module.exports = { 
     name: "order", 
@@ -19,7 +20,7 @@ module.exports = {
     getIngredient: () => ingredients[Math.floor(Math.random() * ingredients.length)],
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`,
             description: "Your pizza has been ordered and will be cooked as soon as possible"
         });
@@ -94,7 +95,7 @@ module.exports = {
         }
         await query("INSERT INTO `order`" + selections + " VALUES" + values, options); 
         const embedMsgOrder = createEmbed({
-            color: blue,
+            color: blue.hex,
             title: `**${capitalize(this.name)}**`,
             description: `a new order has come in!`,
             timestamp: true,
@@ -105,6 +106,6 @@ module.exports = {
         const channel = client.channels.cache.get(text.kitchen); 
         if (!client.canSendEmbeds) embedMsgOrder = embedMsgOrder.description + `\nId: ${id}`; 
         channel.send(`<@&${pings.cook}>`, embedMsgOrder);
-        message.channel.send(editEmbed(embedMsg, {color: green})); 
+        message.channel.send(editEmbed(embedMsg, {color: green.hex})); 
     } 
 }

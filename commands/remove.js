@@ -1,7 +1,8 @@
-const { createEmbed, sendEmbed, editEmbed } = require("../functions"); 
-const { blue, red } = require('../colors.json'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed } = PixelPizza; 
+const { blue, red } = PixelPizza.colors; 
 const { query } = require("../dbfunctions"); 
-const rules = require('../rules.json'); 
+const rules = PixelPizza.rules; 
 
 module.exports = { 
     name: "remove", 
@@ -16,13 +17,13 @@ module.exports = {
     pponly: false, 
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
-            color: blue,
+            color: blue.hex,
             title: "remove order"
         });
         const results = await query("SELECT * FROM `order` WHERE orderId = ?", [args[0]]); 
         if (!results.length) { 
             return sendEmbed(editEmbed(embedMsg, {
-                color: red,
+                color: red.hex,
                 description: `Order ${args[0]} doesn't exist`
             }), message);
         } 

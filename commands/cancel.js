@@ -1,6 +1,7 @@
-const { createEmbed, sendEmbed, editEmbed } = require("../functions");
-const { red, blue, green } = require('../colors.json');
-const { prefix } = require('../config.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed } = PixelPizza;
+const { red, green } = PixelPizza.colors;
+const { prefix } = PixelPizza.config;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
     pponly: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: "**no order**",
             description: `You have not ordered anything, use ${prefix}order to order a pizza`
         });
@@ -31,7 +32,7 @@ module.exports = {
             [message.author.id]
         );
         sendEmbed(editEmbed(embedMsg, {
-            color: green,
+            color: green.hex,
             title: "cancel order",
             description: "Your order has been canceled"
         }), message);

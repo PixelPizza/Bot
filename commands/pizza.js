@@ -1,6 +1,7 @@
+const PixelPizza = require("pixel-pizza");
 const { query } = require("../dbfunctions");
-const { sendEmbed, createEmbed, editEmbed, capitalize } = require("../functions");
-const { blue, red } = require('../colors.json'); 
+const { sendEmbed, createEmbed } = PixelPizza;
+const { blue, red } = PixelPizza.colors; 
 
 module.exports = {
     name: "pizza",
@@ -15,7 +16,7 @@ module.exports = {
         const orders = await query("SELECT * FROM `order` WHERE status = 'delivered' ORDER BY RAND() LIMIT 1");
         if(!orders.length){
             return sendEmbed(createEmbed({
-                color: red,
+                color: red.hex,
                 title: "Order not found",
                 description: "Could not find any delivered orders"
             }), message);
@@ -31,7 +32,7 @@ module.exports = {
         if (order.delivererId) deliverer = client.guildMembers.get(order.delivererId) ? client.users.cache.get(order.delivererId).username : "Deleted Deliverer"; 
         let embedMsg = createEmbed({
             title: `**Order**`,
-            color: blue,
+            color: blue.hex,
             description: `*${order.order}*`,
             fields: [
                 { name: "Orderer", value: orderer }, 

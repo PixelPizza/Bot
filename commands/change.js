@@ -1,9 +1,10 @@
+const PixelPizza = require("pixel-pizza");
 const { MessageAttachment } = require('discord.js');
-const { createEmbed, hasRole, sendEmbed, editEmbed, isImage } = require("../functions");
-const { red, green } = require('../colors.json');
-const { cook } = require('../roles.json');
+const { createEmbed, hasRole, sendEmbed, editEmbed, isImage } = PixelPizza;
+const { red, green } = PixelPizza.colors;
+const { cook } = PixelPizza.roles;
 const { query } = require("../dbfunctions");
-const { text } = require('../channels.json');
+const { text } = PixelPizza.channels;
 
 module.exports = {
     name: "change",
@@ -18,7 +19,7 @@ module.exports = {
     pponly: false,
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: "change image"
         });
         if (!hasRole(client.member, cook)) {
@@ -61,7 +62,7 @@ module.exports = {
                 [msg.attachments.first().url, args[0]]
             );
             sendEmbed(editEmbed(embedMsg, {
-                color: green,
+                color: green.hex,
                 description: `The image of the order has been changed`
             }), message);
         });

@@ -1,5 +1,6 @@
-const { createEmbed, sendEmbed, editEmbed, capitalize } = require("../functions"); 
-const { red, blue } = require('../colors.json'); 
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza; 
+const { red, blue } = PixelPizza.colors; 
 const { query } = require("../dbfunctions"); 
 
 module.exports = { 
@@ -16,7 +17,7 @@ module.exports = {
     async execute(message, args, client) { 
         const reactions = ['⬅️', '➡️']; 
         let embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `Not a number`,
             description: `${args[0]} is not a number`
         });
@@ -26,7 +27,7 @@ module.exports = {
         let name = this.name; 
         const addPage = () => { 
             const embedMsg = createEmbed({
-                color: blue,
+                color: blue.hex,
                 title: `**${name}**`,
                 description: "```md\n",
                 footer: {
@@ -41,7 +42,7 @@ module.exports = {
         const results = await query("SELECT userId FROM `user` ORDER BY `level` DESC, exp DESC, userId"); 
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
-                color: blue,
+                color: blue.hex,
                 title: `**${capitalize(this.name)}**`,
                 description: `There are no users in the leaderboard`
             })); 
@@ -65,7 +66,7 @@ module.exports = {
         } 
         page = args.length ? args[0] : 1;
         embedMsg = editEmbed(embedMsg, {
-            color: red,
+            color: red.hex,
             title: "Page not found"
         });
         if (page < 1) { 

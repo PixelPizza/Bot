@@ -1,10 +1,9 @@
-const { createEmbed, sendEmbed, editEmbed, capitalize, randomInt, isVip } = require("../functions"); 
-const { query, makeOrderId } = require("../dbfunctions"); 
-const { blue, red, green } = require('../colors.json'); 
-const { maxPizzas, prefix } = require('../config.json'); 
-const { pings } = require('../roles.json'); 
-const { text } = require('../channels.json'); 
-const ingredients = require('../ingredients.json');
+const PixelPizza = require("pixel-pizza");
+const { createEmbed, sendEmbed, editEmbed, capitalize, randomInt } = PixelPizza; 
+const { query } = require("../dbfunctions"); 
+const { red, green } = PixelPizza.colors; 
+const { prefix } = PixelPizza.config; 
+const ingredients = PixelPizza.ingredients;
 
 module.exports = {
     name: "edit",
@@ -22,7 +21,7 @@ module.exports = {
     getIngredient: () => ingredients[Math.floor(Math.random() * ingredients.length)],
     async execute(message, args, client) {
         const embedMsg = createEmbed({
-            color: red,
+            color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
         let order = args.join(" ");
@@ -57,7 +56,7 @@ module.exports = {
         }
         await query("UPDATE `order` SET `order` = ? WHERE orderId = ?", [order, result[0].orderId]);
         sendEmbed(editEmbed(embedMsg, {
-            color: green,
+            color: green.hex,
             description: "Your order has been edited"
         }), message);
     }

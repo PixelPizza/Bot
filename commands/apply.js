@@ -3,8 +3,8 @@ const PixelPizza = require("pixel-pizza");
 const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza;
 const { makeApplicationId, query } = require('../dbfunctions');
 const { blue, red, green } = PixelPizza.colors;
-const { text } = require('../channels.json');
-const questions = require('../questions.json');
+const { text } = PixelPizza.channels;
+const questions = PixelPizza.questions;
 
 module.exports = {
     name: "apply",

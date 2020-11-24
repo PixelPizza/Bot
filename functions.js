@@ -29,7 +29,7 @@ exports.updateGuildAmount = client => {
     }
     serverAmout += suffixUsed;
     serverAmout = activity == "PLAYING" || activity == "STREAMING" ? `with ${serverAmout}` : serverAmout;
-    client.user.setActivity(`${serverAmout} guilds | ${prefix}help`, { type: activity, url: "http://twitch.tv/" });
+    client.user.setActivity(`version 1.0 | ${serverAmout} guilds | ${prefix}help`, { type: activity, url: "http://twitch.tv/" });
 }
 exports.sendGuildLog = async (name, avatar, message) => {
     const webhook = new WebhookClient(log.id, log.token);

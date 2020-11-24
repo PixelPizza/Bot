@@ -1,6 +1,7 @@
 'use strict';
 
 const {log} = require("../data/webhooks");
+const {WebhookClient} = require("discord.js");
 
 /**
  * send a webhook message in the guild logs channel

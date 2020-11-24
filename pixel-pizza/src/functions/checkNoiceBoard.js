@@ -1,11 +1,17 @@
 'use strict';
 
+const {text} = require("../data/channels");
+const {noice2} = require("../data/emojis");
+const {noiceboardMinValue} = require("../data/config");
+const colors = require("../data/colors");
+const createEmbed = require("./createEmbed");
+
 const checkNoiceBoard = messageReaction => {
     const guild = messageReaction.message.guild;
     const member = messageReaction.message.member;
     const channel = guild.channels.cache.get(text.noiceboard);
     const emoji = guild.emojis.cache.get(noice2);
-    const embedMsg = this.createEmbed({
+    const embedMsg = createEmbed({
         color: noiceboard,
         author: {
             name: member.displayName,

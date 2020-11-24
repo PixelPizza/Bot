@@ -85,7 +85,8 @@ declare module 'pixel-pizza' {
             images: Snowflake,
             delivery: Snowflake,
             restaurant: Snowflake,
-            applications: Snowflake
+            applications: Snowflake,
+            suggestions: Snowflake
         }
     }
 

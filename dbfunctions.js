@@ -185,3 +185,11 @@ exports.checkProDeliverer = async member => {
         removeRole(member, proDeliverer);
     }
 }
+const makeSuggestionId = async () => {
+    let id = "";
+    for(let i = 0; i < idLength; i++){
+        id += characters.charAt(randomInt(0, characters.length));
+    }
+    const result = await this.query("SELECT suggestionId FROM `suggestion` WHERE suggestionId = ?",[id]);
+    return result.length ? this.makeOrderId() : id;
+}

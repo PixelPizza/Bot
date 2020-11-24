@@ -14,6 +14,7 @@ module.exports = {
         images: "710475459904929893",
         delivery: "710456118887055460",
         restaurant: "709698572479758337",
-        applications: "765663931318272040"
+        applications: "765663931318272040",
+        suggestions: "780921903825158164"
     }
 };

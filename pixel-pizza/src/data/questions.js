@@ -36,6 +36,10 @@ module.exports = {
         "dev"
     ]),
     staff: makeType("staff", [
-        "Are you online much?"
+        "Are you online much?",
+        "Are you staff in another server?",
+        "How many hours can you be online?",
+        "Why should we hire you and not someone else?",
+        "Do you have experience?"
     ])
 };

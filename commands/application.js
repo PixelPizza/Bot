@@ -44,7 +44,7 @@ module.exports = {
             },
             fields: fields,
             footer: {
-                text: `id: ${args[0]} | status: ${result.status} | staff: ${staffMember.displayName}`
+                text: `id: ${args[0]} | status: ${result.status} | staff: ${staffMember.displayName || staffMember}`
             }
         });
         if(!client.canSendEmbeds){

@@ -74,6 +74,8 @@ Commands
     * cook an order
   * deliver
     * deliver an order
+  * deliverdm
+    * deliver an order straigt to the dm of the orderer
   * deliverset
     * set your delivery message
   * images

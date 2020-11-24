@@ -17,6 +17,7 @@ module.exports = {
     userType: "all", 
     neededPerms: ["CREATE_INSTANT_INVITE"], 
     pponly: false, 
+    removeExp: false,
     getIngredient: () => ingredients[Math.floor(Math.random() * ingredients.length)],
     async execute(message, args, client) { 
         let embedMsg = createEmbed({
@@ -106,6 +107,6 @@ module.exports = {
         const channel = client.channels.cache.get(text.kitchen); 
         if (!client.canSendEmbeds) embedMsgOrder = embedMsgOrder.description + `\nId: ${id}`; 
         channel.send(`<@&${pings.cook}>`, embedMsgOrder);
-        message.channel.send(editEmbed(embedMsg, {color: green.hex})); 
+        sendEmbed(editEmbed(embedMsg, {color: green.hex}), message); 
     } 
 }

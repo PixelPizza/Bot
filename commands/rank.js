@@ -42,6 +42,6 @@ module.exports = {
             attachment = new MessageAttachment(image.toBuffer(), "rank.png"); 
             break; 
         } 
-        message.channel.send(attachment); 
+        message.channel.send({files: [attachment]}); 
     } 
 }

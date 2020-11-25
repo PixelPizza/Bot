@@ -2,7 +2,7 @@ module.exports = {
     name: "shutdown",
     description: "shut the bot down",
     args: false,
-    cooldown: 2147483647,
+    cooldown: 2147483.647,
     userType: "all",
     neededPerms: [],
     pponly: false,

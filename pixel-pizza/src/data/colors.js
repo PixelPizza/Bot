@@ -26,6 +26,7 @@ const colors = {
     darkgray: createColor("A9A9A9", [169, 169, 169], [0, 0, 66], [0, 0, 0, 34]),
     gray: createColor("808080", [128, 128, 128], [0, 0, 50], [0, 0, 0, 50]),
     lightgray: createColor("D3D3D3", [211, 211, 211], [0, 0, 83], [0, 0, 0, 17]),
+    noiceboard: createColor("C01E1E", [192, 30, 30], [0, 84, 44], [0, 84, 84, 25]),
     levels: {
         front: createColor("CCCCCC", [204, 204, 204], [0, 0, 80], [0, 0, 0, 20]),
         back: createColor("000", [0, 0, 0], [0, 0, 0], [0, 0, 0, 100]),

@@ -3,7 +3,7 @@
 const {text} = require("../data/channels");
 const {noice2} = require("../data/emojis");
 const {noiceboardMinValue} = require("../data/config");
-const colors = require("../data/colors");
+const {noiceboard} = require("../data/colors");
 const createEmbed = require("./createEmbed");
 
 const checkNoiceBoard = messageReaction => {
@@ -12,7 +12,7 @@ const checkNoiceBoard = messageReaction => {
     const channel = guild.channels.cache.get(text.noiceboard);
     const emoji = guild.emojis.cache.get(noice2);
     const embedMsg = createEmbed({
-        color: noiceboard,
+        color: noiceboard.hex,
         author: {
             name: member.displayName,
             icon: member.user.displayAvatarURL()

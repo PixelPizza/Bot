@@ -63,6 +63,7 @@ declare module 'pixel-pizza' {
         grey: ColorData,
         lightgray: ColorData,
         lightgrey: ColorData,
+        noiceboard: ColorData,
         levels: {
             front: ColorData,
             back: ColorData,

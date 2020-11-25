@@ -47,6 +47,7 @@ for (let file of cmdFiles) {
 process.on('unhandledRejection', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
     error('Unhandled promise rejection', message);
+    console.error(err);
 });
 
 process.on('exit', () => {
@@ -56,6 +57,7 @@ process.on('exit', () => {
 client.on('error', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
     error('Websocket connection error', message);
+    console.error(err);
 });
 
 client.on('ready', async () => {
@@ -196,7 +198,7 @@ client.on('message', async message => {
         }
         const args = message.content.slice(prefix.length).split(/ +/);
         const commandName = args.shift().toLowerCase();
-        log(`Command used by ${message.author.tag}`, commandName);
+        log(`Command used by ${message.author.tag} in ${message.guild.name} #${message.channel.name}`, commandName);
         const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
         if (!command) return;
         let embedMsg = createEmbed({

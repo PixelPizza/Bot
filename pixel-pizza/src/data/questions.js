@@ -25,7 +25,12 @@ module.exports = {
         "deliverer"
     ]),
     teacher: makeType("teacher", [
-        "Do you want to teach others how to do it?"
+        "are you online a lot?",
+        "what makes you a good teacher?",
+        "do you want to teach others how to work at Pixel Pizza?",
+        "why should we chose you over other applicants?"
+    ], [
+        "teach"
     ]),
     developer: makeType("developer", [
         "What programming languages do you use?",

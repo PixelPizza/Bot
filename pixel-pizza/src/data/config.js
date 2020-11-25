@@ -2,7 +2,7 @@
 
 module.exports = {
     prefix: "pp",
-    verifiction: "774640628374044723",
+    verification: "774640628374044723",
     workerRoles: "775150876418506792",
     botGuild: "709698572035162143",
     noiceboardMinValue: 3,

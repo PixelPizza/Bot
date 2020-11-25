@@ -57,7 +57,7 @@ module.exports = {
                 description: `This link is invalid`
             }), message);
         }
-        client.channels.cache.get(text.images).send(new MessageAttachment(url)).then(async msg => {
+        client.channels.cache.get(text.images).send({files: [url]}).then(async msg => {
             query(
                 "UPDATE `order` \
                 SET imageUrl = ?, status = 'cooking' \

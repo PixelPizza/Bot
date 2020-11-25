@@ -1,10 +1,10 @@
 const PixelPizza = require("pixel-pizza");
 const fs = require('fs');
 const mysql = require("mysql2");
-const {addRole, removeRole, hasRole, randomInt, isVip, error} = PixelPizza;
+const {addRole, removeRole, hasRole, randomInt, error} = PixelPizza;
 const {baseexp, addexp} = PixelPizza.level;
 const {botGuild, idLength, proAmount} = PixelPizza.config;
-const {levelroles, proCook, proDeliverer} = PixelPizza.roles;
+const {levelRoles, proCook, proDeliverer} = PixelPizza.roles;
 const secrets = fs.existsSync("./secrets.json") ? require('./secrets.json') : null;
 const database = secrets ? secrets.database : {
     host: process.env.DATABASE_HOST, 
@@ -53,11 +53,11 @@ exports.checkLevelRoles = (client, userId) => {
         if(result.length){
             const level = result[0].level;
             const member = client.guilds.cache.get(botGuild).members.cache.get(userId);
-            checkRole(level, 5, member, levelroles.five);
-            checkRole(level, 10, member, levelroles.ten);
-            checkRole(level, 25, member, levelroles.twentyfive);
-            checkRole(level, 50, member, levelroles.fifty);
-            checkRole(Level, 100, member, levelroles.hundered);
+            checkRole(level, 5, member, levelRoles.five);
+            checkRole(level, 10, member, levelRoles.ten);
+            checkRole(level, 25, member, levelRoles.twentyfive);
+            checkRole(level, 50, member, levelRoles.fifty);
+            checkRole(level, 100, member, levelRoles.hundered);
         }
     });
 }

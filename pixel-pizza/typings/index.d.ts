@@ -127,7 +127,7 @@ declare module 'pixel-pizza' {
         teacher: Snowflake[],
         staff: Snowflake[],
         director: Snowflake[],
-        levelroles: {
+        levelRoles: {
             five: Snowflake,
             ten: Snowflake,
             twentyfive: Snowflake,

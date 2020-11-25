@@ -24,7 +24,7 @@ const makeRankImg = async (user, level, exp, rank, style) => {
     ctx.fillStyle = style.front;
     ctx.fillRect(15, 20, 670, 210);
     ctx.font = applyText(canvas, user.username, 480);
-    ctx.fillStyle = black;
+    ctx.fillStyle = black.hex;
     ctx.fillText(user.username, canvas.width / 3 - 10, canvas.height / 1.6);
     ctx.font = applyText(canvas, level.toString(), 500);
     let font = ctx.font.replace("px sans-serif", "");

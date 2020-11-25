@@ -1,6 +1,6 @@
 const PixelPizza = require("pixel-pizza");
 const { createEmbed, sendEmbed, editEmbed, capitalize, randomInt, isVip } = PixelPizza; 
-const { query, makeOrderId } = require("../dbfunctions"); 
+const { query, makeId } = require("../dbfunctions"); 
 const { blue, red, green } = PixelPizza.colors; 
 const { maxPizzas, prefix } = PixelPizza.config; 
 const { pings } = PixelPizza.roles; 
@@ -84,7 +84,7 @@ module.exports = {
             }
             order = `Random pizza with these things: ${chosenIngredients.join(", ")}`;
         }
-        const id = await makeOrderId(); 
+        const id = await makeId("order"); 
         const selections = "(orderId,userId,guildId,channelId,status,`order`" + (chef ? ",cookId" : "") + (deliverer ? ",delivererId" : "") + ")";
         const values = "(?,?,?,?,'not claimed',?" + (chef ? ",?" : "") + (deliverer ? ",?" : "") + ")";
         const options = [id, message.author.id, message.guild.id, message.channel.id, order];

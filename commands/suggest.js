@@ -1,5 +1,5 @@
 const { createEmbed, colors, capitalize, sendEmbed, editEmbed, channels } = require("pixel-pizza");
-const { makeApplicationId, query } = require("../dbfunctions");
+const { makeId, query } = require("../dbfunctions");
 
 module.exports = {
     name: "suggest",
@@ -24,7 +24,7 @@ module.exports = {
                 description: "The suggestion is too long, please make it shorter!"
             }), message);
         }
-        const id = await makeApplicationId();
+        const id = await makeId("suggestion");
         await query("INSERT INTO suggestion(suggestionId, userId, suggestion) VALUES(?, ?, ?)", [id, message.author.id, suggestion]);
         let embedMsgSuggestion = createEmbed({
             color: colors.blue.hex,

@@ -1,7 +1,7 @@
 const { Collection } = require('discord.js');
 const PixelPizza = require("pixel-pizza");
 const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza;
-const { makeApplicationId, query } = require('../dbfunctions');
+const { makeId, query } = require('../dbfunctions');
 const { blue, red, green } = PixelPizza.colors;
 const { text } = PixelPizza.channels;
 const questions = PixelPizza.questions;
@@ -84,7 +84,7 @@ module.exports = {
                     });
                 });
             } else {
-                const appId = await makeApplicationId();
+                const appId = await makeId("application");
                 const embedMsgAnswers = createEmbed({
                     color: blue.hex,
                     title: 'Application',

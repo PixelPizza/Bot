@@ -4,7 +4,7 @@ const mysql = require("mysql2");
 const {addRole, removeRole, hasRole, randomInt, isVip, error} = PixelPizza;
 const {baseexp, addexp} = PixelPizza.level;
 const {botGuild, idLength, proAmount} = PixelPizza.config;
-const {levelRoles, proCook, proDeliverer} = PixelPizza.roles;
+const {levelroles, proCook, proDeliverer} = PixelPizza.roles;
 const secrets = fs.existsSync("./secrets.json") ? require('./secrets.json') : null;
 const database = secrets ? secrets.database : {
     host: process.env.DATABASE_HOST, 
@@ -12,7 +12,6 @@ const database = secrets ? secrets.database : {
     password: process.env.DATABASE_PASS, 
     database: process.env.DATABASE_DB
 };
-const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
 let con;
 const handleDisconnect = () => {
@@ -41,37 +40,24 @@ exports.addUser = userId => {
         if(!result.length) this.query("INSERT INTO `user`(userId) VALUES(?)", [userId]);
     });
 }
+const checkRole = (number, goal, member, role) => {
+    if(number >= goal && !hasRole(member, role)){
+        addRole(member, role);
+    } else if (number < goal && hasRole(member, role)){
+        removeRole(member, role);
+    }
+}
 exports.checkLevelRoles = (client, userId) => {
     if(isNaN(userId) || userId.length != 18) return;
     this.query("SELECT `level` FROM user WHERE userId = ?", [userId]).then(result => {
         if(result.length){
             const level = result[0].level;
             const member = client.guilds.cache.get(botGuild).members.cache.get(userId);
-            if(level >= 5 && !hasRole(member, levelRoles.five)){
-                addRole(member, levelRoles.five);
-            } else if(hasRole(member, levelRoles.five)){
-                removeRole(member, levelRoles.five);
-            }
-            if(level >= 10 && !hasRole(member, levelRoles.ten)){
-                addRole(member, levelRoles.ten);
-            } else if(hasRole(member, levelRoles.ten)){
-                removeRole(member, levelRoles.ten);
-            }
-            if(level >= 25 && !hasRole(member, levelRoles.twentyfive)){
-                addRole(member, levelRoles.twentyfive);
-            } else if(hasRole(member, levelRoles.twentyfive)){
-                removeRole(member, levelRoles.twentyfive);
-            }
-            if(level >= 50 && !hasRole(member, levelRoles.fifty)){
-                addRole(member, levelRoles.fifty);
-            } else if(hasRole(member, levelRoles.fifty)){
-                removeRole(member, levelRoles.fifty);
-            }
-            if(level >= 100 && !isVip(member)){
-                addRole(member, levelRoles.hundered);
-            } else if(isVip(member)){
-                removeRole(member, levelRoles.hundered);
-            }
+            checkRole(level, 5, member, levelroles.five);
+            checkRole(level, 10, member, levelroles.ten);
+            checkRole(level, 25, member, levelroles.twentyfive);
+            checkRole(level, 50, member, levelroles.fifty);
+            checkRole(Level, 100, member, levelroles.hundered);
         }
     });
 }
@@ -135,14 +121,6 @@ exports.isBlacklisted = async (userId) => {
     const result = await this.query("SELECT * FROM blacklisted WHERE userId = ?", [userId]);
     return result.length ? true : false;
 }
-exports.makeOrderId = async () => {
-    let id = "";
-    for(let i = 0; i < idLength; i++){
-        id += characters.charAt(randomInt(0, characters.length));   
-    }
-    const result = await this.query("SELECT orderId FROM `order` WHERE orderId = ?",[id]);
-    return result.length ? this.makeOrderId() : id;
-}
 exports.deleteOrders = async (client) => {
     const results = await this.query("SELECT orderId, userId, guildId FROM `order` WHERE status NOT IN('delivered', 'deleted')");
     const deletedGuilds = [];
@@ -158,14 +136,6 @@ exports.deleteOrders = async (client) => {
             }
         }
     }
-}
-exports.makeApplicationId = async () => {
-    let id = "";
-    for(let i = 0; i < idLength; i++){
-        id += characters.charAt(randomInt(0, characters.length));
-    }
-    const result = await this.query("SELECT applicationId FROM `application` WHERE applicationId = ?", [id]);
-    return result.length ? this.makeApplicationId() : id;
 }
 exports.checkProChef = async member => {
     const workers = await this.query("SELECT * FROM worker WHERE workerId = ?", [member.user.id]);
@@ -185,11 +155,12 @@ exports.checkProDeliverer = async member => {
         removeRole(member, proDeliverer);
     }
 }
-const makeSuggestionId = async () => {
+exports.makeId = async (table) => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
     let id = "";
     for(let i = 0; i < idLength; i++){
         id += characters.charAt(randomInt(0, characters.length));
     }
-    const result = await this.query("SELECT suggestionId FROM `suggestion` WHERE suggestionId = ?",[id]);
-    return result.length ? this.makeOrderId() : id;
+    const result = await this.query(`SELECT \`${table}Id\` FROM \`${table}\` WHERE \`${table}Id\` = ?`,[id]);
+    return result.length ? this.makeId(table) : id;
 }

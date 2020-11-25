@@ -3,7 +3,7 @@
 module.exports = {
     log: {
         id: "711196937881124964",
-        token: "JK4DTcc0pf1F3tAMFhjdFk6Tsg6TMKszxtDFKPxY0ViNSfWpJp4EQtTyPZna"
+        token: "JK4DTcc0pf1F3tAMFhjdFk6Tsg6TMKszxtDFKPxY0ViNSfWpJp4EQtTyPZna-Iy_wpxs"
     },
     serverLog: {
         id: "776160363925733379",

@@ -161,6 +161,7 @@ declare module 'pixel-pizza' {
         maxPrice: number,
         minWorkEarning: number,
         maxWorkEarning: number,
+        workCauses: string[],
         statuses: {
             orders: string[],
             applications: string[]

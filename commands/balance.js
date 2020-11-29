@@ -27,6 +27,6 @@ module.exports = {
         sendEmbed(editEmbed(embedMsg, {
             color: colors.blue.hex,
             description: `${config.currency}${balance}`
-        }));
+        }), message);
     }
 }

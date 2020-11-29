@@ -1,3 +1,6 @@
+const { createEmbed, colors, capitalize, sendEmbed, editEmbed } = require("pixel-pizza");
+const { query } = require("../dbfunctions");
+
 module.exports = {
     name: "unhandle",
     description: "unahndle a handled complaint or suggestion",

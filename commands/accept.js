@@ -9,8 +9,7 @@ module.exports = {
     aliases: ["acceptapp"],
     args: true,
     minArgs: 1,
-    maxArgs: 1,
-    usage: "<application id>",
+    usage: "<application id> [reason]",
     cooldown: 0,
     userType: "staff",
     neededPerms: [],
@@ -21,7 +20,9 @@ module.exports = {
             color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
-        const applications = await query("SELECT * FROM application WHERE applicationId = ? AND status = 'none'", [args[0]]);
+        const id = args.shift();
+        const reason = args.length ? args.join(" ") : "";
+        const applications = await query("SELECT * FROM application WHERE applicationId = ? AND status = 'none'", [id]);
         if(!applications.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "The application could not be found or has already been accepted or rejected"
@@ -38,15 +39,15 @@ module.exports = {
                 description: `This user is not in Pixel Pizza`
             }), message);
         }
-        await query("UPDATE application SET status = 'accepted', staffId = ? WHERE applicationId = ?", [message.author.id, args[0]]);
+        await query("UPDATE application SET status = 'accepted', staffId = ? WHERE applicationId = ?", [message.author.id, id]);
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
-            description: `${member} has been accepted`
+            description: `${member} has been accepted${reason ? ` for reason\n\`\`\`\n${reason}\n\`\`\`` : ""}`
         }), message);
         member.user.send(createEmbed({
             color: gray.hex,
             title: "Accepted",
-            description: "Your application has been accepted"
+            description: `Your application has been accepted${reason ? ` for reason\n\`\`\`\n${reason}\n\`\`\`` : ""}`
         }));
     }
 }

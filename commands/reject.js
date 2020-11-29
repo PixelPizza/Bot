@@ -9,8 +9,7 @@ module.exports = {
     aliases: ["rejectapp"],
     args: true,
     minArgs: 1,
-    maxArgs: 1,
-    usage: "<application id>",
+    usage: "<application id> [reason]",
     cooldown: 0,
     userType: "staff",
     neededPerms: [],
@@ -21,7 +20,9 @@ module.exports = {
             color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
-        const applications = await query("SELECT * FROM application WHERE applicationId = ? AND status = 'none'", [args[0]]);
+        const id = args.shift();
+        const reason = args.length ? args.join(" ") : "";
+        const applications = await query("SELECT * FROM application WHERE applicationId = ? AND status = 'none'", [id]);
         if(!applications.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "The application could not be found or has already been accepted or rejected"
@@ -33,16 +34,16 @@ module.exports = {
             }), message);
         }
         const member = client.guildMembers.get(applications[0].userId) || "Unknown";
-        await query("UPDATE application SET status = 'rejected', staffId = ? WHERE applicationId = ?", [message.author.id, args[0]]);
+        await query("UPDATE application SET status = 'rejected', staffId = ? WHERE applicationId = ?", [message.author.id, id]);
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
-            description: `${member} has been rejected`
+            description: `${member} has been rejected${reason ? ` for reason\n\`\`\`\n${reason}\n\`\`\`` : ""}`
         }), message);
         if(member != "Unknown"){
             member.user.send(createEmbed({
                 color: gray.hex,
                 title: "Rejected",
-                description: "Your application has been rejected"
+                description: `Your application has been rejected${reason ? ` for reason\n\`\`\`\n${reason}\n\`\`\`` : ""}`
             }));
         }
     }

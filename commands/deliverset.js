@@ -35,7 +35,7 @@ module.exports = {
                 },
                 {
                     name: "**Note**",
-                    value: "Supported variables are *{chef}*, *{customer}*, *{image}*, *{invite}*, *{deliverer}*, *{orderID}* and *{order}*",
+                    value: "Supported variables are *{chef}*, *{deliverer}*, *{customer}*, *{image}*, *{invite}*, *{orderdate}*, *{cookdate}*, *{deliverydate}*, *{orderID}* and *{order}*",
                     inline: false
                 }
             ]

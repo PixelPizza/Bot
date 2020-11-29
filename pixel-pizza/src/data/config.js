@@ -11,6 +11,8 @@ module.exports = {
     proAmount: 250,
     idLength: 5,
     orderCooldown: 300,
+    minPrice: 5,
+    maxPrice: 75,
     statuses: {
         orders: [
             "not claimed",

@@ -157,6 +157,8 @@ declare module 'pixel-pizza' {
         proAmount: number,
         idLength: number,
         orderCooldown: number,
+        minPrice: number,
+        maxPrice: number,
         statuses: {
             orders: string[],
             applications: string[]

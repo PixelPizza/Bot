@@ -67,6 +67,7 @@ module.exports = {
         .replace(/{deliverer}/g, `<@${message.author.id}>`)
         .replace(/{orderID}/g, args[0])
         .replace(/{order}/g, result.order)
+        .replace(/{price}/g, `${PixelPizza.config.currency}${randomInt(PixelPizza.config.minPrice, PixelPizza.config.maxPrice)}`)
         .replace(/{orderdate}/g, `${orderDate.getDate()}-${orderDate.getMonth()}-${orderDate.getFullYear()} (dd-mm-YYYY)`)
         .replace(/{cookdate}/g, `${cookDate.getDate()}-${cookDate.getMonth()}-${cookDate.getFullYear()} (dd-mm-YYYY)`)
         .replace(/{deliverydate}/g, `${deliverDate.getDate()}-${deliverDate.getMonth()}-${deliverDate.getFullYear()} (dd-mm-YYYY)`);

@@ -148,6 +148,7 @@ declare module 'pixel-pizza' {
 
     export const config: {
         prefix: string,
+        currency: string,
         verification: Snowflake,
         workerRoles: Snowflake,
         botGuild: Snowflake,

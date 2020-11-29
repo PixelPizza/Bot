@@ -80,7 +80,7 @@ module.exports = {
                 title: '**Delivered**',
                 description: 'The order has been delivered'
             }), message);
-            checkProDeliverer(client.member);
+            checkProDeliverer(client.guildMembers.get(message.author.id));
         });
     }
 }

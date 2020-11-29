@@ -84,7 +84,7 @@ module.exports = {
                         description: `Your order is now being delivered by ${message.author}`
                     })); 
                     if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
-                    checkProDeliverer(client.member);
+                    checkProDeliverer(client.guildMembers.get(message.author.id));
                 }); 
             }); 
         }); 

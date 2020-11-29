@@ -104,7 +104,7 @@ module.exports = {
             user.send(editEmbed(confirmation, {
                 description: `Your order has been cooked`
             }));
-            checkProChef(client.member);
+            checkProChef(client.guildMembers.get(message.author.id));
         });
     }
 }

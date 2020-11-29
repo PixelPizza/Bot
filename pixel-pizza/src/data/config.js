@@ -13,6 +13,8 @@ module.exports = {
     orderCooldown: 300,
     minPrice: 5,
     maxPrice: 75,
+    minWorkEarning: 1,
+    maxWorkEarning: 25,
     statuses: {
         orders: [
             "not claimed",

@@ -16,13 +16,13 @@ module.exports = {
             color: colors.red.hex,
             title: `**${capitalize(this.name)}**`
         });
-        const user = args.length ? message.author : getUser(message, args, client);
+        const user = !args.length ? message.author : getUser(message, args, client);
         if(!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "User could not be found"
             }), message);
         }
-        const results = await query("SELECT * FROM user WHERE userId = ?", [user.id]);
+        const results = await query("SELECT * FROM `user` WHERE userId = ?", [user.id]);
         const balance = results.length ? results[0].balance : 0;
         sendEmbed(editEmbed(embedMsg, {
             color: colors.blue.hex,

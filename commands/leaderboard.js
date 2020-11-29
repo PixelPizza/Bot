@@ -6,7 +6,7 @@ const { query } = require("../dbfunctions");
 module.exports = { 
     name: "leaderboard", 
     description: "see the pixel pizza ranking leaderboard", 
-    aliases: ["lb", "rankings"], 
+    aliases: ["lb", "rankings", "ranktop"], 
     minArgs: 0, 
     maxArgs: 1, 
     usage: "[page]", 

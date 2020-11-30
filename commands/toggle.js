@@ -1,6 +1,6 @@
 const PixelPizza = require("pixel-pizza");
 const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza;
-const { blue, red } = PixelPizza.colors;
+const { red } = PixelPizza.colors;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -9,31 +9,40 @@ module.exports = {
     args: true,
     minArgs: 1,
     maxArgs: 1,
-    usage: "<toggle>",
+    usage: "<toggle> [on | off]",
     cooldown: 0,
     userType: "staff",
     neededPerms: [],
     pponly: true,
     removeExp: false,
     execute(message, args, client) {
-        const key = args[0];
-        let embedMsg = createEmbed({
+        const embedMsg = createEmbed({
             color: red.hex,
             title: `**${capitalize(this.name)}**`,
-            description: `Toggle ${key} does not exist`
         });
-        const toggles = [];
-        for (let toggle in client.toggles) {
-            toggles.push(toggle);
+        const key = args[0];
+        const toggle = args[1];
+        if(!toggle){
+            sendEmbed(editEmbed(embedMsg, {
+                color: PixelPizza.colors.blue.hex,
+                description: `Toggle ${key} is ${client.toggles[key] ? "on" : "off"}`
+            }));
+        } else if (["on", "off"].includes(toggle)) {
+            if (!client.toggles.includes(key)) {
+                return sendEmbed(editEmbed(embedMsg, {
+                    description: `Toggle ${key} does not exist`
+                }), message);
+            }
+            client.toggles[key] = toggle == "on" ? true : false;
+            await query("UPDATE toggle SET `value` = ? WHERE `key` = ?", [toggle == "on" ? 1 : 0, key]);
+            sendEmbed(editEmbed(embedMsg, {
+                color: PixelPizza.colors.green.hex,
+                description: `Toggle ${key} is now ${toggle}`
+            }), message);
+        } else {
+            sendEmbed(editEmbed(embedMsg, {
+                description: "Please choose on or off as value"
+            }), message);
         }
-        if (!toggles.includes(key)) {
-            return sendEmbed(embedMsg, message);
-        }
-        client.toggles[key] = !client.toggles[key];
-        query("UPDATE toggle SET `value` = !`value` WHERE `key` = ?", [key]);
-        sendEmbed(editEmbed(embedMsg, {
-            color: blue.hex,
-            description: `Toggle ${key} is now set to ${client.toggles[key]}`
-        }), message);
     }
 }

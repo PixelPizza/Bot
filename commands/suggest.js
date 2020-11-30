@@ -8,7 +8,7 @@ module.exports = {
     args: true,
     minArgs: 1,
     usage: "<suggestion>",
-    cooldown: 30,
+    cooldown: 0,
     userType: "all",
     neededPerms: [],
     pponly: false,

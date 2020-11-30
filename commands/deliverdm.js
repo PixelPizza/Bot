@@ -1,3 +1,4 @@
+const { randomInt } = require("crypto");
 const PixelPizza = require("pixel-pizza");
 const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = PixelPizza;
 const { green, red } = PixelPizza.colors; 

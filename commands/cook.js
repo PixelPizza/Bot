@@ -93,7 +93,7 @@ module.exports = {
                 }
             }, 10000);
             await wait(cookTime * 1000);
-            query("UPDATE `order` SET status = 'cooked' WHERE orderId = ?", [args[0]]);
+            query("UPDATE `order` SET status = 'cooked', cookedAt = CURRENT_TIMESTAMP WHERE orderId = ?", [args[0]]);
             query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);
             embedMsg = editEmbed(embedMsg, {
                 color: blue.hex,

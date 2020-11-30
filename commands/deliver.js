@@ -76,7 +76,7 @@ module.exports = {
             .replace(/{deliverydate}/g, `${deliverDate.getDate()}-${deliverDate.getMonth()}-${deliverDate.getFullYear()} (dd-mm-YYYY)`);
             message.author.send(deliveryMessage).then(() => { 
                 message.author.send(`Don't send this link to the orderer!\n${guildInvite.url}`).then(() => { 
-                    query("UPDATE `order` SET status = 'delivered', delivererId = ? WHERE orderId = ?", [message.author.id, args[0]]); 
+                    query("UPDATE `order` SET status = 'delivered', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
                     query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
                     orderer.send(editEmbed(embedMsg, {
                         color: blue.hex,

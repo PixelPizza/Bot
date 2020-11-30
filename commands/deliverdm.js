@@ -73,7 +73,7 @@ module.exports = {
         .replace(/{cookdate}/g, `${cookDate.getDate()}-${cookDate.getMonth()}-${cookDate.getFullYear()} (dd-mm-YYYY)`)
         .replace(/{deliverydate}/g, `${deliverDate.getDate()}-${deliverDate.getMonth()}-${deliverDate.getFullYear()} (dd-mm-YYYY)`);
         orderer.send(deliveryMessage).then(() => {
-            query("UPDATE `order` SET status = 'delivered', delivererId = ? WHERE orderId = ?", [message.author.id, args[0]]); 
+            query("UPDATE `order` SET status = 'delivered', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
             query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
             if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
             sendEmbed(createEmbed({

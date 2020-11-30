@@ -16,7 +16,14 @@ module.exports = {
     minWorkEarning: 1,
     maxWorkEarning: 25,
     workCauses: [
-        "You earned {earning}, there are sadly no causes yet\nif you know a good cause to add please DM Jaron#3021"
+        "You work for Pixel Pizza and earn {earning}. Good job!!",
+        "You worked hard as a farmer and earned {earning}",
+        "You gave good scuba diving lessons, you earned {earning}",
+        "Damm u spent some time working... here's {earning} for your hard work",
+        "You are lazy, but you still get paid. Here's {eaning}...",
+        "Alright I am out of ideas here's {earning} and don't tell anyone",
+        "You deserved this money for saying 1 word. you got {earning}!",
+        "Alright here's {earning} that you totally didn't steal"
     ],
     statuses: {
         orders: [

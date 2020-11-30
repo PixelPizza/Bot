@@ -104,5 +104,6 @@ module.exports = [
     "waifu", 
     "narutomaki", 
     "perry",
-    "bath water"
+    "bath water",
+    "sugar"
 ];

@@ -2,7 +2,7 @@
 name: Command request
 about: Suggest an command for the bot
 title: 'New Command: '
-labels: enhancement
+labels: enhancement, command
 assignees: jaronetje
 
 ---

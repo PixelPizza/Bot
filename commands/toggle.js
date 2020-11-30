@@ -15,7 +15,7 @@ module.exports = {
     neededPerms: [],
     pponly: true,
     removeExp: false,
-    execute(message, args, client) {
+    async execute(message, args, client) {
         const embedMsg = createEmbed({
             color: red.hex,
             title: `**${capitalize(this.name)}**`,

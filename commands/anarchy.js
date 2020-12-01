@@ -5,7 +5,7 @@ module.exports = {
     name: "anarchy",
     description: "show info on anarchy day",
     args: false,
-    cooldown: 300,
+    cooldown: 10,
     userType: "all",
     neededPerms: [],
     pponly: false,

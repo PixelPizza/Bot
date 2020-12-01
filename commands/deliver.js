@@ -56,7 +56,7 @@ module.exports = {
         }
         const member = client.guildMembers.get(orderer.id);
         let cook = "none"; 
-        if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
+        if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId) : "Deleted Cook"; 
         let image = result.imageUrl; 
         let guild = client.guilds.cache.get(result.guildId); 
         let channel = client.channels.cache.get(result.channelId) ?? guild.channels.cache.find(channel => channel.type == "text" && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)); 
@@ -64,11 +64,11 @@ module.exports = {
         const cookDate = new Date(result.cookedAt);
         const deliverDate = new Date(Date.now());
         deliveryMessage = deliveryMessage
-            .replace(/{chef}/g, cook)
-            .replace(/{customer}/g, `\`<@${orderer.id}>\``)
+            .replace(/{chef}/g, typeof cook == "string" ? cook : `<@${cook.id}>`)
+            .replace(/{customer}/g, `<@${orderer.id}>`)
             .replace(/{image}/g, image)
             .replace(/{invite}/g, invite)
-            .replace(/{deliverer}/g, `\`<@${message.author.id}>\``)
+            .replace(/{deliverer}/g, `<@${message.author.id}>`)
             .replace(/{orderID}/g, args[0]) 
             .replace(/{order}/g, result.order)
             .replace(/{price}/g, `${PixelPizza.config.currency}${randomInt(PixelPizza.config.minPrice, PixelPizza.config.maxPrice)}`)

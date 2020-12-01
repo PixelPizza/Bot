@@ -75,6 +75,7 @@ module.exports = {
             .replace(/{orderdate}/g, `${orderDate.getDate()}-${orderDate.getMonth()}-${orderDate.getFullYear()} (dd-mm-YYYY)`)
             .replace(/{cookdate}/g, `${cookDate.getDate()}-${cookDate.getMonth()}-${cookDate.getFullYear()} (dd-mm-YYYY)`)
             .replace(/{deliverydate}/g, `${deliverDate.getDate()}-${deliverDate.getMonth()}-${deliverDate.getFullYear()} (dd-mm-YYYY)`);
+        deliveryMessage += `\n\n**Note:** I (owner of ${client.user.username}) have been told that discord can ban people for joining and leaving many servers at once\nso to make sure this can not happen (even if it is not true) we now let ${client.user.username} deliver almost all of the orders\nThank you for understanding`;
         try {
             channel.send(deliveryMessage);
         } catch (err) {

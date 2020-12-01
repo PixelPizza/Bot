@@ -14,7 +14,7 @@ module.exports = {
         sendEmbed(createEmbed({
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
-            description: `You can vote for Pixel Pizza with this link\nhttps://top.gg/bot/709705136259334296/vote`
+            description: `You can vote for ${client.user.username} with this link\nhttps://top.gg/bot/709705136259334296/vote`
         }), message);
     }
 }

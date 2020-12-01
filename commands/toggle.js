@@ -28,7 +28,7 @@ module.exports = {
                 description: `Toggle ${key} is ${client.toggles[key] ? "on" : "off"}`
             }), message);
         } else if (["on", "off"].includes(toggle)) {
-            if (!client.toggles[key]) {
+            if (!client.toggles[key] && client.toggles[key] !== false) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: `Toggle ${key} does not exist`
                 }), message);

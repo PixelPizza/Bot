@@ -13,8 +13,8 @@ module.exports = {
     orderCooldown: 300,
     minPrice: 5,
     maxPrice: 75,
-    minWorkEarning: 1,
-    maxWorkEarning: 25,
+    minWorkEarning: 10,
+    maxWorkEarning: 75,
     workCauses: [
         "You work for {botguild} and earn {earning}. Good job!!",
         "You worked hard as a farmer and earned {earning}",

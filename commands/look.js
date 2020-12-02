@@ -1,6 +1,6 @@
 const PixelPizza = require("pixel-pizza");
 const { query } = require('../dbfunctions'); 
-const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza; 
+const { createEmbed, sendEmbed, editEmbed, capitalize, timestampToDate } = PixelPizza; 
 const { blue, red } = PixelPizza.colors; 
 
 module.exports = { 
@@ -30,6 +30,9 @@ module.exports = {
         const orderer = client.users.cache.get(result.userId)?.username || "Unknown orderer"; 
         const guild = client.guilds.cache.get(result.guildId); 
         const channel = guild.channels.cache.get(result.channelId); 
+        const orderDate = result.orderedAt;
+        const cookDate = result.cookedAt;
+        const deliverDate = result.deliveredAt;
         channel.name = channel ? channel.name : "Deleted Channel"; 
         let cook = "none"; 
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
@@ -37,11 +40,47 @@ module.exports = {
         if (result.delivererId) deliverer = client.guildMembers.get(result.delivererId) ? client.users.cache.get(result.delivererId).username : "Deleted Deliverer"; 
         embedMsg = editEmbed(embedMsg, {
             color: blue.hex,
-            description: `*${result.order}*`,
+            title: "**Order**",
+            description: `***${result.order}***`,
             fields: [
-                { name: "Orderer", value: orderer }, 
-                { name: "Guild name", value: guild.name, inline: true }, 
-                { name: "Ordered in channel", value: channel.name, inline: true },
+                {
+                    name: "\u200b",
+                    value: "\u200b"
+                },
+                { 
+                    name: "Orderer", 
+                    value: orderer 
+                },
+                { 
+                    name: "Guild name", 
+                    value: guild.name, 
+                    inline: true 
+                }, 
+                { 
+                    name: "Ordered in channel", 
+                    value: channel.name, 
+                    inline: true 
+                },
+                {
+                    name: "\u200b",
+                    value: "\u200b"
+                },
+                { 
+                    name: "Ordered at", 
+                    value: orderDate ? timestampToDate(orderDate) : "Unknown"
+                },
+                {
+                    name: "Cooked at",
+                    value: cookDate ? timestampToDate(cookDate) : "Unknown"
+                },
+                {
+                    name: "Delivered at",
+                    value: deliverDate ? timestampToDate(deliverDate) : "Unknown"
+                },
+                {
+                    name: "\u200b",
+                    value: "\u200b"
+                }
             ],
             footer: {
                 text: `id: ${result.orderId} | status: ${result.status} | cook: ${cook} | deliverer: ${deliverer}`

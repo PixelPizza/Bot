@@ -107,6 +107,14 @@ module.exports = {
         const channel = client.channels.cache.get(text.kitchen); 
         if (!client.canSendEmbeds) embedMsgOrder = embedMsgOrder.description + `\nId: ${id}`; 
         channel.send(`<@&${pings.cook}>`, embedMsgOrder);
-        sendEmbed(editEmbed(embedMsg, {color: green.hex}), message); 
+        sendEmbed(editEmbed(embedMsg, {
+            color: green.hex,
+            fields: [
+                {
+                    name: "Your order",
+                    value: order
+                }
+            ]
+        }), message); 
     } 
 }

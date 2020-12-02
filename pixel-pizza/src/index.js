@@ -30,6 +30,7 @@ module.exports = {
     sendEmbedWithChannel: require("./functions/sendEmbedWithChannel"),
     sendGuildLog: require("./functions/sendGuildLog"),
     setCooldown: require("./functions/setCooldown"),
+    timestampToDate: require('./functions/timestampToDate'),
     updateGuildAmount: require("./functions/updateGuildAmount"),
     updateMemberSize: require("./functions/updateMemberSize"),
     wait: require("./functions/wait"),

@@ -227,6 +227,8 @@ declare module 'pixel-pizza' {
 
     export const setCooldown: (client: PPClient, commandName: string, userId: Snowflake, seconds: number) => void
 
+    export const timestampToDate: (timestamp: number) => string
+
     export const updateGuildAmount: (client: PPClient) => void
 
     export const updateMemberSize: (client: PPClient) => void

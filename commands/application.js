@@ -39,8 +39,8 @@ module.exports = {
             color: blue.hex,
             title: "Application",
             author: {
-                name: applyer.tag,
-                icon: applyer.displayAvatarURL()
+                name: applyer?.tag || "Unknown (reject because not in Pixel Pizza)",
+                icon: applyer?.displayAvatarURL() || null
             },
             fields: fields,
             footer: {

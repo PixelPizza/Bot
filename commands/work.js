@@ -18,6 +18,7 @@ module.exports = {
         const earning = randomInt(config.minWorkEarning, config.maxWorkEarning);
         const causeIndex = randomInt(config.workCauses.length);
         const cause = config.workCauses[causeIndex].replace(/{earning}/g, `${config.currency}${earning}`).replace(/{botguild}/g, guild.name);
+        await query("UPDATE `user` SET balance = balance + ? WHERE userId = ?", [earning, message.author.id]);
         sendEmbed(createEmbed({
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,

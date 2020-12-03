@@ -156,7 +156,7 @@ exports.checkProDeliverer = async member => {
     }
 }
 exports.makeId = async (table) => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+    const characters = /* "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz */"0123456789"/* -_" */;
     let id = "";
     for(let i = 0; i < idLength; i++){
         id += characters.charAt(randomInt(0, characters.length));

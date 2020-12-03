@@ -9,7 +9,7 @@ module.exports = {
     noiceboardMinValue: 3,
     maxPizzas: 20,
     proAmount: 250,
-    idLength: 5,
+    idLength: 3,
     orderCooldown: 300,
     minPrice: 5,
     maxPrice: 75,

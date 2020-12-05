@@ -144,6 +144,11 @@ declare module 'pixel-pizza' {
     }
 
     /**
+     * An array with pizzas on the menu
+     */
+    export const menu: string[]
+
+    /**
      * A dictionary with application types
      */
     export const questions: {

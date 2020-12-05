@@ -9,6 +9,7 @@ export const {
     emojis,
     ingredients,
     level,
+    menu,
     questions,
     roles,
     rules,

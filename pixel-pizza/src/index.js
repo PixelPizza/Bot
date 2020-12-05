@@ -7,6 +7,7 @@ module.exports = {
     emojis: require("./data/emojis"),
     ingredients: require("./data/ingredients"),
     level: require("./data/level"),
+    menu: require('./data/menu'),
     questions: require("./data/questions"),
     roles: require("./data/roles"),
     rules: require("./data/rules"),

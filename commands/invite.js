@@ -1,5 +1,6 @@
-const PixelPizza = require("pixel-pizza");
-const {FLAGS} = require('discord.js').Permissions;
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
+const {FLAGS} = discord.Permissions;
 const { sendEmbed, createEmbed, capitalize } = PixelPizza;
 const { blue } = PixelPizza.colors;
 
@@ -12,6 +13,13 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const permInt = FLAGS.CREATE_INSTANT_INVITE | FLAGS.SEND_MESSAGES | FLAGS.EMBED_LINKS;
         sendEmbed(createEmbed({

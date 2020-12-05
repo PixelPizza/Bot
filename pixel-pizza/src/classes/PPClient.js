@@ -5,16 +5,28 @@
 // This class has been extended from the discord.js node module
 //
 
-const {Client, Collection} = require("discord.js");
+const discord = require("discord.js");
 
 /**
  * the Pixel Pizza extended version of the discord.js Client class
- * @extends {Client}
+ * @extends {discord.Client}
  */
-class PPClient extends Client{
-    commands = new Collection();
-    cooldowns = new Collection();
-    guildMembers = new Collection();
+class PPClient extends discord.Client{
+    /**
+     * The commands of the bot
+     */
+    commands = new discord.Collection();
+    /**
+     * The cooldowns on users of the bot
+     */
+    cooldowns = new discord.Collection();
+    /**
+     * The members of the main guild of the bot
+     */
+    guildMembers = new discord.Collection();
+    /**
+     * Boolean configurations of the bot
+     */
     toggles = {
         cooldowns: true,
         addExp: true,
@@ -26,10 +38,13 @@ class PPClient extends Client{
         cookOwnOrder: false,
         deliverOwnOrder: false
     };
+    /**
+     * If the client can send embeds to the channel
+     */
     canSendEmbeds = false;
     
     /**
-     * @param {ClientOptions} options Options for the client
+     * @param {discord.ClientOptions} options Options for the client
      */
     constructor(options = {}){
         super(options);

@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * An array with ingredients
+ */
 module.exports = [
     "rice",
     "chicken nuggets",

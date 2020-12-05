@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * A dictonary of discord voice and text channel ids
+ */
 module.exports = {
     voice: {
         allMembers: "712734683527381066",

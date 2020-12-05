@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * A dictonary with discord role ids
+ */
 module.exports = {
     developer: "711347337582215244",
     cook: "709745724052734015",

@@ -1,5 +1,21 @@
 'use strict';
 
+// TODO make color convertion functions
+
+/**
+ * Create a color using color values
+ * @param {string} hex The hex value of the color
+ * @param {[number, number, number]} rgb The red, green and blue values of the color
+ * @param {[number, number, number]} hsl The hue, saturation and lightness values of the color
+ * @param {[number, number, number, number]} cmyk The cyan, magenta, yellow and black values of the color
+ * @returns {{
+ *  hex: string,
+ *  rgb: [number, number, number],
+ *  hsl: [number, number, number],
+ *  cmyk: [number, number, number, number]
+ * }} A dictonary with color values
+ * @throws An error if the color values were not formatted correctly
+ */
 const createColor = (hex, rgb, hsl, cmyk) => { 
     if(typeof hex == "string" && Array.isArray(rgb) && Array.isArray(hsl) && Array.isArray(cmyk) && (hex.length == 6 || hex == "FFF" || hex == "000") && rgb.length == 3 && hsl.length == 3 && cmyk.length == 4){
         return {
@@ -12,6 +28,9 @@ const createColor = (hex, rgb, hsl, cmyk) => {
     throw new Error("wrong color format");
 };
 
+/**
+ * A dictonary with color values in hex, rgb, hsl and cmyk format
+ */
 const colors = {
     black: createColor("000", [0, 0, 0], [0, 0, 0], [0, 0, 0, 100]),
     white: createColor("FFF", [255, 255, 255], [0, 0, 100], [0, 0, 0, 0]),

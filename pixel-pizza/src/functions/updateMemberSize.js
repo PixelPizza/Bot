@@ -5,6 +5,7 @@ const {voice} = require("../data/channels");
 /**
  * Update the amount of members in Pixel Pizza
  * @param {PPClient} client The client to get the members and channels from
+ * @returns {void}
  */
 const updateMemberSize = (client) => {
     const [bots, members] = client.guildMembers.partition(member => member.user.bot);

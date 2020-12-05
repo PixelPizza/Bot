@@ -21,7 +21,7 @@ const { green, red, black } = PixelPizza.colors;
 const { noice, noice2 } = PixelPizza.emojis;
 const { text } = PixelPizza.channels;
 const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = PixelPizza.roles;
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, sendEmbedWithChannel, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
+const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
@@ -89,7 +89,7 @@ client.on('guildCreate', guild => {
     if (!channel) {
         channel = guild.channels.cache.find(channel => channel.type === "text");
     }
-    sendEmbedWithChannel(createEmbed({
+    sendEmbed(createEmbed({
         color: green.hex,
         title: "Thank you!",
         description: `Thank you for adding me!\nMy prefix is ${prefix}\nUse ${prefix}help for all commands!`

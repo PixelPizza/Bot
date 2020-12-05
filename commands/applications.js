@@ -1,4 +1,5 @@
-const PixelPizza = require("pixel-pizza");
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
 const { createEmbed, capitalize, editEmbed, sendEmbed } = PixelPizza;
 const { red, blue } = PixelPizza.colors;
 const { query } = require("../dbfunctions");
@@ -15,6 +16,13 @@ module.exports = {
     neededPerms: [],
     pponly: true,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const status = args.join(" ");
         let embedMsg = createEmbed({

@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Makes a new application type
+ * @param {string} name The name of the application
+ * @param {string[]} questions The questions of the application
+ * @param {string[]} aliases The aliases of the application
+ */
 const makeType = (name, questions, aliases = []) => {
     if(typeof name == "string" && Array.isArray(questions) && Array.isArray(aliases)){
         return {
@@ -11,6 +17,9 @@ const makeType = (name, questions, aliases = []) => {
     throw new Error("Invalid question type format");
 }
 
+/**
+ * A dictionary with application types
+ */
 module.exports = {
     worker: makeType("worker", [
         "Do you know the rules?",

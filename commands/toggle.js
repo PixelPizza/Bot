@@ -1,3 +1,4 @@
+const discord = require('discord.js');
 const PixelPizza = require("pixel-pizza");
 const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza;
 const { red } = PixelPizza.colors;
@@ -15,6 +16,13 @@ module.exports = {
     neededPerms: [],
     pponly: true,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const embedMsg = createEmbed({
             color: red.hex,

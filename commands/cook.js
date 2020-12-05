@@ -1,6 +1,7 @@
-const { MessageAttachment } = require('discord.js');
-const PixelPizza = require("pixel-pizza");
-const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, isImage, editEmbed, randomInt, wait, capitalize } = PixelPizza;
+const { randomInt } = require('crypto');
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
+const { createEmbed, hasRole, sendEmbed, isImage, editEmbed, wait, capitalize } = PixelPizza;
 const { blue, red, silver } = PixelPizza.colors;
 const { cook, pings } = PixelPizza.roles;
 const { query, checkProChef } = require("../dbfunctions");
@@ -17,6 +18,10 @@ module.exports = {
     userType: "worker",
     neededPerms: [],
     pponly: false,
+    /**
+     * Change seconds to a string of minutes and seconds
+     * @param {number} time 
+     */
     getTimeAsString(time){
         let minutes = Math.floor(time / 60);
         minutes = minutes >= 10 ? minutes.toString() : `0${minutes.toString()}`;
@@ -24,6 +29,13 @@ module.exports = {
         seconds = seconds >= 10 ? seconds.toString() : `0${seconds.toString()}`;
         return `${minutes}:${seconds}`;
     },
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         let embedMsg = createEmbed({
             color: red.hex,
@@ -80,7 +92,7 @@ module.exports = {
                     text: `id: ${args[0]}`
                 }
             });
-            const timerMessage = await sendEmbedWithChannel(embedMsgTimer, client, client.channels.cache.get(text.kitchen));
+            const timerMessage = await sendEmbed(embedMsgTimer, client, client.channels.cache.get(text.kitchen));
             const timer = setInterval(() => {
                 cookTime-=10;
                 let timerString = this.getTimeAsString(cookTime);

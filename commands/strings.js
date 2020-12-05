@@ -1,4 +1,6 @@
-const { sendEmbed, createEmbed, colors, capitalize } = require("pixel-pizza");
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
+const { sendEmbed, createEmbed, colors, capitalize } = PixelPizza;
 const {query} = require("../dbfunctions");
 
 module.exports = {
@@ -10,6 +12,13 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const strings = await query("SELECT `key` FROM `string`");
         sendEmbed(createEmbed({

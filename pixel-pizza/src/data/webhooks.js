@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * A dictionary with webhook ids and tokens
+ */
 module.exports = {
     log: {
         id: "711196937881124964",

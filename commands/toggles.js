@@ -1,3 +1,4 @@
+const discord = require('discord.js');
 const PixelPizza = require("pixel-pizza");
 const { createEmbed, capitalize } = PixelPizza;
 const { blue } = PixelPizza.colors;
@@ -11,6 +12,13 @@ module.exports = {
     neededPerms: [], 
     pponly: true, 
     removeExp: false, 
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     execute(message, args, client) { 
         const toggles = []; 
         for (let toggle in client.toggles) { 

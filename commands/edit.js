@@ -1,5 +1,7 @@
-const PixelPizza = require("pixel-pizza");
-const { createEmbed, sendEmbed, editEmbed, capitalize, randomInt } = PixelPizza; 
+const { randomInt } = require('crypto');
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
+const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza; 
 const { query } = require("../dbfunctions"); 
 const { red, green } = PixelPizza.colors; 
 const { prefix } = PixelPizza.config; 
@@ -18,7 +20,18 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    /**
+     * Get a random ingredient from the ingredients list
+     * @returns {string}
+     */
     getIngredient: () => ingredients[Math.floor(Math.random() * ingredients.length)],
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const embedMsg = createEmbed({
             color: red.hex,

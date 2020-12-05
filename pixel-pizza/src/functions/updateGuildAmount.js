@@ -5,6 +5,7 @@ const {prefix} = require("../data/config");
 /**
  * Update the amount of guilds in Pixel Pizza
  * @param {PPClient} client The client to get the members and channels from
+ * @returns {void}
  */
 const updateGuildAmount = (client) => {
     const activities = ["PLAYING", "STREAMING", "LISTENING", "WATCHING"];

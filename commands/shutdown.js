@@ -1,3 +1,6 @@
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
+
 module.exports = {
     name: "shutdown",
     description: "shut the bot down",
@@ -7,6 +10,13 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         message.channel.send("I don't think so... don't try again");
     }

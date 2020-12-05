@@ -1,7 +1,9 @@
+const { randomInt } = require('crypto');
+const discord = require('discord.js');
 const PixelPizza = require("pixel-pizza");
 const fs = require('fs');
 const mysql = require("mysql2");
-const {addRole, removeRole, hasRole, randomInt, error} = PixelPizza;
+const {addRole, removeRole, hasRole, error} = PixelPizza;
 const {baseexp, addexp} = PixelPizza.level;
 const {botGuild, idLength, proAmount} = PixelPizza.config;
 const {levelRoles, proCook, proDeliverer} = PixelPizza.roles;
@@ -14,6 +16,10 @@ const database = secrets ? secrets.database : {
 };
 
 let con;
+/**
+ * Handle the disconnection of a database
+ * @returns {void}
+ */
 const handleDisconnect = () => {
     con = mysql.createConnection(database);
     con.connect(err => {
@@ -30,16 +36,35 @@ const handleDisconnect = () => {
 }
 handleDisconnect();
 
+/**
+ * Query to the database
+ * @param {string} query 
+ * @param {any[]} options 
+ * @returns {Promise<any>}
+ */
 exports.query = (query, options = []) => new Promise((resolve, reject)=>con.execute(query, options, (error, result) => {
     if(error) reject(error);
     else resolve(result);
 }));
+/**
+ * Add a user to users
+ * @param {discord.Snowflake} userId 
+ * @returns {void}
+ */
 exports.addUser = userId => {
     if(isNaN(userId) || userId.length != 18) return;
     this.query("SELECT * FROM `user` WHERE userId = ?", [userId]).then(result => {
         if(!result.length) this.query("INSERT INTO `user`(userId) VALUES(?)", [userId]);
     });
 }
+/**
+ * Check and add roles
+ * @param {number} number 
+ * @param {number} goal 
+ * @param {discord.GuildMember} member 
+ * @param {discord.RoleResolvable} role 
+ * @returns {void}
+ */
 const checkRole = (number, goal, member, role) => {
     if(number >= goal && !hasRole(member, role)){
         addRole(member, role);
@@ -47,6 +72,12 @@ const checkRole = (number, goal, member, role) => {
         removeRole(member, role);
     }
 }
+/**
+ * Check if a user should have certain roles
+ * @param {PixelPizza.PPClient} client 	
+ * @param {discord.Snowflake} userId 
+ * @returns {void}
+ */
 exports.checkLevelRoles = (client, userId) => {
     if(isNaN(userId) || userId.length != 18) return;
     this.query("SELECT `level` FROM user WHERE userId = ?", [userId]).then(result => {
@@ -61,6 +92,12 @@ exports.checkLevelRoles = (client, userId) => {
         }
     });
 }
+/**
+ * Check the level of a user
+ * @param {PixelPizza.PPClient} client 
+ * @param {discord.Snowflake} userId 
+ * @returns {Promise<void>}
+ */
 exports.checkLevel = async (client, userId) => {
     if(isNaN(userId) || userId.length != 18) return;
     const result = await this.query("SELECT exp, `level` FROM user WHERE userId = ?", [userId]);
@@ -80,6 +117,13 @@ exports.checkLevel = async (client, userId) => {
         this.checkLevelRoles(client, userId);
     });
 }
+/**
+ * Set the exp of a user
+ * @param {PixelPizza.PPClient} client 
+ * @param {discord.Snowflake} userId 
+ * @param {number} amount 
+ * @returns {Promise<void>}
+ */
 exports.setExp = (client, userId, amount) => new Promise(async resolve => {
     amount = parseInt(amount);
     if(isNaN(userId) || userId.length != 18 || isNaN(amount) || amount < 0) return;
@@ -88,6 +132,10 @@ exports.setExp = (client, userId, amount) => new Promise(async resolve => {
         resolve();
     });
 });
+/**
+ * Add exp to a user
+ * @returns {Promise<void>}
+ */
 exports.addExp = (client, userId, amount) => new Promise(async resolve => {
     amount=parseInt(amount);
     if(isNaN(userId) || userId.length != 18 || isNaN(amount)) return;
@@ -98,6 +146,13 @@ exports.addExp = (client, userId, amount) => new Promise(async resolve => {
     await this.setExp(client, userId, wantedExp);
     resolve();
 });
+/**
+ * Set the level of a user
+ * @param {PixelPizza.PPClient} client 
+ * @param {discord.Snowflake} userId 
+ * @param {number} amount 
+ * @returns {Promise<void>}
+ */
 exports.setLevel = (client, userId, amount) => new Promise(async resolve => {
     amount = parseInt(amount);
     if(isNaN(userId) || userId.length != 18 || isNaN(amount) || amount < 0) return;
@@ -106,6 +161,13 @@ exports.setLevel = (client, userId, amount) => new Promise(async resolve => {
     await this.setExp(client, userId, neededExp);
     resolve();
 });
+/**
+ * Add levels to a user
+ * @param {PixelPizza.PPClient} client 
+ * @param {discord.Snowflake} userId 
+ * @param {number} amount 
+ * @returns {Promise<void>}
+ */
 exports.addLevel = (client, userId, amount) => new Promise(async resolve => {
     amount = parseInt(amount);
     if(isNaN(userId) || userId.length != 18 || isNaN(amount)) return;
@@ -116,27 +178,21 @@ exports.addLevel = (client, userId, amount) => new Promise(async resolve => {
     await this.setLevel(client, userId, wantedLevel);
     resolve();
 });
+/**
+ * Check if a user is blacklisted
+ * @param {discord.Snowflake} userId 
+ * @returns {Promise<boolean>}
+ */
 exports.isBlacklisted = async (userId) => {
     if(isNaN(userId) || userId.length != 18) return false;
     const result = await this.query("SELECT * FROM blacklisted WHERE userId = ?", [userId]);
     return result.length ? true : false;
 }
-exports.deleteOrders = async (client) => {
-    const results = await this.query("SELECT orderId, userId, guildId FROM `order` WHERE status NOT IN('delivered', 'deleted')");
-    const deletedGuilds = [];
-    for(let result of results){
-        const guild = client.guilds.cache.get(result.guildId);
-        if (!guild && !deletedGuilds.includes(result.guildId)){
-            deletedGuilds.push(result.guildId);
-            this.query("DELETE FROM `order` WHERE guildId = ?", [result.guildId]);
-        } else if (guild) {
-            const member = guild.members.cache.get(result.userId);
-            if(!member){
-                this.query("DELETE FROM `order` WHERE userId = ?", [result.userId]);
-            }
-        }
-    }
-}
+/**
+ * Check if a member is pro chef
+ * @param {discord.GuildMember} member 
+ * @returns {Promise<void>}
+ */
 exports.checkProChef = async member => {
     const workers = await this.query("SELECT * FROM worker WHERE workerId = ?", [member.user.id]);
     if(!workers.length) return;
@@ -146,6 +202,11 @@ exports.checkProChef = async member => {
         removeRole(member, proCook);
     }
 }
+/**
+ * Check if a member is pro deliverer
+ * @param {discord.GuildMember} member 
+ * @returns {Promise<void>}
+ */
 exports.checkProDeliverer = async member => {
     const workers = await this.query("SELECT * FROM worker WHERE workerId = ?", [member.user.id]);
     if(!workers.length) return;
@@ -155,6 +216,11 @@ exports.checkProDeliverer = async member => {
         removeRole(member, proDeliverer);
     }
 }
+/**
+ * Make a new id
+ * @param {string} table 
+ * @returns {Promise<string>}
+ */
 exports.makeId = async (table) => {
     const characters = /* "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz */"0123456789"/* -_" */;
     let id = "";

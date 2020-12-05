@@ -1,3 +1,4 @@
+const discord = require('discord.js');
 const { randomInt } = require("crypto");
 const { config, sendEmbed, createEmbed, colors, capitalize } = require("pixel-pizza");
 const { query } = require('../dbfunctions');
@@ -13,6 +14,13 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const guild = client.guilds.cache.get(config.botGuild);
         const earning = randomInt(config.minWorkEarning, config.maxWorkEarning);

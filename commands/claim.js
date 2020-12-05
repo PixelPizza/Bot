@@ -1,5 +1,6 @@
-const PixelPizza = require("pixel-pizza");
-const { createEmbed, hasRole, sendEmbed, sendEmbedWithChannel, editEmbed, wait, capitalize } = PixelPizza;
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
+const { createEmbed, hasRole, sendEmbed, editEmbed, wait, capitalize } = PixelPizza;
 const { blue, red, gray, green } = PixelPizza.colors;
 const { cook, ceo } = PixelPizza.roles;
 const { text } = PixelPizza.channels;
@@ -15,6 +16,13 @@ module.exports = {
     cooldown: 0,
     userType: "worker",
     pponly: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         let embedMsg = createEmbed({
             color: red.hex,
@@ -60,7 +68,7 @@ module.exports = {
         if (!results.length) return;
         if (results[0].status == "claimed") {
             query("UPDATE `order` SET cookId = NULL, status = 'not claimed' WHERE orderId = ?", [args[0]]);
-            sendEmbedWithChannel(editEmbed(embedMsg, {
+            sendEmbed(editEmbed(embedMsg, {
                 color: gray.hex,
                 title: "**claim canceled**",
                 description: `Order ${args[0]} has been declaimed because the cook took to long to cook the order`

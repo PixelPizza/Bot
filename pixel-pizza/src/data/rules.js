@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Makes an infinite number generator
+ */
 const infinite = function*(){
     let index = 1;
     while(true) yield index++;
@@ -7,6 +10,9 @@ const infinite = function*(){
 const rulesGenerator = infinite();
 const anarchyGenerator = infinite();
 
+/**
+ * The rules of the bot
+ */
 let rules = [
     "No NSFW",
     "No pizzas that are offensive or are related/imply any form of discrimination",
@@ -30,6 +36,9 @@ let rules = [
     "Give workers time to cook and deliver orders. They also do things besides cooking and delivering"
 ];
 
+/**
+ * The anarchy rules of the bot
+ */
 let anarchyRules = [
     "No pizzas related to child exploitation (this includes Pedophilia, Child abuse, or any other form of exploitation to minors)",
     "No pizzas that are related to death, depression, disorders, or mortal illnesses",
@@ -47,4 +56,7 @@ for(let index in anarchyRules){
     anarchyRules[index] = `[${anarchyGenerator.next().value}] ${anarchyRules[index]}`;
 }
 
+/**
+ * A dictionary of the rules and anarchy rules of the bot
+ */
 module.exports = {rules: rules, anarchyRules: anarchyRules};

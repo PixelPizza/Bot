@@ -1,4 +1,6 @@
-const { createEmbed, colors, capitalize, sendEmbed, editEmbed } = require("pixel-pizza");
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
+const { createEmbed, colors, capitalize, sendEmbed } = PixelPizza;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -10,6 +12,13 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const results = await query("SELECT * FROM complaint WHERE handled = 0");
         let complaintString = results.length ? "`" : "No complaints have been found";

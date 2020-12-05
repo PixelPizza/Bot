@@ -1,5 +1,35 @@
 'use strict';
 
+const discord = require('discord.js');
+
+/**
+ * Edit an embed message
+ * @param {discord.MessageEmbed} embedMsg 
+ * @param {{
+ *  color:string,
+ *  title:string,
+ *  url:string,
+ *  author:{
+ *      name:string,
+ *      icon:string,
+ *      url:string
+ *  },
+ *  description:string,
+ *  thumbnail:string,
+ *  fields:{
+ *      name:string,
+ *      value:string,
+ *      inline:boolean
+ *  }[],
+ *  image:string,
+ *  timestamp:boolean,
+ *  footer:{
+ *      text:string,
+ *      icon:string
+ *  }
+ * }} options The options for the embed message
+ * @returns {discord.MessageEmbed} The edited embed message
+ */
 const editEmbed = (embedMsg, options = {
     color: "",
     title: "",

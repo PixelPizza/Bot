@@ -1,4 +1,5 @@
-const PixelPizza = require("pixel-pizza");
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
 const { createEmbed, getGuild, sendEmbed, capitalize } = PixelPizza;
 const { red } = PixelPizza.colors;
 
@@ -13,6 +14,13 @@ module.exports = {
     neededPerms: ["CREATE_INSTANT_INVITE"],
     pponly: true,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         const guild = getGuild(args, client);
         if(!guild){

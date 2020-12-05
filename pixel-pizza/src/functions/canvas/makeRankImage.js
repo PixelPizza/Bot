@@ -2,14 +2,36 @@
 
 const {baseexp, addexp} = require("../../data/level");
 const {black} = require("../../data/colors");
-const {createCanvas, loadImage} = require("canvas");
+const {createCanvas, loadImage, Canvas} = require("canvas");
+const { User } = require("discord.js");
 
+/**
+ * Apply text to a canvas context
+ * @param {Canvas} canvas The canvas to get the context from
+ * @param {string} text The text to apply
+ * @param {number} size The size of the text
+ * @returns {void}
+ */
 const applyText = (canvas, text, size) => {
     const ctx = canvas.getContext("2d");
     let fontSize = 70;
     do ctx.font = `${fontSize-=10}px sans-serif`;
     while(ctx.measureText(text).width > canvas.width - size);
 }
+/**
+ * Makes a rank image
+ * @param {User} user The user to use the avatar from
+ * @param {number} level The level of the user
+ * @param {number} exp The exp of the user
+ * @param {number | string} rank The rank of the user
+ * @param {{
+ *  back:string,
+ *  front:string,
+ *  expBack:string,
+ *  expFront:string
+ * }} style The image style of the user
+ * @returns {Canvas} The canvas used to make the image
+ */
 const makeRankImg = async (user, level, exp, rank, style) => {
     const canvas = createCanvas(700, 250);
     const ctx = canvas.getContext("2d");

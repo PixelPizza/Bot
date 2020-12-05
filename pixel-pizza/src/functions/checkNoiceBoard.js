@@ -1,11 +1,17 @@
 'use strict';
 
+const discord = require('discord.js');
 const {text} = require("../data/channels");
 const {noice2} = require("../data/emojis");
 const {noiceboardMinValue} = require("../data/config");
 const {noiceboard} = require("../data/colors");
 const createEmbed = require("./createEmbed");
 
+/**
+ * check if a message from a messageReaction is good enough for the noice board
+ * @param {discord.MessageReaction} messageReaction The messageReaction to check the message of
+ * @returns {void | Promise<Message>} Returns a promise with the noiceboard message if it was added to the noiceboard
+ */
 const checkNoiceBoard = messageReaction => {
     const guild = messageReaction.message.guild;
     const member = messageReaction.message.member;

@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * A dictonary with bot configurations
+ */
 module.exports = {
     prefix: "pp",
     currency: "€",

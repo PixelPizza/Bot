@@ -1,4 +1,5 @@
-const PixelPizza = require("pixel-pizza");
+const discord = require('discord.js');
+const PixelPizza = require('pixel-pizza');
 const gis = require('g-i-s');
 const { createEmbed, isImage, request } = PixelPizza;
 const { blue } = PixelPizza.colors;
@@ -16,6 +17,13 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    /**
+     * Execute this command
+     * @param {discord.Message} message 
+     * @param {string[]} args 
+     * @param {PixelPizza.PPClient} client 
+     * @returns {Promise<void>}
+     */
     async execute(message, args, client) {
         message.channel.send('Searching for images\nThis may take some time depending on the amount of results').then(msg => {
             const max = !isNaN(parseInt(args[args.length-1])) ? parseInt(args[args.length-1]) : 0;

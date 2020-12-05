@@ -178,7 +178,7 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
 });
 
 client.on('message', async message => {
-    deleteOrders(client).then(async () => {
+    // deleteOrders(client).then(async () => {
         client.guild = client.guilds.cache.get(botGuild);
         client.member = client.guildMembers.get(message.author.id);
         const guild = client.guild;
@@ -356,9 +356,9 @@ client.on('message', async message => {
                 description: 'there was an error trying to execute that command!'
             }), message);
         }
-    }).catch(err => {
-        error('Could not delete orders', err);
-    });
+    // }).catch(err => {
+    //     error('Could not delete orders', err);
+    // });
 });
 
 client.login(token);

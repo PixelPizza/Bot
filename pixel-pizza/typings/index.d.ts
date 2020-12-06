@@ -116,6 +116,14 @@ declare module 'pixel-pizza' {
     }
 
     /**
+     * A dictionary with delivery message variables
+     */
+    export const variables: {
+        required: string[],
+        others: string[]
+    }
+
+    /**
      * A dictionary with webhook ids and tokens
      */
     export const webhooks: {
@@ -391,6 +399,15 @@ declare module 'pixel-pizza' {
      * @returns {boolean} If the user has the vip role
      */
     export const isVip: (member: GuildMember) => boolean
+
+    /**
+     * Makes a new stirng by joining array values with seperators
+     * @param {any[]} array
+     * @param {string} seperator The seperator for the array
+     * @param {string} endSeperator The last seperator for the array
+     * @returns {string} The string with seperators
+     */
+    export const join: (array: any[], seperator: string, endSeperator: string) => string
 
     /**
      * Remove a role from a discord member

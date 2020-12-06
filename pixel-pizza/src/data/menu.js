@@ -14,5 +14,6 @@ module.exports = [
     "Shoarma",
     "Cheese",
     "Tonno",
-    "Funghi"
+    "Funghi",
+    "Flour"
 ];

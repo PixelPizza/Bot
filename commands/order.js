@@ -17,7 +17,7 @@ module.exports = {
     usage: "<order> [{chef: chef, deliverer: deliverer} | {chef: chef} | {deliverer: deliverer}]", 
     cooldown: 0, 
     userType: "all", 
-    neededPerms: ["CREATE_INSTANT_INVITE"], 
+    neededPerms: [], 
     pponly: false, 
     removeExp: false,
     /**

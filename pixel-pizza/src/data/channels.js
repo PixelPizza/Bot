@@ -19,6 +19,7 @@ module.exports = {
         restaurant: "709698572479758337",
         applications: "765663931318272040",
         suggestions: "780921903825158164",
-        complaints: "711110543938813964"
+        complaints: "711110543938813964",
+        bugs: "785201366238494801"
     }
 };

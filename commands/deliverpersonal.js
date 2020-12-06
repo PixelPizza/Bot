@@ -66,22 +66,8 @@ module.exports = {
         let image = result.imageUrl; 
         let guild = client.guilds.cache.get(result.guildId); 
         let channel = client.channels.cache.get(result.channelId) ?? guild.systemChannel; 
-        const orderDate = new Date(result.orderedAt);
-        const cookDate = new Date(result.cookedAt);
-        const deliverDate = new Date(Date.now());
         channel.createInvite({ maxAge: 0, reason: "Delivering an order" }).then(guildInvite => { 
-            deliveryMessage = deliveryMessage
-            .replace(/{chef}/g, cook)
-            .replace(/{customer}/g, `\`<@${orderer.id}>\``)
-            .replace(/{image}/g, image)
-            .replace(/{invite}/g, invite)
-            .replace(/{deliverer}/g, `\`<@${message.author.id}>\``)
-            .replace(/{orderID}/g, args[0]) 
-            .replace(/{order}/g, result.order)
-            .replace(/{price}/g, `${PixelPizza.config.currency}${randomInt(PixelPizza.config.minPrice, PixelPizza.config.maxPrice)}`)
-            .replace(/{orderdate}/g, `${orderDate.getDate()}-${orderDate.getMonth()}-${orderDate.getFullYear()} (dd-mm-YYYY)`)
-            .replace(/{cookdate}/g, `${cookDate.getDate()}-${cookDate.getMonth()}-${cookDate.getFullYear()} (dd-mm-YYYY)`)
-            .replace(/{deliverydate}/g, `${deliverDate.getDate()}-${deliverDate.getMonth()}-${deliverDate.getFullYear()} (dd-mm-YYYY)`);
+            deliveryMessage = PixelPizza.parseMessage(deliveryMessage, cook, orderer, image, invite, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), guild, channel);
             message.author.send(deliveryMessage).then(() => { 
                 message.author.send(`Don't send this link to the orderer!\n${guildInvite.url}`).then(() => { 
                     query("UPDATE `order` SET status = 'delivered', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 

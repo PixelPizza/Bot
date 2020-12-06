@@ -408,6 +408,25 @@ declare module 'pixel-pizza' {
      * @returns {string} The string with seperators
      */
     export const join: (array: any[], seperator: string, endSeperator: string) => string
+    
+    /**
+     * Parse a delivery message
+     * @param {string} message The message to parse
+     * @param {string | User} chef The user that cooked the pizza
+     * @param {User} customer The user that ordered the pizza
+     * @param {string} image The url of the image
+     * @param {string} invite The invite code of the support server
+     * @param {User} deliverer The user that delivered the order
+     * @param {string} orderID The id of the order
+     * @param {string} order The order
+     * @param {number} orderDate The timestamp of the order date
+     * @param {number} cookDate The timestamp of the cook date
+     * @param {number} deliverDate The timestamp of the delivery date
+     * @param {string | Guild} guild The guild to get the name from
+     * @param {string | TextChannel} channel The channel to get the name from
+     * @returns {string} The parsed message
+     */
+    export const parseMessage: (message: string, chef: string | User, customer: User, image: string, invite: string, deliverer: User, orderID: string, order: string, orderDate: number, cookDate: number, deliverDate: number, guild: string | Guild, channel: string | TextChannel) => string
 
     /**
      * Remove a role from a discord member

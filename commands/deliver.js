@@ -68,21 +68,7 @@ module.exports = {
         let image = result.imageUrl; 
         let guild = client.guilds.cache.get(result.guildId); 
         let channel = client.channels.cache.get(result.channelId) ?? guild.channels.cache.find(channel => channel.type == "text" && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)); 
-        const orderDate = new Date(result.orderedAt);
-        const cookDate = new Date(result.cookedAt);
-        const deliverDate = new Date(Date.now());
-        deliveryMessage = deliveryMessage
-            .replace(/{chef}/g, typeof cook == "string" ? cook : `<@${cook.id}>`)
-            .replace(/{customer}/g, `<@${orderer.id}>`)
-            .replace(/{image}/g, image)
-            .replace(/{invite}/g, invite)
-            .replace(/{deliverer}/g, `<@${message.author.id}>`)
-            .replace(/{orderID}/g, args[0]) 
-            .replace(/{order}/g, result.order)
-            .replace(/{price}/g, `${PixelPizza.config.currency}${randomInt(PixelPizza.config.minPrice, PixelPizza.config.maxPrice)}`)
-            .replace(/{orderdate}/g, `${orderDate.getDate()}-${orderDate.getMonth()}-${orderDate.getFullYear()} (dd-mm-YYYY)`)
-            .replace(/{cookdate}/g, `${cookDate.getDate()}-${cookDate.getMonth()}-${cookDate.getFullYear()} (dd-mm-YYYY)`)
-            .replace(/{deliverydate}/g, `${deliverDate.getDate()}-${deliverDate.getMonth()}-${deliverDate.getFullYear()} (dd-mm-YYYY)`);
+        deliveryMessage = PixelPizza.parseMessage(deliveryMessage, cook, orderer, image, invite, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), guild, channel);
         deliveryMessage += `\n\n**Note:** I (owner of ${client.user.username}) have been told that discord can ban people for joining and leaving many servers at once\nso to make sure this can not happen (even if it is not true) we now let ${client.user.username} deliver almost all of the orders\nThank you for understanding`;
         try {
             channel.send(deliveryMessage);

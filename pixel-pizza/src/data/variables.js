@@ -17,7 +17,10 @@ const variables = {
         "cookdate",
         "deliverydate",
         "orderID",
-        "order"
+        "order",
+        "server",
+        "guild",
+        "channel"
     ]
 }
 

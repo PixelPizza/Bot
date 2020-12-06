@@ -28,6 +28,7 @@ export const {
     isImage,
     isVip,
     join,
+    parseMessage,
     removeRole,
     request,
     sendEmbed,

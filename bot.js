@@ -17,12 +17,12 @@ colors I use:
 * noiceboard message: noiceboard
 * timer: silver
 */
-const { green, red, black } = PixelPizza.colors;
+const { blue, green, red, black } = PixelPizza.colors;
 const { noice, noice2 } = PixelPizza.emojis;
 const { text } = PixelPizza.channels;
 const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = PixelPizza.roles;
 const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
-const { addUser, query, addExp, isBlacklisted, deleteOrders } = require('./dbfunctions');
+const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
 client.cooldowns = new Collection();
@@ -70,6 +70,48 @@ client.on('ready', async () => {
     for(let toggle of await query("SELECT * FROM toggle")){
         client.toggles[toggle.key] = toggle.value ? true : false;
     }
+    setInterval(async () => {
+        client.canSendEmbeds = true;
+        const embedMsg = createEmbed({
+            color: blue.hex,
+            title: "**Orders**"
+        });
+        const orders = await query("SELECT orderId, status FROM `order` WHERE status NOT IN('cooking','deleted','delivered')"); 
+        const kitchenOrders = orders.filter(order => order.status == "not claimed" || order.status == "claimed");
+        const deliveryOrders = orders.filter(order => order.status == "cooked");
+        if(kitchenOrders.length){
+            const kitchen = guild.channels.cache.get(text.kitchen);
+            let ordersString = "`"; 
+            for (let i in kitchenOrders) { 
+                let result = kitchenOrders[i]; 
+                ordersString += result.orderId; 
+                if (i == kitchenOrders.length - 1) { 
+                    ordersString += "`"; 
+                } else { 
+                    ordersString += ", "; 
+                } 
+            } 
+            sendEmbed(editEmbed(embedMsg, {
+                description: ordersString
+            }), client, kitchen); 
+        }
+        if(deliveryOrders.length){
+            const delivery = guild.channels.cache.get(text.delivery);
+            let ordersString = "`"; 
+            for (let i in deliveryOrders) { 
+                let result = deliveryOrders[i]; 
+                ordersString += result.orderId; 
+                if (i == deliveryOrders.length - 1) { 
+                    ordersString += "`"; 
+                } else { 
+                    ordersString += ", "; 
+                } 
+            } 
+            sendEmbed(editEmbed(embedMsg, {
+                description: ordersString
+            }), client, delivery);
+        }
+    }, 4 * 60 * 60 * 1000);
     success('Ready', `${client.user.username} is ready`);
     // console.log((await client.shard.broadcastEval(`this.guilds.cache.get("${botGuild}")`)).find(value => value != null));
 });

@@ -28,7 +28,7 @@ module.exports = {
                 color: red.hex,
                 title: `**${capitalize(this.name)}**`,
                 description: 'Could not find guild, please be more specific'
-            }), message);
+            }), client, message);
         }
         message.channel.send((await guild.channels.cache.find(channel => channel.type == "text").createInvite({ maxAge: 0, maxUses: 1 })).url);
     }

@@ -34,6 +34,6 @@ module.exports = {
             footer: {
                 text: `Reply #${causeIndex + 1} of ${config.workCauses.length}`
             }
-        }), message);
+        }), client, message);
     }
 }

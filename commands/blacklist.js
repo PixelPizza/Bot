@@ -33,28 +33,28 @@ module.exports = {
         if(!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "Could not find user"
-            }), message);
+            }), client, message);
         }
         if (creators.includes(user.id)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This user can not be blacklisted!`
-            }), message);
+            }), client, message);
         }
         if (user.id == message.author.id){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You can't blacklist yourself!`
-            }), message);
+            }), client, message);
         }
         const blacklisted = await query("SELECT * FROM blacklisted WHERE userId = ?", [user.id]);
         if(blacklisted.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "This user has already been blacklisted"
-            }), message);
+            }), client, message);
         }
         query("INSERT INTO blacklisted(userId) VALUES(?)", [user.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
             description: `${user} has been blacklisted`
-        }), message);
+        }), client, message);
     }
 }

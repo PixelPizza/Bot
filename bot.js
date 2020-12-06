@@ -178,187 +178,183 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
 });
 
 client.on('message', async message => {
-    // deleteOrders(client).then(async () => {
-        client.guild = client.guilds.cache.get(botGuild);
-        client.member = client.guildMembers.get(message.author.id);
-        const guild = client.guild;
-        const member = client.member;
-        if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) return message.delete();
-        if (message.guild == guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
-        if (message.content.toLowerCase().includes('noice')) {
-            message.react(noice).catch(err => error('Could not add noice reaction', err));
+    client.guild = client.guilds.cache.get(botGuild);
+    client.member = client.guildMembers.get(message.author.id);
+    const guild = client.guild;
+    const member = client.member;
+    if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) return message.delete();
+    if (message.guild == guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
+    if (message.content.toLowerCase().includes('noice')) {
+        message.react(noice).catch(err => error('Could not add noice reaction', err));
+    }
+    if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
+    if (message.author.bot && message.content != "pptoggle sendEveryone") return;
+    let clientMember;
+    client.canSendEmbeds = true;
+    if (message.guild) {
+        clientMember = message.guild.me;
+        if (!clientMember.hasPermission("EMBED_LINKS")) client.canSendEmbeds = false;
+    }
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const commandName = args.shift().toLowerCase();
+    log(`Command used by ${message.author.tag} in ${message.guild.name} #${message.channel.name}`, commandName);
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    if (!command) return;
+    let embedMsg = createEmbed({
+        color: red.hex,
+        author: {
+            name: message.author.username,
+            icon: message.author.displayAvatarURL()
+        },
+        thumbnail: message.author.displayAvatarURL(),
+        timestamp: true,
+        footer: {
+            text: client.user.username,
+            icon: client.user.displayAvatarURL()
         }
-        if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
-        if (message.author.bot && message.content != "pptoggle sendEveryone") return;
-        let clientMember;
-        client.canSendEmbeds = true;
-        if (message.guild) {
-            clientMember = message.guild.me;
-            if (!clientMember.hasPermission("EMBED_LINKS")) client.canSendEmbeds = false;
-        }
-        const args = message.content.slice(prefix.length).split(/ +/);
-        const commandName = args.shift().toLowerCase();
-        log(`Command used by ${message.author.tag} in ${message.guild.name} #${message.channel.name}`, commandName);
-        const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-        if (!command) return;
-        let embedMsg = createEmbed({
-            color: red.hex,
-            author: {
-                name: message.author.username,
-                icon: message.author.displayAvatarURL()
-            },
-            thumbnail: message.author.displayAvatarURL(),
-            timestamp: true,
-            footer: {
-                text: client.user.username,
-                icon: client.user.displayAvatarURL()
+    });
+    if (await isBlacklisted(message.author.id)) return;
+    if (message.channel.type == "dm") {
+        return sendEmbed(editEmbed(embedMsg, {
+            description: "Our commands are unavailable in DMs"
+        }), client, message);
+    }
+    if (command.removeExp && message.guild == client.guild && client.toggles.addExp && !message.author.bot) await addExp(client, message.author.id, -1);
+    if (client.toggles.pponlyChecks && command.ppOnly && message.guild != guild && !pponlyexceptions.includes(message.guild.id)) {
+        return sendEmbed(editEmbed(embedMsg, {
+            description: `This command can only be used in ${guild.name}`
+        }), client, message);
+    }
+    let isWorker = false;
+    let isTeacher = false;
+    let isStaff = false;
+    let isDirector = false;
+    if (member) {
+        worker.forEach(role => {
+            if (hasRole(member, role)) {
+                isWorker = true;
             }
         });
-        if (await isBlacklisted(message.author.id)) return;
-        if (message.channel.type == "dm") {
+        teacher.forEach(role => {
+            if (hasRole(member, role)) {
+                isTeacher = true;
+            }
+        });
+        staff.forEach(role => {
+            if (hasRole(member, role)) {
+                isStaff = true;
+            }
+        });
+        director.forEach(role => {
+            if (hasRole(member, role)) {
+                isDirector = true;
+            }
+        });
+    }
+    if(!isDirector){
+        if (command.userType == "worker" && !isWorker) {
             return sendEmbed(editEmbed(embedMsg, {
-                description: "Our commands are unavailable in DMs"
-            }), message);
+                description: "You need to be Pixel Pizza worker to use this command!"
+            }), client, message);
         }
-        if (command.removeExp && message.guild == client.guild && client.toggles.addExp && !message.author.bot) await addExp(client, message.author.id, -1);
-        if (client.toggles.pponlyChecks && command.ppOnly && message.guild != guild && !pponlyexceptions.includes(message.guild.id)) {
+        if (command.userType == "teacher" && !isTeacher) {
             return sendEmbed(editEmbed(embedMsg, {
-                description: `This command can only be used in ${guild.name}`
-            }), message);
+                description: "You need to be Pixel Pizza teacher to use this command!"
+            }), client, message);
         }
-        let isWorker = false;
-        let isTeacher = false;
-        let isStaff = false;
-        let isDirector = false;
-        if (member) {
-            worker.forEach(role => {
-                if (hasRole(member, role)) {
-                    isWorker = true;
-                }
-            });
-            teacher.forEach(role => {
-                if (hasRole(member, role)) {
-                    isTeacher = true;
-                }
-            });
-            staff.forEach(role => {
-                if (hasRole(member, role)) {
-                    isStaff = true;
-                }
-            });
-            director.forEach(role => {
-                if (hasRole(member, role)) {
-                    isDirector = true;
-                }
-            });
+        if (command.userType == "staff" && !isStaff) {
+            return sendEmbed(editEmbed(embedMsg, {
+                description: "You need to be Pixel Pizza staff to use this command!"
+            }), client, message);
         }
-        if(!isDirector){
-            if (command.userType == "worker" && !isWorker) {
+        if (command.userType == "director" && !isDirector) {
+            return sendEmbed(editEmbed(embedMsg, {
+                description: "You need to be Pixel Pizza director to use this command!"
+            }), client, message);
+        }
+    }
+    if (command.userType == "vip" && !isVip(member)) {
+        return sendEmbed(editEmbed(embedMsg, {
+            description: "You need to have the vip role in pixel pizza to use this command!"
+        }), client, message);
+    }
+    let reply;
+    if (command.args && !args.length) {
+        reply = `There were no arguments given, ${message.author}`;
+        if (command.usage) {
+            reply += `\nThe proper usage is: '${prefix}${command.name} ${command.usage}'`;
+        }
+        return sendEmbed(editEmbed(embedMsg, {
+            title: '**No arguments**',
+            description: reply
+        }), client, message);
+    }
+    if (command.args == false && args.length) {
+        return sendEmbed(editEmbed(embedMsg, {
+            title: '**No arguments needed**',
+            description: `This command doesn't require any arguments, ${message.author}`
+        }), client, message);
+    }
+    if (command.minArgs && args.length < command.minArgs) {
+        reply = `${prefix}${command.name} takes a minimum of ${command.minArgs} argument(s)`;
+        if (command.usage) {
+            reply += `\nThe proper usage is ${prefix}${command.name} ${command.usage}`;
+        }
+        return sendEmbed(editEmbed(embedMsg, {
+            description: reply
+        }), client, message);
+    }
+    if (command.maxArgs && args.length > command.maxArgs) {
+        reply = `${prefix}${command.name} takes a maximum of ${command.maxArgs} argument(s)`;
+        if (command.usage) {
+            reply += `The proper usage is ${prefix}${command.name} ${command.usage}`;
+        }
+        return sendEmbed(editEmbed(embedMsg, {
+            description: reply
+        }), client, message);
+    }
+    if (command.neededPerms && command.neededPerms.length) {
+        for (let index in command.neededPerms) {
+            let neededPerm = command.neededPerms[index];
+            if (!clientMember.hasPermission(neededPerm)) {
                 return sendEmbed(editEmbed(embedMsg, {
-                    description: "You need to be Pixel Pizza worker to use this command!"
-                }), message);
+                    title: "Missing permission",
+                    description: `I'm missing the \`${neededPerm}\` permission\nIf you want to know why this permission is needed please DM Jaron#3021`
+                }), client, message);
             }
-            if (command.userType == "teacher" && !isTeacher) {
+        }
+    }
+    if (client.toggles.cooldowns) {
+        if (!client.cooldowns.has(command.name)) {
+            client.cooldowns.set(command.name, new Collection());
+        }
+        const now = Date.now();
+        const timestamps = client.cooldowns.get(command.name);
+        let cooldownAmount = (command.cooldown || 0) * 1000;
+        if (timestamps.has(message.author.id)) {
+            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
                 return sendEmbed(editEmbed(embedMsg, {
-                    description: "You need to be Pixel Pizza teacher to use this command!"
-                }), message);
-            }
-            if (command.userType == "staff" && !isStaff) {
-                return sendEmbed(editEmbed(embedMsg, {
-                    description: "You need to be Pixel Pizza staff to use this command!"
-                }), message);
-            }
-            if (command.userType == "director" && !isDirector) {
-                return sendEmbed(editEmbed(embedMsg, {
-                    description: "You need to be Pixel Pizza director to use this command!"
-                }), message);
+                    color: black.hex,
+                    title: '**Cooldown**',
+                    description: `please wait ${timeLeft} more second(s) before reusing ${command.name}`
+                }), client, message);
             }
         }
-        if (command.userType == "vip" && !isVip(member)) {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: "You need to have the vip role in pixel pizza to use this command!"
-            }), message);
-        }
-        let reply;
-        if (command.args && !args.length) {
-            reply = `There were no arguments given, ${message.author}`;
-            if (command.usage) {
-                reply += `\nThe proper usage is: '${prefix}${command.name} ${command.usage}'`;
-            }
-            return sendEmbed(editEmbed(embedMsg, {
-                title: '**No arguments**',
-                description: reply
-            }), message);
-        }
-        if (command.args == false && args.length) {
-            return sendEmbed(editEmbed(embedMsg, {
-                title: '**No arguments needed**',
-                description: `This command doesn't require any arguments, ${message.author}`
-            }), message);
-        }
-        if (command.minArgs && args.length < command.minArgs) {
-            reply = `${prefix}${command.name} takes a minimum of ${command.minArgs} argument(s)`;
-            if (command.usage) {
-                reply += `\nThe proper usage is ${prefix}${command.name} ${command.usage}`;
-            }
-            return sendEmbed(editEmbed(embedMsg, {
-                description: reply
-            }), message);
-        }
-        if (command.maxArgs && args.length > command.maxArgs) {
-            reply = `${prefix}${command.name} takes a maximum of ${command.maxArgs} argument(s)`;
-            if (command.usage) {
-                reply += `The proper usage is ${prefix}${command.name} ${command.usage}`;
-            }
-            return sendEmbed(editEmbed(embedMsg, {
-                description: reply
-            }), message);
-        }
-        if (command.neededPerms && command.neededPerms.length) {
-            for (let index in command.neededPerms) {
-                let neededPerm = command.neededPerms[index];
-                if (!clientMember.hasPermission(neededPerm)) {
-                    return sendEmbed(editEmbed(embedMsg, {
-                        title: "Missing permission",
-                        description: `I'm missing the \`${neededPerm}\` permission\nIf you want to know why this permission is needed please DM Jaron#3021`
-                    }), message);
-                }
-            }
-        }
-        if (client.toggles.cooldowns) {
-            if (!client.cooldowns.has(command.name)) {
-                client.cooldowns.set(command.name, new Collection());
-            }
-            const now = Date.now();
-            const timestamps = client.cooldowns.get(command.name);
-            let cooldownAmount = (command.cooldown || 0) * 1000;
-            if (timestamps.has(message.author.id)) {
-                const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-                if (now < expirationTime) {
-                    const timeLeft = (expirationTime - now) / 1000;
-                    return sendEmbed(editEmbed(embedMsg, {
-                        color: black.hex,
-                        title: '**Cooldown**',
-                        description: `please wait ${timeLeft} more second(s) before reusing ${command.name}`
-                    }), message);
-                }
-            }
-            timestamps.set(message.author.id, now);
-            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-        }
-        try {
-            command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector});
-            log("Command executed", `${command.name} has been executed`);
-        } catch (err) {
-            error(`Could not execute ${command.name}`, err);
-            return sendEmbed(editEmbed(embedMsg, {
-                title: '**Error**',
-                description: 'there was an error trying to execute that command!'
-            }), message);
-        }
-    // }).catch(err => {
-    //     error('Could not delete orders', err);
-    // });
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    }
+    try {
+        command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector});
+        log("Command executed", `${command.name} has been executed`);
+    } catch (err) {
+        error(`Could not execute ${command.name}`, err);
+        return sendEmbed(editEmbed(embedMsg, {
+            title: '**Error**',
+            description: 'there was an error trying to execute that command!'
+        }), client, message);
+    }
 });
 
 client.login(token);

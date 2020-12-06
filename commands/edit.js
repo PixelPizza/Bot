@@ -42,18 +42,18 @@ module.exports = {
             return sendEmbed(editEmbed(embedMsg, {
                 title: `error`,
                 description: `The order has to include the word pizza or you can use ${prefix}${this.name} random to order a random pizza`
-            }), message);
+            }), client, message);
         }  
         const result = await query("SELECT * FROM `order` WHERE userId = ? AND status NOT IN('delivered','deleted')", [message.author.id]); 
         if (!result.length) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You have not ordered anything, use pporder to order a pizza`
-            }), message);
+            }), client, message);
         } 
         if(result[0].status != "not claimed"){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "Your order has already been claimed"
-            }), message);
+            }), client, message);
         }
         if (order == "random"){
             const ingredientAmount = randomInt(1, 5);
@@ -71,6 +71,6 @@ module.exports = {
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
             description: "Your order has been edited"
-        }), message);
+        }), client, message);
     }
 }

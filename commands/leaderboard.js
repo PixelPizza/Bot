@@ -29,7 +29,7 @@ module.exports = {
             title: `Not a number`,
             description: `${args[0]} is not a number`
         });
-        if (args.length && isNaN(parseInt(args[0]))) return sendEmbed(embedMsg, message); 
+        if (args.length && isNaN(parseInt(args[0]))) return sendEmbed(embedMsg, client, message); 
         const pages = []; 
         let page = 0; 
         let name = this.name; 
@@ -53,7 +53,7 @@ module.exports = {
                 color: blue.hex,
                 title: `**${capitalize(this.name)}**`,
                 description: `There are no users in the leaderboard`
-            })); 
+            }), client, message); 
         }
         for (let result of results) { 
             itemNumber++; 
@@ -80,14 +80,14 @@ module.exports = {
         if (page < 1) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Please use a page number higher than 0`
-            }), message);
+            }), client, message);
         } 
         if (pages.length < page) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `page ${page} doesn't exist\nThere are ${pages.length} pages`
-            }), message);
+            }), client, message);
         } 
-        sendEmbed(pages[page - 1], message).then(msg => { 
+        sendEmbed(pages[page - 1], client, message).then(msg => { 
             msg.react(reactions[0]).then(() => msg.react(reactions[1]).then(() => { 
                 msg.createReactionCollector((reaction, user) => user.id === message.author.id && reactions.includes(reaction.emoji.name)).on('collect', r => { 
                     switch (r.emoji.name) { 

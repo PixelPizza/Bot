@@ -29,13 +29,13 @@ module.exports = {
         if(!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "User could not be found"
-            }), message);
+            }), client, message);
         }
         const results = await query("SELECT * FROM `user` WHERE userId = ?", [user.id]);
         const balance = results.length ? results[0].balance : 0;
         sendEmbed(editEmbed(embedMsg, {
             color: colors.blue.hex,
             description: `${config.currency}${balance}`
-        }), message);
+        }), client, message);
     }
 }

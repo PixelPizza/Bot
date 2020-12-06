@@ -27,7 +27,7 @@ module.exports = {
             description: `You have not ordered anything use ${prefix}order to order a pizza`
         });
         let result = await query("SELECT * FROM `order` WHERE userId = ? AND status NOT IN('deleted','delivered')", [message.author.id]); 
-        if (!result.length) return sendEmbed(embedMsg, message); 
+        if (!result.length) return sendEmbed(embedMsg, client, message); 
         const guild = client.guilds.cache.get(result[0].guildId); 
         const channel = guild.channels.cache.get(result[0].channelId); 
         channel.name = channel ? channel.name : "Deleted Channel"; 

@@ -25,6 +25,6 @@ module.exports = {
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
             description: strings.map(string => string.key).join(", ")
-        }), message);
+        }), client, message);
     }
 }

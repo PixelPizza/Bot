@@ -32,25 +32,25 @@ module.exports = {
         if (!hasRole(client.member, cook)) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have te ${cookRole.name} role in ${client.guild.name} to be able to unclaim an order`
-            }), message);
+            }), client, message);
         } 
         let results = await query("SELECT * FROM `order` WHERE orderId = ? AND status = 'claimed'", [args[0]]); 
         if (!results.length) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Order ${args[0]} has not been found with the claimed status`
-            }), message);
+            }), client, message);
         } 
         if (results[0].cookId != message.author.id) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Only the cook that claimed the order can unclaim the order`
-            }), message);
+            }), client, message);
         } 
         const user = client.users.cache.get(results[0].userId); 
         query("UPDATE `order` SET cookId = NULL, status = 'not claimed' WHERE orderId = ?", [args[0]]).then(() => { 
             sendEmbed(editEmbed(embedMsg, {
                 color: green.hex,
                 description: `You have unclaimed order ${args[0]}`
-            }), message); 
+            }), client, message); 
             user.send(editEmbed(embedMsg, {
                 color: blue.hex,
                 title: "Confirmation",

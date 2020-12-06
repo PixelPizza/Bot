@@ -35,13 +35,13 @@ module.exports = {
         if (!hasRole(client.member, deliverer)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${deliverRole.name} role to be able to deliver`
-            }), message);
+            }), client, message);
         } 
         let results = await query("SELECT deliveryMessage FROM worker WHERE workerId = ?", [message.author.id]); 
         if (!results[0].deliveryMessage) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You have not set a delivery message yet. please set one with ppdelset`
-            }), message);
+            }), client, message);
         } 
         let result = results[0]; 
         let deliveryMessage = result.deliveryMessage; 
@@ -49,7 +49,7 @@ module.exports = {
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Order ${args[0]} has not been found with the cooked status`
-            }), message);
+            }), client, message);
         } 
         result = results[0]; 
         const orderer = client.users.cache.get(result.userId); 
@@ -57,7 +57,7 @@ module.exports = {
             if (!client.toggles.deliverOwnOrder && orderer.id === message.author.id) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: `You can't deliver your own order`
-                }), message);
+                }), client, message);
             } 
         }
         const member = client.guildMembers.get(orderer.id);

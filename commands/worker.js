@@ -38,18 +38,18 @@ module.exports = {
         if (!user) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `user not found`
-            }), message);
+            }), client, message);
         } 
         if (!inBotGuild(client, user.id)) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This user is not in pixel pizza`
-            }), message);
+            }), client, message);
         } 
         const result = await query("SELECT * FROM worker WHERE workerId = ?", [user.id]); 
         if (!result.length) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This user is not a pixel pizza worker`
-            }), message);
+            }), client, message);
         } 
         const worker = result[0]; 
         const member = client.guildMembers.get(user.id); 

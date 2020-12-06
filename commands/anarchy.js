@@ -42,6 +42,6 @@ module.exports = {
             footer: {
                 text: "If they date has expired it means no new date has been planned\nThere are still some rules to follow"
             }
-        }), message);
+        }),client, message);
     }
 }

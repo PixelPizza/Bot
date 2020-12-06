@@ -80,7 +80,7 @@ module.exports = {
                 embedMsg.setColor(red.hex).setDescription("I can't DM you. Do you have DMs disabled?"); 
             }).finally(() => { 
                 embedMsg.fields = [];
-                sendEmbed(embedMsg, message); 
+                sendEmbed(embedMsg, client, message); 
             }); 
         } 
         const name = args[0].toLowerCase(); 
@@ -89,14 +89,14 @@ module.exports = {
             return sendEmbed(editEmbed(embedMsg, {
                 color: red.hex,
                 description: `that's not an existing command!`
-            }), message); 
+            }), client, message); 
         } 
         const executableCommand = executableCommands.get(name) || executableCommands.find(c => c.aliases && c.aliases.includes(name)); 
         if (!executableCommand) { 
             return sendEmbed(editEmbed(embedMsg, {
                 color: red.hex,
                 description: `You need to be ${command.userType} to execute this command`
-            }), message);
+            }), client, message);
         } 
         embedMsg.setColor(blue.hex).addField('**Name**', command.name); 
         if (command.aliases?.length) embedMsg.addField('**Aliases**', command.aliases.join(', ')); 

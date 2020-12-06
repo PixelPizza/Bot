@@ -35,7 +35,7 @@ module.exports = {
                 ]
             }));
         });
-        sendEmbed(pages[0], message).then(msg => {
+        sendEmbed(pages[0], client, message).then(msg => {
             if(pages.length == 1) return;
             msg.react("⏪").then(() => msg.react("⏩").then(() => {
                 let page = 0;

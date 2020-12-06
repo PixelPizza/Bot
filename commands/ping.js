@@ -32,6 +32,6 @@ module.exports = {
                     value: `${Math.round(client.ws.ping)}ms`
                 }
             ]
-        }), message);
+        }), client, message);
     }
 }

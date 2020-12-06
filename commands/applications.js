@@ -57,6 +57,6 @@ module.exports = {
         sendEmbed(editEmbed(embedMsg, {
             color: blue.hex,
             description: orderString
-        }), message);
+        }), client, message);
     }
 }

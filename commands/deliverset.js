@@ -32,22 +32,22 @@ module.exports = {
             return sendEmbed(editEmbed(embedMsg, {
                 color: red.hex,
                 description: `You need to have the ${deliverRole.name} role to be able to set your delivery message!`
-            }), message);
+            }), client, message);
         }
         sendEmbed(editEmbed(embedMsg, {
             fields: [
                 {
-                    name: "**Note**",
-                    value: "Do not forget to use *{chef}*, *{customer}*, *{image}* and *{invite}* so we will replace them with it!",
+                    name: "**Required variables**",
+                    value: `Do not forget to use *{${PixelPizza.join(PixelPizza.variables.required, "}*, *{", "}* and *{")}}* so we will replace them with it!`,
                     inline: false
                 },
                 {
-                    name: "**Note**",
+                    name: "**Supported variables**",
                     value: "Supported variables are *{chef}*, *{deliverer}*, *{customer}*, *{image}*, *{invite}*, *{price}*, *{orderdate}*, *{cookdate}*, *{deliverydate}*, *{orderID}* and *{order}*",
                     inline: false
                 }
             ]
-        }), message).then(() => {
+        }), client, message).then(() => {
             const collector = message.channel.createMessageCollector(m => m.author === message.author, {max:1});
             collector.on('collect', m => {
                 const embedMsgError = createEmbed({
@@ -60,13 +60,13 @@ module.exports = {
                 const inviteAmount = (m.content.match(/{invite}/g) || []).length;
                 const customerAmount = (m.content.match(/{customer}/g) || []).length;
                 if(!chefAmount || !imageAmount || !inviteAmount || !customerAmount){
-                    return sendEmbed(embedMsg, message);
+                    return sendEmbed(embedMsg, client, message);
                 }
                 query(`UPDATE worker SET deliveryMessage = ? WHERE workerId = ?`, [m.content, m.author.id]);
                 embedMsg.fields = [];
                 sendEmbed(editEmbed(embedMsg, {
                     description: "You have succesfully set your new delivery message!"
-                }), message);
+                }), client, message);
             });
         });
     }

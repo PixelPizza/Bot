@@ -33,6 +33,6 @@ module.exports = {
         )){
             embedMsg.addField(application.key.replace("Applications", ""), application.value ? "Open" : "Closed");
         }
-        sendEmbed(embedMsg, message);
+        sendEmbed(embedMsg, client, message);
     }
 }

@@ -32,19 +32,19 @@ module.exports = {
         if(!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "Could not find user"
-            }), message);
+            }), client, message);
         }
         const member = client.guildMembers.get(user.id);
         if(!member){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "This user is not in Pixel Pizza"
-            }), message);
+            }), client, message);
         }
         const workers = await query("SELECT * FROM `worker` WHERE workerId = ?", [user.id]);
         if(!workers.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "This user is not a worker"
-            }), message);
+            }), client, message);
         }
         removeRole(member, work);
         removeRole(member, cook);
@@ -59,6 +59,6 @@ module.exports = {
                     value: "You **do not** need to remove any roles from the user"
                 }
             ]
-        }), message);
+        }), client, message);
     }
 }

@@ -32,7 +32,7 @@ module.exports = {
         if (args.length) { 
             user = getUser(message, args, client);
             if (!user) { 
-                return sendEmbed(embedMsg, message); 
+                return sendEmbed(embedMsg, client, message); 
             } 
         } 
         let style = {}; 

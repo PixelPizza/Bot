@@ -29,11 +29,11 @@ module.exports = {
             title: "**set exp**",
             description: `${args[0]} is not a number`
         });
-        if (isNaN(args[0])) return sendEmbed(embedMsg, message); 
+        if (isNaN(args[0])) return sendEmbed(embedMsg, client, message); 
         if (parseInt(args[0]) < 0) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The number can not be any lower than 0`
-            }), message);
+            }), client, message);
         } 
         const amount = args.shift(); 
         let user = message.author; 
@@ -42,18 +42,18 @@ module.exports = {
             if (!user) {  
                 return sendEmbed(editEmbed(embedMsg, {
                     description: "User not found"
-                }), message);
+                }), client, message);
             } 
         } 
         if (!inBotGuild(client, user.id)) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This user is not in Pixel Pizza`
-            }), message);
+            }), client, message);
         } 
         await setExp(client, user.id, amount); 
         sendEmbed(editEmbed(embedMsg, {
             color: blue.hex,
             description: `${amount} exp has been set for ${user.tag}`
-        }), message);
+        }), client, message);
     } 
 }

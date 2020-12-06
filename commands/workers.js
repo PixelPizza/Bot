@@ -48,7 +48,7 @@ module.exports = {
         if(!pages.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "No workers have been found"
-            }), message);
+            }), client, message);
         }
         message.channel.send(pages[0]).then(msg => {
             if(pages.length == 1) return;

@@ -34,24 +34,24 @@ module.exports = {
         if(!applications.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "The application could not be found or has already been accepted or rejected"
-            }), message);
+            }), client, message);
         }
         if(message.author.id === applications[0].userId){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "You can't accept your own application"
-            }), message);
+            }), client, message);
         }
         const member = client.guildMembers.get(applications[0].userId);
         if(!member){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This user is not in Pixel Pizza`
-            }), message);
+            }), client, message);
         }
         await query("UPDATE application SET status = 'accepted', staffId = ? WHERE applicationId = ?", [message.author.id, id]);
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
             description: `${member} has been accepted${reason ? ` for reason\n\`\`\`\n${reason}\n\`\`\`` : ""}`
-        }), message);
+        }), client, message);
         member.user.send(createEmbed({
             color: gray.hex,
             title: "Accepted",

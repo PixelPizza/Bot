@@ -26,6 +26,6 @@ module.exports = {
             color: blue.hex,
             title: `**${capitalize(this.name)}**`,
             description: `Here is the invite link for ${client.user.username}!\nhttps://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=${permInt}&scope=bot`
-        }), message);
+        }), client, message);
     }
 }

@@ -31,7 +31,7 @@ module.exports = {
         if(!results.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Complaint ${args[0]} could not be found`
-            }), message);
+            }), client, message);
         }
         const result = results[0];
         const complaintUser = client.users.cache.get(result.userId);
@@ -47,6 +47,6 @@ module.exports = {
             footer: {
                 text: `id: ${args[0]} | handled: ${result.handled == 1 ? "yes" : "no"} | staff: ${staffMember.displayName || staffMember}`
             }
-        }), message);
+        }), client, message);
     }
 }

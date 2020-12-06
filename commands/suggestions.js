@@ -36,6 +36,6 @@ module.exports = {
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
             description: suggestString
-        }), message);
+        }), client, message);
     }
 }

@@ -33,11 +33,11 @@ module.exports = {
             return sendEmbed(editEmbed(embedMsg, {
                 color: red.hex,
                 description: `Order ${args[0]} doesn't exist`
-            }), message);
+            }), client, message);
         } 
         sendEmbed(editEmbed(embedMsg, {
             description: `What rule has been broken (please send the rule number)?\n\`\`\`\n${rules.join("\n")}\`\`\``
-        }), message).then(msg => { 
+        }), client, message).then(msg => { 
             message.channel.createMessageCollector(m => {
                 if (m.content === "cancel") return true; 
                 return m.author === message.author && !isNaN(m.content) && parseInt(m.content) <= rules.length; 

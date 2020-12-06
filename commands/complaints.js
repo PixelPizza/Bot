@@ -35,6 +35,6 @@ module.exports = {
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
             description: complaintString
-        }), message);
+        }), client, message);
     }
 }

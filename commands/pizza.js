@@ -27,7 +27,7 @@ module.exports = {
                 color: red.hex,
                 title: "Order not found",
                 description: "Could not find any delivered orders"
-            }), message);
+            }), client, message);
         }
         const order = orders[0];
         const orderer = client.users.cache.get(order.userId)?.username || "Unknown orderer"; 

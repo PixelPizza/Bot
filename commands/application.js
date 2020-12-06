@@ -32,7 +32,7 @@ module.exports = {
         if (!results.length) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The application with application id ${args[0]} does not exist`
-            }), message);
+            }), client, message);
         }
         const result = results[0]; 
         const applyer = client.users.cache.get(result.userId);

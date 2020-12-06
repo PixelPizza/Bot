@@ -34,23 +34,23 @@ module.exports = {
             sendEmbed(editEmbed(embedMsg, {
                 color: PixelPizza.colors.blue.hex,
                 description: `Toggle ${key} is ${client.toggles[key] ? "on" : "off"}`
-            }), message);
+            }), client, message);
         } else if (["on", "off"].includes(toggle)) {
             if (!client.toggles[key] && client.toggles[key] !== false) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: `Toggle ${key} does not exist`
-                }), message);
+                }), client, message);
             }
             client.toggles[key] = toggle == "on" ? true : false;
             await query("UPDATE toggle SET `value` = ? WHERE `key` = ?", [toggle == "on" ? 1 : 0, key]);
             sendEmbed(editEmbed(embedMsg, {
                 color: PixelPizza.colors.green.hex,
                 description: `Toggle ${key} is now ${toggle}`
-            }), message);
+            }), client, message);
         } else {
             sendEmbed(editEmbed(embedMsg, {
                 description: "Please choose on or off as value"
-            }), message);
+            }), client, message);
         }
     }
 }

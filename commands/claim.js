@@ -32,7 +32,7 @@ module.exports = {
         if (!hasRole(client.member, cook)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${cookRole.name} role in ${client.guild.name} to be able to claim an order`
-            }), message);
+            }), client, message);
         }
         let results = await query(
             "SELECT * \
@@ -43,13 +43,13 @@ module.exports = {
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Order ${args[0]} has not been found with the not claimed status`
-            }), message);
+            }), client, message);
         }
         if(!hasRole(client.member, ceo)){
             if (!client.toggles.cookOwnOrder && message.author.id == results[0].userId) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: "You can't claim your own order"
-                }), message);
+                }), client, message);
             }
         }
         const user = client.users.cache.get(results[0].userId);
@@ -57,7 +57,7 @@ module.exports = {
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
             description: `You have claimed order ${args[0]}`
-        }), message);
+        }), client, message);
         user.send(editEmbed(embedMsg, {
             color: blue.hex,
             title: "**confirmation**",

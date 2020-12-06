@@ -30,7 +30,7 @@ module.exports = {
         if(complaint.length > 2048){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "The complaint is too long, please make it shorter!"
-            }), message);
+            }), client, message);
         }
         const id = await makeId("complaint");
         await query("INSERT INTO complaint(complaintId, userId, complaint) VALUES(?, ?, ?)", [id, message.author.id, complaint]);
@@ -53,6 +53,6 @@ module.exports = {
         sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: "Your complaint has been sent"
-        }), message);
+        }), client, message);
     }
 }

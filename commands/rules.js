@@ -32,6 +32,6 @@ module.exports = {
         }).catch(err => {
             error(`Could not send rules DM to ${message.author.tag}`, err);
             embedMsg.setColor(red.hex).setDescription('I can\'t DM you. Do you have DMs disabled?'); 
-        }).finally(() => sendEmbed(embedMsg, message)); 
+        }).finally(() => sendEmbed(embedMsg, client, message)); 
     } 
 }

@@ -32,23 +32,23 @@ module.exports = {
         if(!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "Could not find user"
-            }), message);
+            }), client, message);
         }
         if (user.id == message.author.id){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You can't unblacklist yourself!`
-            }), message);
+            }), client, message);
         }
         const blacklisted = await query("SELECT * FROM blacklisted WHERE userId = ?", [user.id]);
         if(!blacklisted.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "This user has not been blacklisted"
-            }), message);
+            }), client, message);
         }
         query("DELETE FROM blacklisted WHERE userId = ?", [user.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
             description: `${user} has been unblacklisted`
-        }), message);
+        }), client, message);
     }
 }

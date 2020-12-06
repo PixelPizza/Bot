@@ -31,18 +31,18 @@ module.exports = {
         if(isNaN(amount)){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "The specified amount is not a number!"
-            }), message);
+            }), client, message);
         }
         const user = getUser(message, args, client);
         if(!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "User could not be found"
-            }), message);
+            }), client, message);
         }
         await query("UPDATE `user` SET balance = CASE WHEN userId = ? THEN balance + ? WHEN userId = ? THEN balance - ? END WHERE userId IN(?, ?);", [user.id, amount, message.author.id, amount, user.id, message.author.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: `<@${message.author.id}> payed ${config.currency}${amount} to <@${user.id}>`
-        }), message);
+        }), client, message);
     }
 }

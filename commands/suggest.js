@@ -31,7 +31,7 @@ module.exports = {
         if(suggestion.length > 2048){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "The suggestion is too long, please make it shorter!"
-            }), message);
+            }), client, message);
         }
         const id = await makeId("suggestion");
         await query("INSERT INTO suggestion(suggestionId, userId, suggestion) VALUES(?, ?, ?)", [id, message.author.id, suggestion]);
@@ -54,6 +54,6 @@ module.exports = {
         sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: "Your suggestion has been sent"
-        }), message);
+        }), client, message);
     }
 }

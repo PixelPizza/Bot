@@ -32,19 +32,19 @@ module.exports = {
         if(!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "Could not find user"
-            }), message);
+            }), client, message);
         }
         const member = client.guildMembers.get(user.id);
         if(!member){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "This user is not in Pixel Pizza"
-            }), message);
+            }), client, message);
         }
         const workers = await query("SELECT * FROM `worker` WHERE workerId = ?", [user.id]);
         if(workers.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "This user is already worker"
-            }), message);
+            }), client, message);
         }
         addRole(member, work);
         query("INSERT INTO worker(workerId) VALUES(?)", [user.id]);
@@ -57,6 +57,6 @@ module.exports = {
                     value: "You will need to add the cook or delivery role to the user"
                 }
             ]
-        }), message);
+        }), client, message);
     }
 }

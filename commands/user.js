@@ -39,14 +39,14 @@ module.exports = {
         if (!user){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "user not found"
-            }), message);
+            }), client, message);
         }
         const member = client.guildMembers.get(user.id); 
         const result = await query("SELECT * FROM user WHERE userId = ?", [user.id]); 
         if (!result.length || !member) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This user is not in pixel pizza`
-            }), message);
+            }), client, message);
         } 
         user = result[0]; 
         embedMsg = editEmbed(embedMsg, {

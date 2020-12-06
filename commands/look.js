@@ -32,7 +32,7 @@ module.exports = {
         if (!results.length) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The order with order id ${args[0]} does not exist`
-            }), message);
+            }), client, message);
         } 
         const result = results[0]; 
         const orderer = client.users.cache.get(result.userId)?.username || "Unknown orderer"; 

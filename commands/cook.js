@@ -45,29 +45,29 @@ module.exports = {
         if (!hasRole(client.member, cook)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${cookRole.name} role in ${client.guild.name} to be able to cook an order`
-            }), message);
+            }), client, message);
         }
         if (message.attachments.array().length > 1) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `There are too many attachments! please send only one image with the message!`
-            }), message);
+            }), client, message);
         }
         let results = await query("SELECT * FROM `order` WHERE orderId = ? AND status = 'claimed'", [args[0]]);
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Order ${args[0]} has not been found with the claimed status`
-            }), message);
+            }), client, message);
         }
         if (results[0].cookId != message.author.id) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This order has already been claimed by someone else`
-            }), message);
+            }), client, message);
         }
         let url = message.attachments.first()?.url || args[1];
         if (!isImage(url)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This link is invalid`
-            }), message);
+            }), client, message);
         }
         client.channels.cache.get(text.images).send({files: [url]}).then(async msg => {
             query(

@@ -32,18 +32,18 @@ module.exports = {
         if(!["suggestion", "complaint"].includes(table)){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `please choose suggestion or complaint`
-            }), message);
+            }), client, message);
         }
         const suggestions = await query(`SELECT * FROM \`${table}\` WHERE \`${table}Id\` = ? AND handled = 1`, [id]);
         if(!suggestions.length){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `${capitalize(table)} ${id} not found`
-            }), message);
+            }), client, message);
         }
         await query(`UPDATE \`${table}\` SET handled = 0, staffId = ? WHERE \`${table}Id\` = ?`, [message.author.id, id]);
         sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: `${capitalize(table)} unhandled`
-        }), message);
+        }), client, message);
     }
 }

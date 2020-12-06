@@ -23,6 +23,6 @@ module.exports = {
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
             description: `You can vote for ${client.user.username} with this link\nhttps://top.gg/bot/709705136259334296/vote`
-        }), message);
+        }), client, message);
     }
 }

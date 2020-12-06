@@ -38,12 +38,12 @@ module.exports = {
         if (!applyType) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `${args[0]} is not an application type\nAll valid application types are ${types.map(type => type.name).join(", ")}`
-            }), message);
+            }), client, message);
         }
         if (!client.toggles[`${applyType.name}Applications`]){
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This application type is closed at the moment`
-            }), message);
+            }), client, message);
         }
         if ((await query(
             "SELECT * \
@@ -53,7 +53,7 @@ module.exports = {
         )).length) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You have already applied for this type. Please wait until it has been accepted or rejected`
-            }), message);
+            }), client, message);
         }
         const applicationQuestions = [];
         for (let question of applyType.questions) applicationQuestions.push(question);

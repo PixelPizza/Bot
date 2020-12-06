@@ -32,12 +32,12 @@ module.exports = {
         if (!hasRole(client.member, cook)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${client.guild.roles.cache.get(cook).name} role in ${client.guild.name} to be able to claim an order`
-            }), message);
+            }), client, message);
         }
         if (message.attachments.array().length > 1) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `There are too many attachments! please send only one image with the message!`
-            }), message);
+            }), client, message);
         }
         let results = await query(
             "SELECT * \
@@ -48,18 +48,18 @@ module.exports = {
         if (!results.length) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `Order ${args[0]} has not been found with the cooking or cooked status`
-            }), message);
+            }), client, message);
         }
         if (results[0].cookId != message.author.id) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The image of the order can only be changed by the cook who claimed it`
-            }), message);
+            }), client, message);
         }
         const url = message.attachments.first()?.url || args[1];
         if (!isImage(url)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `This link is invalid`
-            }), message);
+            }), client, message);
         }
         client.channels.cache.get(text.images).send({files: [url]}).then(msg => {
             query(
@@ -71,7 +71,7 @@ module.exports = {
             sendEmbed(editEmbed(embedMsg, {
                 color: green.hex,
                 description: `The image of the order has been changed`
-            }), message);
+            }), client, message);
         });
     }
 }

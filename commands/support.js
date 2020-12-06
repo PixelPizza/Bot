@@ -27,6 +27,6 @@ module.exports = {
             color: blue.hex,
             title: "**Invite link**",
             description: invite.url
-        }), message);
+        }), client, message);
     }
 }

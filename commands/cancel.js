@@ -32,7 +32,7 @@ module.exports = {
             WHERE userId = ?",
             [message.author.id]
         );
-        if (!result.length) return sendEmbed(embedMsg, message);
+        if (!result.length) return sendEmbed(embedMsg, client, message);
         query(
             "DELETE \
             FROM `order` \
@@ -43,6 +43,6 @@ module.exports = {
             color: green.hex,
             title: "cancel order",
             description: "Your order has been canceled"
-        }), message);
+        }), client, message);
     }
 }

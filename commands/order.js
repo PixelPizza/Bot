@@ -57,33 +57,33 @@ module.exports = {
                 return sendEmbed(editEmbed(embedMsg, {
                     title: "Chef not found",
                     description: "Could not find chef"
-                }), message);
+                }), client, message);
             }
             if(select.deliverer && !deliverResult.length){
                 return sendEmbed(editEmbed(embedMsg, {
                     title: "Deliverer not found",
                     description: "Could not find deliverer"
-                }), message);
+                }), client, message);
             }
         }
         let result = await query("SELECT COUNT(*) as counted FROM `order` WHERE status NOT IN('delivered', 'deleted')"); 
         if (result[0].counted >= maxPizzas && !isVip(client.member)) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The maximum pizza amount has been reached! please try again later`
-            }), message);
+            }), client, message);
         } 
         let order = args.join(" "); 
         if (!order.toLowerCase().includes("pizza") && order != "random") { 
             return sendEmbed(editEmbed(embedMsg, {
                 title: `error`,
                 description: `The order has to include the word pizza or you can use ${prefix}${this.name} random to order a random pizza`
-            }), message);
+            }), client, message);
         } 
         result = await query("SELECT * FROM `order` WHERE userId = ? AND status NOT IN('delivered','deleted')", [message.author.id]); 
         if (result.length) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You have already ordered pizza. please wait until your order has arrived`
-            }), message);
+            }), client, message);
         } 
         if (order == "random"){
             const ingredientAmount = randomInt(1, 5);
@@ -128,6 +128,6 @@ module.exports = {
                     value: order
                 }
             ]
-        }), message); 
+        }), client, message); 
     } 
 }

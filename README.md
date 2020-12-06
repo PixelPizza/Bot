@@ -24,6 +24,8 @@ Commands
 <details>
   <summary>Director Commands</summary>
   
+  * blacklist
+    * blacklist a user from using pixel pizza commands
   * expadd
     * add exp to a user
   * expremove
@@ -36,25 +38,45 @@ Commands
     * remove levels from a user
   * levelset
     * set the level of a user
+  * unblacklist
+    * unblacklist a user from using pixel pizza commands
 </details>
 
 <details>
   <summary>Staff Commands</summary>
-
+  
+  * accept
+    * accept an application
   * application
     * look at an application by application id
   * applications
     * show all applications
   * backdoor
     * get invite link of a guild (this is used for if the invite is lost or has been expired)
+  * complaint
+    * show a single complaint
+  * complaints
+    * show all complaints
+  * handle 
+    * handle a suggestion or complaint
+  * reject
+    * reject an application
+  * suggestion
+    * show a single suggestion
+  * suggestions
+    * show all suggestions
   * toggle
     * toggle a setting on or off
   * toggles
     * shows all toggles
+  * unhandle
+    * unahndle a handled complaint or suggestion
   * user
     * get a users info with the users id
   * worker
     * get info on a pixel pizza worker with the user id
+  * workers
+    * show all Pixel Pizza workers
 </details>
 
 <details>
@@ -76,6 +98,8 @@ Commands
     * deliver an order
   * deliverdm
     * deliver an order straigt to the dm of the orderer
+  * deliverpersonal
+    * deliver an order personally (can be done once a day)
   * deliverset
     * set your delivery message
   * images
@@ -86,6 +110,8 @@ Commands
     * show all orders
   * remove
     * remove an order if it doesn't follow the rules
+  * servers
+    * show all servers the Pixel Pizza is in
   * unclaim
     * unclaim a claimed order
 </details>
@@ -99,28 +125,52 @@ Commands
 <details>
   <summary>Other Commands</summary>
   
+  * anarchy
+    * show info on anarchy day
   * applicationtypes
     * show all application types and if they are opened
   * apply
     * apply in pixel pizza for worker, developer, staff or teacher
+  * balance
+    * show your balance
+  * balancetop
+    * look at the balance leaderboard
   * cancel
     * cancel your order
+  * complain
+    * make a complaint
+  * edit
+    * edit your order if it has not been claimed yet
   * help
     * list of all executable commands
   * invite
     * invite the bot
   * leaderboard
     * see the pixel pizza ranking leaderboard
+  * menu
+    * show a menu of pizzas to choose from
   * myorder
     * see your current order
   * order
     * order a pizza
+  * pay
+    * pay someone money
   * ping
     * ping the bot
+  * pizza
+    * show a random delivered pizza
   * rank
     * see your or someone elses rank
   * rules
     * show the rules of pixel pizza
+  * suggest
+    * suggest a feature
+  * support
+    * get the invite link to pixel pizza
+  * vote
+    * vote for Pixel Pizza
+  * work
+    * earn money by working
 </details>
 
 Visual Studio Code Extension

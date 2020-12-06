@@ -11,7 +11,7 @@ module.exports = {
     aliases: [],
     args: true,
     minArgs: 1,
-    usage: "<search> [max]",
+    usage: "<search> [{max: max}]",
     cooldown: 0,
     userType: "worker",
     neededPerms: [],
@@ -25,13 +25,15 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client) {
+        const selection = /^.*?({max:(?<max>.+?)})$/.exec(message);
+        let max = 0;
+        if(selection){
+            max = !isNaN(parseInt(selection.groups.max)) ? parseInt(selection.groups.max) : max;
+            args.reverse();
+            args.splice(0, selection[1].split(/ +/).length);
+            args.reverse();
+        }
         message.channel.send('Searching for images\nThis may take some time depending on the amount of results').then(msg => {
-            const max = !isNaN(parseInt(args[args.length-1])) ? parseInt(args[args.length-1]) : 0;
-            if(max){
-                args = args.reverse();
-                args.shift();
-                args = args.reverse();
-            }
             let index = 0;
             gis({
                 searchTerm: args.join(' '),

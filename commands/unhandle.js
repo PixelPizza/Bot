@@ -4,12 +4,12 @@ const { query } = require("../dbfunctions");
 
 module.exports = {
     name: "unhandle",
-    description: "unahndle a handled complaint or suggestion",
+    description: "unahndle a handled complaint, suggestion or bug",
     aliases: [],
     args: true,
     minArgs: 2,
     maxArgs: 2,
-    usage: "<suggestion | complaint> <suggestion id | complaint id>",
+    usage: "<suggestion | complaint | bug> <suggestion id | complaint id | bug id>",
     cooldown: 0,
     userType: "staff",
     neededPerms: [],
@@ -29,9 +29,9 @@ module.exports = {
         });
         const table = args[0];
         const id = args[1];
-        if(!["suggestion", "complaint"].includes(table)){
+        if(!["suggestion", "complaint", "bug"].includes(table)){
             return sendEmbed(editEmbed(embedMsg, {
-                description: `please choose suggestion or complaint`
+                description: `please choose suggestion, complaint or bug`
             }), client, message);
         }
         const suggestions = await query(`SELECT * FROM \`${table}\` WHERE \`${table}Id\` = ? AND handled = 1`, [id]);

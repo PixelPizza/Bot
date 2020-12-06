@@ -76,7 +76,7 @@ module.exports = {
                 WHERE orderId = ?",
                 [msg.attachments.first().url, args[0]]
             );
-            let cookTime = randomInt(6, 48) * 10;
+            let cookTime = randomInt(1 * 6, 6 * 6) * 10;
             const confirmation = createEmbed({
                 color: blue.hex,
                 title: 'confirmation',

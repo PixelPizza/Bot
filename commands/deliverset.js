@@ -1,7 +1,7 @@
 const discord = require('discord.js');
 const PixelPizza = require('pixel-pizza');
-const {createEmbed, hasRole, sendEmbed, editEmbed} = PixelPizza;
-const {blue, red} = PixelPizza.colors;
+const {createEmbed, hasRole, sendEmbed, editEmbed, join, variables } = PixelPizza;
+const {blue, red, green} = PixelPizza.colors;
 const {deliverer} = PixelPizza.roles;
 const {query} = require('../dbfunctions');
 
@@ -10,10 +10,57 @@ module.exports = {
     description: "set your delivery message",
     aliases: ["delset"],
     args: false,
-    cooldown: 30,
+    cooldown: 0,
     userType: "worker",
     neededPerms: [],
     pponly: false,
+    /**
+     * Set your delivery message
+     * @param {PixelPizza.PPClient} client The client of the bot
+     * @param {discord.Message} message The message to get the channel from
+     * @param {discord.Message} msg The message the bot sent
+     * @returns {Promise<any>}
+     */
+    async setMessage(client, message, msg){
+        const embedMsg = msg.embeds[0];
+        const collector = message.channel.createMessageCollector(m => m.author === message.author, {max:1});
+        collector.on('collect', async m => {
+            if(m.content == "cancel") return msg.edit(createEmbed({
+                color: green.hex,
+                title: "**Canceled**",
+                description: "You have canceled setting your delivery message"
+            }));
+            const embedMsgError = createEmbed({
+                color: red.hex,
+                title: "Set delivery message",
+                description: "This delivery message does not contain ",
+                footer: {
+                    text: "Type cancel to stop setting your delivery message"
+                }
+            });
+            const chefAmount = (m.content.match(/{chef}/g) || []).length;
+            const imageAmount = (m.content.match(/{image}/g) || []).length;
+            const inviteAmount = (m.content.match(/{invite}/g) || []).length;
+            const customerAmount = (m.content.match(/{customer}/g) || []).length;
+            if(!chefAmount || !imageAmount || !inviteAmount || !customerAmount){
+                if(!chefAmount) embedMsgError.description += "{chef}, ";
+                if(!imageAmount) embedMsgError.description += "{image}, ";
+                if(!inviteAmount) embedMsgError.description += "{invite}, ";
+                if(!customerAmount) embedMsgError.description += "{customer}, ";
+                embedMsgError.description = embedMsgError.description.substring(0, embedMsgError.description.lastIndexOf(", "));
+                embedMsgError.description += "! please try again!";
+                const msg = await sendEmbed(embedMsgError, client, message);
+                return this.setMessage(client, m, msg);
+            }
+            query(`UPDATE worker SET deliveryMessage = ? WHERE workerId = ?`, [m.content, m.author.id]);
+            embedMsg.fields = [];
+            embedMsg.footer.text = "";
+            sendEmbed(editEmbed(embedMsg, {
+                color: green.hex,
+                description: "You have succesfully set your new delivery message!"
+            }), client, message);
+        });
+    },
     /**
      * Execute this command
      * @param {discord.Message} message 
@@ -38,36 +85,20 @@ module.exports = {
             fields: [
                 {
                     name: "**Required variables**",
-                    value: `Do not forget to use *{${PixelPizza.join(PixelPizza.variables.required, "}*, *{", "}* and *{")}}* so we will replace them with it!`,
+                    value: `Do not forget to use *{${join(variables.required, "}*, *{", "}* and *{")}}* so we will replace them with it!`,
                     inline: false
                 },
                 {
                     name: "**Supported variables**",
-                    value: "Supported variables are *{chef}*, *{deliverer}*, *{customer}*, *{image}*, *{invite}*, *{price}*, *{orderdate}*, *{cookdate}*, *{deliverydate}*, *{orderID}* and *{order}*",
+                    value: `Supported variables are *{${join(variables.required.concat(...variables.others), "}*, *{", "}* and *{")}}*`,
                     inline: false
                 }
-            ]
-        }), client, message).then(() => {
-            const collector = message.channel.createMessageCollector(m => m.author === message.author, {max:1});
-            collector.on('collect', m => {
-                const embedMsgError = createEmbed({
-                    color: red.hex,
-                    title: "Set delivery message",
-                    description: "This delivery message does not contain {chef}, {customer}, {image} or {invite}! please try again!"
-                });
-                const chefAmount = (m.content.match(/{chef}/g) || []).length;
-                const imageAmount = (m.content.match(/{image}/g) || []).length;
-                const inviteAmount = (m.content.match(/{invite}/g) || []).length;
-                const customerAmount = (m.content.match(/{customer}/g) || []).length;
-                if(!chefAmount || !imageAmount || !inviteAmount || !customerAmount){
-                    return sendEmbed(embedMsg, client, message);
-                }
-                query(`UPDATE worker SET deliveryMessage = ? WHERE workerId = ?`, [m.content, m.author.id]);
-                embedMsg.fields = [];
-                sendEmbed(editEmbed(embedMsg, {
-                    description: "You have succesfully set your new delivery message!"
-                }), client, message);
-            });
+            ],
+            footer: {
+                text: "Type cancel to stop setting your delivery message"
+            }
+        }), client, message).then(msg => {
+            this.setMessage(client, message, msg);
         });
     }
 }

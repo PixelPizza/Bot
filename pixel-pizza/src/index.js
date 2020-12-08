@@ -26,6 +26,7 @@ module.exports = {
     isImage: require("./functions/isImage"),
     isVip: require("./functions/isVip"),
     join: require('./functions/join'),
+    makeUserRegex: require('./functions/makeUserRegex'),
     parseMessage: require('./functions/parseMessage'),
     removeRole: require("./functions/removeRole"),
     request: require("./functions/request"),

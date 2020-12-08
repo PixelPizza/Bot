@@ -411,6 +411,13 @@ declare module 'pixel-pizza' {
     export const join: (array: any[], seperator: string, endSeperator: string) => string
     
     /**
+     * Make a new regex for users
+     * @param {string} name The name of the placeholder
+     * @returns {RegExp} A regex for users
+     */
+    export const makeUserRegex: (name: string) => RegExp
+
+    /**
      * Parse a delivery message
      * @param {string} message The message to parse
      * @param {string | User} chef The user that cooked the pizza

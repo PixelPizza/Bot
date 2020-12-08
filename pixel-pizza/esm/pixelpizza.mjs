@@ -28,6 +28,7 @@ export const {
     isImage,
     isVip,
     join,
+    makeUserRegex,
     parseMessage,
     removeRole,
     request,

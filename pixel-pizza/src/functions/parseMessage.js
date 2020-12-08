@@ -4,13 +4,7 @@ const {randomInt} = require('crypto');
 const { User, Guild, TextChannel } = require('discord.js');
 const {currency, minPrice, maxPrice} = require('../data/config');
 const timestampToDate = require('./timestampToDate');
-
-/**
- * Make a new regex for users
- * @param {string} type The name of the placeholder
- * @returns {RegExp} A regex for users
- */
-const makeUserRegex = (name) => new RegExp(`{${name}(?:: *(tag|id|username|name|ping|mention))?}`, "g");
+const makeUserRegex = require('./makeUserRegex');
 
 /**
  * Parses a user to an attribute of the user

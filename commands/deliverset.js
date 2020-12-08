@@ -1,6 +1,6 @@
 const discord = require('discord.js');
 const PixelPizza = require('pixel-pizza');
-const {createEmbed, hasRole, sendEmbed, editEmbed, join, variables } = PixelPizza;
+const {createEmbed, hasRole, sendEmbed, editEmbed, join, variables, makeUserRegex } = PixelPizza;
 const {blue, red, green} = PixelPizza.colors;
 const {deliverer} = PixelPizza.roles;
 const {query} = require('../dbfunctions');
@@ -38,10 +38,10 @@ module.exports = {
                     text: "Type cancel to stop setting your delivery message"
                 }
             });
-            const chefAmount = (m.content.match(/{chef}/g) || []).length;
+            const chefAmount = (m.content.match(makeUserRegex("chef")) || []).length;
             const imageAmount = (m.content.match(/{image}/g) || []).length;
             const inviteAmount = (m.content.match(/{invite}/g) || []).length;
-            const customerAmount = (m.content.match(/{customer}/g) || []).length;
+            const customerAmount = (m.content.match(makeUserRegex("customer")) || []).length;
             if(!chefAmount || !imageAmount || !inviteAmount || !customerAmount){
                 if(!chefAmount) embedMsgError.description += "{chef}, ";
                 if(!imageAmount) embedMsgError.description += "{image}, ";

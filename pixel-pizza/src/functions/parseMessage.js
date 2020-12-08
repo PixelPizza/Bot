@@ -6,6 +6,35 @@ const {currency, minPrice, maxPrice} = require('../data/config');
 const timestampToDate = require('./timestampToDate');
 
 /**
+ * Make a new regex for users
+ * @param {string} type The name of the placeholder
+ * @returns {RegExp} A regex for users
+ */
+const makeUserRegex = (name) => new RegExp(`{${name}(?:: *(tag|id|username|name|ping|mention))?}`, "g");
+
+/**
+ * Parses a user to an attribute of the user
+ * @param {"tag" | "id" | "name" | "username" | "ping" | "mention"} [type] The type it should be parsed to (ping if no value) 
+ * @param {User | string} user The user to use for parsing 
+ */
+const parseUser = (type, user) => {
+    if(typeof(user) == "string") return user;
+    switch(type){
+        case "tag":
+            return user.tag;
+        case "id":
+            return user.id;
+        case "name":
+        case "username":
+            return user.username;
+        default:
+        case "ping":
+        case "mention":
+            return `<@${user.id}>`;
+    }
+}
+
+/**
  * Parse a delivery message
  * @param {string} message The message to parse
  * @param {string | User} chef The user that cooked the pizza
@@ -24,11 +53,11 @@ const timestampToDate = require('./timestampToDate');
  */
 const parseMessage = (message, chef, customer, image, invite, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel) => {
     return message
-    .replace(/{chef}/g, typeof chef == "string" ? chef : `<@${chef.id}>`)
-    .replace(/{customer}/g, `<@${customer.id}>`)
+    .replace(makeUserRegex("chef"), (result, type) => parseUser(type, chef))
+    .replace(makeUserRegex("customer"), (result, type) => parseUser(type, customer))
     .replace(/{image}/g, image)
     .replace(/{invite}/g, invite)
-    .replace(/{deliverer}/g, `<@${deliverer.id}>`)
+    .replace(makeUserRegex("deliverer"), (result, type) => parseUser(type, deliverer))
     .replace(/{orderID}/g, orderID) 
     .replace(/{order}/g, order)
     .replace(/{price}/g, `${currency}${randomInt(minPrice, maxPrice)}`)

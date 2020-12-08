@@ -4,7 +4,16 @@ const {randomInt} = require('crypto');
 const { User, Guild, TextChannel } = require('discord.js');
 const {currency, minPrice, maxPrice} = require('../data/config');
 const timestampToDate = require('./timestampToDate');
+const timestampToTime = require('./timestampToTime');
+const timestampToDatetime = require('./timestampToDatetime');
 const makeUserRegex = require('./makeUserRegex');
+
+/**
+ * Make a new regex for dates
+ * @param {string} name The name of the placeholder
+ * @returns {RegExp} A regex for dates
+ */
+const makeDateRegex = (name) => RegExp(`{${name}date(?:: *(date|time|datetime))}`, "g");
 
 /**
  * Parses a user to an attribute of the user
@@ -29,6 +38,23 @@ const parseUser = (type, user) => {
 }
 
 /**
+ * Parses a timestamp to date, time or datetime
+ * @param {"date" | "time" | "datetime"} [type] The type it should be parsed to (datetime if no value) 
+ * @param {User | string} user The user to use for parsing 
+ */
+const parseTimestamp = (type, timestamp) => {
+    switch(type){
+        case "date":
+            return timestampToDate(timestamp);
+        case "time":
+            return timestampToTime(timestamp);
+        default:
+        case "datetime":
+            return timestampToDatetime(timestamp);
+    }
+}
+
+/**
  * Parse a delivery message
  * @param {string} message The message to parse
  * @param {string | User} chef The user that cooked the pizza
@@ -47,17 +73,17 @@ const parseUser = (type, user) => {
  */
 const parseMessage = (message, chef, customer, image, invite, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel) => {
     return message
-    .replace(makeUserRegex("chef"), (result, type) => parseUser(type, chef))
-    .replace(makeUserRegex("customer"), (result, type) => parseUser(type, customer))
+    .replace(makeUserRegex("chef"), (r, type) => parseUser(type, chef))
+    .replace(makeUserRegex("customer"), (r, type) => parseUser(type, customer))
     .replace(/{image}/g, image)
     .replace(/{invite}/g, invite)
-    .replace(makeUserRegex("deliverer"), (result, type) => parseUser(type, deliverer))
+    .replace(makeUserRegex("deliverer"), (r, type) => parseUser(type, deliverer))
     .replace(/{orderID}/g, orderID) 
     .replace(/{order}/g, order)
     .replace(/{price}/g, `${currency}${randomInt(minPrice, maxPrice)}`)
-    .replace(/{orderdate}/g, timestampToDate(orderDate))
-    .replace(/{cookdate}/g, timestampToDate(cookDate))
-    .replace(/{deliverydate}/g, timestampToDate(deliverDate))
+    .replace(makeDateRegex("order"), (r, type) => parseTimestamp(type, orderDate))
+    .replace(makeDateRegex("cook"), (r, type) => parseTimestamp(type, cookDate))
+    .replace(makeDateRegex("delivery"), (r, type) => parseTimestamp(type, deliverDate))
     .replace(/{guild}|{server}/g, typeof guild == "string" ? guild : guild.name)
     .replace(/{channel}/g, typeof channel == "string" ? channel : channel.name);
 }

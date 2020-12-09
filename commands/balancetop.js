@@ -65,7 +65,7 @@ module.exports = {
             }
             rank++; 
             let user = member.user; 
-            let rankString = `#${rank} • ${user.username} • ${config.currency}${result.balance}\n`; 
+            let rankString = `#${rank} • ${user.username} • ${PixelPizza.getEmoji(client.guild, config.currency)} ${result.balance}\n`; 
             if (rank % 10 == 0 || itemNumber == results.length) rankString += "```"; 
             pages[page].description += rankString; 
             if (rank % 10 == 0 && itemNumber != results.length) { 

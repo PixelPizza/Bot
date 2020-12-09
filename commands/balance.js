@@ -6,7 +6,7 @@ const { query } = require('../dbfunctions');
 module.exports = {
     name: "balance",
     description: "show your balance",
-    aliases: ["bal"],
+    aliases: ["bal", "bank"],
     usage: "[user]",
     cooldown: 60,
     userType: "all",
@@ -35,7 +35,7 @@ module.exports = {
         const balance = results.length ? results[0].balance : 0;
         sendEmbed(editEmbed(embedMsg, {
             color: colors.blue.hex,
-            description: `${config.currency}${balance}`
+            description: `${PixelPizza.getEmoji(client.guild, config.currency)} ${balance}`
         }), client, message);
     }
 }

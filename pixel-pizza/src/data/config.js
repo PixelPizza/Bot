@@ -5,7 +5,7 @@
  */
 module.exports = {
     prefix: "pp",
-    currency: "€",
+    currency: "786310544793010196",
     verification: "774640628374044723",
     workerRoles: "775150876418506792",
     botGuild: "709698572035162143",

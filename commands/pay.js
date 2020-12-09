@@ -1,6 +1,6 @@
 const discord = require('discord.js');
 const PixelPizza = require('pixel-pizza');
-const { getUser, createEmbed, colors, capitalize, sendEmbed, editEmbed, config } = PixelPizza;
+const { getUser, createEmbed, colors, capitalize, sendEmbed, editEmbed, config, getEmoji } = PixelPizza;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
         await query("UPDATE `user` SET balance = CASE WHEN userId = ? THEN balance + ? WHEN userId = ? THEN balance - ? END WHERE userId IN(?, ?);", [user.id, amount, message.author.id, amount, user.id, message.author.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
-            description: `<@${message.author.id}> payed ${config.currency}${amount} to <@${user.id}>`
+            description: `<@${message.author.id}> payed ${getEmoji(client.guild, config.currency)} ${amount} to <@${user.id}>`
         }), client, message);
     }
 }

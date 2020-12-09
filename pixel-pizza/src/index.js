@@ -19,6 +19,7 @@ module.exports = {
     checkNoiceBoard: require("./functions/checkNoiceBoard"),
     createEmbed: require("./functions/createEmbed"),
     editEmbed: require("./functions/editEmbed"),
+    getEmoji: require('./functions/getEmoji'),
     getGuild: require("./functions/getGuild"),
     getUser: require("./functions/getUser"),
     hasRole: require("./functions/hasRole"),

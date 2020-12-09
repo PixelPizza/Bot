@@ -65,7 +65,7 @@ module.exports = {
         let cook = "none"; 
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let image = result.imageUrl; 
-        deliveryMessage = PixelPizza.parseMessage(deliveryMessage, cook, orderer, image, invite, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), "DM", "DM");
+        deliveryMessage = PixelPizza.parseMessage(client, deliveryMessage, cook, orderer, image, invite, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), "DM", "DM");
         orderer.send(deliveryMessage).then(() => {
             query("UPDATE `order` SET status = 'delivered', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
             query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);

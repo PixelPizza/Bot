@@ -2,11 +2,13 @@
 
 const {randomInt} = require('crypto');
 const { User, Guild, TextChannel } = require('discord.js');
+const PPClient = require('../classes/PPClient');
 const {currency, minPrice, maxPrice} = require('../data/config');
 const timestampToDate = require('./timestampToDate');
 const timestampToTime = require('./timestampToTime');
 const timestampToDatetime = require('./timestampToDatetime');
 const makeUserRegex = require('./makeUserRegex');
+const getEmoji = require('./getEmoji');
 
 /**
  * Make a new regex for dates
@@ -56,6 +58,7 @@ const parseTimestamp = (type, timestamp) => {
 
 /**
  * Parse a delivery message
+ * @param {PPClient} client The client to get the guild from
  * @param {string} message The message to parse
  * @param {string | User} chef The user that cooked the pizza
  * @param {User} customer The user that ordered the pizza
@@ -71,7 +74,7 @@ const parseTimestamp = (type, timestamp) => {
  * @param {string | TextChannel} channel The channel to get the name from
  * @returns {string} The parsed message
  */
-const parseMessage = (message, chef, customer, image, invite, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel) => {
+const parseMessage = (client, message, chef, customer, image, invite, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel) => {
     return message
     .replace(makeUserRegex("chef"), (r, type) => parseUser(type, chef))
     .replace(makeUserRegex("customer"), (r, type) => parseUser(type, customer))
@@ -80,7 +83,7 @@ const parseMessage = (message, chef, customer, image, invite, deliverer, orderID
     .replace(makeUserRegex("deliverer"), (r, type) => parseUser(type, deliverer))
     .replace(/{orderID}/g, orderID) 
     .replace(/{order}/g, order)
-    .replace(/{price}/g, `${currency}${randomInt(minPrice, maxPrice)}`)
+    .replace(/{price}/g, `${getEmoji(client.guild, currency)} ${randomInt(minPrice, maxPrice)}`)
     .replace(makeDateRegex("order"), (r, type) => parseTimestamp(type, orderDate))
     .replace(makeDateRegex("cook"), (r, type) => parseTimestamp(type, cookDate))
     .replace(makeDateRegex("delivery"), (r, type) => parseTimestamp(type, deliverDate))

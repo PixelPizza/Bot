@@ -21,6 +21,7 @@ export const {
     checkNoiceBoard,
     createEmbed,
     editEmbed,
+    getEmoji,
     getGuild,
     getUser,
     hasRole,

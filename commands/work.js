@@ -1,6 +1,6 @@
 const discord = require('discord.js');
 const { randomInt } = require("crypto");
-const { config, sendEmbed, createEmbed, colors, capitalize } = require("pixel-pizza");
+const { config, sendEmbed, createEmbed, colors, capitalize, getEmoji, PPClient } = require("pixel-pizza");
 const { query } = require('../dbfunctions');
 
 module.exports = {
@@ -18,14 +18,14 @@ module.exports = {
      * Execute this command
      * @param {discord.Message} message 
      * @param {string[]} args 
-     * @param {PixelPizza.PPClient} client 
+     * @param {PPClient} client 
      * @returns {Promise<void>}
      */
     async execute(message, args, client) {
         const guild = client.guilds.cache.get(config.botGuild);
         const earning = randomInt(config.minWorkEarning, config.maxWorkEarning);
         const causeIndex = randomInt(config.workCauses.length);
-        const cause = config.workCauses[causeIndex].replace(/{earning}/g, `${config.currency}${earning}`).replace(/{botguild}/g, guild.name);
+        const cause = config.workCauses[causeIndex].replace(/{earning}/g, `${getEmoji(client.guild, config.currency)} ${earning}`).replace(/{botguild}/g, guild.name);
         await query("UPDATE `user` SET balance = balance + ? WHERE userId = ?", [earning, message.author.id]);
         sendEmbed(createEmbed({
             color: colors.blue.hex,

@@ -1,9 +1,8 @@
-import { IncomingMessage } from "http";
+import {Emoji, Client, ClientOptions, Collection, ColorResolvable, Guild, GuildMember, Message, MessageEmbed, MessageReaction, MessageResolvable, RoleResolvable, Snowflake, TextChannel, User} from "discord.js";
+import {Canvas} from "canvas";
+import {IncomingMessage} from "http";
 
 declare module 'pixel-pizza' {
-    import {Client, ClientOptions, Collection, ColorResolvable, Guild, GuildMember, Message, MessageEmbed, MessageReaction, MessageResolvable, RoleResolvable, Snowflake, TextChannel, User} from "discord.js";
-    import {Canvas} from "canvas";
-
     /**
      * A dictionary with hex, rgb, hsl and cmyk values
      */
@@ -356,6 +355,14 @@ declare module 'pixel-pizza' {
     export const editEmbed: (embedMsg: MessageEmbed, options: EmbedOptions) => MessageEmbed
 
     /**
+     * Get an emoji from a guild
+     * @param {Guild} guild The guild to get the emoji from
+     * @param {string} emoji The id of the emoji
+     * @returns {string | Emoji} Returns the emoji if it is from the guild and the string otherwise
+     */
+    export const getEmoji: (guild: Guild, emoji: string) => string | Emoji
+
+    /**
      * Get a guild by arguments
      * @param {string[]} args The arguments used as guild name
      * @param {PPClient} client The client to get the guild from
@@ -419,6 +426,7 @@ declare module 'pixel-pizza' {
 
     /**
      * Parse a delivery message
+     * @param {PPClient} client The client to get the guild from
      * @param {string} message The message to parse
      * @param {string | User} chef The user that cooked the pizza
      * @param {User} customer The user that ordered the pizza
@@ -434,7 +442,7 @@ declare module 'pixel-pizza' {
      * @param {string | TextChannel} channel The channel to get the name from
      * @returns {string} The parsed message
      */
-    export const parseMessage: (message: string, chef: string | User, customer: User, image: string, invite: string, deliverer: User, orderID: string, order: string, orderDate: number, cookDate: number, deliverDate: number, guild: string | Guild, channel: string | TextChannel) => string
+    export const parseMessage: (client: PPClient, message: string, chef: string | User, customer: User, image: string, invite: string, deliverer: User, orderID: string, order: string, orderDate: number, cookDate: number, deliverDate: number, guild: string | Guild, channel: string | TextChannel) => string
 
     /**
      * Remove a role from a discord member

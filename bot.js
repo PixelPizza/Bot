@@ -1,6 +1,6 @@
 const fs = require('fs');
 const PixelPizza = require("pixel-pizza");
-const { Collection } = require('discord.js');
+const { Collection, Permissions } = require('discord.js');
 const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const { prefix, botGuild, verification, workerRoles, pponlyexceptions } = PixelPizza.config;
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
@@ -233,10 +233,7 @@ client.on('message', async message => {
     if (message.author.bot && message.content != "pptoggle sendEveryone") return;
     let clientMember;
     client.canSendEmbeds = true;
-    if (message.guild) {
-        clientMember = message.guild.me;
-        if (!clientMember.hasPermission("EMBED_LINKS")) client.canSendEmbeds = false;
-    }
+    if (message.guild && !message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS)) client.canSendEmbeds = false;
     const args = message.content.slice(prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
     log(`Command used by ${message.author.tag} in ${message.guild.name} #${message.channel.name}`, commandName);
@@ -358,7 +355,7 @@ client.on('message', async message => {
     if (command.neededPerms && command.neededPerms.length) {
         for (let index in command.neededPerms) {
             let neededPerm = command.neededPerms[index];
-            if (!clientMember.hasPermission(neededPerm)) {
+            if (!message.channel.permissionsFor(message.guild.me).has(neededPerm)) {
                 return sendEmbed(editEmbed(embedMsg, {
                     title: "Missing permission",
                     description: `I'm missing the \`${neededPerm}\` permission\nIf you want to know why this permission is needed please DM Jaron#3021`

@@ -9,7 +9,7 @@ module.exports = {
     aliases: [],
     args: false,
     usage: "usage",
-    cooldown: 300,
+    cooldown: 30 * 60,
     userType: "all",
     neededPerms: [],
     pponly: false,

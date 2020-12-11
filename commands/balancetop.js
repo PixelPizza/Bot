@@ -31,6 +31,7 @@ module.exports = {
             description: `${args[0]} is not a number`
         });
         if (args.length && isNaN(parseInt(args[0]))) return sendEmbed(embedMsg, client, message); 
+        /** @type {discord.MessageEmbed[]} */
         const pages = []; 
         let page = 0; 
         let name = this.name; 
@@ -38,7 +39,6 @@ module.exports = {
             const embedMsg = createEmbed({
                 color: blue.hex,
                 title: `**${name}**`,
-                description: "```md\n",
                 footer: {
                     text: `Page ${page + 1}`
                 }
@@ -59,15 +59,15 @@ module.exports = {
         for (let result of results) { 
             itemNumber++; 
             let member = client.guildMembers.get(result.userId); 
-            if (!member) {
-                if(itemNumber == results.length) pages[page].description += "```";
-                continue;
-            }
+            if (!member) continue;
             rank++; 
             let user = member.user; 
-            let rankString = `#${rank} • ${user.username} • ${PixelPizza.getEmoji(client.guild, config.currency)} ${result.balance}\n`; 
-            if (rank % 10 == 0 || itemNumber == results.length) rankString += "```"; 
-            pages[page].description += rankString; 
+            let addition = "";
+            if(rank <= 3) addition += "*";
+            if(rank <= 2) addition += "*";
+            if(rank == 1) addition += "*";
+            let rankString = `#${addition}${rank}${addition} • ${addition}${user.username}${addition} • ${PixelPizza.getEmoji(client.guild, config.currency)} ${result.balance}\n`; 
+            pages[page].description ? pages[page].description += rankString : pages[page].setDescription(rankString); 
             if (rank % 10 == 0 && itemNumber != results.length) { 
                 page++; 
                 addPage(); 

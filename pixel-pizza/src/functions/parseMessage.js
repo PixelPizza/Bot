@@ -15,7 +15,7 @@ const getEmoji = require('./getEmoji');
  * @param {string} name The name of the placeholder
  * @returns {RegExp} A regex for dates
  */
-const makeDateRegex = (name) => RegExp(`{${name}date(?:: *(date|time|datetime))}`, "g");
+const makeDateRegex = (name) => RegExp(`{${name}date(?:: *(date|time|datetime))?}`, "g");
 
 /**
  * Parses a user to an attribute of the user

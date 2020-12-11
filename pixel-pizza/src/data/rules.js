@@ -27,13 +27,14 @@ let rules = [
     "No spoiler pizzas",
     "No orders that contain more than 5 items/requests (Base pizza counts as an item)",
     "Must include a pizza (transparent & invisible pizzas are not allowed either)",
-    "No orders that ask for a role",
     "Do not attempt to bypass the word blacklist",
     "Use COMMON SENSE",
     "Don't ping temmie or any role that temmie has, you will get warned by him, watch out",
     "Ping <@779726306655862814>(<@&779726306655862814>) if your pizza takes too long to cook",
     "We are Pixel Pizza, We do not serve any other foods than Pizza. (except on anarchy day)",
-    "Give workers time to cook and deliver orders. They also do things besides cooking and delivering"
+    "Give workers time to cook and deliver orders. They also do things besides cooking and delivering",
+    "Do not complains about the order IDs or youll get a scp after you send by <@511209271678074891>", 
+    "pixel Pizza must be in the guild in order to order a pizza"
 ];
 
 /**

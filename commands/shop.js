@@ -50,7 +50,7 @@ module.exports = {
 
         items.forEach((item, index) => {
             if(index % 25 == 0) page = this.addPage(pages, this);
-            pages[page].addField(item.name, `${item.description}\n${PixelPizza.getEmoji(client.guild, PixelPizza.config.currency)} ${item.price}`);
+            pages[page].addField(item.name, `${item.description}\n${PixelPizza.getEmoji(client.guild, PixelPizza.config.currency)} ${item.price}\nstock ${item.stock != -1 ? item.stock : "∞"}`);
         });
 
         page = args.length ? parseInt(args[0]) : 1;

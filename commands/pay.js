@@ -45,7 +45,8 @@ module.exports = {
                 description: "You do not have enough balance to pay this"
             }), client, message);
         }
-        await query("UPDATE `user` SET balance = CASE WHEN userId = ? THEN balance + ? WHEN userId = ? THEN balance - ? END WHERE userId IN(?, ?);", [user.id, amount, message.author.id, amount, user.id, message.author.id]);
+        await query("UPDATE `user` SET balance = balance - ? WHERE userId = ?", [amount, message.author.id]);
+        await query("UPDATE `user` SET balance = balance + ? WHERE userId = ?", [amount, user.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: `<@${message.author.id}> payed ${getEmoji(client.guild, config.currency)} ${amount} to <@${user.id}>`

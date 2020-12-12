@@ -72,15 +72,17 @@ const parseTimestamp = (type, timestamp) => {
  * @param {number} deliverDate The timestamp of the delivery date
  * @param {string | Guild} guild The guild to get the name from
  * @param {string | TextChannel} channel The channel to get the name from
+ * @param {boolean} escaped Wether or not the message should have escaped users for letting it be copied
  * @returns {string} The parsed message
  */
-const parseMessage = (client, message, chef, customer, image, invite, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel) => {
+const parseMessage = (client, message, chef, customer, image, invite, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel, escaped = false) => {
+    const addition = escaped ? "`" : "";
     return message
-    .replace(makeUserRegex("chef"), (r, type) => parseUser(type, chef))
-    .replace(makeUserRegex("customer"), (r, type) => parseUser(type, customer))
+    .replace(makeUserRegex("chef"), (r, type) => addition+parseUser(type, chef)+addition)
+    .replace(makeUserRegex("customer"), (r, type) => addition+parseUser(type, customer)+addition)
     .replace(/{image}/g, image)
     .replace(/{invite}/g, invite)
-    .replace(makeUserRegex("deliverer"), (r, type) => parseUser(type, deliverer))
+    .replace(makeUserRegex("deliverer"), (r, type) => addition+parseUser(type, deliverer)+addition)
     .replace(/{orderID}/g, orderID) 
     .replace(/{order}/g, order)
     .replace(/{price}/g, ` ${getEmoji(client.guild, currency)} ${randomInt(minPrice, maxPrice)}`)

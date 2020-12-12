@@ -61,7 +61,7 @@ module.exports = {
                 await msg.react(reaction);
             }
             const collector = msg.createReactionCollector((reaction, user) => user == message.author && reactions.includes(reaction.emoji.name));
-            collector.on('collect', (reaction) => {
+            collector.on('collect', async (reaction) => {
                 switch(reaction.emoji.name){
                     case reactions[0]:
                         page = 1;
@@ -87,6 +87,9 @@ module.exports = {
                 }
                 msg.edit(pages[page-1]);
                 msg.reactions.removeAll();
+                for(let reaction of reactions){
+                    await msg.react(reaction);
+                }
             });
         });
     }

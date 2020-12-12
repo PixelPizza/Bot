@@ -39,6 +39,12 @@ module.exports = {
                 description: "User could not be found"
             }), client, message);
         }
+        const balance = await query("SELECT balance FROM `user` WHERE userId = ?", [message.author.id]);
+        if(balance[0].balance < amount){
+            return sendEmbed(editEmbed(embedMsg, {
+                description: "You do not have enough balance to pay this"
+            }), client, message);
+        }
         await query("UPDATE `user` SET balance = CASE WHEN userId = ? THEN balance + ? WHEN userId = ? THEN balance - ? END WHERE userId IN(?, ?);", [user.id, amount, message.author.id, amount, user.id, message.author.id]);
         sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,

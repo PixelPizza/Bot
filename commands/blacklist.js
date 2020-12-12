@@ -7,7 +7,7 @@ const { createEmbed, capitalize, getUser, sendEmbed, editEmbed } = PixelPizza;
 
 module.exports = {
     name: "blacklist",
-    description: "blacklist a user from pixel pizza",
+    description: "blacklist a user from using pixel pizza commands",
     aliases: ["bl"],
     args: true,
     minArgs: 1,

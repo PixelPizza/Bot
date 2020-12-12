@@ -47,13 +47,9 @@ module.exports = {
                 color: PixelPizza.colors.green.hex,
                 description: `Toggle ${key} is now ${toggle}`
             }), client, message);
-        } else if(toggle) {
-            sendEmbed(editEmbed(embedMsg, {
-                description: "Please choose on or off as value"
-            }), client, message);
         } else {
-            return sendEmbed(editEmbed(embedMsg, {
-                description: `Toggle ${key} does not exist`
+            sendEmbed(editEmbed(embedMsg, {
+                description: toggle ? "Please choose on or off as value" : `Toggle ${key} does not exist`
             }), client, message);
         }
     }

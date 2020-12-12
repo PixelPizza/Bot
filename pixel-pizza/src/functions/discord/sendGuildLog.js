@@ -1,6 +1,6 @@
 'use strict';
 
-const {log} = require("../data/webhooks");
+const {log} = require("../../data/webhooks");
 const discord = require("discord.js");
 
 /**

@@ -1,6 +1,6 @@
 'use strict';
 
-const {prefix} = require("../data/config");
+const {prefix} = require("../../data/config");
 
 /**
  * Update the amount of guilds in Pixel Pizza

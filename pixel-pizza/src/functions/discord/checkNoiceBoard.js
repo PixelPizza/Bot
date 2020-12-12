@@ -1,10 +1,10 @@
 'use strict';
 
 const discord = require('discord.js');
-const {text} = require("../data/channels");
-const {noice2} = require("../data/emojis");
-const {noiceboardMinValue} = require("../data/config");
-const {noiceboard} = require("../data/colors");
+const {text} = require("../../data/channels");
+const {noice2} = require("../../data/emojis");
+const {noiceboardMinValue} = require("../../data/config");
+const {noiceboard} = require("../../data/colors");
 const createEmbed = require("./createEmbed");
 
 /**

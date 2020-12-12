@@ -1,7 +1,7 @@
 'use strict';
 
 const hasRole = require("./hasRole");
-const {levelRoles} = require("../data/roles");
+const {levelRoles} = require("../../data/roles");
 const { GuildMember } = require("discord.js");
 
 /**

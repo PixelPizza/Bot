@@ -1,6 +1,6 @@
 'use strict';
 
-const {voice} = require("../data/channels");
+const {voice} = require("../../data/channels");
 
 /**
  * Update the amount of members in Pixel Pizza

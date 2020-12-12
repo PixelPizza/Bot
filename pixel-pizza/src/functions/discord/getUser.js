@@ -1,7 +1,7 @@
 'use strict';
 
 const { Message } = require("discord.js");
-const PPClient = require('../classes/PPClient');
+const PPClient = require('../../classes/PPClient');
 
 /**
  * Get a user by message mentions and arguments

@@ -1,6 +1,6 @@
 'use strict';
 
-const PPClient = require('../classes/PPClient');
+const PPClient = require('../../classes/PPClient');
 const discord = require('discord.js');
 
 /**

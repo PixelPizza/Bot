@@ -1,7 +1,7 @@
 'use strict';
 
 const { Guild } = require("discord.js");
-const PPClient = require("../classes/PPClient");
+const PPClient = require("../../classes/PPClient");
 
 /**
  * Get a guild by arguments

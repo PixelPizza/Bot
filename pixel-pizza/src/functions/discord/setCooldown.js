@@ -1,7 +1,7 @@
 'use strict';
 
 const discord = require("discord.js");
-const PPClient = require("../classes/PPClient");
+const PPClient = require("../../classes/PPClient");
 
 /**
  * Set a cooldown for a command for a user

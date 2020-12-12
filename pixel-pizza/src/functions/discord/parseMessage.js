@@ -2,12 +2,12 @@
 
 const {randomInt} = require('crypto');
 const { User, Guild, TextChannel } = require('discord.js');
-const PPClient = require('../classes/PPClient');
-const {currency, minPrice, maxPrice} = require('../data/config');
-const timestampToDate = require('./timestampToDate');
-const timestampToTime = require('./timestampToTime');
-const timestampToDatetime = require('./timestampToDatetime');
-const makeUserRegex = require('./makeUserRegex');
+const PPClient = require('../../classes/PPClient');
+const {currency, minPrice, maxPrice} = require('../../data/config');
+const timestampToDate = require('../datetime/timestampToDate');
+const timestampToTime = require('../datetime/timestampToTime');
+const timestampToDatetime = require('../datetime/timestampToDatetime');
+const makeUserRegex = require('../regex/makeUserRegex');
 const getEmoji = require('./getEmoji');
 
 /**

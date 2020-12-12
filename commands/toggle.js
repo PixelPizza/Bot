@@ -51,6 +51,10 @@ module.exports = {
             sendEmbed(editEmbed(embedMsg, {
                 description: "Please choose on or off as value"
             }), client, message);
+        } else {
+            return sendEmbed(editEmbed(embedMsg, {
+                description: `Toggle ${key} does not exist`
+            }), client, message);
         }
     }
 }

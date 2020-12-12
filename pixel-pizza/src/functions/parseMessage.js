@@ -83,7 +83,7 @@ const parseMessage = (client, message, chef, customer, image, invite, deliverer,
     .replace(makeUserRegex("deliverer"), (r, type) => parseUser(type, deliverer))
     .replace(/{orderID}/g, orderID) 
     .replace(/{order}/g, order)
-    .replace(/{price}/g, `${getEmoji(client.guild, currency)} ${randomInt(minPrice, maxPrice)}`)
+    .replace(/{price}/g, ` ${getEmoji(client.guild, currency)} ${randomInt(minPrice, maxPrice)}`)
     .replace(makeDateRegex("order"), (r, type) => parseTimestamp(type, orderDate))
     .replace(makeDateRegex("cook"), (r, type) => parseTimestamp(type, cookDate))
     .replace(makeDateRegex("delivery"), (r, type) => parseTimestamp(type, deliverDate))

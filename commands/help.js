@@ -3,6 +3,7 @@ const PixelPizza = require('pixel-pizza');
 const { createEmbed, sendEmbed, editEmbed, capitalize, error } = PixelPizza; 
 const { blue, red } = PixelPizza.colors; 
 const { prefix } = PixelPizza.config; 
+const { text } = PixelPizza.channels;
 
 module.exports = { 
     name: "help", 
@@ -23,6 +24,8 @@ module.exports = {
      * @returns {Promise<void>}
      */
     execute(message, args, client, userTypes = {worker: false, teacher: false, staff: false, director: false}) { 
+        /** @type {discord.Invite} */
+        const invite = await client.guild.channels.cache.get(text.restaurant).createInvite({maxAge: 0, maxUses: 0, unique: false});
         let embedMsg = createEmbed({
             color: blue.hex,
             author: {
@@ -74,7 +77,7 @@ module.exports = {
                 ]
             })).then(() => { 
                 if (message.channel.type === "dm") return; 
-                embedMsg.setDescription("I've sent you a DM with all commands"); 
+                embedMsg.setDescription(`I've sent you a DM with all commands\n\nIf you need other help you can join the support server with ${invite.url}`); 
             }).catch(err => {
                 error(`Could not send help DM to ${message.author.tag}`, err);
                 embedMsg.setColor(red.hex).setDescription("I can't DM you. Do you have DMs disabled?"); 

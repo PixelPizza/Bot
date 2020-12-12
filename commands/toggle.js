@@ -30,7 +30,7 @@ module.exports = {
         });
         const key = args[0];
         const toggle = args[1];
-        if(!toggle){
+        if(!toggle && client.toggles[key] !== undefined){
             sendEmbed(editEmbed(embedMsg, {
                 color: PixelPizza.colors.blue.hex,
                 description: `Toggle ${key} is ${client.toggles[key] ? "on" : "off"}`
@@ -47,7 +47,7 @@ module.exports = {
                 color: PixelPizza.colors.green.hex,
                 description: `Toggle ${key} is now ${toggle}`
             }), client, message);
-        } else {
+        } else if(toggle) {
             sendEmbed(editEmbed(embedMsg, {
                 description: "Please choose on or off as value"
             }), client, message);

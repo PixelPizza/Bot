@@ -7,6 +7,7 @@ const { blue, red } = PixelPizza.colors;
 module.exports = {
     name: "application",
     description: "look at an application by application id",
+    aliases: ["app"],
     args: true,
     minArgs: 1,
     maxArgs: 1,

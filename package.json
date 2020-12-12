@@ -1,6 +1,6 @@
 {
   "name": "pixelpizza",
-  "version": "1.59.2",
+  "version": "1.60.0",
   "description": "An alternate version of the pixel pizza bot for if the website is down",
   "main": "bot.js",
   "scripts": {

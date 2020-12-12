@@ -23,7 +23,7 @@ module.exports = {
      * @param {PixelPizza.PPClient} client 
      * @returns {Promise<void>}
      */
-    execute(message, args, client, userTypes = {worker: false, teacher: false, staff: false, director: false}) { 
+    async execute(message, args, client, userTypes = {worker: false, teacher: false, staff: false, director: false}) { 
         /** @type {discord.Invite} */
         const invite = await client.guild.channels.cache.get(text.restaurant).createInvite({maxAge: 0, maxUses: 0, unique: false});
         let embedMsg = createEmbed({

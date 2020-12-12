@@ -19,7 +19,7 @@ module.exports = {
      * @param {PixelPizza.PPClient} client 
      * @returns {Promise<void>}
      */
-    execute(message, args, client) { 
+    async execute(message, args, client) { 
         const toggles = []; 
         for (let toggle in client.toggles) { 
             toggles.push(toggle); 

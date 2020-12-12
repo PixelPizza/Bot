@@ -19,7 +19,7 @@ module.exports = {
      * @param {PixelPizza.PPClient} client 
      * @returns {Promise<void>}
      */
-    execute(message, args, client) { 
+    async execute(message, args, client) { 
         let embedMsg = createEmbed({
             color: blue.hex,
             title: `**${capitalize(this.name)}**`

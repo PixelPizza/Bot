@@ -11,7 +11,7 @@ const msToString = (ms, showMs = false) => {
     const m = Math.floor(s / 60);
     const h = Math.floor(m / 60);
     const d = Math.floor(h / 24);
-    return `${d}d ${h % 24}h ${m % 60}m ${s % 60}s${showMs ? ` ${ms % 1000}ms` : ""}`;
+    return `${d}d ${h % 24}h ${m % 60}m ${s % 60 ? s % 60 : (showMs ? 0 : 1)}s${showMs ? ` ${ms % 1000}ms` : ""}`;
 }
 
 module.exports = msToString;

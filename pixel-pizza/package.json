@@ -1,6 +1,6 @@
 {
   "name": "pixel-pizza",
-  "version": "1.30.0",
+  "version": "1.31.0",
   "description": "",
   "main": "./src/index",
   "typings": "./typings/index.d.ts",
@@ -20,6 +20,7 @@
     "chalk": "^4.1.0",
     "crypto": "^1.0.1",
     "discord.js": "^12.5.0",
+    "gm": "^1.23.1",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {

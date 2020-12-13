@@ -21,7 +21,7 @@ const { blue, green, red, black } = PixelPizza.colors;
 const { noice, noice2 } = PixelPizza.emojis;
 const { text } = PixelPizza.channels;
 const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = PixelPizza.roles;
-const { updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
+const { msToString, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 client.commands = new Collection();
@@ -373,11 +373,10 @@ client.on('message', async message => {
         if (timestamps.has(message.author.id)) {
             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
             if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000;
                 return sendEmbed(editEmbed(embedMsg, {
                     color: black.hex,
                     title: '**Cooldown**',
-                    description: `please wait ${timeLeft} more second(s) before reusing ${command.name}`
+                    description: `please wait ${msToString(expirationTime - now)} before reusing ${command.name}`
                 }), client, message);
             }
         }

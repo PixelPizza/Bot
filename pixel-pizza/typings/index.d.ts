@@ -628,4 +628,12 @@ declare module 'pixel-pizza' {
      * @returns {void}
      */
     export const warn: ConsoleFunction
+
+    /**
+     * Convert ms to a time string with days, hours, minutes, seconds and miliseconds
+     * @param {number} ms The amount of miliseconds
+     * @returns {string} the days, hours, minutes, seconds and miliseconds in a string
+     * @since 2020-12-13
+     */
+    export const msToString: (ms: number) => string
 }

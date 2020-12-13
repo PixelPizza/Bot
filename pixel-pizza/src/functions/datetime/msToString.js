@@ -6,12 +6,12 @@
  * @returns {string} the days, hours, minutes, seconds and miliseconds in a string
  * @since 2020-12-13
  */
-const msToString = (ms) => {
+const msToString = (ms, showMs = false) => {
     const s = Math.floor(ms / 1000);
     const m = Math.floor(s / 60);
     const h = Math.floor(m / 60);
     const d = Math.floor(h / 24);
-    return `${d}d ${h % 24}h ${m % 60}m ${s % 60}s ${ms % 1000}ms`;
+    return `${d}d ${h % 24}h ${m % 60}m ${s % 60}s${showMs ? ` ${ms % 1000}ms` : ""}`;
 }
 
 module.exports = msToString;

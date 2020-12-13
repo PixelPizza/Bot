@@ -384,7 +384,7 @@ client.on('message', async message => {
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     }
     try {
-        command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector});
+        await command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector});
         log("Command executed", `${command.name} has been executed`);
     } catch (err) {
         error(`Could not execute ${command.name}`, err);

@@ -1,6 +1,6 @@
 {
   "name": "pixelpizza",
-  "version": "1.63.0",
+  "version": "1.64.0",
   "description": "An alternate version of the pixel pizza bot for if the website is down",
   "main": "bot.js",
   "scripts": {
@@ -27,6 +27,7 @@
     "crypto": "^1.0.1",
     "discord.js": "^12.4.1",
     "g-i-s": "^2.1.6",
+    "gm": "^1.23.1",
     "mysql2": "^2.2.5",
     "pixel-pizza": "file:pixel-pizza",
     "valid-url": "^1.0.9"

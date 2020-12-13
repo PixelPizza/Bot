@@ -70,6 +70,7 @@ declare module 'pixel-pizza' {
         white: ColorData,
         red: ColorData,
         green: ColorData,
+        darkgreen: ColorData,
         blue: ColorData,
         yellow: ColorData,
         lightblue: ColorData,
@@ -272,6 +273,21 @@ declare module 'pixel-pizza' {
          */
         public canSendEmbeds: boolean
     }
+
+    /**
+     * Draw an arrow on a 2d canvasRenderingContext
+     * @param {CanvasRenderingContext2D} ctx The context to draw on
+     * @param {number} x The x position as the center
+     * @param {number} y The y position as the center
+     * @param {number} width The width of the arrow
+     * @param {number} height The height of the arrow
+     * @param {Object} [options] Options
+     * @param {string} [options.fill=""] The fill color of the arrow
+     * @param {string} [options.stroke=""] The stroke color of the arrow
+     * @returns {void}
+     * @since 2020-12-13
+     */
+    export const makeArrow: (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, options?: {fill?: string, stroke?: string}) => void
 
     /**
      * Add a role to a discord member

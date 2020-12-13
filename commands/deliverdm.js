@@ -67,7 +67,7 @@ module.exports = {
         let image = result.imageUrl; 
         deliveryMessage = PixelPizza.parseMessage(client, deliveryMessage, cook, orderer, image, invite, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), "DM", "DM");
         orderer.send(deliveryMessage).then(() => {
-            query("UPDATE `order` SET status = 'delivered', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
+            query("UPDATE `order` SET status = 'delivered', deliveryMethod = 'dm', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
             query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
             if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
             sendEmbed(createEmbed({

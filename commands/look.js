@@ -91,11 +91,11 @@ module.exports = {
                 }
             ],
             footer: {
-                text: `id: ${result.orderId} | status: ${result.status} | cook: ${cook} | deliverer: ${deliverer}`
+                text: `id: ${result.orderId} | status: ${result.status} | method: ${result.deliveryMethod} | cook: ${cook} | deliverer: ${deliverer}`
             },
             image: result.imageUrl
         });
-        if (!client.canSendEmbeds) embedMsg = `${embedMsg.description}\n${embedMsg.fields[0].name}\n${embedMsg.fields[0].value}\n${embedMsg.fields[1].name}\n${embedMsg.fields[1].value}\n${embedMsg.fields[2].name}\n${embedMsg.fields[2].value}\n${embedMsg.footer.text}`; 
-        message.channel.send(embedMsg); 
+        if (!client.canSendEmbeds) embedMsg = `${embedMsg.description}\n\n${embedMsg.fields[1].name}\n${embedMsg.fields[1].value}\n${embedMsg.fields[2].name}\n${embedMsg.fields[2].value}\n${embedMsg.fields[3].name}\n${embedMsg.fields[3].value}\n${embedMsg.footer.text}`; 
+        message.channel.send(embedMsg);
     } 
 }

@@ -70,7 +70,7 @@ module.exports = {
             deliveryMessage = PixelPizza.parseMessage(client, deliveryMessage, cook, orderer, image, invite, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), guild, channel, true);
             message.author.send(deliveryMessage).then(() => { 
                 message.author.send(`Don't send this link to the orderer!\n${guildInvite.url}`).then(() => { 
-                    query("UPDATE `order` SET status = 'delivered', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
+                    query("UPDATE `order` SET status = 'delivered', deliveryMethod = 'personal', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
                     query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
                     orderer.send(editEmbed(embedMsg, {
                         color: blue.hex,

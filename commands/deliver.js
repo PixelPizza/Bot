@@ -76,7 +76,7 @@ module.exports = {
             orderer.send("Could not send order to the server it was ordered in, here is your order\n"+deliveryMessage);
             PixelPizza.error("Could not send order", err);
         }
-        query("UPDATE `order` SET status = 'delivered', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
+        query("UPDATE `order` SET status = 'delivered', deliveryMethod = 'bot', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
         query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
         if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
         checkProDeliverer(client.guildMembers.get(message.author.id));

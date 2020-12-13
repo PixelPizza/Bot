@@ -48,7 +48,7 @@ module.exports = {
                 { name: "Ordered in channel", value: channel.name, inline: true },
             ],
             footer: {
-                text: `id: ${order.orderId} | status: ${order.status} | cook: ${cook} | deliverer: ${deliverer}`
+                text: `id: ${order.orderId} | cook: ${cook} | deliverer: ${deliverer}`
             },
             image: order.imageUrl
         });

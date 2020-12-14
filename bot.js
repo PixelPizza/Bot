@@ -227,6 +227,19 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
 });
 
 client.on('message', async message => {
+    if(/^<@!?[0-9]{18}>$/.test(message.content.trim()) && message.mentions.has(client.user)) {
+        const invite = await client.guild.channels.cache.get(text.restaurant).createInvite({maxAge: 0, maxUses: 0, unique: false});
+        return sendEmbed(createEmbed({
+            color: blue.hex,
+            title: "Do you need my help?",
+            description: [
+                `My prefix is ${prefix}`,
+                `You can use ${prefix}help to view all commands`,
+                "",
+                `If you need other help you can join our support server with ${invite.url}`
+            ]
+        }), client, message);
+    }
     client.guild = client.guilds.cache.get(botGuild);
     client.member = client.guildMembers.get(message.author.id);
     const guild = client.guild;

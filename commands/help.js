@@ -1,5 +1,6 @@
 const discord = require('discord.js');
 const PixelPizza = require('pixel-pizza');
+const { stringify } = require('querystring');
 const { createEmbed, sendEmbed, editEmbed, capitalize, error } = PixelPizza; 
 const { blue, red } = PixelPizza.colors; 
 const { prefix } = PixelPizza.config; 
@@ -15,6 +16,7 @@ module.exports = {
     cooldown: 5, 
     userType: "all", 
     neededPerms: [], 
+    pponly: false,
     removeExp: false, 
     /**
      * Execute this command
@@ -40,6 +42,7 @@ module.exports = {
             }
         });
         let { commands } = message.client, { worker, teacher, staff, director } = userTypes;
+        /** @type {discord.Collection<string, {name:string,description:string,aliases?:string[],minArgs?:number,maxArgs?:number,usage?:string,cooldown:number,userType:string,neededPerms:string[],pponly:boolean,removeExp:boolean,execute:function}>} */
         let executableCommands = commands.filter(command => command.userType == "all"); 
         if (worker) { 
             commands.filter(command => command.userType == "worker").each(command => { 
@@ -67,8 +70,24 @@ module.exports = {
                 description: `\nYou can send '${prefix}${this.name} ${this.usage}' to get help for specific commands`,
                 fields: [
                     {
-                        name: 'all commands',
-                        value: executableCommands.map(command => command.name).join(', ')
+                        name: "Director Commands",
+                        value: executableCommands.filter(command => command.userType == "director").size ? executableCommands.filter(command => command.userType == "director").map(command => command.name) : null
+                    },
+                    {
+                        name: "Staff Commands",
+                        value: executableCommands.filter(command => command.userType == "staff").size ? executableCommands.filter(command => command.userType == "staff").map(command => command.name) : null
+                    },
+                    {
+                        name: "Worker Commands",
+                        value: executableCommands.filter(command => command.userType == "worker").size ? executableCommands.filter(command => command.userType == "worker").map(command => command.name) : null
+                    },
+                    {
+                        name: "Vip Commands",
+                        value: executableCommands.filter(command => command.userType == "vip").size ? executableCommands.filter(command => command.userType == "vip").map(command => command.name) : null
+                    },
+                    {
+                        name: "Commands for everyone",
+                        value: executableCommands.filter(command => command.userType == "all").size ? executableCommands.filter(command => command.userType == "all").map(command => command.name) : null
                     },
                     {
                         name: 'Commands amount',

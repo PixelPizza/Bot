@@ -33,6 +33,12 @@ module.exports = {
                 description: `Bug ${args[0]} could not be found`
             }), client, message);
         }
+        const notes = await query("SELECT * FROM bugNote WHERE bugId = ? ORDER BY rand() LIMIT 25", [args[0]]);
+        for(let index in notes){
+            const note = notes[index];
+            const user = client.users.cache.get(note.userId)?.username || "Unknown Staff Member";
+            embedMsg.addField(user, note.note);
+        }
         const result = results[0];
         const bugUser = client.users.cache.get(result.userId);
         let staffMember = "none";

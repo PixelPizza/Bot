@@ -68,7 +68,7 @@ client.on('ready', async () => {
     updateGuildAmount(client);
     updateMemberSize(client);
     client.users.cache.forEach(user => { if (!user.bot) addUser(user.id) });
-    query("UPDATE `order` SET status = 'cooked', cookedAt = CURRENT_TIMESTAMP WHERE status = 'cooking'");
+    const result = await query("UPDATE `order` SET status = 'cooked', cookedAt = CURRENT_TIMESTAMP WHERE status = 'cooking'");
     for(let toggle of await query("SELECT * FROM toggle")){
         client.toggles[toggle.key] = toggle.value ? true : false;
     }
@@ -112,11 +112,13 @@ client.on('ready', async () => {
             }), client, delivery);
         }
     }, 4 * 60 * 60 * 1000);
-    sendEmbed(createEmbed({
-        color: green.hex,
-        title: "Orders cooked",
-        description: "All cooking orders are now cooked!"
-    }), client, delivery);
+    if(result.affectedRows > 0){
+        sendEmbed(createEmbed({
+            color: green.hex,
+            title: "Orders cooked",
+            description: "All cooking orders are now cooked!"
+        }), client, delivery);
+    }
     success('Ready', `${client.user.username} is ready`);
     // console.log((await client.shard.broadcastEval(`this.guilds.cache.get("${botGuild}")`)).find(value => value != null));
 });

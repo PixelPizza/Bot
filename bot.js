@@ -61,7 +61,9 @@ client.on('error', err => {
 });
 
 client.on('ready', async () => {
+    client.canSendEmbeds = true;
     const guild = client.guilds.cache.get(botGuild);
+    const delivery = guild.channels.cache.get(text.delivery);
     client.guildMembers = await guild.members.fetch();
     updateGuildAmount(client);
     updateMemberSize(client);
@@ -71,7 +73,6 @@ client.on('ready', async () => {
         client.toggles[toggle.key] = toggle.value ? true : false;
     }
     setInterval(async () => {
-        client.canSendEmbeds = true;
         const embedMsg = createEmbed({
             color: blue.hex,
             title: "**Orders**"
@@ -96,7 +97,6 @@ client.on('ready', async () => {
             }), client, kitchen); 
         }
         if(deliveryOrders.length){
-            const delivery = guild.channels.cache.get(text.delivery);
             let ordersString = "`"; 
             for (let i in deliveryOrders) { 
                 let result = deliveryOrders[i]; 
@@ -112,6 +112,11 @@ client.on('ready', async () => {
             }), client, delivery);
         }
     }, 4 * 60 * 60 * 1000);
+    sendEmbed(createEmbed({
+        color: green.hex,
+        title: "Orders cooked",
+        description: "All cooking orders are now cooked!"
+    }), client, delivery);
     success('Ready', `${client.user.username} is ready`);
     // console.log((await client.shard.broadcastEval(`this.guilds.cache.get("${botGuild}")`)).find(value => value != null));
 });

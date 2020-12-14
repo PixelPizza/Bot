@@ -8,7 +8,7 @@
  */
 const timestampToDate = (timestamp = 0, addFormat = true) => {
     const date = new Date(timestamp);
-    return `${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}${addFormat ? " (HH:mm:ss)" : ""}`;
+    return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}${addFormat ? " (HH:mm:ss)" : ""}`;
 }
 
 module.exports = timestampToDate;

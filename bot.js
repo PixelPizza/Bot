@@ -68,7 +68,7 @@ client.on('ready', async () => {
     updateGuildAmount(client);
     updateMemberSize(client);
     client.users.cache.forEach(user => { if (!user.bot) addUser(user.id) });
-    query("UPDATE `order` SET status = 'cooked' WHERE status = 'cooking'");
+    query("UPDATE `order` SET status = 'cooked', cookedAt = CURRENT_TIMESTAMP WHERE status = 'cooking'");
     for(let toggle of await query("SELECT * FROM toggle")){
         client.toggles[toggle.key] = toggle.value ? true : false;
     }

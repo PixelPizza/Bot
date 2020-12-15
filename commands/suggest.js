@@ -51,9 +51,11 @@ module.exports = {
         const channel = client.channels.cache.get(channels.text.suggestions);
         if (!client.canSendEmbeds) embedMsgSuggestion = embedMsgSuggestion.description + `\nId: ${id}`; 
         channel.send(embedMsgSuggestion);
-        sendEmbed(editEmbed(embedMsg, {
+        const sentMessage = await sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: "Your suggestion has been sent"
         }), client, message);
+        message.delete();
+        setTimeout(() => sentMessage.delete(), 5000);
     }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 const {randomInt} = require('crypto');
-const { User, Guild, TextChannel } = require('discord.js');
+const { User, Guild, TextChannel, Invite } = require('discord.js');
 const PPClient = require('../../classes/PPClient');
 const {currency, minPrice, maxPrice} = require('../../data/config');
 const timestampToDate = require('../datetime/timestampToDate');
@@ -9,6 +9,7 @@ const timestampToTime = require('../datetime/timestampToTime');
 const timestampToDatetime = require('../datetime/timestampToDatetime');
 const makeUserRegex = require('../regex/makeUserRegex');
 const getEmoji = require('./getEmoji');
+const {text} = require('../../data/channels');
 
 /**
  * Make a new regex for dates
@@ -73,15 +74,17 @@ const parseTimestamp = (type, timestamp) => {
  * @param {string | Guild} guild The guild to get the name from
  * @param {string | TextChannel} channel The channel to get the name from
  * @param {boolean} escaped Wether or not the message should have escaped users for letting it be copied
- * @returns {string} The parsed message
+ * @returns {Promise<string>} The parsed message
  */
-const parseMessage = (client, message, chef, customer, image, invite, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel, escaped = false) => {
+const parseMessage = async (client, message, chef, customer, image, deliverer, orderID, order, orderDate, cookDate, deliverDate, guild, channel, escaped = false) => {
+    /** @type {Invite} */
+    const invite = await client.guild.channels.cache.get(text.restaurant).createInvite({maxAge: 0, maxUses: 0, unique: false});
     const addition = escaped ? "`" : "";
     return message
     .replace(makeUserRegex("chef"), (r, type) => addition+parseUser(type, chef)+addition)
     .replace(makeUserRegex("customer"), (r, type) => addition+parseUser(type, customer)+addition)
     .replace(/{image}/g, image)
-    .replace(/{invite}/g, invite)
+    .replace(/{invite}/g, invite.url.replace("https://", ""))
     .replace(makeUserRegex("deliverer"), (r, type) => addition+parseUser(type, deliverer)+addition)
     .replace(/{orderID}/g, orderID) 
     .replace(/{order}/g, order)

@@ -6,7 +6,7 @@ const { createEmbed, hasRole, sendEmbed, editEmbed, isVip, setCooldown } = Pixel
 const { blue, red } = PixelPizza.colors; 
 const { deliverer, ceo } = PixelPizza.roles; 
 const { query, checkProDeliverer } = require("../dbfunctions"); 
-const { orderCooldown, invite } = PixelPizza.config;
+const { orderCooldown } = PixelPizza.config;
 
 module.exports = {
     name: "deliver",
@@ -68,7 +68,7 @@ module.exports = {
         let image = result.imageUrl; 
         let guild = client.guilds.cache.get(result.guildId); 
         let channel = client.channels.cache.get(result.channelId) ?? guild.channels.cache.find(channel => channel.type == "text" && channel.permissionsFor(channel.guild.me).has(Permissions.FLAGS.SEND_MESSAGES)); 
-        deliveryMessage = PixelPizza.parseMessage(client, deliveryMessage, cook, orderer, image, invite, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), guild, channel);
+        deliveryMessage = await PixelPizza.parseMessage(client, deliveryMessage, cook, orderer, image, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), guild, channel);
         deliveryMessage += `\n\n**Note:** I (owner of ${client.user.username}) have been told that discord can ban people for joining and leaving many servers at once\nso to make sure this can not happen (even if it is not true) we now let ${client.user.username} deliver almost all of the orders\nThank you for understanding`;
         try {
             channel.send(deliveryMessage);

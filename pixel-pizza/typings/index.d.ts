@@ -449,7 +449,6 @@ declare module 'pixel-pizza' {
      * @param {string | User} chef The user that cooked the pizza
      * @param {User} customer The user that ordered the pizza
      * @param {string} image The url of the image
-     * @param {string} invite The invite code of the support server
      * @param {User} deliverer The user that delivered the order
      * @param {string} orderID The id of the order
      * @param {string} order The order
@@ -458,9 +457,9 @@ declare module 'pixel-pizza' {
      * @param {number} deliverDate The timestamp of the delivery date
      * @param {string | Guild} guild The guild to get the name from
      * @param {string | TextChannel} channel The channel to get the name from
-     * @returns {string} The parsed message
+     * @returns {Promise<string>} The parsed message
      */
-    export const parseMessage: (client: PPClient, message: string, chef: string | User, customer: User, image: string, invite: string, deliverer: User, orderID: string, order: string, orderDate: number, cookDate: number, deliverDate: number, guild: string | Guild, channel: string | TextChannel) => string
+    export const parseMessage: (client: PPClient, message: string, chef: string | User, customer: User, image: string, deliverer: User, orderID: string, order: string, orderDate: number, cookDate: number, deliverDate: number, guild: string | Guild, channel: string | TextChannel) => Promise<string>
 
     /**
      * Remove a role from a discord member

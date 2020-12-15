@@ -54,5 +54,8 @@ module.exports = {
                 text: `id: ${args[0]} | handled: ${result.handled == 1 ? "yes" : "no"} | staff: ${staffMember.displayName || staffMember}`
             }
         }), client, message);
+        try {
+            message.delete();
+        } catch {}
     }
 }

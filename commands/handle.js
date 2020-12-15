@@ -41,9 +41,12 @@ module.exports = {
             }), client, message);
         }
         await query(`UPDATE \`${table}\` SET handled = 1, staffId = ? WHERE \`${table}Id\` = ?`, [message.author.id, id]);
-        sendEmbed(editEmbed(embedMsg, {
+        await sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
-            description: `${capitalize(table)} handled`
+            description: `${capitalize(table)} ${id} handled`
         }), client, message);
+        try{
+            message.delete();
+        } catch {}
     }
 }

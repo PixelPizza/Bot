@@ -24,6 +24,7 @@ const makeDateRegex = (name) => RegExp(`{${name}date(?:: *(date|time|datetime))?
  * @param {User | string} user The user to use for parsing 
  */
 const parseUser = (type, user) => {
+    if(!user) return "Unknown user";
     if(typeof(user) == "string") return user;
     switch(type){
         case "tag":

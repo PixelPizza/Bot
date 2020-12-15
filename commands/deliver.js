@@ -56,13 +56,13 @@ module.exports = {
         result = results[0]; 
         const orderer = client.users.cache.get(result.userId); 
         if(!hasRole(client.member, ceo)){
-            if (!client.toggles.deliverOwnOrder && orderer.id === message.author.id) {
+            if (!client.toggles.deliverOwnOrder && orderer?.id === message.author.id) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: `You can't deliver your own order`
                 }), client, message);
             } 
         }
-        const member = client.guildMembers.get(orderer.id);
+        const member = client.guildMembers.get(orderer?.id);
         let cook = "none"; 
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId) : "Deleted Cook"; 
         let image = result.imageUrl; 
@@ -73,12 +73,12 @@ module.exports = {
         try {
             channel.send(deliveryMessage);
         } catch (err) {
-            orderer.send("Could not send order to the server it was ordered in, here is your order\n"+deliveryMessage);
+            orderer?.send("Could not send order to the server it was ordered in, here is your order\n"+deliveryMessage);
             PixelPizza.error("Could not send order", err);
         }
         query("UPDATE `order` SET status = 'delivered', deliveryMethod = 'bot', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
         query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
-        if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
+        if(!member || !isVip(member)) setCooldown(client, "order", orderer?.id, orderCooldown);
         checkProDeliverer(client.guildMembers.get(message.author.id));
         sendEmbed(editEmbed(embedMsg, {
             color: PixelPizza.colors.green.hex,

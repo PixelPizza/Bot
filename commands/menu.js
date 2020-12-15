@@ -20,7 +20,7 @@ module.exports = {
         sendEmbed(createEmbed({
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
-            description: `Here are some examples of pizzas to order\n\`\`\`\n${menu.join("\n")}\n\`\`\``
+            description: `Here are some examples of pizzas to order\n\`\`\`\n${menu.join(" pizza\n")} pizza\n\`\`\``
         }), client, message);
     }
 }

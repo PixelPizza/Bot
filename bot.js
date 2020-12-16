@@ -25,8 +25,8 @@ const { verified, pings, cook, deliverer, developer, worker, teacher, staff, dir
 const { msToString, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-const extensions = fs.readdirSync('./extensions').filter(file => fs.lstatSync(`./extensions/${file}`).isDirectory());
-client.extensions = [];
+// const extensions = fs.readdirSync('./extensions').filter(file => fs.lstatSync(`./extensions/${file}`).isDirectory());
+// client.extensions = [];
 client.commands = new Collection();
 client.cooldowns = new Collection();
 client.guildMembers = new Collection();
@@ -47,15 +47,15 @@ for (let file of cmdFiles) {
     client.commands.set(command.name, command);
 }
 
-for (let extension of extensions) {
-    client.extensions.push(extension);
-    for(let file of fs.readdirSync(`./extensions/${extension}`).filter(file => file.endsWith(".js"))){
-        const command = require(`./extensions/${extension}/${file}`);
-        client.commands.set(command.name, Object.assign(command, {
-            extension: extension
-        }));
-    }
-}
+// for (let extension of extensions) {
+//     client.extensions.push(extension);
+//     for(let file of fs.readdirSync(`./extensions/${extension}`).filter(file => file.endsWith(".js"))){
+//         const command = require(`./extensions/${extension}/${file}`);
+//         client.commands.set(command.name, Object.assign(command, {
+//             extension: extension
+//         }));
+//     }
+// }
 
 process.on('unhandledRejection', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");

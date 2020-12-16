@@ -83,7 +83,7 @@ module.exports = {
                 description: 'Your order is now being cooked'
             });
             const user = client.users.cache.get(results[0].userId);
-            user.send(confirmation);
+            user?.send(confirmation);
             const embedMsgTimer = createEmbed({
                 color: silver.hex,
                 title: "Timer",
@@ -113,7 +113,7 @@ module.exports = {
             });
             if(!client.canSendEmbeds) embedMsg = embedMsg.description;
             client.channels.cache.get(text.delivery).send(`<@&${pings.deliver}>`, embedMsg);
-            user.send(editEmbed(confirmation, {
+            user?.send(editEmbed(confirmation, {
                 description: `Your order has been cooked`
             }));
             checkProChef(client.guildMembers.get(message.author.id));

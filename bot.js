@@ -30,6 +30,7 @@ const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'
 client.commands = new Collection();
 client.cooldowns = new Collection();
 client.guildMembers = new Collection();
+client.canSendEmbeds = true;
 client.toggles = {
     cooldowns: true,
     addExp: true,
@@ -75,7 +76,6 @@ client.on('error', err => {
 
 client.on('ready', async () => {
     // console.log(await new Api(require('./secrets.json').dbltoken).getVotes());
-    client.canSendEmbeds = true;
     const guild = client.guilds.cache.get(botGuild);
     const delivery = guild.channels.cache.get(text.delivery);
     client.guildMembers = await guild.members.fetch();
@@ -252,6 +252,9 @@ client.on('message', async message => {
             ]
         }), client, message);
     }
+    if(message.channel.type == "dm") {
+        return;
+    }
     client.guild = client.guilds.cache.get(botGuild);
     client.member = client.guildMembers.get(message.author.id);
     const guild = client.guild;
@@ -264,9 +267,7 @@ client.on('message', async message => {
     if(message.content.toLowerCase().startsWith(`${prefix} `) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
     if (message.author.bot && message.content != "pptoggle sendEveryone") return;
-    let clientMember;
-    client.canSendEmbeds = true;
-    if (message.guild && !message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS)) client.canSendEmbeds = false;
+    client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;
     const args = message.content.slice(prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
     log(`Command used by ${message.author.tag} in ${message.guild.name} #${message.channel.name}`, commandName);
@@ -286,11 +287,6 @@ client.on('message', async message => {
         }
     });
     if (await isBlacklisted(message.author.id)) return;
-    if (message.channel.type == "dm") {
-        return sendEmbed(editEmbed(embedMsg, {
-            description: "Our commands are unavailable in DMs"
-        }), client, message);
-    }
     if (command.removeExp && message.guild == client.guild && client.toggles.addExp && !message.author.bot) await addExp(client, message.author.id, -1);
     if (client.toggles.pponlyChecks && command.ppOnly && message.guild != guild && !pponlyexceptions.includes(message.guild.id)) {
         return sendEmbed(editEmbed(embedMsg, {

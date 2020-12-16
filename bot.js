@@ -2,6 +2,7 @@ const fs = require('fs');
 const PixelPizza = require("pixel-pizza");
 const { Collection, Permissions } = require('discord.js');
 const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+//const {Api, Webhook} = require("@top-gg/sdk");
 const { prefix, botGuild, verification, workerRoles, pponlyexceptions } = PixelPizza.config;
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
 /* 
@@ -24,6 +25,8 @@ const { verified, pings, cook, deliverer, developer, worker, teacher, staff, dir
 const { msToString, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const extensions = fs.readdirSync('./extensions').filter(file => fs.lstatSync(`./extensions/${file}`).isDirectory());
+client.extensions = [];
 client.commands = new Collection();
 client.cooldowns = new Collection();
 client.guildMembers = new Collection();
@@ -44,6 +47,16 @@ for (let file of cmdFiles) {
     client.commands.set(command.name, command);
 }
 
+for (let extension of extensions) {
+    client.extensions.push(extension);
+    for(let file of fs.readdirSync(`./extensions/${extension}`).filter(file => file.endsWith(".js"))){
+        const command = require(`./extensions/${extension}/${file}`);
+        client.commands.set(command.name, Object.assign(command, {
+            extension: extension
+        }));
+    }
+}
+
 process.on('unhandledRejection', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
     error('Unhandled promise rejection', message);
@@ -61,6 +74,7 @@ client.on('error', err => {
 });
 
 client.on('ready', async () => {
+    // console.log(await new Api(require('./secrets.json').dbltoken).getVotes());
     client.canSendEmbeds = true;
     const guild = client.guilds.cache.get(botGuild);
     const delivery = guild.channels.cache.get(text.delivery);
@@ -249,7 +263,7 @@ client.on('message', async message => {
     if (message.content.toLowerCase().includes('noice')) {
         message.react(noice).catch(err => error('Could not add noice reaction', err));
     }
-    if(message.content.toLowerCase().startsWith(`${prefix} `)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
+    //if(message.content.toLowerCase().startsWith(`${prefix} `)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
     if (message.author.bot && message.content != "pptoggle sendEveryone") return;
     let clientMember;

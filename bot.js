@@ -3,7 +3,7 @@ const PixelPizza = require("pixel-pizza");
 const { Collection, Permissions } = require('discord.js');
 const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 //const {Api, Webhook} = require("@top-gg/sdk");
-const { prefix, botGuild, verification, workerRoles, pponlyexceptions } = PixelPizza.config;
+const { prefix, botGuild, verification, workerRoles, pponlyexceptions, creators } = PixelPizza.config;
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
 /* 
 colors I use:
@@ -263,7 +263,7 @@ client.on('message', async message => {
     if (message.content.toLowerCase().includes('noice')) {
         message.react(noice).catch(err => error('Could not add noice reaction', err));
     }
-    //if(message.content.toLowerCase().startsWith(`${prefix} `)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
+    if(message.content.toLowerCase().startsWith(`${prefix} `) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
     if (message.author.bot && message.content != "pptoggle sendEveryone") return;
     let clientMember;

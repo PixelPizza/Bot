@@ -58,7 +58,7 @@ module.exports = {
             color: green.hex,
             description: `You have claimed order ${args[0]}`
         }), client, message);
-        user.send(editEmbed(embedMsg, {
+        user?.send(editEmbed(embedMsg, {
             color: blue.hex,
             title: "**confirmation**",
             description: `Your order has been claimed by <@${message.author.id}>`
@@ -73,7 +73,7 @@ module.exports = {
                 title: "**claim canceled**",
                 description: `Order ${args[0]} has been declaimed because the cook took to long to cook the order`
             }), client, client.channels.cache.get(text.kitchen));
-            user.send(editEmbed(embedMsg, {
+            user?.send(editEmbed(embedMsg, {
                 color: blue.hex,
                 title: "**confirmation**",
                 description: `Your order has been declaimed bacuase the cook took to long to cook the order`

@@ -1,4 +1,5 @@
 import {Emoji, Client, ClientOptions, Collection, ColorResolvable, Guild, GuildMember, Message, MessageEmbed, MessageReaction, MessageResolvable, RoleResolvable, Snowflake, TextChannel, User} from "discord.js";
+import {Api} from "@top-gg/sdk";
 import {Canvas} from "canvas";
 import {IncomingMessage} from "http";
 
@@ -274,6 +275,10 @@ declare module 'pixel-pizza' {
          * If the client can send embeds to the channel
          */
         public canSendEmbeds: boolean
+        /**
+         * The dbl api for the client
+         */
+        public dbl: Api
     }
 
     /**

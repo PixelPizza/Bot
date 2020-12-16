@@ -2,7 +2,7 @@ const fs = require('fs');
 const PixelPizza = require("pixel-pizza");
 const { Collection, Permissions } = require('discord.js');
 const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-//const {Api, Webhook} = require("@top-gg/sdk");
+const {Api} = require("@top-gg/sdk");
 const { prefix, botGuild, verification, workerRoles, pponlyexceptions, creators } = PixelPizza.config;
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
 /* 
@@ -27,6 +27,7 @@ const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 // const extensions = fs.readdirSync('./extensions').filter(file => fs.lstatSync(`./extensions/${file}`).isDirectory());
 // client.extensions = [];
+client.dbl = new Api(fs.existsSync("./secrets.json") ? require('./secrets.json').dbltoken : process.env.DBL_TOKEN);
 client.commands = new Collection();
 client.cooldowns = new Collection();
 client.guildMembers = new Collection();
@@ -75,7 +76,11 @@ client.on('error', err => {
 });
 
 client.on('ready', async () => {
-    // console.log(await new Api(require('./secrets.json').dbltoken).getVotes());
+    setInterval(() => {
+        client.dbl.postStats({
+            serverCount: client.guilds.cache.size
+        });
+    }, 1800000);
     const guild = client.guilds.cache.get(botGuild);
     const delivery = guild.channels.cache.get(text.delivery);
     client.guildMembers = await guild.members.fetch();

@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@top-gg/sdk": "^3.0.3",
     "canvas": "^2.6.1",
     "chalk": "^4.1.0",
     "crypto": "^1.0.1",

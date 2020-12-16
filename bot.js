@@ -138,7 +138,6 @@ client.on('ready', async () => {
 });
 
 client.on('guildCreate', guild => {
-    updateGuildAmount(client);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
         color: green.hex,
         title: "Added",
@@ -160,7 +159,6 @@ client.on('guildCreate', guild => {
 });
 
 client.on('guildDelete', guild => {
-    updateGuildAmount(client);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
         color: red.hex,
         title: "Removed",

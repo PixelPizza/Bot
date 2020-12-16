@@ -47,7 +47,7 @@ module.exports = {
             }), client, message);
         }
         addRole(member, work);
-        query("INSERT INTO worker(workerId, deliveryMessage) VALUES(?)", [user.id, "Hello {customer},\nHere is your order. It has been cooked by {chef}!\nI hope the pizza is what you wanted. If you have any complaints, please join our server and tell it in <#711332618666246254>\n\nIf you want to join our server this is the invite code {invite}!\n\nI hope you have a great day! bye!\n{image}"]);
+        query("INSERT INTO worker(workerId, deliveryMessage) VALUES(?)", [user.id, "Hello {customer:tag},\n\nHere is your order\n\nid: {orderID}\norder: {order}\nserver: {server}\nchannel: {channel}\n\nOrdered at: {orderdate:date}\nCooked at: {cookdate:date}\nDelivered at: {deliverydate:date}\n\nIt costs {price}\n\nIt has been cooked by {chef:ping}!\nIt has been delivered by {deliverer:ping}!\nI hope the pizza is what you wanted. If you have any complaints, please join our server and tell it in <#711332618666246254>\n\nIf you want to join our server this is the invite code {invite}!\n\nI hope you have a great day! bye!\n{image}"]);
         sendEmbed(editEmbed(embedMsg, {
             color: green.hex,
             description: `${user} has been added as worker`,

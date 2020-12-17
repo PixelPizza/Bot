@@ -21,7 +21,7 @@ const updateGuildAmount = (client) => {
                 suffixUsed = suffix;
             } else break;
         }
-        const messages = [`${serverAmount}${suffixUsed} guilds`, opts.url, `${prefix}help`];
+        const messages = [`${serverAmount}${suffixUsed} guilds`, `v1.1`, `${prefix}help`];
         client.user.setActivity(messages[message], opts);
         message = message == messages.length - 1 ? 0 : message + 1;
     }, 30000);

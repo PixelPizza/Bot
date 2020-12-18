@@ -58,10 +58,9 @@ module.exports = {
         }
         for (let result of results) { 
             itemNumber++; 
-            let member = client.guildMembers.get(result.userId); 
-            if (!member) continue;
-            rank++; 
-            let user = member.user; 
+            const user = client.users.cache.get(result.userId);
+            if(!user) continue;
+            rank++;
             let addition = "";
             if(rank <= 3) addition += "*";
             if(rank <= 2) addition += "*";

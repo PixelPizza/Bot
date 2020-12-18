@@ -51,8 +51,15 @@ module.exports = {
         await query("UPDATE `user` SET balance = balance + ?, exp = exp + ?, lastVote = ? WHERE userId = ?", [rewards.balance, rewards.exp, message.createdAt, message.author.id]);
         await checkLevel(client, message.author.id);
         PixelPizza.sendEmbed(PixelPizza.editEmbed(embedMsg, {
+            title: "**Rewards claimed**",
             color: PixelPizza.colors.blue.hex,
-            description: "You have claimed your rewards for voting"
+            description: "You have claimed your rewards for voting",
+            fields: [
+                {
+                    name: "Rewards",
+                    value: `${rewards.balance ? `Money: ${rewards.balance}\n` : ""}${rewards.exp ? `Exp: ${rewards.exp}\n` : ""}${rewards.overflowPass ? "1 Free Overflow Pass" : ""}`
+                }
+            ]
         }), client, message);
         const webhook = new discord.WebhookClient(voteLog.id, voteLog.token);
         webhook.send({

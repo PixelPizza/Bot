@@ -131,7 +131,9 @@ declare module 'pixel-pizza' {
      * A dictionary with webhook ids and tokens
      */
     export const webhooks: {
-        log: WebhookData
+        log: WebhookData,
+        serverLog: WebhookData,
+        voteLog: WebhookData
     }
 
     /**

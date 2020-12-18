@@ -11,5 +11,9 @@ module.exports = {
     serverLog: {
         id: "776160363925733379",
         token: "4ebXak6MU8G-KFChjDAUOhofBFHLJKBrCT6PFG0X30XyJnXY9llAFnKCrCFkpuET2sya"
+    },
+    voteLog: {
+        id: "788091082424582144",
+        token: "eSiVWIqwVtJGGasE12aMFbHmVPAErsTTWb27C9aq_FUxbUngdDA5L_rnsJncKVHhXa0W"
     }
 };

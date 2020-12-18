@@ -6,7 +6,7 @@ const { blue } = PixelPizza.colors;
 module.exports = {
     name: "servers",
     description: "show all servers the bot is in",
-    aliases: ["serverslist"],
+    aliases: ["serverslist", "guilds"],
     args: false,
     cooldown: 120,
     userType: "worker",
@@ -32,7 +32,10 @@ module.exports = {
                         name: "Members",
                         value: guild.memberCount
                     }
-                ]
+                ],
+                footer: {
+                    text: `total guilds: ${client.guilds.cache.size}`
+                }
             }));
         });
         sendEmbed(pages[0], client, message).then(msg => {

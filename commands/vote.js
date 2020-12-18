@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const { sendEmbed, createEmbed, colors, capitalize } = require("pixel-pizza")
+const { sendEmbed, createEmbed, colors, capitalize, PPClient } = require("pixel-pizza");
 
 module.exports = {
     name: "vote",
@@ -15,14 +15,14 @@ module.exports = {
      * Execute this command
      * @param {discord.Message} message 
      * @param {string[]} args 
-     * @param {PixelPizza.PPClient} client 
+     * @param {PPClient} client 
      * @returns {Promise<void>}
      */
     async execute(message, args, client) {
         sendEmbed(createEmbed({
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
-            description: `You can vote for ${client.user.username} with this link\nhttps://top.gg/bot/709705136259334296/vote`
+            description: `You can vote for ${client.user.username} with this link\nhttps://top.gg/bot/${client.user.id}/vote`
         }), client, message);
     }
 }

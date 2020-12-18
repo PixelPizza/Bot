@@ -22,14 +22,22 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client) {
+        const embedMsg = createEmbed({
+            color: red.hex,
+            title: `**${capitalize(this.name)}**`
+        });
         const guild = getGuild(args, client);
         if(!guild){
-            return sendEmbed(createEmbed({
-                color: red.hex,
-                title: `**${capitalize(this.name)}**`,
+            return sendEmbed(PixelPizza.editEmbed(embedMsg, {
                 description: 'Could not find guild, please be more specific'
             }), client, message);
         }
-        message.channel.send((await guild.channels.cache.find(channel => channel.type == "text").createInvite({ maxAge: 0, maxUses: 1 })).url);
+        const channel = guild.channels.cache.find(channel => channel.type == "text" && channel.permissionsFor(guild.me).has(discord.Permissions.FLAGS.CREATE_INSTANT_INVITE));
+        if(!channel){
+            return sendEmbed(PixelPizza.editEmbed(embedMsg, {
+                description: `Could not create invite for ${guild.name}`
+            }), client, message);
+        }
+        message.channel.send((await channel.createInvite({ maxAge: 0, maxUses: 1 })).url);
     }
 }

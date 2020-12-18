@@ -1,6 +1,5 @@
 const discord = require('discord.js');
 const PixelPizza = require('pixel-pizza');
-const { stringify } = require('querystring');
 const { createEmbed, sendEmbed, editEmbed, capitalize, error } = PixelPizza; 
 const { blue, red } = PixelPizza.colors; 
 const { prefix } = PixelPizza.config; 
@@ -41,7 +40,8 @@ module.exports = {
                 icon: client.user.displayAvatarURL()
             }
         });
-        let { commands } = message.client, { worker, teacher, staff, director } = userTypes;
+        let { worker, teacher, staff, director } = userTypes;
+        const commands = message.client.commands.filter(command => !command.hidden);
         /** @type {discord.Collection<string, {name:string,description:string,aliases?:string[],minArgs?:number,maxArgs?:number,usage?:string,cooldown:number,userType:string,neededPerms:string[],pponly:boolean,removeExp:boolean,execute:function}>} */
         let executableCommands = commands.filter(command => command.userType == "all"); 
         if (worker) { 

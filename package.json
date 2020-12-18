@@ -1,6 +1,6 @@
 {
   "name": "pixelpizza",
-  "version": "1.90.0",
+  "version": "1.91.0",
   "description": "An alternate version of the pixel pizza bot for if the website is down",
   "main": "bot.js",
   "scripts": {
@@ -22,13 +22,17 @@
   },
   "homepage": "https://github.com/jaronetje/PixelPizzaAlternate#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.3.3",
     "@top-gg/sdk": "^3.0.3",
     "canvas": "^2.6.1",
     "chalk": "^4.1.0",
     "crypto": "^1.0.1",
     "discord.js": "^12.4.1",
+    "ffmpeg-static": "^4.2.7",
     "g-i-s": "^2.1.6",
     "gm": "^1.23.1",
+    "libsodium": "^0.7.8",
+    "libsodium-wrappers": "^0.7.8",
     "mysql2": "^2.2.5",
     "pixel-pizza": "file:pixel-pizza",
     "valid-url": "^1.0.9"

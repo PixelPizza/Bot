@@ -199,7 +199,9 @@ client.on('guildDelete', guild => {
 //#region client guildMemberAdd
 client.on('guildMemberAdd', member => {
     if (member.guild.id !== botGuild) return;
+    console.log(client.guildMembers)
     client.guildMembers.set(member.user.id, member);
+    console.log(client.guildMembers);
     member.guild.channels.cache.get(text.restaurant).send(createEmbed({
         color: PixelPizza.colors.blue.hex,
         title: "**Welcome**",
@@ -212,7 +214,9 @@ client.on('guildMemberAdd', member => {
 //#region client guildMemberRemove
 client.on('guildMemberRemove', member => {
     if (member.guild.id !== botGuild) return;
+    console.log(client.guildMembers)
     client.guildMembers.delete(member.user.id);
+    console.log(client.guildMembers)
     updateMemberSize(client);
 });
 //#endregion

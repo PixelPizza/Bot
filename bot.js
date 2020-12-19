@@ -178,6 +178,11 @@ client.on('guildDelete', guild => {
 client.on('guildMemberAdd', member => {
     if (member.guild.id !== botGuild) return;
     client.guildMembers.set(member.user.id, member);
+    member.guild.channels.cache.get(text.restaurant).send(createEmbed({
+        color: PixelPizza.colors.blue.hex,
+        title: "**Welcome**",
+        description: `Welcome to ${member.guild.name}!\nIf you want to order a pizza you can use ${prefix}order\nYou can also apply for worker, staff, teacher or developer. You can find an explanation of how to apply in ${member.guild.channels.cache.get(text.apply)}`
+    }));
     if (!member.user.bot) addUser(member.id);
     updateMemberSize(client);
 });

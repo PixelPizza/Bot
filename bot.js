@@ -1,10 +1,15 @@
+//#region variables
+//#region requires
 const fs = require('fs');
 const PixelPizza = require("pixel-pizza");
 const { Collection, Permissions } = require('discord.js');
-const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const {Api} = require("@top-gg/sdk");
-const { prefix, botGuild, verification, workerRoles, pponlyexceptions, creators } = PixelPizza.config;
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
+const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
+//#endregion
+//#region global variables
+const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const { prefix, botGuild, verification, workerRoles, pponlyexceptions, creators } = PixelPizza.config;
 /* 
 colors I use:
 * notice: gray / lightgray
@@ -23,9 +28,10 @@ const { noice, noice2 } = PixelPizza.emojis;
 const { text } = PixelPizza.channels;
 const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = PixelPizza.roles;
 const { msToString, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
-const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 // const extensions = fs.readdirSync('./extensions').filter(file => fs.lstatSync(`./extensions/${file}`).isDirectory());
+//#endregion
+//#region custom client variables
 // client.extensions = [];
 client.dbl = new Api(fs.existsSync("./secrets.json") ? require('./secrets.json').dbltoken : process.env.DBL_TOKEN);
 client.commands = new Collection();
@@ -43,7 +49,10 @@ client.toggles = {
     cookOwnOrder: false,
     deliverOwnOrder: false
 };
+//#endregion
+//#endregion
 
+//#region client commands
 for (let file of cmdFiles) {
     const command = require('./commands/' + file);
     client.commands.set(command.name, command);
@@ -58,24 +67,34 @@ for (let file of cmdFiles) {
 //         }));
 //     }
 // }
+//#endregion
 
+//#region process events
+//#region process unhandledRejection
 process.on('unhandledRejection', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
     error('Unhandled promise rejection', message);
     console.error(err);
 });
-
+//#endregion
+//#region process exit
 process.on('exit', () => {
     notice('Exited', `${client.user.username} exited`);
 });
+//#endregion
+//#endregion
 
+//#region client events
+//#region client error
 client.on('error', err => {
     const message = (err.stack.length > 2000 ? err.message : err.stack).replace(/\/home\/pi\/PixelPizza/g, "");
     error('Websocket connection error', message);
     console.error(err);
 });
-
+//#endregion
+//#region client ready
 client.on('ready', async () => {
+    // post bot stats to top.gg
     setInterval(() => {
         client.dbl.postStats({
             serverCount: client.guilds.cache.size
@@ -141,7 +160,8 @@ client.on('ready', async () => {
     success('Ready', `${client.user.username} is ready`);
     // console.log((await client.shard.broadcastEval(`this.guilds.cache.get("${botGuild}")`)).find(value => value != null));
 });
-
+//#endregion
+//#region client guildCreate
 client.on('guildCreate', guild => {
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
         color: green.hex,
@@ -162,7 +182,8 @@ client.on('guildCreate', guild => {
         description: `Thank you for adding me!\nMy prefix is ${prefix}\nUse ${prefix}help for all commands!`
     }), client, channel);
 });
-
+//#endregion
+//#region client guildDelete
 client.on('guildDelete', guild => {
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
         color: red.hex,
@@ -174,30 +195,34 @@ client.on('guildDelete', guild => {
         }
     }));
 });
-
+//#endregion
+//#region client guildMemberAdd
 client.on('guildMemberAdd', member => {
     if (member.guild.id !== botGuild) return;
     client.guildMembers.set(member.user.id, member);
     member.guild.channels.cache.get(text.restaurant).send(createEmbed({
         color: PixelPizza.colors.blue.hex,
         title: "**Welcome**",
-        description: `Welcome to ${member.guild.name}!\nIf you want to order a pizza you can use ${prefix}order\nYou can also apply for worker, staff, teacher or developer. You can find an explanation of how to apply in ${member.guild.channels.cache.get(text.apply)}`
+        description: `Welcome to ${member.guild.name} ${member}!\nIf you want to order a pizza you can use ${prefix}order\nYou can also apply for worker, staff, teacher or developer. You can find an explanation of how to apply in ${member.guild.channels.cache.get(text.apply)}`
     }));
     if (!member.user.bot) addUser(member.id);
     updateMemberSize(client);
 });
-
+//#endregion
+//#region client guildMemberRemove
 client.on('guildMemberRemove', member => {
     if (member.guild.id !== botGuild) return;
     client.guildMembers.delete(member.user.id);
     updateMemberSize(client);
 });
-
+//#endregion
+//#region client guildMemberUpdate
 client.on('guildMemberUpdate', (oldMember, newMember) => {
     if(oldMember.guild.id !== botGuild) return;
     client.guildMembers.set(oldMember.user.id, newMember);
 });
-
+//#endregion
+//#region client messageReactionAdd
 client.on('messageReactionAdd', async (messageReaction, user) => {
     if(messageReaction.partial){
         try{
@@ -222,7 +247,8 @@ client.on('messageReactionAdd', async (messageReaction, user) => {
     }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
-
+//#endregion
+//#region client messageReactionRemove
 client.on('messageReactionRemove', async (messageReaction, user) => {
     if(messageReaction.partial){
         try{
@@ -247,7 +273,8 @@ client.on('messageReactionRemove', async (messageReaction, user) => {
     }
     if (messageReaction.emoji.id === noice2) checkNoiceBoard(messageReaction);
 });
-
+//#endregion
+//#region client message
 client.on('message', async message => {
     if(/^<@!?[0-9]{18}>$/.test(message.content.trim()) && message.mentions.has(client.user)) {
         const invite = await client.guild.channels.cache.get(text.restaurant).createInvite({maxAge: 0, maxUses: 0, unique: false});
@@ -433,5 +460,7 @@ client.on('message', async message => {
         }), client, message);
     }
 });
+//#endregion
+//#endregion
 
 client.login(token);

@@ -115,7 +115,8 @@ declare module 'pixel-pizza' {
             applications: Snowflake,
             suggestions: Snowflake,
             complaints: Snowflake,
-            bugs: Snowflake
+            bugs: Snowflake,
+            apply: Snowflake
         }
     }
 

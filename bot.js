@@ -10,6 +10,7 @@ const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 //#region global variables
 const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const { prefix, botGuild, verification, workerRoles, pponlyexceptions, creators } = PixelPizza.config;
+const prefixRegex = new RegExp(`^${prefix} ?`);
 /* 
 colors I use:
 * notice: gray / lightgray
@@ -311,10 +312,10 @@ client.on('message', async message => {
     //     message.react(noice).catch(err => error('Could not add noice reaction', err));
     // }
     if(message.content.toLowerCase().startsWith(`${prefix}.`) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
-    if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
-    if (message.author.bot && message.content != "pptoggle sendEveryone") return;
+    const prefixText = prefixRegex.exec(message.content);
+    if (!prefixText || message.webhookID) return;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;
-    const args = message.content.slice(prefix.length).trimLeft().split(/ +/);
+    const args = message.content.slice(prefixText[0].length).split(/ +/);
     const commandName = args.shift().toLowerCase();
     log(`Command used by ${message.author.tag} in ${message.guild.name} #${message.channel.name}`, commandName);
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));

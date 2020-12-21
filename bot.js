@@ -301,7 +301,7 @@ client.on('message', async message => {
     if (message.content.toLowerCase().includes('noice')) {
         message.react(noice).catch(err => error('Could not add noice reaction', err));
     }
-    if(message.content.toLowerCase().startsWith(`${prefix} `) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
+    if(message.content.toLowerCase().startsWith(`${prefix}.`) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
     if (message.author.bot && message.content != "pptoggle sendEveryone") return;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;

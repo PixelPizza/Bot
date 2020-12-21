@@ -60,8 +60,13 @@ for (let file of cmdFiles) {
 
 // for (let extension of extensions) {
 //     client.extensions.push(extension);
-//     for(let file of fs.readdirSync(`./extensions/${extension}`).filter(file => file.endsWith(".js"))){
-//         const command = require(`./extensions/${extension}/${file}`);
+//     const dir = `./extensions/${extension}`;
+//     for(let file of fs.readdirSync(dir).filter(file => file.endsWith(".js"))){
+//         if(file == "init.js") {
+//              require(`${dir}/${file}`).init(client);
+//              continue;
+//         }
+//         const command = require(`${dir}/${file}`);
 //         client.commands.set(command.name, Object.assign(command, {
 //             extension: extension
 //         }));

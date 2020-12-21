@@ -314,7 +314,7 @@ client.on('message', async message => {
     if (!message.content.toLowerCase().startsWith(prefix) || message.webhookID) return;
     if (message.author.bot && message.content != "pptoggle sendEveryone") return;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;
-    const args = message.content.slice(prefix.length).split(/ +/);
+    const args = message.content.slice(prefix.length).trimLeft().split(/ +/);
     const commandName = args.shift().toLowerCase();
     log(`Command used by ${message.author.tag} in ${message.guild.name} #${message.channel.name}`, commandName);
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));

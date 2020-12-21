@@ -19,6 +19,219 @@ Description
 ---
 An alternate version of the pixel pizza bot for if the website is down
 
+Requirements
+---
+If you want to host your own version you will need to make your own secrets.json file
+```json
+{
+  "token": "BOT_TOKEN",
+  "dbltoken": "DBL_TOKEN", // Optional
+  "twitchtoken": "TWITCH_TOKEN", // Optional
+  "database": {
+    "host": "HOST",
+    "user": "USER",
+    "password": "PASSWORD",
+    "database": "DATABASE"
+  }
+}
+```
+Or you can use environment variables  
+The environment variables used in this bot are
+* BOT_TOKEN
+* DBL_TOKEN (optional)
+* TWITCH_TOKEN (optional)
+* DATABASE_HOST
+* DATABASE_USER
+* DATABASE_PASSWORD
+* DATABASE_DB
+
+You will also have to set up a database  
+Here is the mysql code for making the full database (extensions excluded)
+```sql
+START TRANSACTION;
+
+CREATE DATABASE IF NOT EXISTS `pixelpizza` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `pixelpizza`;
+
+CREATE TABLE `application` (
+  `applicationId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `applicationType` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'none',
+  `answers` json NOT NULL,
+  `appliedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `staffId` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `blacklisted` (
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `reason` varchar(535) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no reason specified'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `bug` (
+  `bugId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `bug` text COLLATE utf8_unicode_ci NOT NULL,
+  `handled` tinyint(1) NOT NULL DEFAULT '0',
+  `staffId` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `bugNote` (
+  `bugId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `note` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `complaint` (
+  `complaintId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `complaint` text COLLATE utf8_unicode_ci NOT NULL,
+  `handled` tinyint(1) NOT NULL DEFAULT '0',
+  `staffId` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `complaintNote` (
+  `complaintId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `note` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `item` (
+  `itemId` int(11) NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `price` bigint(20) NOT NULL DEFAULT '0',
+  `description` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `endTime` date DEFAULT NULL,
+  `stock` int(11) NOT NULL DEFAULT '-1',
+  `requiredRole` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `givenRole` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `removedRole` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `requiredBalance` bigint(20) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+CREATE TABLE `order` (
+  `orderId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `guildId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `channelId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `cookId` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `delivererId` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `imageUrl` mediumtext COLLATE utf8_unicode_ci,
+  `status` varchar(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'not claimed',
+  `order` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `orderedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `cookedAt` timestamp NULL DEFAULT NULL,
+  `deliveredAt` timestamp NULL DEFAULT NULL,
+  `deliveryMethod` enum('dm','personal','bot','none','unknown') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'none'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `string` (
+  `key` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `value` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `string` (`key`, `value`) VALUES
+('anarchyDay', '');
+
+CREATE TABLE `suggestion` (
+  `suggestionId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `suggestion` varchar(2048) COLLATE utf8_unicode_ci NOT NULL,
+  `handled` tinyint(1) NOT NULL DEFAULT '0',
+  `staffId` varchar(18) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `suggestionNote` (
+  `suggestionId` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `note` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `toggle` (
+  `key` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `value` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `toggle` (`key`, `value`) VALUES
+('addExp', 1),
+('cookOwnOrder', 0),
+('cooldowns', 1),
+('deliverOwnOrder', 0),
+('developerApplications', 1),
+('pponlyChecks', 1),
+('staffApplications', 1),
+('teacherApplications', 1),
+('workerApplications', 1);
+
+CREATE TABLE `user` (
+  `userId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `exp` bigint(20) NOT NULL DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '0',
+  `balance` bigint(20) NOT NULL DEFAULT '0',
+  `lastVote` timestamp NULL DEFAULT NULL,
+  `styleBack` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `styleFront` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `styleExpBack` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `styleExpFront` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `application`
+  ADD PRIMARY KEY (`applicationId`);
+
+ALTER TABLE `blacklisted`
+  ADD PRIMARY KEY (`userId`);
+
+ALTER TABLE `bug`
+  ADD PRIMARY KEY (`bugId`);
+
+ALTER TABLE `bugNote`
+  ADD PRIMARY KEY (`bugId`,`userId`);
+
+ALTER TABLE `complaint`
+  ADD PRIMARY KEY (`complaintId`);
+
+ALTER TABLE `complaintNote`
+  ADD PRIMARY KEY (`complaintId`,`userId`);
+
+ALTER TABLE `item`
+  ADD PRIMARY KEY (`itemId`),
+  ADD UNIQUE KEY `UNIQUE_name` (`name`);
+
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`orderId`);
+
+ALTER TABLE `string`
+  ADD PRIMARY KEY (`key`);
+
+ALTER TABLE `suggestion`
+  ADD PRIMARY KEY (`suggestionId`);
+
+ALTER TABLE `suggestionNote`
+  ADD PRIMARY KEY (`suggestionId`,`userId`);
+
+ALTER TABLE `toggle`
+  ADD PRIMARY KEY (`key`);
+
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`userId`);
+
+ALTER TABLE `userItem`
+  ADD PRIMARY KEY (`userId`);
+
+ALTER TABLE `worker`
+  ADD PRIMARY KEY (`workerId`);
+
+ALTER TABLE `bugNote`
+  ADD CONSTRAINT `bugNote_ibfk_1` FOREIGN KEY (`bugId`) REFERENCES `bug` (`bugid`);
+
+ALTER TABLE `complaintNote`
+  ADD CONSTRAINT `complaintNote_ibfk_1` FOREIGN KEY (`complaintId`) REFERENCES `complaint` (`complaintid`);
+
+ALTER TABLE `suggestionNote`
+  ADD CONSTRAINT `suggestionNote_ibfk_1` FOREIGN KEY (`suggestionId`) REFERENCES `suggestion` (`suggestionid`);
+COMMIT;
+```
+
 Commands
 ---
 <details>

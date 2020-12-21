@@ -1,3 +1,4 @@
+//#region variables
 const { randomInt } = require('crypto');
 const discord = require('discord.js');
 const PixelPizza = require("pixel-pizza");
@@ -14,7 +15,9 @@ const database = secrets ? secrets.database : {
     password: process.env.DATABASE_PASS, 
     database: process.env.DATABASE_DB
 };
+//#endregion
 
+//#region handleDisconnect
 let con;
 /**
  * Handle the disconnection of a database
@@ -35,7 +38,9 @@ const handleDisconnect = () => {
     });
 }
 handleDisconnect();
+//#endregion
 
+//#region query
 /**
  * Query to the database
  * @param {string} query 
@@ -46,6 +51,8 @@ exports.query = (query, options = []) => new Promise((resolve, reject)=>con.exec
     if(error) reject(error);
     else resolve(result);
 }));
+//#endregion
+//#region addUser
 /**
  * Add a user to users
  * @param {discord.Snowflake} userId 
@@ -57,6 +64,8 @@ exports.addUser = userId => {
         if(!result.length) this.query("INSERT INTO `user`(userId) VALUES(?)", [userId]);
     });
 }
+//#endregion
+//#region checkRole
 /**
  * Check and add roles
  * @param {number} number 
@@ -72,6 +81,8 @@ const checkRole = (number, goal, member, role) => {
         removeRole(member, role);
     }
 }
+//#endregion
+//#region checkLevelRoles
 /**
  * Check if a user should have certain roles
  * @param {PixelPizza.PPClient} client 	
@@ -92,6 +103,8 @@ exports.checkLevelRoles = (client, userId) => {
         }
     });
 }
+//#endregion
+//#region checkLevel
 /**
  * Check the level of a user
  * @param {PixelPizza.PPClient} client 
@@ -117,6 +130,8 @@ exports.checkLevel = async (client, userId) => {
         this.checkLevelRoles(client, userId);
     });
 }
+//#endregion
+//#region setExp
 /**
  * Set the exp of a user
  * @param {PixelPizza.PPClient} client 
@@ -132,6 +147,8 @@ exports.setExp = (client, userId, amount) => new Promise(async resolve => {
         resolve();
     });
 });
+//#endregion
+//#region addExp
 /**
  * Add exp to a user
  * @returns {Promise<void>}
@@ -146,6 +163,8 @@ exports.addExp = (client, userId, amount) => new Promise(async resolve => {
     await this.setExp(client, userId, wantedExp);
     resolve();
 });
+//#endregion
+//#region setLevel
 /**
  * Set the level of a user
  * @param {PixelPizza.PPClient} client 
@@ -161,6 +180,8 @@ exports.setLevel = (client, userId, amount) => new Promise(async resolve => {
     await this.setExp(client, userId, neededExp);
     resolve();
 });
+//#endregion
+//#region addLevel
 /**
  * Add levels to a user
  * @param {PixelPizza.PPClient} client 
@@ -178,6 +199,8 @@ exports.addLevel = (client, userId, amount) => new Promise(async resolve => {
     await this.setLevel(client, userId, wantedLevel);
     resolve();
 });
+//#endregion
+//#region isBlacklisted
 /**
  * Check if a user is blacklisted
  * @param {discord.Snowflake} userId 
@@ -188,6 +211,8 @@ exports.isBlacklisted = async (userId) => {
     const result = await this.query("SELECT * FROM blacklisted WHERE userId = ?", [userId]);
     return result.length ? true : false;
 }
+//#endregion
+//#region checkProChef
 /**
  * Check if a member is pro chef
  * @param {discord.GuildMember} member 
@@ -202,6 +227,8 @@ exports.checkProChef = async member => {
         removeRole(member, proCook);
     }
 }
+//#endregion
+//#region checkProDeliverer
 /**
  * Check if a member is pro deliverer
  * @param {discord.GuildMember} member 
@@ -216,6 +243,8 @@ exports.checkProDeliverer = async member => {
         removeRole(member, proDeliverer);
     }
 }
+//#endregion
+//#region makeId
 /**
  * Make a new id
  * @param {string} table 
@@ -230,3 +259,4 @@ exports.makeId = async (table) => {
     const result = await this.query(`SELECT \`${table}Id\` FROM \`${table}\` WHERE \`${table}Id\` = ?`,[id]);
     return result.length ? this.makeId(table) : id;
 }
+//#endregion

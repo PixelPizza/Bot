@@ -10,7 +10,7 @@ const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
 //#region global variables
 const client = new PixelPizza.PPClient({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const { prefix, botGuild, verification, workerRoles, pponlyexceptions, creators } = PixelPizza.config;
-const prefixRegex = new RegExp(`^${prefix} ?`);
+const prefixRegex = new RegExp(`^${prefix} ?`, "i");
 /* 
 colors I use:
 * notice: gray / lightgray

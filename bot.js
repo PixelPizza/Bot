@@ -308,9 +308,9 @@ client.on('message', async message => {
     const member = client.member;
     if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) return message.delete();
     if (message.guild == guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
-    // if (message.content.toLowerCase().includes('noice')) {
-    //     message.react(noice).catch(err => error('Could not add noice reaction', err));
-    // }
+    if (message.content.toLowerCase().includes('noice') && (message.guild && message.guild.id == botGuild)) {
+        message.react(noice).catch(err => error('Could not add noice reaction', err));
+    }
     if(message.content.toLowerCase().startsWith(`${prefix}.`) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     const prefixText = prefixRegex.exec(message.content);
     if (!prefixText || message.webhookID) return;

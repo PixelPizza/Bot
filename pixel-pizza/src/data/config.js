@@ -26,7 +26,17 @@ module.exports = {
         "You are lazy, but you still get paid. Here's {earning}...",
         "Alright I am out of ideas here's {earning} and don't tell anyone",
         "You deserved this money for saying 1 word. you got {earning}!",
-        "Alright here's {earning} that you totally didn't steal"
+        "Alright here's {earning} that you totally didn't steal",
+        "You found bugs in a program and earned {earning}",
+        "Someone walked up to you, gave you {earning} and then ran away",
+        "You work in a pizza factory, you were given {earning} for your good work",
+        "You beat {name} in battle, you win {earning}"
+    ],
+    workNames: [
+        "Rick",
+        "Hank",
+        "Dirt",
+        "Jaron"
     ],
     statuses: {
         orders: [

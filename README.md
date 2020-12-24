@@ -1,19 +1,19 @@
 <img align="left" width="50px" src="https://user-images.githubusercontent.com/60853956/97776540-4c446980-1b69-11eb-9fdc-98b4ab65be6b.png"> Pixel Pizza by jaronetje
 ===
 
-[![](https://img.shields.io/github/issues/jaronetje/PixelPizza?color=green&style=plastic)](https://github.com/jaronetje/PixelPizza/issues?q=is%3Aopen+is%3Aissue)
-[![](https://img.shields.io/github/issues-closed/jaronetje/PixelPizza?color=red&style=plastic)](https://github.com/jaronetje/PixelPizza/issues?q=is%3Aissue+is%3Aclosed) 
-[![](https://img.shields.io/github/languages/top/jaronetje/PixelPizza?color=yellow&style=plastic)](https://github.com/jaronetje/PixelPizza/search?l=javascript) 
-![](https://img.shields.io/github/package-json/v/jaronetje/PixelPizza/PixelPizzaAlternate?label=package%20version&style=plastic) 
-![](https://img.shields.io/github/contributors/jaronetje/PixelPizza?style=plastic) 
-![](https://img.shields.io/github/last-commit/jaronetje/PixelPizza/PixelPizzaAlternate?style=plastic) 
-![](https://img.shields.io/github/package-json/keywords/jaronetje/PixelPizza?style=plastic) 
-![](https://img.shields.io/github/package-json/author/jaronetje/PixelPizza?style=plastic&color=red) 
-![](https://img.shields.io/github/v/release/jaronetje/PixelPizza?include_prereleases&style=plastic)
+[![](https://img.shields.io/github/issues/PixelPizza/PixelPizza-js?color=green&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/issues?q=is%3Aopen+is%3Aissue)
+[![](https://img.shields.io/github/issues-closed/PixelPizza/PixelPizza-js?color=red&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/issues?q=is%3Aissue+is%3Aclosed) 
+[![](https://img.shields.io/github/languages/top/PixelPizza/PixelPizza-js?color=yellow&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/search?l=javascript) 
+![](https://img.shields.io/github/package-json/v/PixelPizza/PixelPizza-js/PixelPizzaAlternate?label=package%20version&style=plastic) 
+![](https://img.shields.io/github/contributors/PixelPizza/PixelPizza-js?style=plastic) 
+![](https://img.shields.io/github/last-commit/PixelPizza/PixelPizza-js/PixelPizzaAlternate?style=plastic) 
+![](https://img.shields.io/github/package-json/keywords/PixelPizza/PixelPizza-js?style=plastic) 
+![](https://img.shields.io/github/package-json/author/PixelPizza/PixelPizza-js?style=plastic&color=red) 
+![](https://img.shields.io/github/v/release/PixelPizza/PixelPizza-js?include_prereleases&style=plastic)
 
 <br />
 
-[![](https://img.shields.io/discord/709698572035162143?label=Discord%20Chat)](https://www.discord.com/invite/MzbsFPe)
+[![](https://img.shields.io/discord/709698572035162143?label=Discord%20Chat)](https://discord.gg/AW7z9qu)
 
 Description
 ---
@@ -390,4 +390,4 @@ Visual Studio Code Extension
 ---
 I have made a [visual studio code extension](https://marketplace.visualstudio.com/items?itemName=PixelPizza.pixel-pizza-snippets) for Pixel Pizza developers which currently has many snippets for JavaScript, TypeScript and Java
 
-[Github Project](https://github.com/jaronetje/pixel-pizza-snippets)
+[Github Project](https://github.com/PixelPizza/pixel-pizza-snippets)

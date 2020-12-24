@@ -26,15 +26,22 @@ module.exports = {
      * @param {discord.Message} message 
      * @param {string[]} args 
      * @param {PixelPizza.PPClient} client 
+     * @param {{
+     *  worker: boolean,
+     *  teacher: boolean,
+     *  staff: boolean,
+     *  director: boolean,
+     *  botguildMember: discord.GuildMember
+     * }} options
      * @returns {Promise<void>}
      */
-    async execute(message, args, client) {
+    async execute(message, args, client, options) {
         let embedMsg = createEmbed({ 
             color: red.hex, 
             title: "deliver" 
         }); 
         const deliverRole = client.guild.roles.cache.get(deliverer); 
-        if (!hasRole(client.member, deliverer)) {
+        if (!hasRole(options.botguildMember, deliverer)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${deliverRole.name} role to be able to deliver`
             }), client, message);
@@ -55,7 +62,7 @@ module.exports = {
         }
         result = results[0]; 
         const orderer = client.users.cache.get(result.userId); 
-        if(!hasRole(client.member, ceo)){
+        if(!hasRole(options.botguildMember, ceo)){
             if (!client.toggles.deliverOwnOrder && orderer?.id === message.author.id) {
                 return sendEmbed(editEmbed(embedMsg, {
                     description: `You can't deliver your own order`

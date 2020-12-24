@@ -30,9 +30,16 @@ module.exports = {
      * @param {discord.Message} message 
      * @param {string[]} args 
      * @param {PixelPizza.PPClient} client 
+     * @param {{
+     *  worker: boolean,
+     *  teacher: boolean,
+     *  staff: boolean,
+     *  director: boolean,
+     *  botguildMember: discord.GuildMember
+     * }} options
      * @returns {Promise<void>}
      */
-    async execute(message, args, client) { 
+    async execute(message, args, client, options) { 
         let embedMsg = createEmbed({
             color: red.hex,
             title: `**${capitalize(this.name)}**`,
@@ -67,7 +74,7 @@ module.exports = {
             }
         }
         let result = await query("SELECT COUNT(*) as counted FROM `order` WHERE status NOT IN('delivered', 'deleted')"); 
-        if (result[0].counted >= maxPizzas && !isVip(client.member)) { 
+        if (result[0].counted >= maxPizzas && !isVip(options.botguildMember)) { 
             return sendEmbed(editEmbed(embedMsg, {
                 description: `The maximum pizza amount has been reached! please try again later`
             }), client, message);

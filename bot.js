@@ -312,7 +312,6 @@ client.on('message', async message => {
     if(message.content.toLowerCase().startsWith(`${prefix}.`) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     const prefixText = prefixRegex.exec(message.content);
     if (!prefixText || message.webhookID) return;
-    client.member = member;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;
     const args = message.content.slice(prefixText[0].length).split(/ +/);
     const commandName = args.shift().toLowerCase();
@@ -459,7 +458,7 @@ client.on('message', async message => {
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     }
     try {
-        await command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector});
+        await command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector, botguildMember: member});
         log("Command executed", `${command.name} has been executed`);
     } catch (err) {
         error(`Could not execute ${command.name}`, err);

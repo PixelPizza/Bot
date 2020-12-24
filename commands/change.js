@@ -21,15 +21,22 @@ module.exports = {
      * Execute this command
      * @param {discord.Message} message 
      * @param {string[]} args 
-     * @param {PixelPizza.PPClient} client 
+     * @param {PixelPizza.PPClient} client
+     * @param {{
+     *  worker: boolean,
+     *  teacher: boolean,
+     *  staff: boolean,
+     *  director: boolean,
+     *  botguildMember: discord.GuildMember
+     * }} options
      * @returns {Promise<void>}
      */
-    async execute(message, args, client) {
+    async execute(message, args, client, options) {
         const embedMsg = createEmbed({
             color: red.hex,
             title: "change image"
         });
-        if (!hasRole(client.member, cook)) {
+        if (!hasRole(options.botguildMember, cook)) {
             return sendEmbed(editEmbed(embedMsg, {
                 description: `You need to have the ${client.guild.roles.cache.get(cook).name} role in ${client.guild.name} to be able to claim an order`
             }), client, message);

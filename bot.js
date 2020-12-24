@@ -50,6 +50,7 @@ client.toggles = {
     cookOwnOrder: false,
     deliverOwnOrder: false
 };
+client.guild;
 //#endregion
 //#endregion
 
@@ -106,9 +107,9 @@ client.on('ready', async () => {
             serverCount: client.guilds.cache.size
         });
     }, 1800000);
-    const guild = client.guilds.cache.get(botGuild);
-    const delivery = guild.channels.cache.get(text.delivery);
-    client.guildMembers = await guild.members.fetch();
+    client.guild = client.guilds.cache.get(botGuild);
+    const delivery = client.guild.channels.cache.get(text.delivery);
+    client.guildMembers = await client.guild.members.fetch();
     updateGuildAmount(client);
     updateMemberSize(client);
     client.users.cache.forEach(user => { if (!user.bot) addUser(user.id) });
@@ -125,7 +126,7 @@ client.on('ready', async () => {
         const kitchenOrders = orders.filter(order => order.status == "not claimed" || order.status == "claimed");
         const deliveryOrders = orders.filter(order => order.status == "cooked");
         if(kitchenOrders.length){
-            const kitchen = guild.channels.cache.get(text.kitchen);
+            const kitchen = client.guild.channels.cache.get(text.kitchen);
             let ordersString = "`"; 
             for (let i in kitchenOrders) { 
                 let result = kitchenOrders[i]; 
@@ -302,17 +303,15 @@ client.on('message', async message => {
     if(message.channel.type == "dm") {
         return;
     }
-    const guild = client.guilds.cache.get(botGuild);
     const member = client.guildMembers.get(message.author.id);
     if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) return message.delete();
-    if (message.guild == guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
-    if (message.content.toLowerCase().includes('noice') && (message.guild && message.guild.id == botGuild)) {
+    if (message.guild == client.guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
+    if (message.content.toLowerCase().includes('noice') && (message.guild && message.guild == client.guild)) {
         message.react(noice).catch(err => error('Could not add noice reaction', err));
     }
     if(message.content.toLowerCase().startsWith(`${prefix}.`) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     const prefixText = prefixRegex.exec(message.content);
     if (!prefixText || message.webhookID) return;
-    client.guild = guild;
     client.member = member;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;
     const args = message.content.slice(prefixText[0].length).split(/ +/);

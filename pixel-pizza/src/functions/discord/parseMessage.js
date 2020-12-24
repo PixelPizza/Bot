@@ -27,6 +27,7 @@ const parseUser = (type, user) => {
     if(!user) return "Unknown user";
     if(typeof(user) == "string") return user;
     switch(type){
+        default:
         case "tag":
             return user.tag;
         case "id":
@@ -34,7 +35,6 @@ const parseUser = (type, user) => {
         case "name":
         case "username":
             return user.username;
-        default:
         case "ping":
         case "mention":
             return `<@${user.id}>`;

@@ -302,10 +302,8 @@ client.on('message', async message => {
     if(message.channel.type == "dm") {
         return;
     }
-    client.guild = client.guilds.cache.get(botGuild);
-    client.member = client.guildMembers.get(message.author.id);
-    const guild = client.guild;
-    const member = client.member;
+    const guild = client.guilds.cache.get(botGuild);
+    const member = client.guildMembers.get(message.author.id);
     if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) return message.delete();
     if (message.guild == guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
     if (message.content.toLowerCase().includes('noice') && (message.guild && message.guild.id == botGuild)) {
@@ -314,6 +312,8 @@ client.on('message', async message => {
     if(message.content.toLowerCase().startsWith(`${prefix}.`) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
     const prefixText = prefixRegex.exec(message.content);
     if (!prefixText || message.webhookID) return;
+    client.guild = guild;
+    client.member = member;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;
     const args = message.content.slice(prefixText[0].length).split(/ +/);
     const commandName = args.shift().toLowerCase();

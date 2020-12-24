@@ -107,14 +107,14 @@ module.exports = {
         const id = await makeId("order"); 
         const selections = "(orderId,userId,guildId,channelId,status,`order`" + (chef ? ",cookId" : "") + (deliverer ? ",delivererId" : "") + ")";
         const values = "(?,?,?,?,'not claimed',?" + (chef ? ",?" : "") + (deliverer ? ",?" : "") + ")";
-        const options = [id, message.author.id, message.guild.id, message.channel.id, order];
+        const queryOptions = [id, message.author.id, message.guild.id, message.channel.id, order];
         if(deliverer){
-            options.push(deliverer.id);
+            queryOptions.push(deliverer.id);
         }
         if(chef){
-            options.push(chef.id);
+            queryOptions.push(chef.id);
         }
-        await query("INSERT INTO `order`" + selections + " VALUES" + values, options); 
+        await query("INSERT INTO `order`" + selections + " VALUES" + values, queryOptions); 
         const embedMsgOrder = createEmbed({
             color: blue.hex,
             title: `**${capitalize(this.name)}**`,

@@ -14,7 +14,7 @@ module.exports = {
     description: "order a pizza", 
     args: true, 
     minArgs: 1, 
-    usage: "<order> [{chef: chef, deliverer: deliverer} | {chef: chef} | {deliverer: deliverer}]", 
+    usage: "<order> [options]", 
     cooldown: 0, 
     userType: "all", 
     neededPerms: [], 

@@ -42,7 +42,7 @@ The environment variables used in this bot are
 * TWITCH_TOKEN (optional)
 * DATABASE_HOST
 * DATABASE_USER
-* DATABASE_PASSWORD
+* DATABASE_PASS
 * DATABASE_DB
 
 You will also have to set up a database  

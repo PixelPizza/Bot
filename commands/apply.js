@@ -26,11 +26,16 @@ module.exports = {
      * @param {PixelPizza.PPClient} client 
      * @returns {Promise<void>}
      */
-    async execute(message, args, client) {
+    async execute(message, args, client, options) {
         const embedMsg = createEmbed({
             color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
+        if(!PixelPizza.inBotGuild(client, message.author.id)){
+            return sendEmbed(editEmbed(embedMsg, {
+                description: `You need to be in ${client.guild.name} to apply\nYou can use ${PixelPizza.config.prefix}support for an invite link`
+            }), client, message);
+        }
         const answers = [];
         const types = new Collection();
         for (let type in questions) types.set(type, questions[type]);

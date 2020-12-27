@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+    balance: require('./data/balance'),
     channels: require("./data/channels"),
     colors: require("./data/colors"),
     config: require("./data/config"),

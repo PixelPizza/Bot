@@ -3,6 +3,7 @@ import PixelPizza from '../src/index.js';
 export default PixelPizza;
 
 export const {
+    balance,
     channels,
     colors,
     config,

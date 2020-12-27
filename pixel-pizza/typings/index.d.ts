@@ -64,6 +64,24 @@ declare module 'pixel-pizza' {
     type ConsoleFunction = (text: string, title?: string) => void
 
     /**
+     * A dictionary with balance configurations
+     */
+    export const balance: {
+        daily: {
+            reward: number,
+            streak: number
+        },
+        weekly: number,
+        monthly: number,
+        yearly: number,
+        vote: {
+            balance: number,
+            exp: number,
+            overflowPass: boolean
+        }
+    }
+
+    /**
      * A dictonary with color values in hex, rgb, hsl and cmyk format
      */
     export const colors: {

@@ -11,7 +11,7 @@ module.exports = {
     aliases: ["level"], 
     minArgs: 0, 
     usage: "[user]", 
-    cooldown: 60, 
+    cooldown: 5, 
     userType: "all", 
     neededPerms: [], 
     pponly: false, 

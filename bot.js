@@ -333,7 +333,7 @@ client.on('message', async message => {
     });
     if (await isBlacklisted(message.author.id)) return;
     if (command.removeExp && message.guild == client.guild && client.toggles.addExp && !message.author.bot) await addExp(client, message.author.id, -1);
-    if (client.toggles.pponlyChecks && command.ppOnly && message.guild != guild && !pponlyexceptions.includes(message.guild.id)) {
+    if (client.toggles.pponlyChecks && command.ppOnly && message.guild != client.guild && !pponlyexceptions.includes(message.guild.id)) {
         return sendEmbed(editEmbed(embedMsg, {
             description: `This command can only be used in ${guild.name}`
         }), client, message);

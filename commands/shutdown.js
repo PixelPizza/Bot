@@ -10,6 +10,7 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    hidden: true,
     /**
      * Execute this command
      * @param {discord.Message} message 

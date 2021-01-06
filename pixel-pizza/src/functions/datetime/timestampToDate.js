@@ -8,7 +8,7 @@
  */
 const timestampToDate = (timestamp = 0, addFormat = true) => {
     const date = new Date(timestamp);
-    return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}${addFormat ? " (dd-mm-YYYY)" : ""}`;
+    return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}${addFormat ? " (dd-mm-YYYY)" : ""}`;
 }
 
 module.exports = timestampToDate;

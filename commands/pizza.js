@@ -8,7 +8,7 @@ module.exports = {
     name: "pizza",
     description: "show a random delivered pizza",
     args: false,
-    cooldown: 300,
+    cooldown: 10,
     userType: "all",
     neededPerms: [],
     pponly: false,

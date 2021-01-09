@@ -22,7 +22,12 @@ module.exports = {
         sendEmbed(createEmbed({
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
-            description: `You can vote for ${client.user.username} with this link\nhttps://top.gg/bot/${client.user.id}/vote`
+            description: [
+                `You can vote for ${client.user.username} with these links`,
+                `https://top.gg/bot/${client.user.id}/vote`,
+                `https://discordbotlist.com/bots/pixel-pizza/upvote`/*,
+                `https://botsfordiscord.com/bot/709705136259334296/vote` */
+            ]
         }), client, message);
     }
 }

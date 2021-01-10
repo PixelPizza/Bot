@@ -29,12 +29,9 @@ let rules = [
     "Must include a pizza (transparent & invisible pizzas are not allowed either)",
     "Do not attempt to bypass the word blacklist",
     "Use COMMON SENSE",
-    "Don't ping temmie or any role that temmie has, you will get warned by him, watch out",
-    "Ping <@779726306655862814>(@ping if Pizza takes too long to cook) if your pizza takes too long to cook",
     "We are Pixel Pizza, We do not serve any other foods than Pizza. (except on anarchy day)",
-    "Give workers time to cook and deliver orders. They also do things besides cooking and delivering",
-    "Do not complains about the order IDs or youll get a scp after you send by <@511209271678074891>", 
-    "pixel Pizza must be in the guild in order to order a pizza"
+    "pixel Pizza must be in the guild in order to order a pizza",
+    "no asking for your pfp on a pizza"
 ];
 
 /**
@@ -43,10 +40,7 @@ let rules = [
 let anarchyRules = [
     "No pizzas related to child exploitation (this includes Pedophilia, Child abuse, or any other form of exploitation to minors)",
     "No pizzas that are related to death, depression, disorders, or mortal illnesses",
-    "No pizzas which includes gore",
-    "Don't ping temmie or any role that temmie has, you will get warned by him, watch out",
-    "Ping <@472312270047674378>(@ping if Pizza takes too long to cook) if your pizza takes too long to cook",
-    "Give workers time to cook and deliver orders. They also do things besides cooking and delivering"
+    "No pizzas which includes gore"
 ];
 
 for(let index in rules){

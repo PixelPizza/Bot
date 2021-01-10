@@ -91,6 +91,8 @@ module.exports = {
             });
             const user = client.users.cache.get(results[0].userId);
             user?.send(confirmation);
+            const earning = randomInt(50, 250);
+            query("UPDATE `user` SET balance = balance + ? WHERE userId = ?", [earning, message.author.id]);
             const embedMsgTimer = createEmbed({
                 color: silver.hex,
                 title: "Timer",
@@ -107,8 +109,15 @@ module.exports = {
                 else embedMsgTimer = timerString;
                 timerMessage.edit(embedMsgTimer);
                 if(cookTime == 0){
-                    timerMessage.delete({reason: "timer ran out"});
-                    clearTimeout(timer);
+                    timerMessage.edit({embed: createEmbed({
+                        color: PixelPizza.colors.green.hex,
+                        title: "Order is done",
+                        description: [
+                            `Order ${args[0]} is done cooking`,
+                            `${message.author} earned ${PixelPizza.getEmoji(client.guild, PixelPizza.config.currency)} ${earning}`
+                        ]
+                    })});
+                    clearInterval(timer);
                 }
             }, 10000);
             await wait(cookTime * 1000);

@@ -169,10 +169,23 @@ CREATE TABLE `user` (
   `level` int(11) NOT NULL DEFAULT '0',
   `balance` bigint(20) NOT NULL DEFAULT '0',
   `lastVote` timestamp NULL DEFAULT NULL,
+  `lastDaily` date DEFAULT NULL,
+  `dailyStreak` int(11) NOT NULL DEFAULT '0',
+  `lastWeekly` date DEFAULT NULL,
+  `lastMonthly` date DEFAULT NULL,
+  `lastYearly` date DEFAULT NULL,
   `styleBack` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `styleFront` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `styleExpBack` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `styleExpFront` varchar(9) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `worker` (
+  `workerId` varchar(18) COLLATE utf8_unicode_ci NOT NULL,
+  `cooks` bigint(20) NOT NULL DEFAULT '0',
+  `deliveries` bigint(20) NOT NULL DEFAULT '0',
+  `deliveryMessage` longtext COLLATE utf8_unicode_ci,
+  `addedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 ALTER TABLE `application`

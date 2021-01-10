@@ -10,7 +10,7 @@ module.exports = {
     workerRoles: "775150876418506792",
     botGuild: "709698572035162143",
     noiceboardMinValue: 3,
-    maxPizzas: 15,
+    maxOrders: 15,
     proAmount: 250,
     idLength: 3,
     orderCooldown: 300,

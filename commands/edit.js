@@ -4,7 +4,6 @@ const PixelPizza = require('pixel-pizza');
 const { createEmbed, sendEmbed, editEmbed, capitalize } = PixelPizza; 
 const { query } = require("../dbfunctions"); 
 const { red, green } = PixelPizza.colors; 
-const { prefix } = PixelPizza.config; 
 const ingredients = PixelPizza.ingredients;
 
 module.exports = {
@@ -38,16 +37,10 @@ module.exports = {
             title: `**${capitalize(this.name)}**`
         });
         let order = args.join(" ");
-        if (!order.toLowerCase().includes("pizza") && order != "random") { 
-            return sendEmbed(editEmbed(embedMsg, {
-                title: `error`,
-                description: `The order has to include the word pizza or you can use ${prefix}${this.name} random to order a random pizza`
-            }), client, message);
-        }  
         const result = await query("SELECT * FROM `order` WHERE userId = ? AND status NOT IN('delivered','deleted')", [message.author.id]); 
         if (!result.length) { 
             return sendEmbed(editEmbed(embedMsg, {
-                description: `You have not ordered anything, use pporder to order a pizza`
+                description: `You have not ordered anything, use pporder to order something`
             }), client, message);
         } 
         if(result[0].status != "not claimed"){

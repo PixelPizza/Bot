@@ -5,8 +5,9 @@ const { sendEmbed, createEmbed } = PixelPizza;
 const { blue, red } = PixelPizza.colors; 
 
 module.exports = {
-    name: "pizza",
-    description: "show a random delivered pizza",
+    name: "randomorder",
+    description: "show a random delivered order",
+    aliases: ["randorder"],
     args: false,
     cooldown: 10,
     userType: "all",

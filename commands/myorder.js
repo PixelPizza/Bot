@@ -24,7 +24,7 @@ module.exports = {
         let embedMsg = createEmbed({
             color: red.hex,
             title: "**order**",
-            description: `You have not ordered anything use ${prefix}order to order a pizza`
+            description: `You have not ordered anything use ${prefix}order to order something`
         });
         let result = await query("SELECT * FROM `order` WHERE userId = ? AND status NOT IN('deleted','delivered')", [message.author.id]); 
         if (!result.length) return sendEmbed(embedMsg, client, message); 

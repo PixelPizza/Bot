@@ -24,7 +24,7 @@ module.exports = {
         const embedMsg = createEmbed({
             color: red.hex,
             title: "**no order**",
-            description: `You have not ordered anything, use ${prefix}order to order a pizza`
+            description: `You have not ordered anything, use ${prefix}order to order something`
         });
         const result = await query(
             "SELECT * \

@@ -3,7 +3,7 @@ const { createEmbed, menu, sendEmbed, PPClient, colors, capitalize } = require('
 
 module.exports = {
     name: "menu",
-    description: "show a menu of pizzas to choose from",
+    description: "show a menu to choose from",
     cooldown: 60,
     userType: "all",
     neededPerms: [],
@@ -20,7 +20,7 @@ module.exports = {
         sendEmbed(createEmbed({
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,
-            description: `Here are some examples of pizzas to order\n\`\`\`\n${menu.join(" pizza\n")} pizza\n\`\`\``
+            description: `Here are some examples to order\n\`\`\`\n${menu.join(" pizza\n")} pizza\n\`\`\``
         }), client, message);
     }
 }

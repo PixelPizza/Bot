@@ -62,8 +62,8 @@ const parseTimestamp = (type, timestamp) => {
  * Parse a delivery message
  * @param {PPClient} client The client to get the guild from
  * @param {string} message The message to parse
- * @param {string | User} chef The user that cooked the pizza
- * @param {User} customer The user that ordered the pizza
+ * @param {string | User} chef The user that cooked the order
+ * @param {User} customer The user that ordered the order
  * @param {string} image The url of the image
  * @param {string} invite The invite code of the support server
  * @param {User} deliverer The user that delivered the order

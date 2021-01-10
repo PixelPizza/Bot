@@ -238,7 +238,7 @@ declare module 'pixel-pizza' {
         workerRoles: Snowflake,
         botGuild: Snowflake,
         noiceboardMinValue: number,
-        maxPizzas: number,
+        maxOrders: number,
         proAmount: number,
         idLength: number,
         orderCooldown: number,
@@ -473,8 +473,8 @@ declare module 'pixel-pizza' {
      * Parse a delivery message
      * @param {PPClient} client The client to get the guild from
      * @param {string} message The message to parse
-     * @param {string | User} chef The user that cooked the pizza
-     * @param {User} customer The user that ordered the pizza
+     * @param {string | User} chef The user that cooked the order
+     * @param {User} customer The user that ordered the order
      * @param {string} image The url of the image
      * @param {User} deliverer The user that delivered the order
      * @param {string} orderID The id of the order

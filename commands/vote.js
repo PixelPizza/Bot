@@ -24,8 +24,8 @@ module.exports = {
             title: `**${capitalize(this.name)}**`,
             description: [
                 `You can vote for ${client.user.username} with these links`,
-                `https://top.gg/bot/${client.user.id}/vote`,
-                `https://discordbotlist.com/bots/pixel-pizza/upvote`/*,
+                `[top.gg](https://top.gg/bot/${client.user.id}/vote)`,
+                `[discordbotlist.com](https://discordbotlist.com/bots/pixel-pizza/upvote)`/*,
                 `https://botsfordiscord.com/bot/709705136259334296/vote` */
             ]
         }), client, message);

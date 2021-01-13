@@ -21,7 +21,8 @@ An alternate version of the pixel pizza bot for if the website is down
 
 Note
 ---
-You are allowed to make your own version using my code, but keep in mind that if you use this code you will have to configure many things to get it working
+You are allowed to make your own version using my code, but keep in mind that if you use this code you will have to configure many things to get it working. 
+**Pixel Pizza is not going to help setting up, because of the amount of time that takes**
 
 Commands
 ---

@@ -19,6 +19,10 @@ Description
 ---
 An alternate version of the pixel pizza bot for if the website is down
 
+Note
+---
+You are allowed to make your own version using my code, but keep in mind that if you use this code you will have to configure many things to get it working
+
 Commands
 ---
 <details>

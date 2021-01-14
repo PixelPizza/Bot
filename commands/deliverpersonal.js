@@ -15,7 +15,7 @@ module.exports = {
     minArgs: 1, 
     maxArgs: 1, 
     usage: "<order id>", 
-    cooldown: 24 * 60 * 60, 
+    cooldown: 0, 
     userType: "worker", 
     neededPerms: [], 
     pponly: false, 

@@ -27,7 +27,7 @@ colors I use:
 const { blue, green, red, black } = PixelPizza.colors;
 const { noice, noice2 } = PixelPizza.emojis;
 const { text } = PixelPizza.channels;
-const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = PixelPizza.roles;
+const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director, makers } = PixelPizza.roles;
 const { msToString, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 // const extensions = fs.readdirSync('./extensions').filter(file => fs.lstatSync(`./extensions/${file}`).isDirectory());
@@ -389,6 +389,11 @@ client.on('message', async message => {
     if (command.userType == "vip" && !isVip(member)) {
         return sendEmbed(editEmbed(embedMsg, {
             description: "You need to have the vip role in pixel pizza to use this command!"
+        }), client, message);
+    }
+    if (command.userType == "maker" && !makers.includes(message.author.id)){
+        return sendEmbed(editEmbed(embedMsg, {
+            description: `Only the makers of this bot can run this command!`
         }), client, message);
     }
     let reply;

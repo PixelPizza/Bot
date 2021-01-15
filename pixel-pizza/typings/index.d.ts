@@ -217,7 +217,8 @@ declare module 'pixel-pizza' {
         pings: {
             cook: Snowflake,
             deliver: Snowflake
-        }
+        },
+        makers: Snowflake[]
     }
 
     /**

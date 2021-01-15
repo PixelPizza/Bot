@@ -87,10 +87,11 @@ const checkRole = (number, goal, member, role) => {
  * Check if a user should have certain roles
  * @param {PixelPizza.PPClient} client 	
  * @param {discord.Snowflake} userId 
- * @returns {void}
+ * @returns {Promise<void>}
  */
-exports.checkLevelRoles = (client, userId) => {
+exports.checkLevelRoles = async (client, userId) => {
     if(isNaN(userId) || userId.length != 18) return;
+    const exception = (await this.query("SELECT * FROM vipException WHERE userId = ?", [userId])).length ? true : false;
     this.query("SELECT `level` FROM user WHERE userId = ?", [userId]).then(result => {
         if(result.length){
             const level = result[0].level;
@@ -99,7 +100,7 @@ exports.checkLevelRoles = (client, userId) => {
             checkRole(level, 10, member, levelRoles.ten);
             checkRole(level, 25, member, levelRoles.twentyfive);
             checkRole(level, 50, member, levelRoles.fifty);
-            checkRole(level, 100, member, levelRoles.hundered);
+            if(!exception) checkRole(level, 100, member, levelRoles.hundered);
         }
     });
 }
@@ -126,8 +127,8 @@ exports.checkLevel = async (client, userId) => {
             break;
         }
     }
-    this.query("UPDATE user SET `level` = ? WHERE userId = ?", [level, userId]).then(()=>{
-        this.checkLevelRoles(client, userId);
+    this.query("UPDATE user SET `level` = ? WHERE userId = ?", [level, userId]).then(async ()=>{
+        await this.checkLevelRoles(client, userId);
     });
 }
 //#endregion

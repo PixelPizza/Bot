@@ -37,11 +37,10 @@ module.exports = {
         const result = results[0]; 
         const orderer = client.users.cache.get(result.userId)?.username || "Unknown orderer"; 
         const guild = client.guilds.cache.get(result.guildId); 
-        const channel = guild.channels.cache.get(result.channelId); 
+        const channel = guild?.channels.cache.get(result.channelId); 
         const orderDate = result.orderedAt;
         const cookDate = result.cookedAt;
         const deliverDate = result.deliveredAt;
-        channel.name = channel ? channel.name : "Deleted Channel"; 
         let cook = "none"; 
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let deliverer = "none"; 
@@ -61,12 +60,12 @@ module.exports = {
                 },
                 { 
                     name: "Guild name", 
-                    value: guild.name, 
+                    value: guild?.name || "Unknown guild", 
                     inline: true 
                 }, 
                 { 
                     name: "Ordered in channel", 
-                    value: channel.name, 
+                    value: channel?.name || "Unknown channel", 
                     inline: true 
                 },
                 {

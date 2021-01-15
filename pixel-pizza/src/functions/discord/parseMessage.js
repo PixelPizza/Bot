@@ -41,6 +41,11 @@ const parseUser = (type, user) => {
     }
 }
 
+const parseCustomer = (type, user) => {
+    type = !type ? "ping" : type;
+    return parseUser(type, user);
+}
+
 /**
  * Parses a timestamp to date, time or datetime
  * @param {"date" | "time" | "datetime"} [type] The type it should be parsed to (datetime if no value) 
@@ -83,7 +88,7 @@ const parseMessage = async (client, message, chef, customer, image, deliverer, o
     const addition = escaped ? "`" : "";
     return message
     .replace(makeUserRegex("chef"), (r, type) => addition+parseUser(type, chef)+addition)
-    .replace(makeUserRegex("customer"), (r, type) => addition+parseUser(type, customer)+addition)
+    .replace(makeUserRegex("customer"), (r, type) => addition+parseCustomer(type, customer)+addition)
     .replace(/{image}/g, image)
     .replace(/{invite}/g, invite.url.replace("https://", ""))
     .replace(makeUserRegex("deliverer"), (r, type) => addition+parseUser(type, deliverer)+addition)

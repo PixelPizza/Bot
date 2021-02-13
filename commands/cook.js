@@ -93,6 +93,8 @@ module.exports = {
             user?.send(confirmation);
             const earning = randomInt(50, 250);
             query("UPDATE `user` SET balance = balance + ? WHERE userId = ?", [earning, message.author.id]);
+            query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);
+            checkProChef(client.guildMembers.get(message.author.id));
             const embedMsgTimer = createEmbed({
                 color: silver.hex,
                 title: "Timer",
@@ -121,18 +123,18 @@ module.exports = {
                 }
             }, 10000);
             await wait(cookTime * 1000);
-            query("UPDATE `order` SET status = 'cooked', cookedAt = CURRENT_TIMESTAMP WHERE orderId = ?", [args[0]]);
-            query("UPDATE worker SET cooks = cooks + 1 WHERE workerId = ?", [message.author.id]);
-            embedMsg = editEmbed(embedMsg, {
-                color: blue.hex,
-                description: `Order ${args[0]} is done cooking`
-            });
-            if(!client.canSendEmbeds) embedMsg = embedMsg.description;
-            client.channels.cache.get(text.delivery).send(`<@&${pings.deliver}>`, embedMsg);
-            user?.send(editEmbed(confirmation, {
-                description: `Your order has been cooked`
-            }));
-            checkProChef(client.guildMembers.get(message.author.id));
+            const result = await query("UPDATE `order` SET status = 'cooked', cookedAt = CURRENT_TIMESTAMP WHERE orderId = ? AND status = 'cooking'", [args[0]]);
+            if(result.affectedRows > 0){
+                embedMsg = editEmbed(embedMsg, {
+                    color: blue.hex,
+                    description: `Order ${args[0]} is done cooking`
+                });
+                if(!client.canSendEmbeds) embedMsg = embedMsg.description;
+                client.channels.cache.get(text.delivery).send(`<@&${pings.deliver}>`, embedMsg);
+                user?.send(editEmbed(confirmation, {
+                    description: `Your order has been cooked`
+                }));
+            }
         });
     }
 }

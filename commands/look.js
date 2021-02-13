@@ -34,14 +34,15 @@ module.exports = {
                 description: `The order with order id ${args[0]} does not exist`
             }), client, message);
         } 
-        const result = results[0]; 
-        const orderer = client.users.cache.get(result.userId)?.username || "Unknown orderer"; 
-        const guild = client.guilds.cache.get(result.guildId); 
-        const channel = guild?.channels.cache.get(result.channelId); 
+        const result = results[0];
+        let orderer = client.users.cache.get(result.userId);
+        orderer = orderer ? `**Username**\n${orderer.username}\n**Tag**\n${orderer.tag}\n**Id**\n${orderer.id}` : "Unknown orderer";
+        const guild = client.guilds.cache.get(result.guildId);
+        const channel = guild?.channels.cache.get(result.channelId);
         const orderDate = result.orderedAt;
         const cookDate = result.cookedAt;
         const deliverDate = result.deliveredAt;
-        let cook = "none"; 
+        let cook = "none";
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let deliverer = "none"; 
         if (result.delivererId) deliverer = client.guildMembers.get(result.delivererId) ? client.users.cache.get(result.delivererId).username : "Deleted Deliverer"; 

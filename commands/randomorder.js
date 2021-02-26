@@ -7,7 +7,7 @@ const { blue, red } = PixelPizza.colors;
 module.exports = {
     name: "randomorder",
     description: "show a random delivered order",
-    aliases: ["randorder"],
+    aliases: ["randorder", "ro"],
     args: false,
     cooldown: 10,
     userType: "all",

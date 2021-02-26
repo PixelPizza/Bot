@@ -4,12 +4,12 @@
 [![](https://img.shields.io/github/issues/PixelPizza/PixelPizza-js?color=green&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/issues?q=is%3Aopen+is%3Aissue)
 [![](https://img.shields.io/github/issues-closed/PixelPizza/PixelPizza-js?color=red&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/issues?q=is%3Aissue+is%3Aclosed) 
 [![](https://img.shields.io/github/languages/top/PixelPizza/PixelPizza-js?color=yellow&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/search?l=javascript) 
-![](https://img.shields.io/github/package-json/v/PixelPizza/PixelPizza-js/PixelPizzaAlternate?label=version&style=plastic) 
-![](https://img.shields.io/github/contributors/PixelPizza/PixelPizza-js?style=plastic) 
-![](https://img.shields.io/github/last-commit/PixelPizza/PixelPizza-js/PixelPizzaAlternate?style=plastic) 
-![](https://img.shields.io/github/package-json/keywords/PixelPizza/PixelPizza-js?style=plastic) 
-![](https://img.shields.io/github/package-json/author/PixelPizza/PixelPizza-js?style=plastic&color=red) 
-![](https://img.shields.io/github/v/release/PixelPizza/PixelPizza-js?include_prereleases&style=plastic)
+[![](https://img.shields.io/github/package-json/v/PixelPizza/PixelPizza-js?label=version&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/blob/master/package.json)
+[![](https://img.shields.io/github/contributors/PixelPizza/PixelPizza-js?style=plastic)](https://github.com/PixelPizza/PixelPizza-js/graphs/contributors)
+[![](https://img.shields.io/github/last-commit/PixelPizza/PixelPizza-js?style=plastic)](https://github.com/PixelPizza/PixelPizza-js/commits/master)
+[![](https://img.shields.io/github/package-json/keywords/PixelPizza/PixelPizza-js?style=plastic)](https://github.com/PixelPizza/PixelPizza-js/blob/master/package.json)
+[![](https://img.shields.io/github/package-json/author/PixelPizza/PixelPizza-js?style=plastic&color=red)](https://github.com/PixelPizza/PixelPizza-js/blob/master/package.json)
+[![](https://img.shields.io/github/v/release/PixelPizza/PixelPizza-js?include_prereleases&style=plastic)](https://github.com/PixelPizza/PixelPizza-js/releases)
 
 <br />
 

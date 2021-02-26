@@ -17,7 +17,8 @@
 
 Description
 ---
-The first version of the pixel pizza discord bot
+The first version of the pixel pizza discord bot  
+The new version can be found at [Pixel Pizza 2](https://github.com/PixelPizza/PixelPizza-js2)
 
 Note
 ---

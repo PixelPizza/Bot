@@ -17,7 +17,7 @@
 
 Description
 ---
-An alternate version of the pixel pizza bot for if the website is down
+The first version of the pixel pizza discord bot
 
 Note
 ---

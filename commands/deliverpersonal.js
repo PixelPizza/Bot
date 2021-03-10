@@ -72,22 +72,21 @@ module.exports = {
         if (result.cookId) cook = client.guildMembers.get(result.cookId) ? client.users.cache.get(result.cookId).username : "Deleted Cook"; 
         let image = result.imageUrl; 
         let guild = client.guilds.cache.get(result.guildId); 
+        /** @type {discord.TextChannel} */
         let channel = client.channels.cache.get(result.channelId) ?? guild.systemChannel; 
-        channel.createInvite({ maxAge: 0, reason: "Delivering an order" }).then(async guildInvite => { 
-            deliveryMessage = await PixelPizza.parseMessage(client, deliveryMessage, cook, orderer, image, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), guild, channel, true);
-            message.author.send(deliveryMessage).then(() => { 
-                message.author.send(`Don't send this link to the orderer!\n${guildInvite.url}`).then(() => { 
-                    query("UPDATE `order` SET status = 'delivered', deliveryMethod = 'personal', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
-                    query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
-                    orderer.send(editEmbed(embedMsg, {
-                        color: blue.hex,
-                        title: `Confirmation`,
-                        description: `Your order is now being delivered by ${message.author}`
-                    })); 
-                    if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
-                    checkProDeliverer(client.guildMembers.get(message.author.id));
-                }); 
-            }); 
-        }); 
+        const guildInvite = await channel.createInvite({ maxAge: 0, reason: "Delivering an order" })
+        deliveryMessage = await PixelPizza.parseMessage(client, deliveryMessage, cook, orderer, image, message.author, args[0], result.order, result.orderedAt, result.cookedAt, Date.now(), guild, channel, true);
+        await message.author.send(deliveryMessage);
+        await message.author.send(`Don't send this link to the orderer!\n${guildInvite.url}`);
+        await message.channel.send("The delivery message has been sent to your DMs");
+        query("UPDATE `order` SET status = 'delivered', deliveryMethod = 'personal', delivererId = ?, deliveredAt = CURRENT_TIMESTAMP WHERE orderId = ?", [message.author.id, args[0]]); 
+        query("UPDATE worker SET deliveries = deliveries + 1 WHERE workerId = ?", [message.author.id]);
+        await orderer.send(editEmbed(embedMsg, {
+            color: blue.hex,
+            title: `Confirmation`,
+            description: `Your order is now being delivered by ${message.author}`
+        })); 
+        if(!member || !isVip(member)) setCooldown(client, "order", orderer.id, orderCooldown);
+        await checkProDeliverer(client.guildMembers.get(message.author.id));
     } 
 }

@@ -31,7 +31,7 @@ module.exports = {
             color: colors.red.hex
         });
         const yearly = (await query("SELECT lastYearly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        const lastDate = new Date(yearly.lastDate);
+        const lastDate = new Date(yearly?.lastDate);
         const yearlyDate = new Date(0);
         yearlyDate.setFullYear(lastDate.getFullYear() + 1);
         if(yearlyDate > message.createdTimestamp){
@@ -42,7 +42,7 @@ module.exports = {
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);
-        await query("UPDATE `user` SET balance = balance + ?, lastYearly = DATE(CURRENT_TIMESTAMP) WHERE userId = ?", [balance.yearly, message.author.id]);
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastYearly = DATE(CURRENT_TIMESTAMP)", [message.author.id, balance.yearly, balance.yearly]);
         sendEmbed(editEmbed(embedMsg, {
             title: "**Here is your yearly money**",
             color: colors.green.hex,

@@ -31,8 +31,8 @@ module.exports = {
             color: colors.red.hex
         });
         const daily = (await query("SELECT lastDaily as lastDate, dailyStreak as streak FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        let streak = daily.streak;
-        const dailyDate = new Date(daily.lastDate);
+        let streak = daily?.streak || 0;
+        const dailyDate = new Date(daily?.lastDate);
         const today = message.createdAt;
         for(let date of [dailyDate, today]){
             date.setHours(0);
@@ -53,7 +53,8 @@ module.exports = {
             streak: balance.daily.streak * streak
         }
         const currency = getEmoji(client.guild, config.currency);
-        await query("UPDATE `user` SET balance = balance + ?, lastDaily = DATE(CURRENT_TIMESTAMP), dailyStreak = ? WHERE userId = ?", [rewards.reward + rewards.streak, streak + 1, message.author.id]);
+        const reward = rewards.reward + rewards.streak;
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastDaily = DATE(CURRENT_TIMESTAMP), dailyStreak = ?", [message.author.id, reward, reward, streak + 1]);
         sendEmbed(editEmbed(embedMsg, {
             title: "**Here is your daily money**",
             color: colors.green.hex,

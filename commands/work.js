@@ -29,7 +29,7 @@ module.exports = {
             .replace(/{earning}/g, `${getEmoji(client.guild, config.currency)} ${earning}`)
             .replace(/{name}/g, config.workNames[randomInt(config.workNames.length)])
             .replace(/{botguild}/g, guild.name);
-        await query("UPDATE `user` SET balance = balance + ? WHERE userId = ?", [earning, message.author.id]);
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?", [message.author.id, earning, earning]);
         sendEmbed(createEmbed({
             color: colors.blue.hex,
             title: `**${capitalize(this.name)}**`,

@@ -31,7 +31,7 @@ module.exports = {
             color: colors.red.hex
         });
         const weekly = (await query("SELECT lastWeekly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        const weeklyDate = new Date(weekly.lastDate);
+        const weeklyDate = new Date(weekly?.lastDate);
         weeklyDate.setDate(weeklyDate.getDate() + ((1 + 7 - weeklyDate.getDay()) % 7));
         weeklyDate.setHours(0);
         weeklyDate.setMinutes(0);
@@ -43,7 +43,7 @@ module.exports = {
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);
-        await query("UPDATE `user` SET balance = balance + ?, lastWeekly = DATE(CURRENT_TIMESTAMP) WHERE userId = ?", [balance.weekly, message.author.id]);
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastWeekly = DATE(CURRENT_TIMESTAMP)", [message.author.id, balance.weekly, balance.weekly]);
         sendEmbed(editEmbed(embedMsg, {
             title: "**Here is your weekly money**",
             color: colors.green.hex,

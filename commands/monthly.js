@@ -31,7 +31,7 @@ module.exports = {
             color: colors.red.hex
         });
         const monthly = (await query("SELECT lastMonthly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        const monthlyDate = new Date(monthly.lastDate);
+        const monthlyDate = new Date(monthly?.lastDate);
         monthlyDate.setMonth(monthlyDate.getMonth() + 1);
         monthlyDate.setDate(1);
         monthlyDate.setHours(0);
@@ -44,7 +44,7 @@ module.exports = {
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);
-        await query("UPDATE `user` SET balance = balance + ?, lastMonthly = DATE(CURRENT_TIMESTAMP) WHERE userId = ?", [balance.monthly, message.author.id]);
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastMonthly = DATE(CURRENT_TIMESTAMP)", [message.author.id, balance.monthly, balance.monthly]);
         sendEmbed(editEmbed(embedMsg, {
             title: "**Here is your monthly money**",
             color: colors.green.hex,

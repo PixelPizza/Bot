@@ -27,6 +27,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client, options) {
+        return message.channel.send("This command is broken, it will be fixed soon");
         const embedMsg = createEmbed({
             color: colors.red.hex
         });

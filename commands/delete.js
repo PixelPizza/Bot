@@ -3,6 +3,7 @@ const PixelPizza = require('pixel-pizza');
 const { createEmbed, getUser, removeRole, sendEmbed, editEmbed } = PixelPizza;
 const { red, green } = PixelPizza.colors;
 const { work, deliverer, cook } = PixelPizza.roles;
+const { creators } = PixelPizza.config;
 const { query } = require("../dbfunctions");
 
 module.exports = {
@@ -38,6 +39,11 @@ module.exports = {
         if(!member){
             return sendEmbed(editEmbed(embedMsg, {
                 description: "This user is not in Pixel Pizza"
+            }), client, message);
+        }
+        if(creators.includes(user.id)){
+            return sendEmbed(editEmbed(embedMsg, {
+                description: "This worker can not be deleted"
             }), client, message);
         }
         const workers = await query("SELECT * FROM `worker` WHERE workerId = ?", [user.id]);

@@ -84,9 +84,6 @@ client.on('error', err => {
 //#endregion
 //#region client ready
 client.on('ready', async () => {
-    /** @type {VoiceChannel} */
-    const totalGuilds = client.guild.channels.cache.get(voice.guilds);
-    totalGuilds.setName(`Total guilds: ${client.guilds.cache.size}`);
     // post bot stats to top.gg
     setInterval(() => {
         client.dbl.postStats({
@@ -94,6 +91,9 @@ client.on('ready', async () => {
         });
     }, 1800000);
     client.guild = client.guilds.cache.get(botGuild);
+    /** @type {VoiceChannel} */
+    const totalGuilds = client.guild.channels.cache.get(voice.guilds);
+    totalGuilds.setName(`Total guilds: ${client.guilds.cache.size}`);
     const delivery = client.guild.channels.cache.get(text.delivery);
     client.guildMembers = await client.guild.members.fetch();
     updateGuildAmount(client);

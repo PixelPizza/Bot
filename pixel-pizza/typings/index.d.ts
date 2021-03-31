@@ -118,6 +118,7 @@ declare module 'pixel-pizza' {
      */
     export const channels: {
         voice: {
+            guilds: Snowflake,
             allMembers: Snowflake,
             members: Snowflake,
             bots: Snowflake
@@ -203,6 +204,9 @@ declare module 'pixel-pizza' {
         work: Snowflake,
         ceo: Snowflake,
         verified: Snowflake,
+        student: Snowflake,
+        cookingstudent: Snowflake,
+        deliverystudent: Snowflake,
         worker: Snowflake[],
         teacher: Snowflake[],
         staff: Snowflake[],

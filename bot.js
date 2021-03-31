@@ -2,7 +2,7 @@
 //#region requires
 const fs = require('fs');
 const PixelPizza = require("pixel-pizza");
-const { Collection, Permissions } = require('discord.js');
+const { Collection, Permissions, VoiceChannel } = require('discord.js');
 const {Api} = require("@top-gg/sdk");
 const token = fs.existsSync("./secrets.json") ? require('./secrets.json').token : process.env.BOT_TOKEN;
 const { addUser, query, addExp, isBlacklisted } = require('./dbfunctions');
@@ -26,14 +26,12 @@ colors I use:
 */
 const { blue, green, red, black } = PixelPizza.colors;
 const { noice, noice2 } = PixelPizza.emojis;
-const { text } = PixelPizza.channels;
+const { text, voice } = PixelPizza.channels;
 const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director, makers } = PixelPizza.roles;
 const { msToString, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-// const extensions = fs.readdirSync('./extensions').filter(file => fs.lstatSync(`./extensions/${file}`).isDirectory());
 //#endregion
 //#region custom client variables
-// client.extensions = [];
 client.dbl = new Api(fs.existsSync("./secrets.json") ? require('./secrets.json').dbltoken : process.env.DBL_TOKEN);
 client.commands = new Collection();
 client.cooldowns = new Collection();
@@ -59,21 +57,6 @@ for (let file of cmdFiles) {
     const command = require('./commands/' + file);
     client.commands.set(command.name, command);
 }
-
-// for (let extension of extensions) {
-//     client.extensions.push(extension);
-//     const dir = `./extensions/${extension}`;
-//     for(let file of fs.readdirSync(dir).filter(file => file.endsWith(".js"))){
-//         if(file == "init.js") {
-//              require(`${dir}/${file}`).init(client);
-//              continue;
-//         }
-//         const command = require(`${dir}/${file}`);
-//         client.commands.set(command.name, Object.assign(command, {
-//             extension: extension
-//         }));
-//     }
-// }
 //#endregion
 
 //#region process events
@@ -101,6 +84,9 @@ client.on('error', err => {
 //#endregion
 //#region client ready
 client.on('ready', async () => {
+    /** @type {VoiceChannel} */
+    const totalGuilds = client.guild.channels.cache.get(voice.guilds);
+    totalGuilds.setName(`Total guilds: ${client.guilds.cache.size}`);
     // post bot stats to top.gg
     setInterval(() => {
         client.dbl.postStats({
@@ -165,11 +151,13 @@ client.on('ready', async () => {
         }), client, delivery);
     }
     success('Ready', `${client.user.username} is ready`);
-    // console.log((await client.shard.broadcastEval(`this.guilds.cache.get("${botGuild}")`)).find(value => value != null));
 });
 //#endregion
 //#region client guildCreate
 client.on('guildCreate', guild => {
+    /** @type {VoiceChannel} */
+    const totalGuilds = client.guild.channels.cache.get(voice.guilds);
+    totalGuilds.setName(`Total guilds: ${client.guilds.cache.size}`);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
         color: green.hex,
         title: "Added",
@@ -192,6 +180,9 @@ client.on('guildCreate', guild => {
 //#endregion
 //#region client guildDelete
 client.on('guildDelete', guild => {
+    /** @type {VoiceChannel} */
+    const totalGuilds = client.guild.channels.cache.get(voice.guilds);
+    totalGuilds.setName(`Total guilds: ${client.guilds.cache.size}`);
     sendGuildLog(guild.name, guild.iconURL(), createEmbed({
         color: red.hex,
         title: "Removed",

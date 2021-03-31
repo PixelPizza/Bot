@@ -24,7 +24,7 @@ const updateGuildAmount = (client) => {
         const messages = [`${serverAmount}${suffixUsed} guilds`, `v1.2`, `${prefix}help`];
         client.user.setActivity(messages[message], opts);
         message = message == messages.length - 1 ? 0 : message + 1;
-    }, 30000);
+    }, 10000);
 }
 
 module.exports = updateGuildAmount;

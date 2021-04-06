@@ -18,6 +18,7 @@ const database = secrets ? secrets.database : {
 //#endregion
 
 //#region handleDisconnect
+/** @type {mysql.Connection} */
 let con;
 /**
  * Handle the disconnection of a database
@@ -33,7 +34,7 @@ const handleDisconnect = () => {
     });
     con.on('error', err => {
         error('DB error', err);
-        if(err.code === 'PROTOCOL_CONNECTION_LOST')handleDisconnect();
+        if(err.code === 'PROTOCOL_CONNECTION_LOST' || err.message === "Can't add new command when connection is in closed state")handleDisconnect();
         else throw err;
     });
 }
@@ -48,7 +49,10 @@ handleDisconnect();
  * @returns {Promise<any>}
  */
 exports.query = (query, options = []) => new Promise((resolve, reject)=>con.execute(query, options, (error, result) => {
-    if(error) reject(error);
+    if(error) {
+        con.emit("error", error);
+        reject(error);
+    }
     else resolve(result);
 }));
 //#endregion

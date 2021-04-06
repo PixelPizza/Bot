@@ -22,8 +22,10 @@ The new version can be found at [Pixel Pizza 2](https://github.com/PixelPizza/Pi
 
 Note
 ---
-You are allowed to make your own version using my code (although I would not know why you would want to do that), but keep in mind that if you use this code you will have to configure many things to get it working. 
+* You are allowed to make your own version using my code (although I would not know why you would want to do that), but keep in mind that if you use this code you will have to configure many things to get it working. 
 **Pixel Pizza is not going to help setting up, because of the amount of time that takes**
+
+* This repository is outdated
 
 Commands
 ---

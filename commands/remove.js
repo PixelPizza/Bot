@@ -36,7 +36,10 @@ module.exports = {
             }), client, message);
         } 
         sendEmbed(editEmbed(embedMsg, {
-            description: `What rule has been broken (please send the rule number)?\n\`\`\`\n${rules.join("\n")}\`\`\``
+            description: `What rule has been broken (please send the rule number)?\n\`\`\`\n${rules.join("\n")}\`\`\``,
+            footer: {
+                text: "Type cancel to cancel"
+            }
         }), client, message).then(msg => { 
             message.channel.createMessageCollector(m => {
                 if (m.content === "cancel") return true; 

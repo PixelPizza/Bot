@@ -42,10 +42,10 @@ module.exports = {
             }
         }), client, message).then(msg => { 
             message.channel.createMessageCollector(m => {
-                if (m.content === "cancel") return true; 
+                if (m.content.toLowerCase() === "cancel") return true;
                 return m.author === message.author && !isNaN(m.content) && parseInt(m.content) <= rules.length; 
             }, { max: 1 }).on('collect', m => { 
-                if (m.content === "cancel") return msg.edit(createEmbed({
+                if (m.content.toLowerCase() === "cancel") return msg.edit(createEmbed({
                     color: PixelPizza.colors.green.hex,
                     title: "Remove canceled",
                     description: "The removal has been canceled"

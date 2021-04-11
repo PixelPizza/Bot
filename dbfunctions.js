@@ -35,7 +35,7 @@ const handleDisconnect = () => {
     con.on('error', err => {
         error('DB error', err);
         if(err.code === 'PROTOCOL_CONNECTION_LOST' || err.message === "Can't add new command when connection is in closed state")handleDisconnect();
-        else if (err.code === "ECONNREFUSED") setTimeout(handleDisconnect, 2000);
+        else if (["ETIMEDOUT", "ECONNREFUSED"].includes(err.code)) setTimeout(handleDisconnect, 2000);
         else throw err;
     });
 }

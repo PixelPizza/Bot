@@ -27,6 +27,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client, options) {
+        if(message.deletable) message.delete();
         const embedMsg = createEmbed({
             color: red.hex,
             title: `**${capitalize(this.name)}**`
@@ -121,7 +122,6 @@ module.exports = {
                     VALUES(?,?,?,?)",
                     [appId, message.author.id, applyType.name, JSON.stringify(answers)]
                 );
-                if(message.deletable) message.delete();
             }
         }
         askQuestion();

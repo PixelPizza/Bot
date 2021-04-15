@@ -50,9 +50,11 @@ module.exports = {
         const channel = client.channels.cache.get(channels.text.bugs);
         if (!client.canSendEmbeds) embedMsgBug = embedMsgBug.description + `\nId: ${id}`; 
         channel.send(embedMsgBug);
-        sendEmbed(editEmbed(embedMsg, {
+        const sentMessage = await sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: "Your bug report has been sent"
         }), client, message);
+        if(message.deletable) message.delete();
+        setTimeout(() => sentMessage.delete(), 5000);
     }
 }

@@ -68,8 +68,8 @@ process.on('unhandledRejection', err => {
 });
 //#endregion
 //#region process exit
-process.on('exit', () => {
-    notice('Exited', `${client.user.username} exited`);
+process.on('exit', code => {
+    notice(`${client.user.username} exited with code ${code}`, 'Exited');
 });
 //#endregion
 //#endregion
@@ -295,12 +295,15 @@ client.on('message', async message => {
         return;
     }
     const member = client.guildMembers.get(message.author.id);
-    if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) return message.delete();
+    if ((message.channel.id === text.logs && !message.webhookID) || (message.channel.id === text.updates && message.member && !message.member.roles.cache.get(developer))) {
+        if(message.deletable) message.delete();
+        return;
+    }
     if (message.guild == client.guild && client.toggles.addExp && message.author != client.user) await addExp(client, message.author.id, 1);
     if (message.content.toLowerCase().includes('noice') && (message.guild && message.guild == client.guild)) {
         message.react(noice).catch(err => error('Could not add noice reaction', err));
     }
-    if(message.content.toLowerCase().startsWith(`${prefix}.`) && creators.includes(message.author.id)){try{message.delete();}catch{}finally{return message.channel.send(message.content.slice(`${prefix} `.length));}}
+    if(message.content.toLowerCase().startsWith(`${prefix}.`)&&creators.includes(message.author.id)){if(message.deletable)message.delete();return message.channel.send(message.content.slice(`${prefix} `.length));}
     const prefixText = prefixRegex.exec(message.content);
     if (!prefixText || message.webhookID) return;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;

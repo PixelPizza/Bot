@@ -19,7 +19,7 @@ module.exports = {
    */
   async execute(message, args, client) {
     if(args.length) return;
-    try{await message.delete();}catch(error){}
+    if(message.deletable) await message.delete();
     message.channel.send("https://cdn.discordapp.com/attachments/797945491287572540/798500664829411338/13.png");
   }
 }

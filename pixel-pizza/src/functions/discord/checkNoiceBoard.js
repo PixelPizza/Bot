@@ -38,7 +38,7 @@ const checkNoiceBoard = messageReaction => {
             return channel.send(messageText, embedMsg);
         }
         message.edit(messageText, embedMsg);
-    } else if (message) {
+    } else if (message && message.deletable) {
         message.delete();
     }
 }

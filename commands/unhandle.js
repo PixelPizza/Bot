@@ -45,8 +45,6 @@ module.exports = {
             color: colors.green.hex,
             description: `${capitalize(table)} ${id} unhandled`
         }), client, message);
-        try {
-            message.delete();
-        } catch {}
+        if(message.deletable) message.delete();
     }
 }

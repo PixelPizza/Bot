@@ -121,6 +121,7 @@ module.exports = {
                     VALUES(?,?,?,?)",
                     [appId, message.author.id, applyType.name, JSON.stringify(answers)]
                 );
+                if(message.deletable) message.delete();
             }
         }
         askQuestion();

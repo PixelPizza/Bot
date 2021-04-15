@@ -50,9 +50,11 @@ module.exports = {
         const channel = client.channels.cache.get(channels.text.complaints);
         if (!client.canSendEmbeds) embedMsgComplaint = embedMsgComplaint.description + `\nId: ${id}`; 
         channel.send(embedMsgComplaint);
-        sendEmbed(editEmbed(embedMsg, {
+        const sentMessage = await sendEmbed(editEmbed(embedMsg, {
             color: colors.green.hex,
             description: "Your complaint has been sent"
         }), client, message);
+        if(message.deletable) message.delete();
+        setTimeout(() => sentMessage.delete(), 5000);
     }
 }

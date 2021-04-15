@@ -55,9 +55,7 @@ module.exports = {
             color: colors.green.hex,
             description: "Your suggestion has been sent"
         }), client, message);
-        try {
-            message.delete();  
-        } catch {}
+        if(message.deletable) message.delete();
         setTimeout(() => sentMessage.delete(), 5000);
     }
 }

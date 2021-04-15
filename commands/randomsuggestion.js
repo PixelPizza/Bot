@@ -48,8 +48,6 @@ module.exports = {
                 text: `id: ${suggestion.suggestionId} | handled: no | staff: none`
             }
         }), client, message);
-        try {
-            message.delete();
-        } catch {}
+        if(message.deletable) message.delete();
     }
 }

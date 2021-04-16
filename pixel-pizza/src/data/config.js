@@ -30,7 +30,12 @@ module.exports = {
         "You found bugs in a program and earned {earning}",
         "Someone walked up to you, gave you {earning} and then ran away",
         "You work in a pizza factory, you were given {earning} for your good work",
-        "You beat {name} in battle, you win {earning}"
+        "You beat {name} in battle, you win {earning}",
+        "You got your salery from ${name}",
+        "You just helped a rich man and they gave u {earning}",
+        "You just work as a programmer and earn {earning}",
+        "You fixied a drainage pipe and got {earning}",
+        "Found {earning} in street"
     ],
     workNames: [
         "Rick",

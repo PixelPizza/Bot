@@ -31,7 +31,7 @@ module.exports = {
         "Someone walked up to you, gave you {earning} and then ran away",
         "You work in a pizza factory, you were given {earning} for your good work",
         "You beat {name} in battle, you win {earning}",
-        "You got your salery from ${name}",
+        "You got your salery from ${name}, you were given {earning}",
         "You just helped a rich man and they gave u {earning}",
         "You just work as a programmer and earn {earning}",
         "You fixied a drainage pipe and got {earning}",

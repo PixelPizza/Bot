@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const PixelPizza = require("pixel-pizza");
 const { query } = require("../dbfunctions");
+const ms = require("parse-ms");
 const {balance, createEmbed, colors, sendEmbed, editEmbed, getEmoji, config} = PixelPizza;
 
 module.exports = {
@@ -12,6 +13,7 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    timeout: 7 * 24 * 60 * 60 * 1000,
     /**
      * Execute this command
      * @param {discord.Message} message
@@ -27,20 +29,16 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client, options) {
-        return await message.channel.send("ppweekly is broken again, sorry for the inconvenience");
         const embedMsg = createEmbed({
             color: colors.red.hex
         });
         const weekly = (await query("SELECT lastWeekly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        const weeklyDate = new Date(weekly?.lastDate);
-        weeklyDate.setDate(weeklyDate.getDate() + ((1 + 7 - weeklyDate.getDay()) % 7));
-        weeklyDate.setHours(0);
-        weeklyDate.setMinutes(0);
-        weeklyDate.setSeconds(0);
-        if(weeklyDate > message.createdTimestamp){
+        const weeklyDate = weekly.lastDate;
+        if(weeklyDate !== null && this.timeout - (Date.now() - weeklyDate) > 0){
+            const time = ms(Date.now() - weeklyDate);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
-                description: `Cmon, you already claimed your weekly money\nPlease try again next week`
+                description: `Cmon, you already claimed your weekly money\nPlease try again in ${time.days} day(s)`
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);

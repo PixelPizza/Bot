@@ -27,6 +27,7 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client, options) {
+        return await message.channel.send("ppweekly is broken again, sorry for the inconvenience");
         const embedMsg = createEmbed({
             color: colors.red.hex
         });

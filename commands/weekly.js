@@ -34,8 +34,9 @@ module.exports = {
         });
         const weekly = (await query("SELECT lastWeekly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
         const weeklyDate = weekly.lastDate;
-        if(weeklyDate !== null && this.timeout - (Date.now() - weeklyDate) > 0){
-            const time = ms(Date.now() - weeklyDate);
+        let time = this.timeout - (Date.now() - weeklyDate);
+        if(weeklyDate !== null && time > 0){
+            time = ms(time);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
                 description: `Cmon, you already claimed your weekly money\nPlease try again in ${time.days} day(s), ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`

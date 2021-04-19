@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const PixelPizza = require("pixel-pizza");
 const { query } = require("../dbfunctions");
+const ms = require("parse-ms");
 const {balance, createEmbed, colors, sendEmbed, editEmbed, getEmoji, config} = PixelPizza;
 
 module.exports = {
@@ -12,6 +13,7 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    timeout: 24 * 60 * 60 * 1000,
     /**
      * Execute this command
      * @param {discord.Message} message
@@ -31,23 +33,16 @@ module.exports = {
             color: colors.red.hex
         });
         const daily = (await query("SELECT lastDaily as lastDate, dailyStreak as streak FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        let streak = daily?.streak || 0;
-        const dailyDate = new Date(daily?.lastDate);
-        const today = message.createdAt;
-        for(let date of [dailyDate, today]){
-            date.setHours(0);
-            date.setMinutes(0);
-            date.setSeconds(0);
-        }
-        const difference = Math.round((today.getTime() - dailyDate.getTime()) / (1000 * 3600 * 24));
-        if(difference > 1) streak = 0;
-        dailyDate.setDate(dailyDate.getDate() + 1);
-        if(dailyDate > message.createdTimestamp){
+        const dailyDate = daily.lastDate;
+        let time = this.timeout - (Date.now() - dailyDate);
+        if(dailyDate !== null && time > 0){
+            time = ms(time);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
-                description: "Cmon, you already claimed your daily money\nPlease try again tomorrow"
+                description: `Cmon, you already claimed your daily money\nPlease try in ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`
             }), client, message);
         }
+        let streak = daily.streak ?? 0;
         const rewards = {
             reward: balance.daily.reward,
             streak: balance.daily.streak * streak

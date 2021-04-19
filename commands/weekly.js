@@ -38,11 +38,11 @@ module.exports = {
             const time = ms(Date.now() - weeklyDate);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
-                description: `Cmon, you already claimed your weekly money\nPlease try again in ${time.days} day(s)`
+                description: `Cmon, you already claimed your weekly money\nPlease try again in ${time.days} day(s), ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);
-        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastWeekly = DATE(CURRENT_TIMESTAMP)", [message.author.id, balance.weekly, balance.weekly]);
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastWeekly = CURRENT_TIMESTAMP", [message.author.id, balance.weekly, balance.weekly]);
         sendEmbed(editEmbed(embedMsg, {
             title: "**Here is your weekly money**",
             color: colors.green.hex,

@@ -1,6 +1,8 @@
 const discord = require("discord.js");
+const e = require("express");
 const PixelPizza = require("pixel-pizza");
 const { query } = require("../dbfunctions");
+const ms = require("parse-ms");
 const {balance, createEmbed, colors, sendEmbed, editEmbed, getEmoji, config} = PixelPizza;
 
 module.exports = {
@@ -27,20 +29,34 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client, options) {
+        // TODO check timeout
         const embedMsg = createEmbed({
             color: colors.red.hex
         });
         const monthly = (await query("SELECT lastMonthly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
         const monthlyDate = monthly.lastDate;
-        monthlyDate.setMonth(monthlyDate.getMonth() + 1);
-        monthlyDate.setDate(1);
-        monthlyDate.setHours(0);
-        monthlyDate.setMinutes(0);
-        monthlyDate.setSeconds(0);
-        if(monthlyDate > message.createdTimestamp){
+        const month = monthlyDate?.getMonth();
+        const nextMonth = month == 11 ? 0 : month + 1;
+        let days;
+        // January, March, May, July, August, October, December
+        if([0, 2, 4, 6, 7, 9, 11].includes(nextMonth)){
+            days = 31;
+        }
+        // April, June, September, November
+        else if ([3, 5, 8, 10].includes(nextMonth)){
+            days = 30;
+        }
+        // February or null
+        else {
+            days = monthlyDate?.getFullYear() % 4 == 0 ? 29 : 28;
+        }
+        const timeout = days * 24 * 60 * 60 * 1000;
+        let time = timeout - (Date.now() - monthlyDate);
+        if(monthlyDate !== null && time > 0){
+            time = ms(time);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
-                description: `Cmon, you already claimed your monthly money\nPlease try again next month`
+                description: `Cmon, you already claimed your monthly money\nPlease try again in ${time.days} day(s), ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);

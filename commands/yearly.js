@@ -1,6 +1,7 @@
 const discord = require("discord.js");
 const PixelPizza = require("pixel-pizza");
 const { query } = require("../dbfunctions");
+const ms = require("parse-ms");
 const {balance, createEmbed, colors, sendEmbed, editEmbed, getEmoji, config} = PixelPizza;
 
 module.exports = {
@@ -12,6 +13,7 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    timeout: 365 * 24 * 60 * 60 * 1000,
     /**
      * Execute this command
      * @param {discord.Message} message
@@ -31,14 +33,14 @@ module.exports = {
             color: colors.red.hex
         });
         const yearly = (await query("SELECT lastYearly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        const lastDate = new Date(yearly?.lastDate);
-        const yearlyDate = new Date(0);
-        yearlyDate.setFullYear(lastDate.getFullYear() + 1);
-        if(yearlyDate > message.createdTimestamp){
-            const daysLeft = 0;
+        const yearlyDate = yearly.lastDate;
+        const timeout = this.timeout + ((yearlyDate?.getFullYear() + 1) % 4 == 0 ? (24 * 60 * 60 * 1000) : 0);
+        let time = timeout - (Date.now() - yearlyDate);
+        if(yearlyDate !== null && time > 0){
+            time = ms(time);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
-                description: `Cmon, you already claimed your yearly money\nPlease try again next year`
+                description: `Cmon, you already claimed your yearly money\nPlease try again in ${time.days} day(s), ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);

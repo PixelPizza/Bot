@@ -49,7 +49,7 @@ module.exports = {
         }
         const currency = getEmoji(client.guild, config.currency);
         const reward = rewards.reward + rewards.streak;
-        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastDaily = DATE(CURRENT_TIMESTAMP), dailyStreak = ?", [message.author.id, reward, reward, streak + 1]);
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastDaily = CURRENT_TIMESTAMP, dailyStreak = ?", [message.author.id, reward, reward, streak + 1]);
         sendEmbed(editEmbed(embedMsg, {
             title: "**Here is your daily money**",
             color: colors.green.hex,

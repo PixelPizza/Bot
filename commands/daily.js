@@ -39,7 +39,7 @@ module.exports = {
             time = ms(time);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
-                description: `Cmon, you already claimed your daily money\nPlease try in ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`
+                description: `Cmon, you already claimed your daily money\nPlease try again in ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`
             }), client, message);
         }
         let streak = daily.streak ?? 0;

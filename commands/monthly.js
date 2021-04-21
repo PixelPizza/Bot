@@ -14,6 +14,20 @@ module.exports = {
     neededPerms: [],
     pponly: false,
     removeExp: false,
+    getDays(date){
+        const month = date?.getMonth();
+        const nextMonth = month == 11 ? 0 : month + 1;
+        // January, March, May, July, August, October, December
+        if([0, 2, 4, 6, 7, 9, 11].includes(nextMonth)){
+            return 31;
+        }
+        // April, June, September, November
+        else if ([3, 5, 8, 10].includes(nextMonth)){
+            return 30;
+        }
+        // February or null
+        return date?.getFullYear() % 4 == 0 ? 29 : 28;
+    },
     /**
      * Execute this command
      * @param {discord.Message} message
@@ -29,28 +43,12 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async execute(message, args, client, options) {
-        // TODO check timeout
         const embedMsg = createEmbed({
             color: colors.red.hex
         });
         const monthly = (await query("SELECT lastMonthly as lastDate FROM `user` WHERE userId = ?", [message.author.id]))[0];
         const monthlyDate = monthly.lastDate;
-        const month = monthlyDate?.getMonth();
-        const nextMonth = month == 11 ? 0 : month + 1;
-        let days;
-        // January, March, May, July, August, October, December
-        if([0, 2, 4, 6, 7, 9, 11].includes(nextMonth)){
-            days = 31;
-        }
-        // April, June, September, November
-        else if ([3, 5, 8, 10].includes(nextMonth)){
-            days = 30;
-        }
-        // February or null
-        else {
-            days = monthlyDate?.getFullYear() % 4 == 0 ? 29 : 28;
-        }
-        const timeout = days * 24 * 60 * 60 * 1000;
+        const timeout = this.getDays(monthlyDate) * 24 * 60 * 60 * 1000;
         let time = timeout - (Date.now() - monthlyDate);
         if(monthlyDate !== null && time > 0){
             time = ms(time);

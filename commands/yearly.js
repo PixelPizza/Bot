@@ -44,7 +44,7 @@ module.exports = {
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);
-        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastYearly = DATE(CURRENT_TIMESTAMP)", [message.author.id, balance.yearly, balance.yearly]);
+        await query("INSERT INTO `user`(`userId`, `balance`) VALUES(?, ?) ON DUPLICATE KEY UPDATE balance = balance + ?, lastYearly = CURRENT_TIMESTAMP", [message.author.id, balance.yearly, balance.yearly]);
         sendEmbed(editEmbed(embedMsg, {
             title: "**Here is your yearly money**",
             color: colors.green.hex,

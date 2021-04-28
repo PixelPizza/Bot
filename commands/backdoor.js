@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const PixelPizza = require('pixel-pizza');
-const { createEmbed, getGuild, sendEmbed, capitalize } = PixelPizza;
+const { createEmbed, sendEmbed, capitalize } = PixelPizza;
+const {query} = require('../dbfunctions');
 const { red } = PixelPizza.colors;
 
 module.exports = {

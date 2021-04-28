@@ -5,12 +5,12 @@ const { red } = PixelPizza.colors;
 
 module.exports = {
     name: "backdoor",
-    description: "get invite link of a guild (this is used for if the invite is lost or has been expired)",
+    description: "get invite link of a guild by order (this is used for if the invite is lost or has been expired)",
     args: true,
     minArgs: 1,
-    usage: "<guild>",
+    usage: "<order id>",
     cooldown: 0,
-    userType: "staff",
+    userType: "worker",
     neededPerms: ["CREATE_INSTANT_INVITE"],
     pponly: true,
     removeExp: false,
@@ -26,10 +26,17 @@ module.exports = {
             color: red.hex,
             title: `**${capitalize(this.name)}**`
         });
-        const guild = getGuild(args, client);
+        const orders = await query("SELECT * FROM `order` WHERE orderId = ? AND status = 'delivered' AND deliveryMethod = 'personal' AND delivererId = ?", [args[0], message.author.id]);
+        if(!orders.length){
+            return sendEmbed(PixelPizza.editEmbed(embedMsg, {
+                description: "Could not find an order that was delivered personally by you with that id"
+            }), client, message);
+        }
+        const order = orders[0];
+        const guild = client.guilds.cache.get(order.guildId);
         if(!guild){
             return sendEmbed(PixelPizza.editEmbed(embedMsg, {
-                description: 'Could not find guild, please be more specific'
+                description: 'Could not find guild'
             }), client, message);
         }
         const channel = guild.channels.cache.find(channel => channel.type == "text" && channel.permissionsFor(guild.me).has(discord.Permissions.FLAGS.CREATE_INSTANT_INVITE));

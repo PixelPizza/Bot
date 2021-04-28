@@ -33,7 +33,8 @@ module.exports = {
      * }} options
      * @returns {Promise<void>}
      */
-    async execute(message, args, client, options) { 
+    async execute(message, args, client, options) {
+        return message.channel.send("Disabled atm");
         let embedMsg = createEmbed({ 
             color: red.hex, 
             title: "deliver" 

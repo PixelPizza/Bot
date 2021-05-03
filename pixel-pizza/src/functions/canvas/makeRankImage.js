@@ -37,9 +37,8 @@ const makeRankImg = async (user, level, exp, rank, style) => {
     const ctx = canvas.getContext("2d");
     exp = exp < 0 ? 0 : exp;
     level = level < 0 ? 0 : level;
-    level = level > 100 ? 100 : level;
     rank = rank >= 100 ? "99+" : rank;
-    let neededExp = level == 100 ? baseexp * level + addexp * (level - 1) : baseexp * (level + 1) + addexp * level;
+    let neededExp = baseexp * (level + 1) + addexp * level;
     let ranktext = `#${rank}`;
     ctx.fillStyle = style.back;
     ctx.fillRect(0, 0, 700, 250);

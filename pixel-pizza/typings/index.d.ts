@@ -216,8 +216,12 @@ declare module 'pixel-pizza' {
             ten: Snowflake,
             twentyfive: Snowflake,
             fifty: Snowflake,
-            hundered: Snowflake
+            hundered: Snowflake,
+            onetwentyfive: Snowflake,
+            onefifty: Snowflake,
+            twohundered: Snowflake
         },
+        vip: Snowflake,
         pings: {
             cook: Snowflake,
             deliver: Snowflake

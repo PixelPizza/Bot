@@ -7,7 +7,7 @@ const mysql = require("mysql2");
 const {addRole, removeRole, hasRole, error} = PixelPizza;
 const {baseexp, addexp} = PixelPizza.level;
 const {botGuild, idLength, proAmount} = PixelPizza.config;
-const {levelRoles, proCook, proDeliverer} = PixelPizza.roles;
+const {levelRoles, proCook, proDeliverer, vip} = PixelPizza.roles;
 const secrets = fs.existsSync("./secrets.json") ? require('./secrets.json') : null;
 const database = secrets ? secrets.database : {
     host: process.env.DATABASE_HOST, 
@@ -105,7 +105,11 @@ exports.checkLevelRoles = async (client, userId) => {
             checkRole(level, 10, member, levelRoles.ten);
             checkRole(level, 25, member, levelRoles.twentyfive);
             checkRole(level, 50, member, levelRoles.fifty);
-            if(!exception) checkRole(level, 100, member, levelRoles.hundered);
+            checkRole(level, 100, member, levelRoles.hundered);
+            if(!exception) checkRole(level, 100, member, vip);
+            checkRole(level, 125, member, levelRoles.onetwentyfive);
+            checkRole(level, 150, member, levelRoles.onefifty);
+            checkRole(level, 200, member, levelRoles.twohundered);
         }
     });
 }

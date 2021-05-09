@@ -11,7 +11,6 @@ const sendServerLog = require("./sendServerLog");
  */
 const fatal = (text, title = "") => {
     console.log(redBright(title), text);
-    sendServerLog(title, text);
 }
 
 module.exports = fatal;

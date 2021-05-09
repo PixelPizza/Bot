@@ -8,6 +8,7 @@ const {serverLog} = require("../../data/webhooks");
  * @param {string} text The text to log
  * @param {string} title The title of the log
  * @returns {Promise<void>}
+ * @deprecated
  */
 const sendServerLog = async (text, title = "") => {
     const logger = new WebhookClient(serverLog.id, serverLog.token);

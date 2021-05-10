@@ -53,7 +53,7 @@ module.exports = {
             },
             fields: fields,
             footer: {
-                text: `id: ${args[0]} | status: ${result.status} | staff: ${staffMember.displayName || staffMember}`
+                text: `id: ${args[0]} | status: ${result.status} | staff: ${staffMember.displayName || staffMember} | type: ${result.applicationType}`
             }
         });
         if(!client.canSendEmbeds){

@@ -107,7 +107,7 @@ module.exports = {
                         icon: message.author.displayAvatarURL()
                     },
                     footer: {
-                        text: `id: ${appId} | status: none | staff: none | type: ${applyType}`
+                        text: `id: ${appId} | status: none | staff: none | type: ${applyType.name}`
                     }
                 });
                 for (let answer of answers) embedMsgAnswers.addField(answer.question, answer.answer);

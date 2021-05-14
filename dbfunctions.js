@@ -103,7 +103,7 @@ exports.checkLevelRoles = async (client, userId) => {
         if(result.length){
             const level = result[0].level;
             const member = client.guilds.cache.get(botGuild).members.cache.get(userId);
-            const levelGoals = [
+            [
                 {
                     goal: 5,
                     role: levelRoles.five
@@ -136,9 +136,9 @@ exports.checkLevelRoles = async (client, userId) => {
                     goal: 200,
                     role: levelRoles.twohundered
                 }
-            ];
-            levelGoals.forEach((levelGoal, index) => {
-                checkRole(level, levelGoal.goal, member, levelGoal.role, levelGoals[index + 1]?.goal);
+            ].forEach((levelGoal, index, goals) => {
+                console.log(goals[index + 1]);
+                checkRole(level, levelGoal.goal, member, levelGoal.role, goals[index + 1]?.goal);
             });
             if(!exception) checkRole(level, 100, member, vip);
         }

@@ -77,12 +77,14 @@ exports.addUser = userId => {
  * @param {number} goal 
  * @param {discord.GuildMember} member 
  * @param {discord.RoleResolvable} role 
+ * @param {?number} nextGoal
  * @returns {void}
  */
-const checkRole = (number, goal, member, role) => {
-    if(number >= goal && !hasRole(member, role)){
+const checkRole = (number, goal, member, role, nextGoal) => {
+    const memberHasRole = hasRole(member, role);
+    if(number >= goal && (nextGoal ? number < nextGoal : true) && !memberHasRole) {
         addRole(member, role);
-    } else if (number < goal && hasRole(member, role)){
+    } else if (number < goal && memberHasRole) {
         removeRole(member, role);
     }
 }
@@ -101,15 +103,44 @@ exports.checkLevelRoles = async (client, userId) => {
         if(result.length){
             const level = result[0].level;
             const member = client.guilds.cache.get(botGuild).members.cache.get(userId);
-            checkRole(level, 5, member, levelRoles.five);
-            checkRole(level, 10, member, levelRoles.ten);
-            checkRole(level, 25, member, levelRoles.twentyfive);
-            checkRole(level, 50, member, levelRoles.fifty);
-            checkRole(level, 100, member, levelRoles.hundered);
+            const levelGoals = [
+                {
+                    goal: 5,
+                    role: levelRoles.five
+                },
+                {
+                    goal: 10,
+                    role: levelRoles.ten
+                },
+                {
+                    goal: 25,
+                    role: levelRoles.twentyfive
+                },
+                {
+                    goal: 50,
+                    role: levelRoles.fifty
+                },
+                {
+                    goal: 100,
+                    role: levelRoles.hundered
+                },
+                {
+                    goal: 125,
+                    role: levelRoles.onetwentyfive
+                },
+                {
+                    goal: 150,
+                    role: levelRoles.onefifty
+                },
+                {
+                    goal: 200,
+                    role: levelRoles.twohundered
+                }
+            ];
+            levelGoals.forEach((levelGoal, index) => {
+                checkRole(level, levelGoal.goal, member, levelGoal.role, levelGoals?.[index + 1].goal);
+            });
             if(!exception) checkRole(level, 100, member, vip);
-            checkRole(level, 125, member, levelRoles.onetwentyfive);
-            checkRole(level, 150, member, levelRoles.onefifty);
-            checkRole(level, 200, member, levelRoles.twohundered);
         }
     });
 }

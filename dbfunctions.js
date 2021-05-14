@@ -138,7 +138,7 @@ exports.checkLevelRoles = async (client, userId) => {
                 }
             ];
             levelGoals.forEach((levelGoal, index) => {
-                checkRole(level, levelGoal.goal, member, levelGoal.role, levelGoals?.[index + 1].goal);
+                checkRole(level, levelGoal.goal, member, levelGoal.role, levelGoals[index + 1]?.goal);
             });
             if(!exception) checkRole(level, 100, member, vip);
         }

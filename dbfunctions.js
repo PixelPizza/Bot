@@ -83,10 +83,9 @@ exports.addUser = userId => {
 const checkRole = (number, goal, member, role, nextGoal) => {
     const memberHasRole = hasRole(member, role);
     if(number >= goal && (nextGoal ? number < nextGoal : true) && !memberHasRole) {
-        addRole(member, role);
-    } else if (number < goal && memberHasRole) {
-        removeRole(member, role);
+        return addRole(member, role);
     }
+    removeRole(member, role);
 }
 //#endregion
 //#region checkLevelRoles
@@ -137,7 +136,6 @@ exports.checkLevelRoles = async (client, userId) => {
                     role: levelRoles.twohundered
                 }
             ].forEach((levelGoal, index, goals) => {
-                console.log(goals[index + 1]);
                 checkRole(level, levelGoal.goal, member, levelGoal.role, goals[index + 1]?.goal);
             });
             if(!exception) checkRole(level, 100, member, vip);

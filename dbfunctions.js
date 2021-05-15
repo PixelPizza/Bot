@@ -82,8 +82,9 @@ exports.addUser = userId => {
  */
 const checkRole = (number, goal, member, role, nextGoal) => {
     const memberHasRole = hasRole(member, role);
-    if(number >= goal && (nextGoal ? number < nextGoal : true) && !memberHasRole) {
-        return addRole(member, role);
+    if(number >= goal && (nextGoal ? number < nextGoal : true)) {
+        if(!memberHasRole) addRole(member, role);
+        return;
     }
     removeRole(member, role);
 }

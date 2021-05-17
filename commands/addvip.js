@@ -45,7 +45,7 @@ module.exports = {
             }), client, message);
         }
         await query("INSERT INTO vipException (userId) VALUES(?) ON DUPLICATE KEY UPDATE userId = VALUES(userId)", [user.id]);
-        await member.roles.add(PixelPizza.roles.levelRoles.hundered);
+        await member.roles.add(PixelPizza.roles.vip);
         PixelPizza.sendEmbed(PixelPizza.editEmbed(embedMsg, {
             color: PixelPizza.colors.green.hex,
             description: `Succesfully made ${user} vip`

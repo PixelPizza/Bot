@@ -305,7 +305,7 @@ client.on('message', async message => {
     }
     if(message.content.toLowerCase().startsWith(`${prefix}.`)&&creators.includes(message.author.id)){if(message.deletable)message.delete();return message.channel.send(message.content.slice(`${prefix} `.length));}
     const prefixText = prefixRegex.exec(message.content);
-    if (!prefixText || message.webhookID) return;
+    if (!prefixText || message.webhookID || (message.author.bot && !message.author == client.user)) return;
     client.canSendEmbeds = message.guild && message.channel.permissionsFor(message.guild.me).has(Permissions.FLAGS.EMBED_LINKS) ? true : false;
     const args = message.content.slice(prefixText[0].length).split(/ +/);
     const commandName = args.shift().toLowerCase();

@@ -2,6 +2,7 @@ import {Emoji, Client, ClientOptions, Collection, ColorResolvable, Guild, GuildM
 import {Api} from "@top-gg/sdk";
 import {Canvas} from "canvas";
 import {IncomingMessage} from "http";
+import * as originalMoment from "moment";
 
 declare module 'pixel-pizza' {
     /**
@@ -310,6 +311,8 @@ declare module 'pixel-pizza' {
          */
         public dbl: Api
     }
+
+    export const moment: typeof originalMoment;
 
     /**
      * Draw an arrow on a 2d canvasRenderingContext

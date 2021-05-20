@@ -51,5 +51,6 @@ module.exports = {
     capitalize: require("./functions/string/capitalize"),
     join: require('./functions/string/join'),
     request: require("./functions/request"),
-    wait: require("./functions/wait")
+    wait: require("./functions/wait"),
+    moment: require("./functions/moment")
 }

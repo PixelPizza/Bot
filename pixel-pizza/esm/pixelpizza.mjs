@@ -53,5 +53,6 @@ export const {
     capitalize,
     join,
     request,
-    wait
+    wait,
+    moment
 } = PixelPizza;

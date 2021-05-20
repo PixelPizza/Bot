@@ -1,8 +1,5 @@
 //#region variables
 //#region requires
-const moment = require("moment");
-const momentDuration = require("moment-duration-format");
-momentDuration(moment);
 const fs = require('fs');
 const PixelPizza = require("pixel-pizza");
 const { Collection, Permissions, VoiceChannel } = require('discord.js');
@@ -31,7 +28,7 @@ const { blue, green, red, black } = PixelPizza.colors;
 const { noice, noice2 } = PixelPizza.emojis;
 const { text, voice } = PixelPizza.channels;
 const { verified, pings, cook, deliverer, developer, worker, teacher, staff, director } = PixelPizza.roles;
-const { msToString, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
+const { moment, updateMemberSize, updateGuildAmount, sendGuildLog, createEmbed, checkNoiceBoard, sendEmbed, editEmbed, isVip, addRole, removeRole, hasRole, error, success, log, notice } = PixelPizza;
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 //#endregion
 //#region custom client variables

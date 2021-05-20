@@ -1,8 +1,7 @@
 const discord = require("discord.js");
 const PixelPizza = require("pixel-pizza");
 const { query } = require("../dbfunctions");
-const ms = require("parse-ms");
-const {balance, createEmbed, colors, sendEmbed, editEmbed, getEmoji, config} = PixelPizza;
+const {balance, createEmbed, colors, sendEmbed, editEmbed, getEmoji, config, moment} = PixelPizza;
 
 module.exports = {
     name: "weekly",
@@ -36,10 +35,9 @@ module.exports = {
         const weeklyDate = weekly.lastDate;
         let time = this.timeout - (Date.now() - weeklyDate);
         if(weeklyDate !== null && time > 0){
-            time = ms(time);
             return sendEmbed(editEmbed(embedMsg, {
                 title: "**You already claimed it**",
-                description: `Cmon, you already claimed your weekly money\nPlease try again in ${time.days} day(s), ${time.hours} hour(s), ${time.minutes} minute(s) and ${time.seconds} second(s)`
+                description: `Cmon, you already claimed your weekly money\nPlease try again in ${moment.duration(time).format("d [day], h [hour], m [minute] [and] s [seconds]")}`
             }), client, message);
         }
         const currency = getEmoji(client.guild, config.currency);

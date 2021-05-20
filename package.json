@@ -38,7 +38,6 @@
     "moment-duration-format": "^2.3.2",
     "moment-holiday": "^1.5.1",
     "mysql2": "^2.2.5",
-    "parse-ms": "^2.1.0",
     "pixel-pizza": "file:pixel-pizza",
     "valid-url": "^1.0.9"
   },

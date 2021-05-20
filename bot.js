@@ -1,5 +1,8 @@
 //#region variables
 //#region requires
+const moment = require("moment");
+const momentDuration = require("moment-duration-format");
+momentDuration(moment);
 const fs = require('fs');
 const PixelPizza = require("pixel-pizza");
 const { Collection, Permissions, VoiceChannel } = require('discord.js');
@@ -449,7 +452,7 @@ client.on('message', async message => {
                 return sendEmbed(editEmbed(embedMsg, {
                     color: black.hex,
                     title: '**Cooldown**',
-                    description: `please wait ${msToString(expirationTime - now)} before reusing ${command.name}`
+                    description: `please wait ${moment.duration(expirationTime - now).format("d [day], h [hour], m [minute], s [second]")} before reusing ${command.name}`
                 }), client, message);
             }
         }

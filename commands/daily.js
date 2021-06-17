@@ -32,7 +32,7 @@ module.exports = {
             color: colors.red.hex
         });
         const daily = (await query("SELECT lastDaily as lastDate, dailyStreak as streak FROM `user` WHERE userId = ?", [message.author.id]))[0];
-        const dailyDate = daily.lastDate;
+        const dailyDate = daily?.lastDate || null;
         let time = this.timeout - (Date.now() - dailyDate);
         if(dailyDate !== null && time > 0){
             return sendEmbed(editEmbed(embedMsg, {

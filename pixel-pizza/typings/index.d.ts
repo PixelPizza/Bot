@@ -1,6 +1,6 @@
 import {Emoji, Client, ClientOptions, Collection, ColorResolvable, Guild, GuildMember, Message, MessageEmbed, MessageReaction, MessageResolvable, RoleResolvable, Snowflake, TextChannel, User} from "discord.js";
 import {Api} from "@top-gg/sdk";
-import {Canvas} from "canvas";
+import {ReadStream} from "fs";
 import {IncomingMessage} from "http";
 import * as originalMoment from "moment";
 
@@ -598,7 +598,7 @@ declare module 'pixel-pizza' {
         front: string,
         expBack: string,
         expFront: string
-    }) => Promise<Canvas>
+    }) => Promise<ReadStream>
 
     /**
      * Clear the console and send a notice that it has been cleared

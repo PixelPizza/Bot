@@ -460,6 +460,7 @@ client.on('message', async message => {
         await command.execute(message, args, client, {worker: isWorker, teacher: isTeacher, staff: isStaff, director: isDirector, botguildMember: member});
         log("Command executed", `${command.name} has been executed`);
     } catch (err) {
+        console.error(err);
         error(`Could not execute ${command.name}`, err);
         return sendEmbed(editEmbed(embedMsg, {
             title: '**Error**',

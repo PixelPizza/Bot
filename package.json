@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jaronetje/PixelPizzaAlternate.git"
+    "url": "git+https://github.com/JTTechnic/PixelPizza-js.git"
   },
   "keywords": [
     "Pixel Pizza",
@@ -18,35 +18,21 @@
   "author": "jaronetje",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jaronetje/PixelPizzaAlternate/issues"
+    "url": "https://github.com/JTTechnic/PixelPizza-js/issues"
   },
-  "homepage": "https://github.com/jaronetje/PixelPizzaAlternate#readme",
+  "homepage": "https://github.com/JTTechnic/PixelPizza-js#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
-    "@top-gg/sdk": "^3.0.3",
-    "canvas": "^2.6.1",
-    "chalk": "^4.1.0",
-    "crypto": "^1.0.1",
-    "discord.js": "^12.4.1",
+    "@top-gg/sdk": "^3.1.2",
+    "discord.js": "^12.5.3",
     "express": "^4.17.1",
-    "ffmpeg-static": "^4.2.7",
+    "ffmpeg-static": "^4.4.0",
     "g-i-s": "^2.1.6",
-    "gm": "^1.23.1",
-    "libsodium": "^0.7.8",
-    "libsodium-wrappers": "^0.7.8",
+    "libsodium": "^0.7.9",
+    "libsodium-wrappers": "^0.7.9",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "moment-holiday": "^1.5.1",
-    "mysql2": "^2.2.5",
-    "pixel-pizza": "file:pixel-pizza",
-    "valid-url": "^1.0.9"
-  },
-  "engines": {
-    "node": "14.x"
-  },
-  "devDependencies": {
-    "@types/node": "^14.14.9",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.1.2"
+    "mysql2": "^2.3.0",
+    "pixel-pizza": "file:pixel-pizza"
   }
 }

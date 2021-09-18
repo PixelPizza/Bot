@@ -4,6 +4,7 @@ const { createEmbed, sendEmbed, getUser, makeRankImg } = PixelPizza;
 const { red, levels } = PixelPizza.colors; 
 const { query } = require("../dbfunctions"); 
 const { MessageAttachment } = require('discord.js'); 
+const {unlinkSync} = require("fs");
 
 module.exports = { 
     name: "rank", 
@@ -38,6 +39,7 @@ module.exports = {
         let style = {}; 
         let results = await query("SELECT userId, `exp`, `level`, styleBack, styleFront, styleExpBack, styleExpFront FROM `user` ORDER BY `level` DESC, exp DESC"); 
         let rank = 0; 
+        let image;
         let attachment = embedMsg; 
         for (let result of results) { 
             rank++; 
@@ -46,10 +48,12 @@ module.exports = {
             style.front = result.styleFront ?? levels.front.hex; 
             style.expBack = result.styleExpBack ?? levels.expback.hex; 
             style.expFront = result.styleExpFront ?? levels.expfront.hex; 
-            const image = await makeRankImg(user, result.level, result.exp, rank, style); 
-            attachment = new MessageAttachment(image.toBuffer(), "rank.png"); 
+            image = await makeRankImg(user, result.level, result.exp, rank, style); 
+            attachment = new MessageAttachment(image, "rank.png");
             break; 
         } 
-        message.channel.send({files: [attachment]}); 
+        await message.channel.send({files: [attachment]});
+        image.close();
+        //unlinkSync(image.path);
     } 
 }

@@ -2,18 +2,20 @@
 
 const {baseexp, addexp} = require("../../data/level");
 const {black} = require("../../data/colors");
-const {createCanvas, loadImage, Canvas} = require("canvas");
+const PImage = require("pureimage");
 const { User } = require("discord.js");
+const {join} = require("path");
+const https = require("https");
+const {createWriteStream, createReadStream} = require("fs");
 
 /**
  * Apply text to a canvas context
- * @param {Canvas} canvas The canvas to get the context from
+ * @param {any} canvas The canvas to get the context from
  * @param {string} text The text to apply
  * @param {number} size The size of the text
  * @returns {void}
  */
-const applyText = (canvas, text, size) => {
-    const ctx = canvas.getContext("2d");
+const applyText = (canvas, ctx, text, size) => {
     let fontSize = 70;
     do ctx.font = `${fontSize-=10}px sans-serif`;
     while(ctx.measureText(text).width > canvas.width - size);
@@ -30,10 +32,10 @@ const applyText = (canvas, text, size) => {
  *  expBack:string,
  *  expFront:string
  * }} style The image style of the user
- * @returns {Canvas} The canvas used to make the image
  */
 const makeRankImg = async (user, level, exp, rank, style) => {
-    const canvas = createCanvas(700, 250);
+    await new Promise(resolve => PImage.registerFont(join(__dirname, "../../fonts/MSSansSerif.ttf"), "sans-serif").load(() => resolve()));
+    const canvas = PImage.make(700, 250);
     const ctx = canvas.getContext("2d");
     exp = exp < 0 ? 0 : exp;
     level = level < 0 ? 0 : level;
@@ -44,26 +46,26 @@ const makeRankImg = async (user, level, exp, rank, style) => {
     ctx.fillRect(0, 0, 700, 250);
     ctx.fillStyle = style.front;
     ctx.fillRect(15, 20, 670, 210);
-    ctx.font = applyText(canvas, user.username, 480);
+    /* ctx.font =  */applyText(canvas, ctx, user.username, 480);
     ctx.fillStyle = black.hex;
     ctx.fillText(user.username, canvas.width / 3 - 10, canvas.height / 1.6);
-    ctx.font = applyText(canvas, level.toString(), 500);
-    let font = ctx.font.replace("px sans-serif", "");
+    /* ctx.font =  */applyText(canvas, ctx, level.toString(), 500);
+    let font = ctx._font.size;
     let pos = canvas.width - (ctx.measureText(level.toString()).width + 20);
     ctx.fillText(level.toString(), pos, 75);
     ctx.font = "30px sans-serif";
     pos = pos - font - 8;
     font = 30;
     ctx.fillText("level", pos, 75);
-    ctx.font = applyText(canvas, ranktext, 500);
+    /* ctx.font =  */applyText(canvas, ctx, ranktext, 500);
     pos = pos - ctx.measureText(ranktext).width - 5;
-    font = ctx.font.replace("px sans-serif", "");
+    font = ctx._font.size;
     ctx.fillText(ranktext, pos, 75);
     ctx.font = "30px sans-serif";
     pos = pos - font - 5;
     font = 30;
     ctx.fillText("rank", pos, 75);
-    ctx.font = 30;
+    // ctx.font = 30; ???
     const expText = `${exp.toString()} / ${neededExp.toString()} xp`;
     ctx.fillText(expText, (canvas.width - (ctx.measureText(expText).width + 20)) - 10, canvas.height / 1.6);
     ctx.fillStyle = style.expBack;
@@ -87,8 +89,13 @@ const makeRankImg = async (user, level, exp, rank, style) => {
     ctx.arc(115, 125, 80, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.clip();
-    ctx.drawImage(await loadImage(user.displayAvatarURL({format:"png"})), 35, 45, 160, 160);
-    return canvas;
+    const avatarstream = await new Promise(resolve => https.get(new URL(user.displayAvatarURL({format:"png"})), resolve));
+    ctx.drawImage(await PImage.decodePNGFromStream(avatarstream, 35, 45, 160, 160));
+    const filePath = join(__dirname, `../../data/images/${user.id}.${new Date().getTime()}.png`);
+    const writeStream = createWriteStream(filePath);
+    await PImage.encodePNGToStream(canvas, writeStream);
+    writeStream.close();
+    return createReadStream(filePath);
 }
 
 module.exports = makeRankImg;

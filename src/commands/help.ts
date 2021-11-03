@@ -8,7 +8,7 @@ import { Message, MessageEmbed } from "discord.js";
 })
 export class HelpCommand extends Command {
 	public async messageRun(message: Message, args: Args) {
-		const commands = this.container.client.stores.get("commands");
+		const commands = this.container.stores.get("commands");
 		const command = args.finished ? null : commands.get(await args.pick("string"));
 
 		if (!command) {

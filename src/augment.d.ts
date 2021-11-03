@@ -3,6 +3,7 @@ export declare global {
 		interface ProcessEnv {
 			TOKEN: string;
 			INVITE_CHANNEL: string;
+			ECO_EMOJI: string;
 		}
 	}
 }

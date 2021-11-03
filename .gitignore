@@ -1,4 +1,3 @@
 node_modules
-build
-secrets.json
-.vscode/
+dist
+.env

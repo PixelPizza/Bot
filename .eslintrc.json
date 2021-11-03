@@ -1,0 +1,26 @@
+{
+	"extends": "marine/prettier/node",
+	"parserOptions": {
+		"project": "./tsconfig.eslint.json"
+	},
+	"ignorePatterns": ["dist/*"],
+	"env": {
+		"jest": true
+	},
+	"rules": {
+		"no-redeclare": 0,
+		"@typescript-eslint/naming-convention": 0,
+		"@typescript-eslint/restrict-template-expressions": [
+			"error",
+			{
+				"allowAny": true
+			}
+		],
+		"@typescript-eslint/no-extraneous-class": [
+			"error",
+			{
+				"allowStaticOnly": true
+			}
+		]
+	}
+}

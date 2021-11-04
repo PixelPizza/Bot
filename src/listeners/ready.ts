@@ -6,7 +6,7 @@ import type { Client } from "discord.js";
 	once: true,
 	event: "ready"
 })
-export class ReadyListener extends Listener {
+export class ReadyListener extends Listener<"ready"> {
 	public run(client: Client<true>) {
 		const { tag, id } = client.user;
 		this.container.logger.info(`Successfully logged in as ${tag} (${id})`);

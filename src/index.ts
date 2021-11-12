@@ -1,9 +1,6 @@
-import { SapphireClient } from "@sapphire/framework";
+import { Client } from "./Client";
 import { config } from "dotenv";
 config();
 
-const client = new SapphireClient({
-	intents: ["GUILDS", "GUILD_MESSAGES"]
-});
-
+const client = new Client();
 void client.login(process.env.TOKEN);

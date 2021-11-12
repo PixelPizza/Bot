@@ -1,3 +1,4 @@
+import "@sapphire/plugin-logger/register";
 import { Client } from "./Client";
 import { config } from "dotenv";
 config();

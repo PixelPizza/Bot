@@ -1,42 +1,51 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Args, Command, CommandOptions } from "@sapphire/framework";
-import { Message, MessageEmbed } from "discord.js";
+import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import { CommandInteraction, Message, MessageEmbed, SnowflakeUtil } from "discord.js";
 
 @ApplyOptions<CommandOptions>({
-	description: "Displays the bot ping",
-	flags: ["api", "message", "m"]
+	description: "Displays the bot ping"
 })
 export class PingCommand extends Command {
-	public async messageRun(message: Message, args: Args) {
-		const msg = await message.channel.send("Pinging...");
-
-		const apiLatency = Math.round(this.container.client.ws.ping);
-		const messageLatency = msg.createdTimestamp - message.createdTimestamp;
-
-		const embed = new MessageEmbed({
+	private getPingEmbed(messageLatency: number) {
+		return new MessageEmbed({
 			color: "GREEN",
-			title: "🏓 Pong!"
-		});
-		if (!args.getFlags("api", "message", "m")) {
-			embed.setFields([
+			title: "🏓 Pong!",
+			fields: [
 				{
 					name: "API Latency",
-					value: `${apiLatency}ms`
+					value: `${Math.round(this.container.client.ws.ping)}ms`
 				},
 				{
 					name: "Message Latency",
 					value: `${messageLatency}ms`
 				}
-			]);
-		} else if (args.getFlags("api")) {
-			embed.setDescription(`${apiLatency}ms`);
-		} else {
-			embed.setDescription(`${messageLatency}ms`);
-		}
+			]
+		});
+	}
 
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand(new SlashCommandBuilder().setName(this.name).setDescription(this.description));
+	}
+
+	public override async messageRun(message: Message) {
+		const msg = await message.channel.send("Pinging...");
 		return msg.edit({
 			content: null,
-			embeds: [embed]
+			embeds: [this.getPingEmbed(msg.createdTimestamp - message.createdTimestamp)]
+		});
+	}
+
+	public override async chatInputRun(interaction: CommandInteraction) {
+		const reply = await interaction.reply({
+			content: "Pinging...",
+			fetchReply: true
+		});
+		const createdTimestamp =
+			reply instanceof Message ? reply.createdTimestamp : SnowflakeUtil.deconstruct(reply.id).timestamp;
+		return interaction.editReply({
+			content: null,
+			embeds: [this.getPingEmbed(createdTimestamp - interaction.createdTimestamp)]
 		});
 	}
 }

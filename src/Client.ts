@@ -4,7 +4,8 @@ import { Sequelize } from "sequelize";
 export class Client extends SapphireClient {
 	public constructor() {
 		super({
-			intents: ["GUILDS", "GUILD_MESSAGES"]
+			intents: ["GUILDS", "GUILD_MESSAGES"],
+			loadMessageCommandListeners: true
 		});
 
 		container.database = new Sequelize({

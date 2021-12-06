@@ -1,15 +1,16 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Command, CommandOptions } from "@sapphire/framework";
+import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
-import type { Message } from "discord.js";
+import type { CommandInteraction, Message, MessageOptions } from "discord.js";
 
 @ApplyOptions<CommandOptions>({
 	description: "Vote for the bot"
 })
 export class VoteCommand extends Command {
-	public async messageRun(message: Message) {
+	private get replyOptions(): MessageOptions {
 		const { client } = this.container;
-		await message.channel.send({
+		return {
 			embeds: [
 				{
 					color: "BLUE",
@@ -30,6 +31,18 @@ export class VoteCommand extends Command {
 					]
 				}
 			]
-		});
+		};
+	}
+
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand(new SlashCommandBuilder().setName(this.name).setDescription(this.description));
+	}
+
+	public override messageRun(message: Message) {
+		return message.channel.send(this.replyOptions);
+	}
+
+	public override chatInputRun(interaction: CommandInteraction) {
+		return interaction.reply(this.replyOptions);
 	}
 }

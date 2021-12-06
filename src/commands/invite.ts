@@ -1,13 +1,18 @@
+import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { Command, CommandOptions } from "@sapphire/framework";
-import type { Message } from "discord.js";
+import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import type { CommandInteraction, Message, MessageOptions } from "discord.js";
 
 @ApplyOptions<CommandOptions>({
 	description: "Invite the bot to your server"
 })
 export class InviteCommand extends Command {
-	public async messageRun(message: Message) {
-		await message.channel.send({
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand(new SlashCommandBuilder().setName(this.name).setDescription(this.description));
+	}
+
+	private get replyOptions(): MessageOptions {
+		return {
 			embeds: [
 				{
 					color: "BLUE",
@@ -18,6 +23,14 @@ export class InviteCommand extends Command {
 					})})`
 				}
 			]
-		});
+		};
+	}
+
+	public override messageRun(message: Message) {
+		return message.channel.send(this.replyOptions);
+	}
+
+	public override chatInputRun(interaction: CommandInteraction) {
+		return interaction.reply(this.replyOptions);
 	}
 }

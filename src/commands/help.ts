@@ -52,7 +52,7 @@ export class HelpCommand extends Command {
 				.setDescription(this.description)
 				.addStringOption((input) =>
 					input.setName("command").setDescription("The command to display").setRequired(false)
-				) as SlashCommandBuilder
+				)
 		);
 	}
 

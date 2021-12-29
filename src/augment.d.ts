@@ -8,6 +8,7 @@ export declare global {
 			COMMAND_GUILDS: string | string[];
 			INVITE_CHANNEL: string;
 			ECO_EMOJI: string;
+			CHEF_ROLE: string;
 		}
 	}
 }
@@ -19,5 +20,11 @@ declare module "@sapphire/pieces" {
 
 	interface StoreRegistryEntries {
 		models: ModelStore;
+	}
+}
+
+declare module "@sapphire/framework" {
+	interface Preconditions {
+		ChefOnly: never;
 	}
 }

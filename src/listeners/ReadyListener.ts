@@ -1,10 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { Listener, ListenerOptions } from "@sapphire/framework";
+import { Events, Listener, ListenerOptions } from "@sapphire/framework";
 import type { Client } from "discord.js";
 
 @ApplyOptions<ListenerOptions>({
 	once: true,
-	event: "ready"
+	event: Events.ClientReady
 })
 export class ReadyListener extends Listener<"ready"> {
 	public run(client: Client<true>) {

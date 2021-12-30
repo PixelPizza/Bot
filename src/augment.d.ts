@@ -10,6 +10,7 @@ export declare global {
 			IMAGE_CHANNEL: string;
 			ECO_EMOJI: string;
 			CHEF_ROLE: string;
+			DELIVERER_ROLE: string;
 		}
 	}
 }
@@ -27,5 +28,6 @@ declare module "@sapphire/pieces" {
 declare module "@sapphire/framework" {
 	interface Preconditions {
 		ChefOnly: never;
+		DelivererOnly: never;
 	}
 }

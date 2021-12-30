@@ -50,7 +50,8 @@
 		"dotenv-parse-variables": "^2.0.0",
 		"sequelize": "^6.9.0",
 		"sqlite3": "^5.0.2",
-		"tslib": "^2.3.1"
+		"tslib": "^2.3.1",
+		"valid-url": "^1.0.9"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.15.8",
@@ -63,6 +64,7 @@
 		"@types/dotenv-parse-variables": "^2.0.1",
 		"@types/jest": "^27.0.2",
 		"@types/require-all": "^3.0.3",
+		"@types/valid-url": "^1.0.3",
 		"@typescript-eslint/eslint-plugin": "^5.2.0",
 		"@typescript-eslint/parser": "^5.2.0",
 		"babel-plugin-const-enum": "^1.1.0",

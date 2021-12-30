@@ -3,59 +3,76 @@ import { DataTypes } from "sequelize";
 import { ModelPiece } from "../pieces/Model";
 
 export class OrderModel extends ModelPiece<{
-	id: {
-		type: DataTypes.StringDataType;
-		primaryKey: true;
+	attributes: {
+		id: {
+			type: DataTypes.StringDataType;
+			primaryKey: true;
+		};
+		customer: {
+			type: DataTypes.StringDataType;
+			allowNull: false;
+		};
+		guild: {
+			type: DataTypes.StringDataType;
+			allowNull: false;
+		};
+		channel: {
+			type: DataTypes.StringDataType;
+			allowNull: false;
+		};
+		chef: {
+			type: DataTypes.StringDataType;
+			defaultValue: null;
+		};
+		deliverer: {
+			type: DataTypes.StringDataType;
+			defaultValue: null;
+		};
+		image: {
+			type: DataTypes.StringDataType;
+			defaultValue: null;
+		};
+		status: {
+			type: DataTypes.EnumDataType<"unclaimed" | "claimed" | "cooking" | "cooked" | "delivered" | "deleted">;
+			allowNull: false;
+			defaultValue: "unclaimed";
+		};
+		order: {
+			type: DataTypes.StringDataType;
+			allowNull: false;
+		};
+		orderedAt: {
+			type: DataTypes.DateDataType;
+			allowNull: false;
+			defaultValue: typeof DataTypes.NOW;
+		};
+		cookedAt: {
+			type: DataTypes.DateDataType;
+			defaultValue: null;
+		};
+		deliveredAt: {
+			type: DataTypes.DateDataType;
+			defaultValue: null;
+		};
+		deliveryMethod: {
+			type: DataTypes.EnumDataType<"dm" | "bot" | "personal">;
+			defaultValue: null;
+		};
 	};
-	customer: {
-		type: DataTypes.StringDataType;
-		allowNull: false;
-	};
-	guild: {
-		type: DataTypes.StringDataType;
-		allowNull: false;
-	};
-	channel: {
-		type: DataTypes.StringDataType;
-		allowNull: false;
-	};
-	chef: {
-		type: DataTypes.StringDataType;
-		defaultValue: null;
-	};
-	deliverer: {
-		type: DataTypes.StringDataType;
-		defaultValue: null;
-	};
-	image: {
-		type: DataTypes.StringDataType;
-		defaultValue: null;
-	};
-	status: {
-		type: DataTypes.EnumDataType<"unclaimed" | "claimed" | "cooking" | "cooked" | "delivered" | "deleted">;
-		allowNull: false;
-		defaultValue: "unclaimed";
-	};
-	order: {
-		type: DataTypes.StringDataType;
-		allowNull: false;
-	};
-	orderedAt: {
-		type: DataTypes.DateDataType;
-		allowNull: false;
-		defaultValue: typeof DataTypes.NOW;
-	};
-	cookedAt: {
-		type: DataTypes.DateDataType;
-		defaultValue: null;
-	};
-	deliveredAt: {
-		type: DataTypes.DateDataType;
-		defaultValue: null;
-	};
-	deliveryMethod: {
-		type: DataTypes.EnumDataType<"dm" | "bot" | "personal">;
-		defaultValue: null;
+	types: {
+		id: string;
+		customer: string;
+		guild: string;
+		channel: string;
+		chef: string | null;
+		deliverer: string | null;
+		image: string | null;
+		status: "unclaimed" | "claimed" | "cooking" | "cooked" | "delivered" | "deleted";
+		order: string;
+		orderedAt: Date;
+		cookedAt: Date | null;
+		deliveredAt: Date | null;
+		deliveryMethod: "dm" | "bot" | "personal" | null;
 	};
 }> {
 	public constructor(context: PieceContext) {

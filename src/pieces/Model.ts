@@ -18,15 +18,19 @@ import type {
 
 type FindOptions<P extends ModelAttributes = ModelAttributes> = SequelizeFindOptions<P> | NonNullFindOptions<P>;
 
-export abstract class ModelPiece<P extends ModelAttributes = ModelAttributes> extends Piece {
-	public declare readonly options: ModelPieceOptions<P>;
-	private readonly model: ModelCtor<
-		Model<{
-			[key in keyof P]?: any;
-		}>
-	>;
+export abstract class ModelPiece<
+	P extends {
+		attributes: ModelAttributes;
+		types: { [key in keyof P["attributes"]]: any };
+	} = {
+		attributes: ModelAttributes;
+		types: Record<string, never>;
+	}
+> extends Piece {
+	public declare readonly options: ModelPieceOptions<P["attributes"]>;
+	private readonly model: ModelCtor<Model<P["types"]>>;
 
-	public constructor(context: PieceContext, options: ModelPieceOptions<P>) {
+	public constructor(context: PieceContext, options: ModelPieceOptions<P["attributes"]>) {
 		super(context, options);
 		const { name, attributes, options: modelOptions } = this.options;
 		this.model = container.database.define(name, attributes, {
@@ -37,96 +41,43 @@ export abstract class ModelPiece<P extends ModelAttributes = ModelAttributes> ex
 		void this.model.sync({ force: true });
 	}
 
-	public findAll(
-		options?: FindOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public findAll(options?: FindOptions<P["types"]>) {
 		return this.model.findAll(options);
 	}
 
-	public findByPk(
-		id?: Identifier,
-		options?: Omit<
-			FindOptions<{
-				[key in keyof P]?: any;
-			}>,
-			"where"
-		>
-	) {
+	public findByPk(id?: Identifier, options?: Omit<FindOptions<P["types"]>, "where">) {
 		return this.model.findByPk(id, options);
 	}
 
-	public findOne(
-		options?: FindOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public findOne(options?: FindOptions<P["types"]>) {
 		return this.model.findOne(options);
 	}
 
-	public create(
-		values?: {
-			[key in keyof P]?: any;
-		},
-		options?: CreateOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public create(values?: P["types"], options?: CreateOptions<P["types"]>) {
 		return this.model.create(values, options);
 	}
 
-	public findOrCreate(
-		options: FindOrCreateOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public findOrCreate(options: FindOrCreateOptions<P["types"]>) {
 		return this.model.findOrCreate(options);
 	}
 
-	public bulkCreate(
-		records: readonly {
-			[key in keyof P]?: any;
-		}[],
-		options?: BulkCreateOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public bulkCreate(records: readonly P["types"][], options?: BulkCreateOptions<P["types"]>) {
 		return this.model.bulkCreate(records, options);
 	}
 
-	public truncate(
-		options?: TruncateOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public truncate(options?: TruncateOptions<P["types"]>) {
 		return this.model.truncate(options);
 	}
 
-	public destroy(
-		options?: DestroyOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public destroy(options?: DestroyOptions<P["types"]>) {
 		return this.model.destroy(options);
 	}
 
-	public restore(
-		options?: RestoreOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public restore(options?: RestoreOptions<P["types"]>) {
 		return this.model.restore(options);
 	}
 
-	public update(
-		values: {
-			[key in keyof P]?: any;
-		},
-		options: UpdateOptions<{
-			[key in keyof P]?: any;
-		}>
-	) {
+	public update(values: P["types"], options: UpdateOptions<P["types"]>) {
 		return this.model.update(values, options);
 	}
 }

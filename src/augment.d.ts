@@ -7,6 +7,7 @@ export declare global {
 			TOKEN: string;
 			COMMAND_GUILDS: string | string[];
 			INVITE_CHANNEL: string;
+			IMAGE_CHANNEL: string;
 			ECO_EMOJI: string;
 			CHEF_ROLE: string;
 		}

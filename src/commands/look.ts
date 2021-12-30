@@ -52,6 +52,7 @@ export class LookCommand extends Command {
 		const delivererId = order.getDataValue("deliverer") as string | null;
 		const deliverer = delivererId ? await client.users.fetch(delivererId) : null;
 		const deliveryMethod = order.getDataValue("deliveryMethod") as string;
+		const image = order.getDataValue("image") as string | null;
 
 		const embed = new MessageEmbed({
 			color: "BLUE",
@@ -106,6 +107,7 @@ export class LookCommand extends Command {
 
 		if (cookedAt) embed.addField("Cooked At", this.formatDate(cookedAt));
 		if (deliveredAt) embed.addField("Delivered At", this.formatDate(deliveredAt));
+		if (image) embed.setImage(image);
 
 		return interaction.editReply({ embeds: [embed] });
 	}

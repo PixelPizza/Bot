@@ -1,16 +1,14 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Show the current orders"
 })
 export class OrdersCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(new SlashCommandBuilder().setName(this.name).setDescription(this.description), {
-			guildIds: [process.env.COMMAND_GUILDS].flat()
-		});
+		this.registerPrivateChatInputCommand(registry, this.defaultChatInputCommand);
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

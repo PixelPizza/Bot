@@ -1,8 +1,8 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import type { CommandInteraction, Message, MessageOptions } from "discord.js";
+import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Vote for the bot"
@@ -35,7 +35,7 @@ export class VoteCommand extends Command {
 	}
 
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(new SlashCommandBuilder().setName(this.name).setDescription(this.description));
+		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 
 	public override messageRun(message: Message) {

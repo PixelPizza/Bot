@@ -1,8 +1,8 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Command, CommandOptions, RegisterBehavior } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { randomInt } from "node:crypto";
+import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Order some food",
@@ -11,15 +11,9 @@ import { randomInt } from "node:crypto";
 export class OrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
 		registry.registerChatInputCommand(
-			new SlashCommandBuilder()
-				.setName(this.name)
-				.setDescription(this.description)
-				.addStringOption((input) =>
-					input.setName("order").setDescription("The order you want to place").setRequired(true)
-				),
-			{
-				behaviorWhenNotIdentical: RegisterBehavior.Overwrite
-			}
+			this.defaultChatInputCommand.addStringOption((input) =>
+				input.setName("order").setDescription("The order you want to place").setRequired(true)
+			)
 		);
 	}
 

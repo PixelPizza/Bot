@@ -1,7 +1,7 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import type { CommandInteraction, Message, MessageOptions, TextChannel } from "discord.js";
+import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Get the invite link to the support server"
@@ -21,7 +21,7 @@ export class SupportCommand extends Command {
 	}
 
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(new SlashCommandBuilder().setName(this.name).setDescription(this.description));
+		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 
 	public override async messageRun(message: Message) {

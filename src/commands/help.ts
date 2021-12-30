@@ -1,7 +1,7 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Args, Command, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, Args, CommandOptions } from "@sapphire/framework";
 import { CommandInteraction, Message, MessageEmbed, MessageOptions } from "discord.js";
+import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	aliases: ["commands"],
@@ -47,12 +47,9 @@ export class HelpCommand extends Command {
 
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
 		registry.registerChatInputCommand(
-			new SlashCommandBuilder()
-				.setName(this.name)
-				.setDescription(this.description)
-				.addStringOption((input) =>
-					input.setName("command").setDescription("The command to display").setRequired(false)
-				)
+			this.defaultChatInputCommand.addStringOption((input) =>
+				input.setName("command").setDescription("The command to display").setRequired(false)
+			)
 		);
 	}
 

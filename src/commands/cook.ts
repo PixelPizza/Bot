@@ -1,8 +1,8 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import type { CommandInteraction, TextChannel } from "discord.js";
 import { Util } from "../Util";
+import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Cook an order",
@@ -10,17 +10,13 @@ import { Util } from "../Util";
 })
 export class CookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			new SlashCommandBuilder()
-				.setName(this.name)
-				.setDescription(this.description)
+		this.registerPrivateChatInputCommand(
+			registry,
+			this.defaultChatInputCommand
 				.addStringOption((input) => input.setName("order").setRequired(true).setDescription("The order to cook"))
 				.addStringOption((input) =>
 					input.setName("image").setRequired(true).setDescription("The url of the image to use")
-				),
-			{
-				guildIds: [process.env.COMMAND_GUILDS].flat()
-			}
+				)
 		);
 	}
 

@@ -1,7 +1,7 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, Command, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Claim an order",
@@ -9,14 +9,11 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 })
 export class ClaimCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			new SlashCommandBuilder()
-				.setName(this.name)
-				.setDescription(this.description)
-				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true)),
-			{
-				guildIds: [process.env.COMMAND_GUILDS].flat()
-			}
+		this.registerPrivateChatInputCommand(
+			registry,
+			this.defaultChatInputCommand.addStringOption((input) =>
+				input.setName("order").setDescription("The order to claim").setRequired(true)
+			)
 		);
 	}
 

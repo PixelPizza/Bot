@@ -33,7 +33,7 @@ export class OrderModel extends ModelPiece<{
 			defaultValue: null;
 		};
 		status: {
-			type: DataTypes.EnumDataType<"unclaimed" | "claimed" | "cooking" | "cooked" | "delivered" | "deleted">;
+			type: DataTypes.EnumDataType<"unclaimed" | "claimed" | "cooked" | "delivered" | "deleted">;
 			allowNull: false;
 			defaultValue: "unclaimed";
 		};
@@ -67,7 +67,7 @@ export class OrderModel extends ModelPiece<{
 		chef: string | null;
 		deliverer: string | null;
 		image: string | null;
-		status: "unclaimed" | "claimed" | "cooking" | "cooked" | "delivered" | "deleted";
+		status: "unclaimed" | "claimed" | "cooked" | "delivered" | "deleted";
 		order: string;
 		orderedAt: Date;
 		cookedAt: Date | null;
@@ -108,7 +108,7 @@ export class OrderModel extends ModelPiece<{
 					defaultValue: null
 				},
 				status: {
-					type: DataTypes.ENUM("unclaimed", "claimed", "cooking", "cooked", "delivered", "deleted"),
+					type: DataTypes.ENUM("unclaimed", "claimed", "cooked", "delivered", "deleted"),
 					allowNull: false,
 					defaultValue: "unclaimed"
 				},

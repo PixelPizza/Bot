@@ -24,7 +24,7 @@ export abstract class ModelPiece<
 		types: { [key in keyof P["attributes"]]: any };
 	} = {
 		attributes: ModelAttributes;
-		types: Record<string, never>;
+		types: { [key: string]: any };
 	}
 > extends Piece {
 	public declare readonly options: ModelPieceOptions<P["attributes"]>;

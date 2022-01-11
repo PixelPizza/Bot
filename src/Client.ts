@@ -1,11 +1,14 @@
-import { container, SapphireClient } from "@sapphire/framework";
+import { container, LogLevel, SapphireClient } from "@sapphire/framework";
 import { Sequelize } from "sequelize";
 
 export class Client extends SapphireClient {
 	public constructor() {
 		super({
 			intents: ["GUILDS", "GUILD_MESSAGES"],
-			loadMessageCommandListeners: true
+			loadMessageCommandListeners: true,
+			logger: {
+				level: LogLevel.Debug
+			}
 		});
 
 		container.database = new Sequelize({

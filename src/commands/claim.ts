@@ -1,23 +1,50 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import { ApplicationCommandRegistry, CommandOptions, Events } from "@sapphire/framework";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../Command";
 
+enum ClaimType {
+	Cooking = "cooking",
+	Delivery = "delivery"
+}
+
 @ApplyOptions<CommandOptions>({
 	description: "Claim an order",
-	preconditions: ["ChefOnly"]
+	preconditions: [["ChefOnly"], ["DelivererOnly"]]
 })
 export class ClaimCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
 		this.registerPrivateChatInputCommand(
 			registry,
-			this.defaultChatInputCommand.addStringOption((input) =>
-				input.setName("order").setDescription("The order to claim").setRequired(true)
-			)
+			this.defaultChatInputCommand
+				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true))
+				.addStringOption((input) =>
+					input
+						.setName("type")
+						.setDescription("The type of claim")
+						.setRequired(true)
+						.addChoices(Object.keys(ClaimType).map((type) => [type, ClaimType[type as keyof typeof ClaimType]]))
+				)
 		);
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+		const claimType = interaction.options.getString("type", true);
+		const isCookClaim = claimType === ClaimType.Cooking;
+		const result = await this.container.stores.get("preconditions").get(isCookClaim ? "ChefOnly" : "DelivererOnly")!
+			.chatInputRun!(interaction, this, { external: true });
+
+		if (!result.success) {
+			return this.container.client.emit(Events.ChatInputCommandDenied, result.error, {
+				interaction,
+				command: this,
+				context: {
+					commandId: interaction.commandId,
+					commandName: interaction.commandName
+				}
+			});
+		}
+
 		await interaction.deferReply();
 
 		const order = await this.container.stores
@@ -41,7 +68,7 @@ export class ClaimCommand extends Command {
 			});
 		}
 
-		if (order.getDataValue("status") === "claimed") {
+		if (order.getDataValue(isCookClaim ? "chef" : "deliverer")) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed({
@@ -53,17 +80,15 @@ export class ClaimCommand extends Command {
 			});
 		}
 
-		await order.update({
-			status: "claimed",
-			chef: interaction.user.id
-		});
+		const { id: userId } = interaction.user;
+		await order.update(isCookClaim ? { chef: userId } : { deliverer: userId });
 
 		return interaction.editReply({
 			embeds: [
 				new MessageEmbed({
 					color: "BLUE",
 					title: "Order claimed",
-					description: `You claimed order \`${order.getDataValue("id")}\``
+					description: `You claimed order \`${order.getDataValue("id")}\` for ${claimType}`
 				})
 			]
 		});

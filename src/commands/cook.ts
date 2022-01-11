@@ -21,14 +21,17 @@ export class CookCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply();
 
 		const orderId = interaction.options.getString("order", true);
 		const order = await this.container.stores
 			.get("models")
 			.get("order")
 			.findOne({
-				where: { id: orderId, status: "claimed", chef: interaction.user.id }
+				where: {
+					id: orderId,
+					chef: interaction.user.id
+				}
 			});
 
 		if (!order) {

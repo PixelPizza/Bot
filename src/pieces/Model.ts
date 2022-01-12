@@ -22,13 +22,15 @@ export abstract class ModelPiece<
 	P extends {
 		attributes: ModelAttributes;
 		types: { [key in keyof P["attributes"]]: any };
+		createTypes: { [key in keyof P["types"]]?: P["types"][key] };
 	} = {
 		attributes: ModelAttributes;
 		types: { [key: string]: any };
+		createTypes: { [key: string]: any };
 	}
 > extends Piece {
 	public declare readonly options: ModelPieceOptions<P["attributes"]>;
-	private readonly model: ModelCtor<Model<P["types"]>>;
+	private readonly model: ModelCtor<Model<P["types"], P["createTypes"]>>;
 
 	public constructor(context: PieceContext, options: ModelPieceOptions<P["attributes"]>) {
 		super(context, options);
@@ -53,7 +55,7 @@ export abstract class ModelPiece<
 		return this.model.findOne(options);
 	}
 
-	public create(values?: P["types"], options?: CreateOptions<P["types"]>) {
+	public create(values?: P["createTypes"], options?: CreateOptions<P["types"]>) {
 		return this.model.create(values, options);
 	}
 
@@ -61,7 +63,7 @@ export abstract class ModelPiece<
 		return this.model.findOrCreate(options);
 	}
 
-	public bulkCreate(records: readonly P["types"][], options?: BulkCreateOptions<P["types"]>) {
+	public bulkCreate<T extends P["types"]>(records: readonly T[], options?: BulkCreateOptions<T>) {
 		return this.model.bulkCreate(records, options);
 	}
 
@@ -77,7 +79,7 @@ export abstract class ModelPiece<
 		return this.model.restore(options);
 	}
 
-	public update(values: P["types"], options: UpdateOptions<P["types"]>) {
+	public update<T extends P["types"]>(values: T, options: UpdateOptions<T>) {
 		return this.model.update(values, options);
 	}
 }

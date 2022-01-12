@@ -39,17 +39,17 @@ export class LookCommand extends Command {
 		}
 
 		const { client } = this.container;
-		const customer = await client.users.fetch(order.getDataValue("customer") as string);
-		const guild = await client.guilds.fetch(order.getDataValue("guild") as string);
-		const channel = await guild.channels.fetch(order.getDataValue("channel") as string);
-		const cookedAt = order.getDataValue("cookedAt") as Date | null;
-		const deliveredAt = order.getDataValue("deliveredAt") as Date | null;
-		const chefId = order.getDataValue("chef") as string | null;
+		const customer = await client.users.fetch(order.getDataValue("customer"));
+		const guild = await client.guilds.fetch(order.getDataValue("guild"));
+		const channel = await guild.channels.fetch(order.getDataValue("channel"));
+		const cookedAt = order.getDataValue("cookedAt");
+		const deliveredAt = order.getDataValue("deliveredAt");
+		const chefId = order.getDataValue("chef");
 		const chef = chefId ? await client.users.fetch(chefId) : null;
-		const delivererId = order.getDataValue("deliverer") as string | null;
+		const delivererId = order.getDataValue("deliverer");
 		const deliverer = delivererId ? await client.users.fetch(delivererId) : null;
-		const deliveryMethod = order.getDataValue("deliveryMethod") as string;
-		const image = order.getDataValue("image") as string | null;
+		const deliveryMethod = order.getDataValue("deliveryMethod");
+		const image = order.getDataValue("image");
 
 		const embed = new MessageEmbed({
 			color: "BLUE",
@@ -80,7 +80,7 @@ export class LookCommand extends Command {
 				},
 				{
 					name: "Ordered At",
-					value: this.formatDate(order.getDataValue("orderedAt") as Date)
+					value: this.formatDate(order.getDataValue("orderedAt"))
 				},
 				{
 					name: "Cooked At",

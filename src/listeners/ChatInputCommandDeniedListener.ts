@@ -5,7 +5,7 @@ import { MessageEmbed } from "discord.js";
 @ApplyOptions<ListenerOptions>({
 	event: Events.ChatInputCommandDenied
 })
-export class ChatInputCommandDeniedListener extends Listener<"chatInputCommandDenied"> {
+export class ChatInputCommandDeniedListener extends Listener<typeof Events.ChatInputCommandDenied> {
 	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
 		return interaction.reply({
 			embeds: [

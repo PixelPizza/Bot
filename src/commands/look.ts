@@ -1,6 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ApplicationCommandRegistry, CommandOptions, RegisterBehavior } from "@sapphire/framework";
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { Op } from "sequelize";
 import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
@@ -11,8 +12,44 @@ export class LookCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand.addStringOption((input) =>
-				input.setName("order").setDescription("The ID of the order").setRequired(true)
-			)
+				input.setName("order").setDescription("The ID of the order").setRequired(true).setAutocomplete(true)
+			),
+			{ behaviorWhenNotIdentical: RegisterBehavior.Overwrite }
+		);
+	}
+
+	public override async autocompleteRun(interaction: AutocompleteInteraction) {
+		const focused = interaction.options.getFocused() as string;
+		const found = await this.container.stores
+			.get("models")
+			.get("order")
+			.findAll({
+				where: {
+					[Op.or]: {
+						id: {
+							[Op.startsWith]: focused
+						},
+						order: {
+							[Op.substring]: focused
+						}
+					}
+				},
+				order: [["id", "ASC"]]
+			});
+		return interaction.respond(
+			found
+				.sort((orderA, orderB) => {
+					const statusA = orderA.getDataValue("status");
+					const statusB = orderB.getDataValue("status");
+					if (statusA === statusB) return 0;
+					if (statusA === "deleted") return 1;
+					if (statusB === "deleted") return -1;
+					return 0;
+				})
+				.map((order) => {
+					const id = order.getDataValue("id");
+					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+				})
 		);
 	}
 

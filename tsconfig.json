@@ -33,7 +33,8 @@
 		"composite": true,
 		"sourceRoot": "./",
 		"rootDir": "./src",
-		"outDir": "dist"
+		"outDir": "dist",
+		"allowJs": true
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["**/*.test.ts"]

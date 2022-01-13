@@ -42,9 +42,10 @@
 	"dependencies": {
 		"@discordjs/builders": "^0.9.0",
 		"@sapphire/decorators": "^3.1.3",
-		"@sapphire/framework": "^2.3.0-pr-293.501f6a8.0",
+		"@sapphire/framework": "^3.0.0-next.18259a7.0",
 		"@sapphire/plugin-logger": "^2.0.2",
 		"common-tags": "^1.8.0",
+		"discord-api-types": "^0.26.1",
 		"discord.js": "^13.6.0",
 		"dotenv": "^10.0.0",
 		"dotenv-parse-variables": "^2.0.0",

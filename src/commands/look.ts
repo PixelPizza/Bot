@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { ApplicationCommandRegistry, CommandOptions, RegisterBehavior } from "@sapphire/framework";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import { Command } from "../Command";
@@ -13,8 +13,7 @@ export class LookCommand extends Command {
 			registry,
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("order").setDescription("The ID of the order").setRequired(true).setAutocomplete(true)
-			),
-			{ behaviorWhenNotIdentical: RegisterBehavior.Overwrite }
+			)
 		);
 	}
 

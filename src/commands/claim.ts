@@ -1,6 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { ApplicationCommandRegistry, CommandOptions, Events } from "@sapphire/framework";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { Op } from "sequelize";
 import { Command } from "../Command";
 
 enum ClaimType {
@@ -17,7 +18,7 @@ export class ClaimCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true))
+				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true))
 				.addStringOption((input) =>
 					input
 						.setName("type")
@@ -25,6 +26,36 @@ export class ClaimCommand extends Command {
 						.setRequired(true)
 						.addChoices(Object.keys(ClaimType).map((type) => [type, ClaimType[type as keyof typeof ClaimType]]))
 				)
+		);
+	}
+
+	public override async autocompleteRun(interaction: AutocompleteInteraction) {
+		const focused = interaction.options.getFocused() as string;
+		const found = await this.container.stores
+			.get("models")
+			.get("order")
+			.findAll({
+				where: {
+					[Op.or]: {
+						id: {
+							[Op.startsWith]: focused
+						},
+						order: {
+							[Op.substring]: focused
+						}
+					},
+					status: {
+						[Op.or]: ["uncooked", "cooked"]
+					}
+				},
+				order: [["id", "ASC"]]
+			});
+		return interaction.respond(
+			found
+				.map((order) => {
+					const id = order.getDataValue("id");
+					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+				})
 		);
 	}
 

@@ -1,8 +1,9 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import type { CommandInteraction, TextChannel } from "discord.js";
+import type { AutocompleteInteraction, CommandInteraction, TextChannel } from "discord.js";
 import { Util } from "../Util";
 import { Command } from "../Command";
+import { Op } from "sequelize";
 
 @ApplyOptions<CommandOptions>({
 	description: "Cook an order",
@@ -13,10 +14,39 @@ export class CookCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setRequired(true).setDescription("The order to cook"))
+				.addStringOption((input) => input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true))
 				.addStringOption((input) =>
 					input.setName("image").setRequired(true).setDescription("The url of the image to use")
 				)
+		);
+	}
+
+	public override async autocompleteRun(interaction: AutocompleteInteraction) {
+		const focused = interaction.options.getFocused() as string;
+		const found = await this.container.stores
+			.get("models")
+			.get("order")
+			.findAll({
+				where: {
+					[Op.or]: {
+						id: {
+							[Op.startsWith]: focused
+						},
+						order: {
+							[Op.substring]: focused
+						}
+					},
+					chef: interaction.user.id,
+					status: "uncooked"
+				},
+				order: [["id", "ASC"]]
+			});
+		return interaction.respond(
+			found
+				.map((order) => {
+					const id = order.getDataValue("id");
+					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+				})
 		);
 	}
 

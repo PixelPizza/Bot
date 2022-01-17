@@ -58,10 +58,10 @@
       ]
     },
     {
-      "login": "all-contributors",
-      "name": "All Contributors",
-      "avatar_url": "https://avatars.githubusercontent.com/u/46410174?v=4",
-      "profile": "https://allcontributors.org",
+      "login": "allcontributors[bot]",
+      "name": "allcontributors[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+      "profile": "https://github.com/apps/allcontributors",
       "contributions": [
         "doc"
       ]

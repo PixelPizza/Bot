@@ -1,12 +1,25 @@
 {
-    "projectName": "Bot",
-    "projectOwner": "PixelPizza",
-    "repoType": "github",
-    "repoHost": "https://github.com",
-    "files": ["README.md"],
-    "imageSize": 100,
-    "commit": true,
-    "commitConvention": "angular",
-    "contributorsPerLine": 7,
-    "skipCi": true
+  "projectName": "Bot",
+  "projectOwner": "PixelPizza",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "contributors": [
+    {
+      "login": "JaronZ",
+      "name": "Jaron",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60853956?v=4",
+      "profile": "https://github.com/JaronZ",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
 }

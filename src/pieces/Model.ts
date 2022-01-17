@@ -82,6 +82,8 @@ export abstract class ModelPiece<
 	public update<T extends P["types"]>(values: T, options: UpdateOptions<T>) {
 		return this.model.update(values, options);
 	}
+
+	public abstract getData(model: Model<P["types"], P["createTypes"]>): Promise<{ [key in keyof P["types"]]: unknown }>;
 }
 
 export interface ModelPieceOptions<P extends ModelAttributes = ModelAttributes> {

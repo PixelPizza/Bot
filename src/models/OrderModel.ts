@@ -1,5 +1,6 @@
 import type { PieceContext } from "@sapphire/framework";
-import { DataTypes } from "sequelize";
+import type { GuildTextBasedChannel } from "discord.js";
+import { DataTypes, Model } from "sequelize";
 import { ModelPiece } from "../pieces/Model";
 
 export interface OrderTypes {
@@ -16,6 +17,14 @@ export interface OrderTypes {
 	cookedAt: Date | null;
 	deliveredAt: Date | null;
 	deliveryMethod: "dm" | "bot" | "personal" | null;
+}
+
+export interface OrderCreateTypes {
+	id: string;
+	customer: string;
+	guild: string;
+	channel: string;
+	order: string;
 }
 
 export class OrderModel extends ModelPiece<{
@@ -76,13 +85,7 @@ export class OrderModel extends ModelPiece<{
 		};
 	};
 	types: OrderTypes;
-	createTypes: {
-		id: string;
-		customer: string;
-		guild: string;
-		channel: string;
-		order: string;
-	};
+	createTypes: OrderCreateTypes;
 }> {
 	public constructor(context: PieceContext) {
 		super(context, {
@@ -144,5 +147,26 @@ export class OrderModel extends ModelPiece<{
 				}
 			}
 		});
+	}
+
+	public async getData(model: Model<OrderTypes, OrderCreateTypes>) {
+		const {client} = this.container;
+		const {users} = client;
+		const guild = await client.guilds.fetch(model.getDataValue("guild")!).catch(() => null);
+		return {
+			id: model.getDataValue("id"),
+			customer: await users.fetch(model.getDataValue("customer")).catch(() => null),
+			guild,
+			channel: (await guild?.channels.fetch(model.getDataValue("channel")) ?? guild?.systemChannel ?? null) as GuildTextBasedChannel | null,
+			chef: await users.fetch(model.getDataValue("chef")!).catch(() => null),
+			deliverer: await users.fetch(model.getDataValue("deliverer")!).catch(() => null),
+			image: model.getDataValue("image"),
+			status: model.getDataValue("status"),
+			order: model.getDataValue("order"),
+			orderedAt: model.getDataValue("orderedAt"),
+			cookedAt: model.getDataValue("cookedAt"),
+			deliveredAt: model.getDataValue("deliveredAt"),
+			deliveryMethod: model.getDataValue("deliveryMethod")
+		};
 	}
 }

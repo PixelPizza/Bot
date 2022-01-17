@@ -19,8 +19,8 @@ import type {
 type FindOptions<P extends ModelAttributes = ModelAttributes> = SequelizeFindOptions<P> | NonNullFindOptions<P>;
 
 export abstract class ModelPiece<
-	Attributes extends ModelAttributes,
-	Types extends { [key in keyof Attributes]: any },
+	Attributes extends ModelAttributes = ModelAttributes,
+	Types extends { [key in keyof Attributes]: any } = { [key in keyof Attributes]: any },
 	CreateTypes extends { [key in keyof Types]?: Types[key] } = Types
 > extends Piece {
 	public declare readonly options: ModelPieceOptions<Attributes>;

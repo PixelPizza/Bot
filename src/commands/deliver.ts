@@ -14,7 +14,7 @@ enum DeliveryMethod {
 
 @ApplyOptions<CommandOptions>({
 	description: "Deliver an order",
-	preconditions: ["DelivererOnly"]
+	preconditions: ["ValidOrderData", "DelivererOnly"]
 })
 export class DeliverCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

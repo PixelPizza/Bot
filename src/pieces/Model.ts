@@ -40,7 +40,7 @@ export abstract class ModelPiece<
 			createdAt: false,
 			updatedAt: false
 		});
-		void this.model.sync({ force: true });
+		void this.model.sync({ force: false });
 	}
 
 	public findAll(options?: FindOptions<P["types"]>) {

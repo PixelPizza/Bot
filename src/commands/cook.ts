@@ -7,7 +7,7 @@ import { Op } from "sequelize";
 
 @ApplyOptions<CommandOptions>({
 	description: "Cook an order",
-	preconditions: ["ChefOnly"]
+	preconditions: ["ValidOrderData", "ChefOnly"]
 })
 export class CookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -106,7 +106,8 @@ export class CookCommand extends Command {
 
 		await order.update({
 			image: imageMessage.attachments.first()!.url,
-			status: "cooked"
+			status: "cooked",
+			cookedAt: new Date()
 		});
 
 		return interaction.editReply({

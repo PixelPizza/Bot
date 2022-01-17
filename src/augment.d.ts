@@ -29,5 +29,6 @@ declare module "@sapphire/framework" {
 	interface Preconditions {
 		ChefOnly: never;
 		DelivererOnly: never;
+		ValidOrderData: never;
 	}
 }

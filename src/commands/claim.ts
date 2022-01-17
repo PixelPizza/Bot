@@ -11,7 +11,7 @@ enum ClaimType {
 
 @ApplyOptions<CommandOptions>({
 	description: "Claim an order",
-	preconditions: [["ChefOnly"], ["DelivererOnly"]]
+	preconditions: [["ValidOrderData", "ChefOnly"], ["ValidOrderData", "DelivererOnly"]]
 })
 export class ClaimCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

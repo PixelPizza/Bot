@@ -18,6 +18,16 @@ Pixel Pizza is a discord bot for ordering, cooking and delivering food (not real
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/JaronZ"><img src="https://avatars.githubusercontent.com/u/60853956?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jaron</b></sub></a><br /><a href="https://github.com/PixelPizza/Bot/commits?author=JaronZ" title="Code">💻</a> <a href="https://github.com/PixelPizza/Bot/commits?author=JaronZ" title="Documentation">📖</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 

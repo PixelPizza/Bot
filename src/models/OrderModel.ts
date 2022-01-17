@@ -28,65 +28,61 @@ export interface OrderCreateTypes {
 }
 
 export class OrderModel extends ModelPiece<{
-	attributes: {
-		id: {
-			type: DataTypes.StringDataType;
-			primaryKey: true;
-		};
-		customer: {
-			type: DataTypes.StringDataType;
-			allowNull: false;
-		};
-		guild: {
-			type: DataTypes.StringDataType;
-			allowNull: false;
-		};
-		channel: {
-			type: DataTypes.StringDataType;
-			allowNull: false;
-		};
-		chef: {
-			type: DataTypes.StringDataType;
-			defaultValue: null;
-		};
-		deliverer: {
-			type: DataTypes.StringDataType;
-			defaultValue: null;
-		};
-		image: {
-			type: DataTypes.StringDataType;
-			defaultValue: null;
-		};
-		status: {
-			type: DataTypes.EnumDataType<"uncooked" | "cooked" | "delivered" | "deleted">;
-			allowNull: false;
-			defaultValue: "uncooked";
-		};
-		order: {
-			type: DataTypes.StringDataType;
-			allowNull: false;
-		};
-		orderedAt: {
-			type: DataTypes.DateDataType;
-			allowNull: false;
-			defaultValue: typeof DataTypes.NOW;
-		};
-		cookedAt: {
-			type: DataTypes.DateDataType;
-			defaultValue: null;
-		};
-		deliveredAt: {
-			type: DataTypes.DateDataType;
-			defaultValue: null;
-		};
-		deliveryMethod: {
-			type: DataTypes.EnumDataType<"dm" | "bot" | "personal">;
-			defaultValue: null;
-		};
+	id: {
+		type: DataTypes.StringDataType;
+		primaryKey: true;
 	};
-	types: OrderTypes;
-	createTypes: OrderCreateTypes;
-}> {
+	customer: {
+		type: DataTypes.StringDataType;
+		allowNull: false;
+	};
+	guild: {
+		type: DataTypes.StringDataType;
+		allowNull: false;
+	};
+	channel: {
+		type: DataTypes.StringDataType;
+		allowNull: false;
+	};
+	chef: {
+		type: DataTypes.StringDataType;
+		defaultValue: null;
+	};
+	deliverer: {
+		type: DataTypes.StringDataType;
+		defaultValue: null;
+	};
+	image: {
+		type: DataTypes.StringDataType;
+		defaultValue: null;
+	};
+	status: {
+		type: DataTypes.EnumDataType<"uncooked" | "cooked" | "delivered" | "deleted">;
+		allowNull: false;
+		defaultValue: "uncooked";
+	};
+	order: {
+		type: DataTypes.StringDataType;
+		allowNull: false;
+	};
+	orderedAt: {
+		type: DataTypes.DateDataType;
+		allowNull: false;
+		defaultValue: typeof DataTypes.NOW;
+	};
+	cookedAt: {
+		type: DataTypes.DateDataType;
+		defaultValue: null;
+	};
+	deliveredAt: {
+		type: DataTypes.DateDataType;
+		defaultValue: null;
+	};
+	deliveryMethod: {
+		type: DataTypes.EnumDataType<"dm" | "bot" | "personal">;
+		defaultValue: null;
+	};
+}, OrderTypes, OrderCreateTypes> {
 	public constructor(context: PieceContext) {
 		super(context, {
 			name: "order",

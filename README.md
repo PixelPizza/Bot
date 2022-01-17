@@ -23,6 +23,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/JaronZ"><img src="https://avatars.githubusercontent.com/u/60853956?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jaron</b></sub></a><br /><a href="https://github.com/PixelPizza/Bot/commits?author=JaronZ" title="Code">💻</a> <a href="https://github.com/PixelPizza/Bot/commits?author=JaronZ" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/DirtKingy"><img src="https://avatars.githubusercontent.com/u/92637772?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DirtKingy</b></sub></a><br /><a href="#ideas-DirtKingy" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 

@@ -156,12 +156,15 @@ export class DeliverCommand extends Command {
 		]);
 	}
 
+	public get modelStore() {
+		return this.container.stores.get("models");
+	}
+
 	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const orderId = interaction.options.getString("order", true);
-		const order = await this.container.stores
-			.get("models")
+		const order = await this.modelStore
 			.get("order")
 			.findOne({
 				where: {
@@ -186,7 +189,9 @@ export class DeliverCommand extends Command {
 
 		order.setDataValue("deliveredAt", new Date());
 
-		const deliveryMessage = await this.createDeliveryMessage(stripIndents`
+		const deliverer = await this.modelStore.get("user").findByPk(interaction.user.id);
+
+		const deliveryMessage = await this.createDeliveryMessage(stripIndents(deliverer?.getDataValue("deliveryMessage") ?? `
 			Hello {customer:tag},
 
 			Here is your order
@@ -208,7 +213,7 @@ export class DeliverCommand extends Command {
 
 			I hope you have a great day! bye!
 			{image}
-		`, order, method === DeliveryMethod.Personal);
+		`), order, method === DeliveryMethod.Personal);
 
 		const {customer, channel, guild} = await this.container.stores.get("models").get("order").getData(order);
 

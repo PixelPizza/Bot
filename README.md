@@ -27,6 +27,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Spit-fires"><img src="https://avatars.githubusercontent.com/u/84981998?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Spit-fires</b></sub></a><br /><a href="#ideas-Spit-fires" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/mcpsbot"><img src="https://avatars.githubusercontent.com/u/83839790?v=4?s=100" width="100px;" alt=""/><br /><sub><b>mcpsbot</b></sub></a><br /><a href="#ideas-mcpsbot" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/soyalk9"><img src="https://avatars.githubusercontent.com/u/45419988?v=4?s=100" width="100px;" alt=""/><br /><sub><b>soyal</b></sub></a><br /><a href="https://github.com/PixelPizza/Bot/commits?author=soyalk9" title="Code">💻</a></td>
+    <td align="center"><a href="https://allcontributors.org"><img src="https://avatars.githubusercontent.com/u/46410174?v=4?s=100" width="100px;" alt=""/><br /><sub><b>All Contributors</b></sub></a><br /><a href="https://github.com/PixelPizza/Bot/commits?author=all-contributors" title="Documentation">📖</a></td>
   </tr>
 </table>
 

@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { Precondition, PreconditionOptions } from "@sapphire/framework";
+import { Precondition, type PreconditionOptions } from "@sapphire/framework";
 import type { CommandInteraction } from "discord.js";
 
 @ApplyOptions<PreconditionOptions>({

@@ -1,11 +1,11 @@
 import {
 	SlashCommandBuilder,
-	SlashCommandOptionsOnlyBuilder,
-	SlashCommandSubcommandsOnlyBuilder
+	type SlashCommandOptionsOnlyBuilder,
+	type SlashCommandSubcommandsOnlyBuilder
 } from "@discordjs/builders";
 import {
-	ApplicationCommandRegistry,
-	ApplicationCommandRegistryRegisterOptions,
+	type ApplicationCommandRegistry,
+	type ApplicationCommandRegistryRegisterOptions,
 	Command as SapphireCommand
 } from "@sapphire/framework";
 import type { ChatInputApplicationCommandData } from "discord.js";

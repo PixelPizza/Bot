@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { Events, Listener, ListenerOptions } from "@sapphire/framework";
+import { Events, Listener, type ListenerOptions } from "@sapphire/framework";
 import type { Client } from "discord.js";
 
 @ApplyOptions<ListenerOptions>({

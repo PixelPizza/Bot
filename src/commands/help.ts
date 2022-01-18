@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, Args, CommandOptions } from "@sapphire/framework";
-import { CommandInteraction, Message, MessageEmbed, MessageOptions } from "discord.js";
+import { type CommandInteraction, type Message, MessageEmbed, type MessageOptions } from "discord.js";
 import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({

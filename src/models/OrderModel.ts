@@ -1,6 +1,6 @@
 import type { PieceContext } from "@sapphire/framework";
 import type { GuildTextBasedChannel } from "discord.js";
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, type Model } from "sequelize";
 import { ModelPiece } from "../pieces/Model";
 
 export interface OrderTypes {

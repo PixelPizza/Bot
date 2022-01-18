@@ -1,4 +1,4 @@
-import { Piece, PieceContext, container } from "@sapphire/framework";
+import { Piece, type PieceContext } from "@sapphire/framework";
 import type {
 	BulkCreateOptions,
 	CreateOptions,
@@ -29,7 +29,7 @@ export abstract class ModelPiece<
 	public constructor(context: PieceContext, options: ModelPieceOptions<Attributes>) {
 		super(context, options);
 		const { name, attributes, options: modelOptions } = this.options;
-		this.model = container.database.define(name, attributes, {
+		this.model = this.container.database.define(name, attributes, {
 			...modelOptions,
 			createdAt: false,
 			updatedAt: false
@@ -53,7 +53,7 @@ export abstract class ModelPiece<
 		return this.model.create(values, options);
 	}
 
-	public findOrCreate(options: FindOrCreateOptions<Types>) {
+	public findOrCreate(options: FindOrCreateOptions<Types, CreateTypes>) {
 		return this.model.findOrCreate(options);
 	}
 

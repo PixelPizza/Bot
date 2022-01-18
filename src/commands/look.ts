@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import { Command } from "../Command";
 

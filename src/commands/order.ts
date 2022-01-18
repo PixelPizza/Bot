@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { type CommandInteraction, MessageEmbed } from "discord.js";
 import { randomInt } from "node:crypto";
 import { Command } from "../Command";
 

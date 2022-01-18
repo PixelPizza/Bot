@@ -1,8 +1,8 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
-import { AutocompleteInteraction, CommandInteraction, Guild, GuildTextBasedChannel, TextChannel, ThreadChannel, User } from "discord.js";
-import { Model, Op } from "sequelize";
+import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User } from "discord.js";
+import { type Model, Op } from "sequelize";
 import { Command } from "../Command";
 import type { OrderCreateTypes, OrderTypes } from "../models/OrderModel";
 import { Util } from "../Util";

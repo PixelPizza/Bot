@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import { CommandInteraction, Message, MessageEmbed, SnowflakeUtil } from "discord.js";
+import { type CommandInteraction, Message, MessageEmbed, SnowflakeUtil } from "discord.js";
 import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({

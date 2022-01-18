@@ -191,31 +191,7 @@ export class DeliverCommand extends Command {
 		order.setDataValue("deliveredAt", new Date());
 
 		const deliverer = await this.modelStore.get("user").findByPk(interaction.user.id);
-
-		const deliveryMessage = await this.createDeliveryMessage(stripIndents(deliverer?.getDataValue("deliveryMessage") ?? `
-			Hello {customer:tag},
-
-			Here is your order
-
-			id: {orderID}
-			order: {order}
-			server: {guild}
-			channel: {channel}
-
-			Ordered at: {orderdate:date}
-			Cooked at: {cookdate:date}
-			Delivered at: {deliverydate:date}
-
-			It has been cooked by {chef:tag}
-			It has been delivered by {deliverer:tag}
-
-			I hope the order is what you wanted. If you have any complaints, please join our server and tell us.
-			If you want to join our server this is the invite {invite}
-
-			I hope you have a great day! bye!
-			{image}
-		`), order, method === DeliveryMethod.Personal);
-
+		const deliveryMessage = await this.createDeliveryMessage(deliverer?.getDataValue("deliveryMessage") ?? Util.getDefaults().deliveryMessage, order, method === DeliveryMethod.Personal);
 		const {customer, channel, guild} = await this.container.stores.get("models").get("order").getData(order);
 
 		try {

@@ -5,6 +5,7 @@ import { AutocompleteInteraction, CommandInteraction, Guild, GuildTextBasedChann
 import { Model, Op } from "sequelize";
 import { Command } from "../Command";
 import type { OrderCreateTypes, OrderTypes } from "../models/OrderModel";
+import { Util } from "../Util";
 
 enum DeliveryMethod {
 	DM = "dm",
@@ -67,7 +68,7 @@ export class DeliverCommand extends Command {
 
 	private makeDateReplacement(name: string, date: Date) {
 		return {
-			type: `${name}date(?:: *(date|time|datetime))?`,
+			type: Util.makeDateRegex(name),
 			replacement: (_s: string, type: string) => {
 				switch(type) {
 					case "date":
@@ -84,7 +85,7 @@ export class DeliverCommand extends Command {
 
 	private makeUserReplacement(name: string, user: User | null, escaped: boolean, defaultValue: string) {
 		return {
-			type: `${name}(?:: *(tag|id|username|name|ping|mention))?`,
+			type: Util.makeUserRegex(name),
 			replacement: (_s: string, type: string) => {
 				const addition = escaped ? "`" : "";
 				const parse = () => {

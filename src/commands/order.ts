@@ -6,7 +6,8 @@ import { Command } from "../Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Order some food",
-	requiredClientPermissions: ["CREATE_INSTANT_INVITE"]
+	requiredClientPermissions: ["CREATE_INSTANT_INVITE"],
+	preconditions: ["GuildOnly"]
 })
 export class OrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -37,7 +38,7 @@ export class OrderCommand extends Command {
 			id,
 			order,
 			customer: interaction.user.id,
-			guild: interaction.guildId,
+			guild: interaction.guildId!,
 			channel: interaction.channelId
 		});
 

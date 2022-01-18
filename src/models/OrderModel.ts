@@ -17,6 +17,7 @@ export interface OrderTypes {
 	cookedAt: Date | null;
 	deliveredAt: Date | null;
 	deliveryMethod: "dm" | "bot" | "personal" | null;
+	deleteReason: string | null;
 }
 
 export interface OrderCreateTypes {
@@ -82,6 +83,10 @@ export class OrderModel extends ModelPiece<{
 		type: DataTypes.EnumDataType<"dm" | "bot" | "personal">;
 		defaultValue: null;
 	};
+	deleteReason: {
+		type: DataTypes.StringDataType;
+		defaultValue: null;
+	};
 }, OrderTypes, OrderCreateTypes> {
 	public constructor(context: PieceContext) {
 		super(context, {
@@ -140,6 +145,10 @@ export class OrderModel extends ModelPiece<{
 				deliveryMethod: {
 					type: DataTypes.ENUM("dm", "bot", "personal"),
 					defaultValue: null
+				},
+				deleteReason: {
+					type: DataTypes.STRING(),
+					defaultValue: null
 				}
 			}
 		});
@@ -162,7 +171,8 @@ export class OrderModel extends ModelPiece<{
 			orderedAt: model.getDataValue("orderedAt"),
 			cookedAt: model.getDataValue("cookedAt"),
 			deliveredAt: model.getDataValue("deliveredAt"),
-			deliveryMethod: model.getDataValue("deliveryMethod")
+			deliveryMethod: model.getDataValue("deliveryMethod"),
+			deleteReason: model.getDataValue("deleteReason")
 		};
 	}
 }

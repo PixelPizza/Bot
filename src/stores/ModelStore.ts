@@ -1,7 +1,7 @@
 import { Store } from "@sapphire/framework";
-import { ModelPiece } from "./pieces/Model";
-import type { OrderModel } from "./models/OrderModel";
-import type { UserModel } from "./models/UserModel";
+import { ModelPiece } from "../pieces/Model";
+import type { OrderModel } from "../models/OrderModel";
+import type { UserModel } from "../models/UserModel";
 
 export class ModelStore extends Store<ModelPiece> {
 	public constructor() {

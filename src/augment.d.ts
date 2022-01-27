@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { ModelStore } from "./ModelStore";
+import { ModelStore } from "./stores/ModelStore";
 
 export declare global {
 	namespace NodeJS {

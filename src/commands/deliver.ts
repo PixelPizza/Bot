@@ -2,9 +2,9 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User } from "discord.js";
-import { type Model, Op } from "sequelize";
+import { Op } from "sequelize";
 import { Command } from "../Command";
-import type { OrderCreateTypes, OrderTypes } from "../models/OrderModel";
+import type { Order } from "../models/OrderModel";
 import { Util } from "../Util";
 
 enum DeliveryMethod {
@@ -114,8 +114,8 @@ export class DeliverCommand extends Command {
 		return message;
 	}
 
-	private async createDeliveryMessage(message: string, orderModel: Model<OrderTypes, OrderCreateTypes>, escaped: boolean) {
-		const { chef, deliverer, customer, guild, channel, image, id, order, orderedAt, cookedAt, deliveredAt } = await this.container.stores.get("models").get("order").getData(orderModel);
+	private async createDeliveryMessage(message: string, orderModel: Order, escaped: boolean) {
+		const { chef, deliverer, customer, guild, channel, image, id, order, orderedAt, cookedAt, deliveredAt } = await orderModel.getData();
 		const inviteChannel = (await this.container.client.channels.fetch(process.env.INVITE_CHANNEL)) as TextChannel;
 		const invite = await inviteChannel.createInvite({ maxAge: 0, maxUses: 1, unique: false });
 		const guildName = guild ? guild.name : "Unknown Guild";
@@ -192,7 +192,7 @@ export class DeliverCommand extends Command {
 
 		const deliverer = await this.modelStore.get("user").findByPk(interaction.user.id);
 		const deliveryMessage = await this.createDeliveryMessage(deliverer?.getDataValue("deliveryMessage") ?? Util.getDefaults().deliveryMessage, order, method === DeliveryMethod.Personal);
-		const {customer, channel, guild} = await this.container.stores.get("models").get("order").getData(order);
+		const {customer, channel, guild} = await order.getData();
 
 		try {
 			switch(method) {

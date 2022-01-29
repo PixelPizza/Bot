@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { ModelStore } from "./stores/ModelStore";
+import type { ModelManagerStore } from "./stores/ModelManagerStore";
 
 export declare global {
 	namespace NodeJS {
@@ -21,7 +21,7 @@ declare module "@sapphire/pieces" {
 	}
 
 	interface StoreRegistryEntries {
-		models: ModelStore;
+		models: ModelManagerStore;
 	}
 }
 

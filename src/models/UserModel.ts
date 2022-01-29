@@ -1,40 +1,37 @@
-import type { PieceContext } from "@sapphire/framework";
-import { DataTypes, type Model } from "sequelize";
-import { ModelPiece } from "../pieces/Model";
+import { ApplyOptions } from "@sapphire/decorators";
+import { BuildOptions, DataTypes, ModelCtor } from "sequelize";
+import { ModelManager, ModelManagerOptions, Model } from "../pieces/ModelManager";
 
 export interface UserTypes {
-    id: string;
+	id: string;
     deliveryMessage: string | null;
 }
 
 export interface UserCreateTypes {
-    id: string;
+	id: string;
 }
 
-export class UserModel extends ModelPiece<{
-    id: {
-        type: DataTypes.StringDataType;
-        primaryKey: true;
-    };
-    deliveryMessage: DataTypes.StringDataType;
-}, UserTypes, UserCreateTypes> {
-    public constructor(context: PieceContext) {
-        super(context, {
-            name: "user",
-            attributes: {
-                id: {
-                    type: DataTypes.STRING(18),
-                    primaryKey: true
-                },
-                deliveryMessage: DataTypes.STRING(1000)
-            }
-        });
+export class User extends Model<UserTypes, UserCreateTypes> {
+    public constructor(values?: UserCreateTypes, options?: BuildOptions) {
+        super(values, options);
     }
-
-    public getData(model: Model<UserTypes, UserCreateTypes>): Promise<{ id: unknown; deliveryMessage: unknown; }> {
-        return Promise.resolve({
-            id: model.getDataValue("id"),
-            deliveryMessage: model.getDataValue("deliveryMessage")
-        });
+    
+    public override getData() {
+        return {
+            id: this.getDataValue("id"),
+            deliveryMessage: this.getDataValue("deliveryMessage")
+        };
     }
 }
+
+@ApplyOptions<ModelManagerOptions<User>>({
+    attributes: {
+        id: {
+            type: DataTypes.STRING(18),
+            primaryKey: true
+        },
+        deliveryMessage: DataTypes.STRING(1000)
+    },
+    model: User as ModelCtor<User>
+})
+export class UserModel extends ModelManager<UserTypes, UserCreateTypes, User> {}

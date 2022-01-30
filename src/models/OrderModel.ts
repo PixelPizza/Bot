@@ -70,10 +70,12 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
             async afterCreate(model: Order) {
                 const webhooks = container.stores.get("webhooks");
                 await webhooks.get("order").sendOrder(model);
+                await webhooks.get("kitchen").sendOrder(model);
             },
             async afterUpdate(model: Order) {
                 const webhooks = container.stores.get("webhooks");
                 await webhooks.get("order").editOrder(model);
+                await webhooks.get("kitchen").editOrder(model);
             }
         }
     },

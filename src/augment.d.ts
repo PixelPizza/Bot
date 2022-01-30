@@ -8,10 +8,12 @@ export declare global {
 			TOKEN: string;
 			COMMAND_GUILDS: string | string[];
 			INVITE_CHANNEL: string;
+			KITCHEN_CHANNEL: string;
 			IMAGE_CHANNEL: string;
 			ORDER_LOG_CHANNEL: string;
 			ECO_EMOJI: string;
 			CHEF_ROLE: string;
+			CHEF_PING_ROLE: string;
 			DELIVERER_ROLE: string;
 		}
 	}

@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { MessageOptions, MessageResolvable } from "discord.js";
+import type { MessageResolvable } from "discord.js";
 import type { Order } from "../lib/models/Order";
 import { WebhookManager, WebhookManagerOptions } from "../lib/pieces/WebhookManager";
 
@@ -15,14 +15,17 @@ export class OrderWebhook extends WebhookManager {
 
     public async sendOrder(order: Order) {
         const id = order.getDataValue("id");
-        const messageOptions: MessageOptions = {
+        if (id in this.messages) return;
+        this.messages[id] = (await this.send({
             embeds: [await order.createOrderEmbed()]
-        };
-        if (!(id in this.messages)) {
-            const message = await this.send(messageOptions);
-            this.messages[id] = message.id;
-            return;
-        }
-        await this.editMessage(this.messages[id], messageOptions);
+        })).id;
+    }
+
+    public async editOrder(order: Order) {
+        const id = order.getDataValue("id");
+        if (!(id in this.messages)) return;
+        await this.editMessage(this.messages[id], {
+            embeds: [await order.createOrderEmbed()]
+        });
     }
 }

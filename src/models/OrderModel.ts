@@ -3,7 +3,7 @@ import { DataTypes, ModelCtor } from "sequelize";
 import { Order } from "../lib/models/Order";
 import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
 
-@ApplyOptions<ModelManagerOptions<Order>>({
+@ApplyOptions<ModelManagerOptions<Order>>(({ container }) => ({
     name: "order",
     attributes: {
         id: {
@@ -65,6 +65,16 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
             defaultValue: null
         }
     },
+    initOptions: {
+        hooks: {
+            async afterCreate(model: Order) {
+                await container.stores.get("webhooks").get("order").sendOrder(model);
+            },
+            async afterUpdate(model: Order) {
+                await container.stores.get("webhooks").get("order").sendOrder(model);
+            }
+        }
+    },
     model: Order as ModelCtor<Order>
-})
+}))
 export class OrderModel extends ModelManager<Order["_attributes"], Order["_creationAttributes"], Order> {}

@@ -1,62 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { GuildTextBasedChannel } from "discord.js";
-import { BuildOptions, DataTypes, ModelCtor } from "sequelize";
-import { ModelManager, ModelManagerOptions, Model } from "../pieces/ModelManager";
-
-export interface OrderTypes {
-	id: string;
-	customer: string;
-	guild: string;
-	channel: string;
-	chef: string | null;
-	deliverer: string | null;
-	image: string | null;
-	status: "uncooked" | "cooked" | "delivered" | "deleted";
-	order: string;
-	orderedAt: Date;
-	cookedAt: Date | null;
-	deliveredAt: Date | null;
-	deliveryMethod: "dm" | "bot" | "personal" | null;
-	deleteReason: string | null;
-}
-
-export interface OrderCreateTypes {
-	id: string;
-	customer: string;
-	guild: string;
-	channel: string;
-	order: string;
-}
-
-export class Order extends Model<OrderTypes, OrderCreateTypes> {
-    public constructor(values?: OrderCreateTypes, options?: BuildOptions) {
-        super(values, options);
-    }
-    
-    public override async getData() {
-        const {client} = this.container;
-		const {users} = client;
-		const guild = await client.guilds.fetch(this.getDataValue("guild")!).catch(() => null);
-		return {
-			id: this.getDataValue("id"),
-			customer: await users.fetch(this.getDataValue("customer")).catch(() => null),
-			guild,
-			channel: (await guild?.channels.fetch(this.getDataValue("channel")) ?? guild?.systemChannel ?? null) as GuildTextBasedChannel | null,
-			chef: await users.fetch(this.getDataValue("chef")!).catch(() => null),
-			deliverer: await users.fetch(this.getDataValue("deliverer")!).catch(() => null),
-			image: this.getDataValue("image"),
-			status: this.getDataValue("status"),
-			order: this.getDataValue("order"),
-			orderedAt: this.getDataValue("orderedAt"),
-			cookedAt: this.getDataValue("cookedAt"),
-			deliveredAt: this.getDataValue("deliveredAt"),
-			deliveryMethod: this.getDataValue("deliveryMethod"),
-			deleteReason: this.getDataValue("deleteReason")
-		};
-    }
-}
+import { DataTypes, ModelCtor } from "sequelize";
+import { Order } from "../lib/models/Order";
+import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
 
 @ApplyOptions<ModelManagerOptions<Order>>({
+    name: "order",
     attributes: {
         id: {
             type: DataTypes.STRING(3),
@@ -119,4 +67,4 @@ export class Order extends Model<OrderTypes, OrderCreateTypes> {
     },
     model: Order as ModelCtor<Order>
 })
-export class OrderModel extends ModelManager<OrderTypes, OrderCreateTypes, Order> {}
+export class OrderModel extends ModelManager<Order["_attributes"], Order["_creationAttributes"], Order> {}

@@ -3,9 +3,9 @@ import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/frame
 import { stripIndents } from "common-tags";
 import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User } from "discord.js";
 import { Op } from "sequelize";
-import { Command } from "../Command";
-import type { Order } from "../models/OrderModel";
-import { Util } from "../Util";
+import { Command } from "../lib/Command";
+import type { Order } from "../lib/models/Order";
+import { Util } from "../lib/Util";
 
 enum DeliveryMethod {
 	DM = "dm",

@@ -2,7 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
 import { Op } from "sequelize";
-import { Command } from "../Command";
+import { Command } from "../lib/Command";
 
 @ApplyOptions<CommandOptions>({
     description: "Remove an order",

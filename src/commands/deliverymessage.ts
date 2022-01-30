@@ -2,8 +2,8 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { codeBlock } from "@discordjs/builders";
 import { type CommandInteraction, type Message, MessageActionRow, MessageSelectMenu, type WebhookEditMessageOptions } from "discord.js";
-import { Command } from "../Command";
-import { Util } from "../Util";
+import { Command } from "../lib/Command";
+import { Util } from "../lib/Util";
 
 @ApplyOptions<CommandOptions>({
     description: "Set your delivery message",

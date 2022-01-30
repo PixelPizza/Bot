@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
-import { Command } from "../Command";
+import { Command } from "../lib/Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Show the current orders"

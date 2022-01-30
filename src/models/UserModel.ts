@@ -1,30 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { BuildOptions, DataTypes, ModelCtor } from "sequelize";
-import { ModelManager, ModelManagerOptions, Model } from "../pieces/ModelManager";
-
-export interface UserTypes {
-	id: string;
-    deliveryMessage: string | null;
-}
-
-export interface UserCreateTypes {
-	id: string;
-}
-
-export class User extends Model<UserTypes, UserCreateTypes> {
-    public constructor(values?: UserCreateTypes, options?: BuildOptions) {
-        super(values, options);
-    }
-    
-    public override getData() {
-        return {
-            id: this.getDataValue("id"),
-            deliveryMessage: this.getDataValue("deliveryMessage")
-        };
-    }
-}
+import { DataTypes, ModelCtor } from "sequelize";
+import { User } from "../lib/models/User";
+import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
 
 @ApplyOptions<ModelManagerOptions<User>>({
+    name: "user",
     attributes: {
         id: {
             type: DataTypes.STRING(18),
@@ -34,4 +14,4 @@ export class User extends Model<UserTypes, UserCreateTypes> {
     },
     model: User as ModelCtor<User>
 })
-export class UserModel extends ModelManager<UserTypes, UserCreateTypes, User> {}
+export class UserModel extends ModelManager<User["_attributes"], User["_creationAttributes"], User> {}

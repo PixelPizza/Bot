@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import type { ModelManagerStore } from "./stores/ModelManagerStore";
+import type { ModelManagerStore } from "./lib/stores/ModelManagerStore";
 
 export declare global {
 	namespace NodeJS {

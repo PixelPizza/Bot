@@ -2,7 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { type ApplicationCommandRegistry, type CommandOptions, Events } from "@sapphire/framework";
 import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
-import { Command } from "../Command";
+import { Command } from "../lib/Command";
 
 enum ClaimType {
 	Cooking = "cooking",

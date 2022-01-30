@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { type CommandInteraction, Message, MessageEmbed, SnowflakeUtil } from "discord.js";
-import { Command } from "../Command";
+import { Command } from "../lib/Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Displays the bot ping"

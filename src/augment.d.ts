@@ -7,11 +7,14 @@ export declare global {
 		interface ProcessEnv {
 			TOKEN: string;
 			COMMAND_GUILDS: string | string[];
+			// Channels
 			INVITE_CHANNEL: string;
 			IMAGE_CHANNEL: string;
 			KITCHEN_CHANNEL: string;
 			ORDER_LOG_CHANNEL: string;
+			// Emojis
 			ECO_EMOJI: string;
+			// Roles
 			CHEF_ROLE: string;
 			CHEF_PING_ROLE: string;
 			DELIVERER_ROLE: string;

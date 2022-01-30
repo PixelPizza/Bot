@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { MessageResolvable } from "discord.js";
+import type { MessageOptions, MessageResolvable } from "discord.js";
 import type { Order } from "../lib/models/Order";
 import { WebhookManager, WebhookManagerOptions } from "../lib/pieces/WebhookManager";
 
@@ -15,7 +15,7 @@ export class OrderWebhook extends WebhookManager {
 
     public async sendOrder(order: Order) {
         const id = order.getDataValue("id");
-        const messageOptions = {
+        const messageOptions: MessageOptions = {
             embeds: [await order.createOrderEmbed()]
         };
         if (!(id in this.messages)) {

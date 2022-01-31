@@ -14,4 +14,4 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
     },
     model: User as ModelCtor<User>
 })
-export class UserModel extends ModelManager<User["_attributes"], User["_creationAttributes"], User> {}
+export class UserModel extends ModelManager<User> {}

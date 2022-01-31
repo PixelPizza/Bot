@@ -3,7 +3,7 @@ import type { OrderModel } from "../../models/OrderModel";
 import type { UserModel } from "../../models/UserModel";
 import { ModelManager } from "../pieces/ModelManager";
 
-export class ModelManagerStore extends Store<ModelManager<any, any, any>> {
+export class ModelManagerStore extends Store<ModelManager<any>> {
     public constructor() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         super(ModelManager as any, { name: "models" });

@@ -11,7 +11,7 @@ export class Model<TModelAttributes = any, TCreationAttributes = TModelAttribute
     public readonly container = container;
 }
 
-export abstract class ModelManager<Attributes, CreationAttributes, ModelClass extends Model<Attributes, CreationAttributes>> extends Piece<ModelManagerOptions<ModelClass>> {
+export abstract class ModelManager<ModelClass extends Model<ModelClass["_attributes"], ModelClass["_creationAttributes"]>> extends Piece<ModelManagerOptions<ModelClass>> {
     private readonly model: ModelCtor<ModelClass>;
     
     public constructor(context: PieceContext, options: ModelManagerOptions<ModelClass>) {
@@ -27,15 +27,15 @@ export abstract class ModelManager<Attributes, CreationAttributes, ModelClass ex
         return super.onLoad();
     }
 
-    public bulkCreate(records: readonly CreationAttributes[], options?: BulkCreateOptions<Attributes>) {
+    public bulkCreate(records: readonly ModelClass["_creationAttributes"][], options?: BulkCreateOptions<ModelClass["_attributes"]>) {
         return this.model.bulkCreate(records, options);
     }
 
-    public count(options?: CountOptions<Attributes>) {
+    public count(options?: CountOptions<ModelClass["_attributes"]>) {
         return this.model.count(options);
     }
 
-    public create(values?: CreationAttributes, options?: CreateOptions<Attributes>) {
+    public create(values?: ModelClass["_creationAttributes"], options?: CreateOptions<ModelClass["_attributes"]>) {
         return this.model.create(values, options);
     }
 
@@ -43,47 +43,47 @@ export abstract class ModelManager<Attributes, CreationAttributes, ModelClass ex
         return this.model.describe();
     }
 
-    public destroy(options?: DestroyOptions<Attributes>) {
+    public destroy(options?: DestroyOptions<ModelClass["_attributes"]>) {
         return this.model.destroy(options);
     }
 
-    public findAll(options?: FindOptions<Attributes>) {
+    public findAll(options?: FindOptions<ModelClass["_attributes"]>) {
         return this.model.findAll(options);
     }
 
-    public findAndCountAll(options?: (FindAndCountOptions<Attributes> & { group: GroupOption })) {
+    public findAndCountAll(options?: (FindAndCountOptions<ModelClass["_attributes"]> & { group: GroupOption })) {
         return this.model.findAndCountAll(options);
     }
 
-    public findByPk(identifier?: Identifier, options?: Omit<FindOptions<Attributes>, "where">) {
+    public findByPk(identifier?: Identifier, options?: Omit<FindOptions<ModelClass["_attributes"]>, "where">) {
         return this.model.findByPk(identifier, options);
     }
 
-    public findCreateFind(options: FindOrCreateOptions<Attributes, CreationAttributes>) {
+    public findCreateFind(options: FindOrCreateOptions<ModelClass["_attributes"], ModelClass["_creationAttributes"]>) {
         return this.model.findCreateFind(options);
     }
 
-    public findOne(options?: FindOptions<Attributes>) {
+    public findOne(options?: FindOptions<ModelClass["_attributes"]>) {
         return this.model.findOne(options);
     }
 
-    public findOrBuild(options: FindOrCreateOptions<Attributes, CreationAttributes>) {
+    public findOrBuild(options: FindOrCreateOptions<ModelClass["_attributes"], ModelClass["_creationAttributes"]>) {
         return this.model.findOrBuild(options);
     }
 
-    public findOrCreate(options: FindOrCreateOptions<Attributes, CreationAttributes>) {
+    public findOrCreate(options: FindOrCreateOptions<ModelClass["_attributes"], ModelClass["_creationAttributes"]>) {
         return this.model.findOrCreate(options);
     }
 
-    public restore(options?: DestroyOptions<Attributes>) {
+    public restore(options?: DestroyOptions<ModelClass["_attributes"]>) {
         return this.model.restore(options);
     }
 
-    public truncate(options?: TruncateOptions<Attributes>) {
+    public truncate(options?: TruncateOptions<ModelClass["_attributes"]>) {
         return this.model.truncate(options);
     }
 
-    public update(values: { [key in keyof Attributes]?: Fn | Col | Literal | Attributes[key]; }, options: UpdateOptions<Attributes>) {
+    public update(values: { [key in keyof ModelClass["_attributes"]]?: Fn | Col | Literal | ModelClass["_attributes"][key]; }, options: UpdateOptions<ModelClass["_attributes"]>) {
         return this.model.update(values, options);
     }
 }

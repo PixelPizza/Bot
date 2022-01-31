@@ -84,4 +84,4 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
     },
     model: Order as ModelCtor<Order>
 }))
-export class OrderModel extends ModelManager<Order["_attributes"], Order["_creationAttributes"], Order> {}
+export class OrderModel extends ModelManager<Order> {}

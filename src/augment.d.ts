@@ -11,6 +11,7 @@ export declare global {
 			INVITE_CHANNEL: string;
 			IMAGE_CHANNEL: string;
 			KITCHEN_CHANNEL: string;
+			DELIVERY_CHANNEL: string;
 			ORDER_LOG_CHANNEL: string;
 			// Emojis
 			ECO_EMOJI: string;
@@ -18,6 +19,7 @@ export declare global {
 			CHEF_ROLE: string;
 			CHEF_PING_ROLE: string;
 			DELIVERER_ROLE: string;
+			DELIVERER_PING_ROLE: string;
 		}
 	}
 }

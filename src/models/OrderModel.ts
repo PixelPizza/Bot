@@ -76,6 +76,9 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
                 const webhooks = container.stores.get("webhooks");
                 await webhooks.get("order").editOrder(model);
                 await webhooks.get("kitchen").editOrder(model);
+                if (model.getDataValue("status") !== "uncooked") {
+                    await webhooks.get("delivery").sendOrder(model);
+                }
             }
         }
     },

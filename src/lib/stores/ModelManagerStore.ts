@@ -1,4 +1,5 @@
 import { Store } from "@sapphire/framework";
+import type { MessageModel } from "../../models/MessageModel";
 import type { OrderModel } from "../../models/OrderModel";
 import type { UserModel } from "../../models/UserModel";
 import { ModelManager } from "../pieces/ModelManager";
@@ -18,4 +19,5 @@ export class ModelManagerStore extends Store<ModelManager<any>> {
 export interface ModelManagerStoreEntries {
 	order: OrderModel;
 	user: UserModel;
+    message: MessageModel;
 }

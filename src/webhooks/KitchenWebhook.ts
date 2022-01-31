@@ -13,16 +13,42 @@ export class KitchenWebhook extends WebhookManager {
         [key: string]: MessageResolvable;
     } = {};
 
+    private initDone = false;
+
+    private async initMessages() {
+        if (this.initDone) return;
+        this.initDone = true;
+        (await this.container.stores.get("models").get("message").findAll({
+            where: {
+                channelId: this.options.channelId
+            }
+        })).forEach(message => {
+            const { id, orderId } = message.getData();
+            this.messages[orderId] = id;
+        });
+    }
+
+    private async addMessage(orderId: string, message: MessageResolvable) {
+        await this.container.stores.get("models").get("message").create({
+            id: typeof message === "string" ? message : message.id,
+            channelId: this.options.channelId,
+            orderId
+        });
+        this.messages[orderId] = message;
+    }
+
     public async sendOrder(order: Order) {
+        await this.initMessages();
         const id = order.getDataValue("id");
         if (id in this.messages) return;
-        this.messages[id] = (await this.send({
+        await this.addMessage(id, (await this.send({
             content: `<@&${process.env.CHEF_PING_ROLE}>`,
             embeds: [await order.createOrderEmbed()]
-        })).id;
+        })).id);
     }
 
     public async editOrder(order: Order) {
+        await this.initMessages();
         const id = order.getDataValue("id");
         if (!(id in this.messages)) return;
         await this.editMessage(this.messages[id], {

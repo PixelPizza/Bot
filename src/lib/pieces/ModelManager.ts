@@ -18,6 +18,7 @@ export abstract class ModelManager<ModelClass extends Model<ModelClass["_attribu
         super(context, options);
         this.model = options.model.init(options.attributes, {
             sequelize: this.container.database,
+            modelName: this.name,
             ...options.initOptions
         });
     }

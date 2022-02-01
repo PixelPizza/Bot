@@ -191,7 +191,7 @@ export class DeliverCommand extends Command {
 		order.setDataValue("deliveredAt", new Date());
 
 		const deliverer = await this.modelStore.get("user").findByPk(interaction.user.id);
-		const deliveryMessage = await this.createDeliveryMessage(deliverer?.getDataValue("deliveryMessage") ?? Util.getDefaults().deliveryMessage, order, method === DeliveryMethod.Personal);
+		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? Util.getDefaults().deliveryMessage, order, method === DeliveryMethod.Personal);
 		const {customer, channel, guild} = await order.getData();
 
 		try {

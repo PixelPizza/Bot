@@ -10,10 +10,11 @@ interface UserCreateTypes {
 }
 
 export class User extends Model<UserTypes, UserCreateTypes> {
-    public override getData() {
-        return {
-            id: this.getDataValue("id"),
-            deliveryMessage: this.getDataValue("deliveryMessage")
-        };
+    public get id() {
+        return this.getDataValue("id");
+    }
+
+    public get deliveryMessage() {
+        return this.getDataValue("deliveryMessage");
     }
 }

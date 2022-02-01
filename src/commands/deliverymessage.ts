@@ -44,7 +44,7 @@ export class DeliveryMessageCommand extends Command {
         });
 
         if (!message) {
-            const currentMessage = deliverer.getDataValue("deliveryMessage") ?? Util.getDefaults().deliveryMessage;
+            const currentMessage = deliverer.deliveryMessage ?? Util.getDefaults().deliveryMessage;
             const replyOptions: WebhookEditMessageOptions = {
                 embeds: [{
                     color: "BLUE",

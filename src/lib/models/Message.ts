@@ -7,11 +7,15 @@ interface MessageTypes {
 }
 
 export class Message extends Model<MessageTypes> {
-    public override getData() {
-        return {
-            id: this.getDataValue("id"),
-            channelId: this.getDataValue("channelId"),
-            orderId: this.getDataValue("orderId")
-        };
+    public get id() {
+        return this.getDataValue("id");
+    }
+
+    public get channelId() {
+        return this.getDataValue("channelId");
+    }
+
+    public get orderId() {
+        return this.getDataValue("orderId");
     }
 }

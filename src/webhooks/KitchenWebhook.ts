@@ -22,10 +22,7 @@ export class KitchenWebhook extends WebhookManager {
             where: {
                 channelId: this.options.channelId
             }
-        })).forEach(message => {
-            const { id, orderId } = message.getData();
-            this.messages[orderId] = id;
-        });
+        })).forEach(message => this.messages[message.orderId] = message.id);
     }
 
     private async addMessage(orderId: string, message: MessageResolvable) {

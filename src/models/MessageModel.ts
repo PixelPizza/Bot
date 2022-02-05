@@ -10,11 +10,11 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
             type: DataTypes.STRING(18),
             primaryKey: true
         },
-        channelId: {
+        channel: {
             type: DataTypes.STRING(18),
             allowNull: false
         },
-        orderId: {
+        order: {
             type: DataTypes.STRING(3),
             allowNull: false
         }

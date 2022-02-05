@@ -2,8 +2,8 @@ import { Model } from "../pieces/ModelManager";
 
 interface MessageTypes {
 	id: string;
-    channelId: string;
-    orderId: string;
+    channel: string;
+    order: string;
 }
 
 export class Message extends Model<MessageTypes> {
@@ -11,11 +11,11 @@ export class Message extends Model<MessageTypes> {
         return this.getDataValue("id");
     }
 
-    public get channelId() {
-        return this.getDataValue("channelId");
+    public get channel() {
+        return this.getDataValue("channel");
     }
 
-    public get orderId() {
-        return this.getDataValue("orderId");
+    public get order() {
+        return this.getDataValue("order");
     }
 }

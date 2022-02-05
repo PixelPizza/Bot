@@ -20,16 +20,16 @@ export class KitchenWebhook extends WebhookManager {
         this.initDone = true;
         (await this.container.stores.get("models").get("message").findAll({
             where: {
-                channelId: this.options.channelId
+                channel: this.options.channelId
             }
-        })).forEach(message => this.messages[message.orderId] = message.id);
+        })).forEach(message => this.messages[message.order] = message.id);
     }
 
     private async addMessage(orderId: string, message: MessageResolvable) {
         await this.container.stores.get("models").get("message").create({
             id: typeof message === "string" ? message : message.id,
-            channelId: this.options.channelId,
-            orderId
+            channel: this.options.channelId,
+            order: orderId
         });
         this.messages[orderId] = message;
     }

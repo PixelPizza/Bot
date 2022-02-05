@@ -2,11 +2,6 @@ import { container, Piece, PieceContext, PieceOptions } from "@sapphire/framewor
 import { BulkCreateOptions, CountOptions, CreateOptions, DestroyOptions, FindAndCountOptions, FindOptions, FindOrCreateOptions, GroupOption, Identifier, InitOptions, Model as SequelizeModel, ModelAttributes, ModelCtor, TruncateOptions, UpdateOptions } from "sequelize";
 import type { Col, Fn, Literal } from "sequelize/types/lib/utils";
 
-export interface Model {
-    // eslint-disable-next-line @typescript-eslint/method-signature-style
-    getData?(): any | Promise<any>;
-}
-
 export class Model<TModelAttributes = any, TCreationAttributes = TModelAttributes> extends SequelizeModel<TModelAttributes, TCreationAttributes> {
     public readonly container = container;
 }

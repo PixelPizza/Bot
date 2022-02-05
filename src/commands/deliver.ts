@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
-import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User } from "discord.js";
+import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import { Command } from "../lib/Command";
 import type { Order } from "../lib/models/Order";
@@ -181,11 +181,11 @@ export class DeliverCommand extends Command {
 		if (!order) {
 			return interaction.editReply({
 				embeds: [
-					{
+					new MessageEmbed({
 						color: "RED",
 						title: "Invalid order",
 						description: "The order you specified does not exist, has not been claimed, or is not claimed by you."
-					}
+					})
 				]
 			});
 		}
@@ -221,17 +221,17 @@ export class DeliverCommand extends Command {
 
 			return await interaction.editReply({
 				embeds: [
-					{
+					new MessageEmbed({
 						color: "GREEN",
 						title: "Order delivered",
 						description: `Order ${orderId} has been delivered.`
-					}
+					})
 				]
 			});
 		} catch (error) {
 			return interaction.editReply({
 				embeds: [
-					{
+					new MessageEmbed({
 						color: "RED",
 						title: "Delivery failed",
 						description: `Order ${orderId} could not be delivered.`,
@@ -239,7 +239,7 @@ export class DeliverCommand extends Command {
 							name: "Error",
 							value: error instanceof Error ? error.message : error as string
 						}]
-					}
+					})
 				]
 			});
 		}

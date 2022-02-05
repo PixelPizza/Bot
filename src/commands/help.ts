@@ -14,14 +14,14 @@ export class HelpCommand extends Command {
 		if (!command) {
 			return {
 				embeds: [
-					{
+					new MessageEmbed({
 						color: "BLUE",
 						title: "Commands",
 						description: this.container.stores
 							.get("commands")
 							.map((command) => `**${command.name}:** ${command.description}`)
 							.join("\n")
-					}
+					})
 				]
 			};
 		}

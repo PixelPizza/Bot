@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import type { CommandInteraction, Message, MessageOptions, TextChannel } from "discord.js";
+import { CommandInteraction, Message, MessageEmbed, MessageOptions, TextChannel } from "discord.js";
 import { Command } from "../lib/Command";
 
 @ApplyOptions<CommandOptions>({
@@ -11,11 +11,11 @@ export class SupportCommand extends Command {
 		const channel = (await this.container.client.channels.fetch(process.env.INVITE_CHANNEL)) as TextChannel;
 		return {
 			embeds: [
-				{
+				new MessageEmbed({
 					color: "BLUE",
 					title: "Support Server",
 					description: `Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`
-				}
+				})
 			]
 		};
 	}

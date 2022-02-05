@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import { Command } from "../lib/Command";
 
@@ -64,11 +64,13 @@ export class RemoveCommand extends Command {
 
         if (!order) {
             return interaction.editReply({
-                embeds: [{
-                    color: "RED",
-                    title: "Order not found",
-                    description: "The order you specified does not exist"
-                }]
+                embeds: [
+                    new MessageEmbed({
+                        color: "RED",
+                        title: "Order not found",
+                        description: "The order you specified does not exist"
+                    })
+                ]
             });
         }
 
@@ -78,15 +80,17 @@ export class RemoveCommand extends Command {
         });
 
         return interaction.editReply({
-            embeds: [{
-                color: "GREEN",
-                title: "Order removed",
-                description: `Order ${order.id} has been removed`,
-                fields: [{
-                    name: "Reason",
-                    value: reason
-                }]
-            }]
+            embeds: [
+                new MessageEmbed({
+                    color: "GREEN",
+                    title: "Order removed",
+                    description: `Order ${order.id} has been removed`,
+                    fields: [{
+                        name: "Reason",
+                        value: reason
+                    }]
+                })
+            ]
         });
     }
 }

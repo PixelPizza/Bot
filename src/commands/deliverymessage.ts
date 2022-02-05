@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { codeBlock } from "@discordjs/builders";
-import { type CommandInteraction, type Message, MessageActionRow, MessageSelectMenu, type WebhookEditMessageOptions } from "discord.js";
+import { type CommandInteraction, type Message, MessageActionRow, MessageSelectMenu, type WebhookEditMessageOptions, MessageEmbed } from "discord.js";
 import { Command } from "../lib/Command";
 import { Util } from "../lib/Util";
 
@@ -46,11 +46,13 @@ export class DeliveryMessageCommand extends Command {
         if (!message) {
             const currentMessage = deliverer.deliveryMessage ?? Util.getDefaults().deliveryMessage;
             const replyOptions: WebhookEditMessageOptions = {
-                embeds: [{
-                    color: "BLUE",
-                    title: "Current Delivery Message",
-                    description: codeBlock(currentMessage)
-                }],
+                embeds: [
+                    new MessageEmbed({
+                        color: "BLUE",
+                        title: "Current Delivery Message",
+                        description: codeBlock(currentMessage)
+                    })
+                ],
                 components: [
                     new MessageActionRow({
                         components: [
@@ -95,11 +97,13 @@ export class DeliveryMessageCommand extends Command {
 
         if (missing.length) {
             return interaction.editReply({
-                embeds: [{
-                    color: "RED",
-                    title: "Invalid delivery message",
-                    description: `Your delivery message is missing the following requirements: ${missing.join(", ")}`
-                }]
+                embeds: [
+                    new MessageEmbed({
+                        color: "RED",
+                        title: "Invalid delivery message",
+                        description: `Your delivery message is missing the following requirements: ${missing.join(", ")}`
+                    })
+                ]
             });
         }
 
@@ -108,11 +112,13 @@ export class DeliveryMessageCommand extends Command {
         });
 
         return interaction.editReply({
-            embeds: [{
-                color: "GREEN",
-                title: "Delivery Message Set",
-                description: "Your delivery message has been set"
-            }]
+            embeds: [
+                new MessageEmbed({
+                    color: "GREEN",
+                    title: "Delivery Message Set",
+                    description: "Your delivery message has been set"
+                })
+            ]
         });
     }
 }

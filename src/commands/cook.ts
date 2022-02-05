@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import type { AutocompleteInteraction, CommandInteraction, TextChannel } from "discord.js";
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
 import { Util } from "../lib/Util";
 import { Command } from "../lib/Command";
 import { Op } from "sequelize";
@@ -67,11 +67,11 @@ export class CookCommand extends Command {
 		if (!order) {
 			return interaction.editReply({
 				embeds: [
-					{
+					new MessageEmbed({
 						color: "RED",
 						title: "Invalid order",
 						description: "The order you specified does not exist, has not been claimed, or is not claimed by you."
-					}
+					})
 				]
 			});
 		}
@@ -81,22 +81,22 @@ export class CookCommand extends Command {
 		if (!Util.isImage(image)) {
 			return interaction.editReply({
 				embeds: [
-					{
+					new MessageEmbed({
 						color: "RED",
 						title: "Invalid image",
 						description: "The image you specified is not a valid image."
-					}
+					})
 				]
 			});
 		}
 
 		await interaction.editReply({
 			embeds: [
-				{
+				new MessageEmbed({
 					color: "DARK_GREEN",
 					title: "Cooking order",
 					description: `Cooking order ${orderId}`
-				}
+				})
 			]
 		});
 
@@ -112,11 +112,11 @@ export class CookCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				{
+				new MessageEmbed({
 					color: "GREEN",
 					title: "Order cooked",
 					description: `Order ${orderId} has been cooked.`
-				}
+				})
 			]
 		});
 	}

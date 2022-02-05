@@ -44,8 +44,8 @@ export class CookCommand extends Command {
 		return interaction.respond(
 			found
 				.map((order) => {
-					const id = order.getDataValue("id");
-					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+					const {id} = order;
+					return { name: `${id} - ${order.order}`, value: id };
 				})
 		);
 	}

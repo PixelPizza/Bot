@@ -36,7 +36,7 @@ export class DeliveryWebhook extends WebhookManager {
 
     public async sendOrder(order: Order) {
         await this.initMessages();
-        const id = order.getDataValue("id");
+        const {id} = order;
         if (id in this.messages) return this.editOrder(order);
         await this.addMessage(id, (await this.send({
             content: `<@&${process.env.DELIVERER_PING_ROLE}>`,
@@ -46,7 +46,7 @@ export class DeliveryWebhook extends WebhookManager {
 
     public async editOrder(order: Order) {
         await this.initMessages();
-        const id = order.getDataValue("id");
+        const {id} = order;
         if (!(id in this.messages)) return;
         await this.editMessage(this.messages[id], {
             content: `<@&${process.env.DELIVERER_PING_ROLE}>`,

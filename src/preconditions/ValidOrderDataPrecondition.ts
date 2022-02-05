@@ -14,7 +14,9 @@ export class ValidOrderDataPrecondition extends Precondition {
             }
         });
         if (!order) return this.error({ message: "Order not found" });
-        const { customer, guild, channel } = await order.getData();
+        const customer = await order.fetchCustomer();
+        const guild = await order.fetchGuild();
+        const channel = await order.fetchChannel();
         if (!customer || !guild || !channel) return this.error({ message: "Customer, guild or channel not found" });
         return this.ok();
     }

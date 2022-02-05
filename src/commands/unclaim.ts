@@ -53,8 +53,8 @@ export class UnclaimCommand extends Command {
 		return interaction.respond(
 			found
 				.map((order) => {
-					const id = order.getDataValue("id");
-					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+					const {id} = order;
+					return { name: `${id} - ${order.order}`, value: id };
 				})
 		);
 	}
@@ -99,7 +99,7 @@ export class UnclaimCommand extends Command {
 			});
 		}
 
-		if (order.getDataValue(isCookClaim ? "chef" : "deliverer") !== interaction.user.id) {
+		if ((isCookClaim ? order.chef : order.deliverer) !== interaction.user.id) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed({
@@ -118,7 +118,7 @@ export class UnclaimCommand extends Command {
 				new MessageEmbed({
 					color: "BLUE",
 					title: "Order unclaimed",
-					description: `You unclaimed order \`${order.getDataValue("id")}\` for ${claimType}`
+					description: `You unclaimed order \`${order.id}\` for ${claimType}`
 				})
 			]
 		});

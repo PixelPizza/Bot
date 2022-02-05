@@ -60,8 +60,8 @@ export class DeliverCommand extends Command {
 		return interaction.respond(
 			found
 				.map((order) => {
-					const id = order.getDataValue("id");
-					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+					const {id} = order;
+					return { name: `${id} - ${order.order}`, value: id };
 				})
 		);
 	}
@@ -115,7 +115,11 @@ export class DeliverCommand extends Command {
 	}
 
 	private async createDeliveryMessage(message: string, orderModel: Order, escaped: boolean) {
-		const { chef, deliverer, customer, guild, channel, image, id, order, orderedAt, cookedAt, deliveredAt } = await orderModel.getData();
+		const chef = await orderModel.fetchChef();
+		const deliverer = await orderModel.fetchDeliverer();
+		const customer = await orderModel.fetchCustomer();
+		const guild = await orderModel.fetchGuild();
+		const channel = await orderModel.fetchChannel();
 		const inviteChannel = (await this.container.client.channels.fetch(process.env.INVITE_CHANNEL)) as TextChannel;
 		const invite = await inviteChannel.createInvite({ maxAge: 0, maxUses: 1, unique: false });
 		const guildName = guild ? guild.name : "Unknown Guild";
@@ -125,7 +129,7 @@ export class DeliverCommand extends Command {
 			this.makeUserReplacement("customer", customer, escaped, "Unknown Customer"),
 			{
 				type: "image",
-				replacement: image!
+				replacement: orderModel.image!
 			},
 			{
 				type: "invite",
@@ -133,15 +137,15 @@ export class DeliverCommand extends Command {
 			},
 			{
 				type: "orderID",
-				replacement: id
+				replacement: orderModel.id
 			},
 			{
 				type: "order",
-				replacement: order
+				replacement: orderModel.order
 			},
-			this.makeDateReplacement("order", orderedAt),
-			this.makeDateReplacement("cook", cookedAt!),
-			this.makeDateReplacement("delivery", deliveredAt!),
+			this.makeDateReplacement("order", orderModel.orderedAt),
+			this.makeDateReplacement("cook", orderModel.cookedAt!),
+			this.makeDateReplacement("delivery", orderModel.deliveredAt!),
 			{
 				type: "guild",
 				replacement: guildName
@@ -192,7 +196,9 @@ export class DeliverCommand extends Command {
 
 		const deliverer = await this.modelStore.get("user").findByPk(interaction.user.id);
 		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? Util.getDefaults().deliveryMessage, order, method === DeliveryMethod.Personal);
-		const {customer, channel, guild} = await order.getData();
+		const customer = await order.fetchCustomer();
+		const guild = await order.fetchGuild();
+		const channel = await order.fetchChannel();
 
 		try {
 			switch(method) {
@@ -210,7 +216,7 @@ export class DeliverCommand extends Command {
 			await order.update({
 				deliveryMethod: method as DeliveryMethod,
 				status: "delivered",
-				deliveredAt: order.getDataValue("deliveredAt")
+				deliveredAt: order.deliveredAt
 			});
 
 			return await interaction.editReply({

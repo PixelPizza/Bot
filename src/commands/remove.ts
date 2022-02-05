@@ -42,8 +42,8 @@ export class RemoveCommand extends Command {
         return interaction.respond(
             found
                 .map((order) => {
-                    const id = order.getDataValue("id");
-                    return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+                    const {id} = order;
+                    return { name: `${id} - ${order.order}`, value: id };
                 })
         );
     }
@@ -81,7 +81,7 @@ export class RemoveCommand extends Command {
             embeds: [{
                 color: "GREEN",
                 title: "Order removed",
-                description: `Order ${order.getDataValue("id")} has been removed`,
+                description: `Order ${order.id} has been removed`,
                 fields: [{
                     name: "Reason",
                     value: reason

@@ -36,7 +36,7 @@ export class OrderWebhook extends WebhookManager {
 
     public async sendOrder(order: Order) {
         await this.initMessages();
-        const id = order.getDataValue("id");
+        const {id} = order;
         if (id in this.messages) return;
         await this.addMessage(id, (await this.send({
             embeds: [await order.createOrderEmbed()]
@@ -45,7 +45,7 @@ export class OrderWebhook extends WebhookManager {
 
     public async editOrder(order: Order) {
         await this.initMessages();
-        const id = order.getDataValue("id");
+        const {id} = order;
         if (!(id in this.messages)) return;
         await this.editMessage(this.messages[id], {
             embeds: [await order.createOrderEmbed()]

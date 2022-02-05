@@ -53,8 +53,8 @@ export class ClaimCommand extends Command {
 		return interaction.respond(
 			found
 				.map((order) => {
-					const id = order.getDataValue("id");
-					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+					const {id} = order;
+					return { name: `${id} - ${order.order}`, value: id };
 				})
 		);
 	}
@@ -99,7 +99,7 @@ export class ClaimCommand extends Command {
 			});
 		}
 
-		if (order.getDataValue(isCookClaim ? "chef" : "deliverer")) {
+		if (isCookClaim ? order.chef : order.deliverer) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed({
@@ -119,7 +119,7 @@ export class ClaimCommand extends Command {
 				new MessageEmbed({
 					color: "BLUE",
 					title: "Order claimed",
-					description: `You claimed order \`${order.getDataValue("id")}\` for ${claimType}`
+					description: `You claimed order \`${order.id}\` for ${claimType}`
 				})
 			]
 		});

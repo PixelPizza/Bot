@@ -38,16 +38,16 @@ export class LookCommand extends Command {
 		return interaction.respond(
 			found
 				.sort((orderA, orderB) => {
-					const statusA = orderA.getDataValue("status");
-					const statusB = orderB.getDataValue("status");
+					const {status: statusA} = orderA;
+					const {status: statusB} = orderB;
 					if (statusA === statusB) return 0;
 					if (statusA === "deleted") return 1;
 					if (statusB === "deleted") return -1;
 					return 0;
 				})
 				.map((order) => {
-					const id = order.getDataValue("id");
-					return { name: `${id} - ${order.getDataValue("order")}`, value: id };
+					const id = order.id;
+					return { name: `${id} - ${order.order}`, value: id };
 				})
 		);
 	}

@@ -7,7 +7,7 @@ import { Command } from "../lib/Command";
 @ApplyOptions<CommandOptions>({
 	description: "Order some food",
 	requiredClientPermissions: ["CREATE_INSTANT_INVITE"],
-	preconditions: ["GuildOnly"]
+	preconditions: ["GuildOnly", "GuildTextOnly"]
 })
 export class OrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

@@ -21,7 +21,7 @@ export class OrdersCommand extends Command {
 				new MessageEmbed({
 					color: "BLUE",
 					title: "Orders",
-					description: orders.map((order) => `\`${order.getDataValue("id")}\``).join(",") || "No orders"
+					description: orders.map((order) => `\`${order.id}\``).join(",") || "No orders"
 				})
 			]
 		});

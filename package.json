@@ -46,13 +46,12 @@
 		"@sapphire/plugin-logger": "^2.0.2",
 		"common-tags": "^1.8.0",
 		"discord-api-types": "^0.26.1",
-		"discord.js": "^13.6.0",
+		"discord.js": "github:monbrey/discord.js#attachment-option",
 		"dotenv": "^10.0.0",
 		"dotenv-parse-variables": "^2.0.0",
 		"sequelize": "^6.9.0",
 		"sqlite3": "^5.0.2",
-		"tslib": "^2.3.1",
-		"valid-url": "^1.0.9"
+		"tslib": "^2.3.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.15.8",

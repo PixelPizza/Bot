@@ -1,9 +1,9 @@
 import { stripIndents } from "common-tags";
-import { isUri } from "valid-url";
+import type { MessageAttachment } from "discord.js";
 
 export class Util {
-	public static isImage(url: string) {
-		return Boolean(isUri(url) && /\.(gif|jpe?g|tiff?|png|webp|bmp)(\?[^#]*)?(#.*)?$/i.test(url));
+	public static isImageAttachment(attachment: MessageAttachment) {
+		return Boolean(attachment.contentType?.match(/image\/(gif|jpe?g|tiff?|png|webp|bmp)/));
 	}
 
 	public static makeUserRegex(name: string) {

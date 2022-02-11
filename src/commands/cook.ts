@@ -11,14 +11,26 @@ import { Op } from "sequelize";
 })
 export class CookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		this.registerPrivateChatInputCommand(
-			registry,
-			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true))
-				.addStringOption((input) =>
-					input.setName("image").setRequired(true).setDescription("The url of the image to use")
-				)
-		);
+		// TODO: change to builder
+		this.registerPrivateChatInputCommand(registry, {
+			name: this.name,
+			description: this.description,
+			options: [
+				{
+					type: "STRING",
+					name: "order",
+					description: "The order to cook",
+					required: true,
+					autocomplete: true
+				},
+				{
+					type: "ATTACHMENT",
+					name: "image",
+					description: "The url of the image to use",
+					required: true
+				}
+			]
+		});
 	}
 
 	public override async autocompleteRun(interaction: AutocompleteInteraction) {
@@ -76,9 +88,9 @@ export class CookCommand extends Command {
 			});
 		}
 
-		const image = interaction.options.getString("image", true);
+		const image = interaction.options.getAttachment("image", true);
 
-		if (!Util.isImage(image)) {
+		if (!Util.isImageAttachment(image)) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed({
@@ -102,7 +114,7 @@ export class CookCommand extends Command {
 
 		const imageMessage = await (
 			(await this.container.client.channels.fetch(process.env.IMAGE_CHANNEL)) as TextChannel
-		).send({ files: [image] });
+		).send({ files: [image.url] });
 
 		await order.update({
 			image: imageMessage.attachments.first()!.url,

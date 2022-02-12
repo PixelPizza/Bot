@@ -56,6 +56,16 @@ export class ClaimCommand extends Command {
 		const { id: userId } = interaction.user;
 		await order.update(isCookClaim ? { chef: userId } : { deliverer: userId });
 
+		await order.sendCustomerMessage({
+			embeds: [
+				new MessageEmbed({
+					color: "BLUE",
+					title: "Order claimed",
+					description: `Your order has been claimed by ${interaction.user.tag} for ${claimType}`
+				})
+			]
+		});
+
 		return interaction.editReply({
 			embeds: [
 				new MessageEmbed({

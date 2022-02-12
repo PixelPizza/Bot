@@ -1,4 +1,4 @@
-import { Guild, MessageEmbed, NewsChannel, TextChannel, User } from "discord.js";
+import { Guild, MessageEmbed, MessageOptions, MessagePayload, NewsChannel, TextChannel, User } from "discord.js";
 import { Model } from "../pieces/ModelManager";
 
 interface OrderTypes {
@@ -195,5 +195,10 @@ export class Order extends Model<OrderTypes, OrderCreateTypes> {
         embed.addField("\u200b", "\u200b");
 
         return embed;
+    }
+
+    public sendCustomerMessage(options: string | MessagePayload | MessageOptions) {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return this.fetchCustomer(true).then(customer => customer.send(options)).catch(() => {});
     }
 }

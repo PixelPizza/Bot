@@ -154,7 +154,6 @@ export class DeliverCommand extends Command {
 
 		const deliverer = await this.container.stores.get("models").get("user").findByPk(interaction.user.id);
 		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? this.defaultDeliveryMessage, order, method === Command.DeliveryMethod.Personal);
-		const customer = await order.fetchCustomer();
 		const guild = await order.fetchGuild();
 		const channel = await order.fetchChannel();
 
@@ -164,7 +163,7 @@ export class DeliverCommand extends Command {
 					await this.deliverPersonal(interaction.user, guild!, channel!, deliveryMessage);
 					break;
 				case Command.DeliveryMethod.DM:
-					await customer!.send(deliveryMessage);
+					await order.sendCustomerMessage(deliveryMessage);
 					break;
 				case Command.DeliveryMethod.Bot:
 					await channel!.send(deliveryMessage);
@@ -176,6 +175,18 @@ export class DeliverCommand extends Command {
 				status: "delivered",
 				deliveredAt: order.deliveredAt
 			});
+
+			if (method !== Command.DeliveryMethod.DM) {
+				await order.sendCustomerMessage({
+					embeds: [
+						new MessageEmbed({
+							color: "BLUE",
+							title: "Order Delivered",
+							description: `Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`
+						})
+					]
+				});
+			}
 
 			return await interaction.editReply({
 				embeds: [

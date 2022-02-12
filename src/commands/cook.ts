@@ -68,6 +68,16 @@ export class CookCommand extends Command {
 			cookedAt: new Date()
 		});
 
+		await order.sendCustomerMessage({
+			embeds: [
+				new MessageEmbed({
+					color: "BLUE",
+					title: "Order cooked",
+					description: `Your order ${order.id} has been cooked.`
+				})
+			]
+		});
+
 		return interaction.editReply({
 			embeds: [
 				new MessageEmbed({

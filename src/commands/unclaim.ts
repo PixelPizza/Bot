@@ -56,6 +56,16 @@ export class UnclaimCommand extends Command {
 
 		await order.update(isCookClaim ? { chef: null } : { deliverer: null });
 
+		await order.sendCustomerMessage({
+			embeds: [
+				new MessageEmbed({
+					color: "BLUE",
+					title: "Order unclaimed",
+					description: "Your order has been unclaimed"
+				})
+			]
+		});
+
 		return interaction.editReply({
 			embeds: [
 				new MessageEmbed({

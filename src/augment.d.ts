@@ -42,5 +42,6 @@ declare module "@sapphire/framework" {
 		ValidOrderData: never;
 		ValidClaimType: never;
 		ExistingOrder: never;
+		NoOrder: never;
 	}
 }

@@ -2,11 +2,11 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
-import { Command } from "../lib/Command";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<CommandOptions>({
     description: "Remove an order",
-    preconditions: [["ChefOnly"], ["DelivererOnly"]]
+    preconditions: [["ChefOnly"], ["DelivererOnly"], "ExistingOrder"]
 })
 export class RemoveCommand extends Command {
     public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -18,34 +18,23 @@ export class RemoveCommand extends Command {
         );
     }
 
-    public override async autocompleteRun(interaction: AutocompleteInteraction) {
-        const focused = interaction.options.getFocused() as string;
-        const found = await this.container.stores
-            .get("models")
-            .get("order")
-            .findAll({
-                where: {
-                    [Op.or]: {
-                        id: {
-                            [Op.startsWith]: focused
-                        },
-                        order: {
-                            [Op.substring]: focused
-                        }
+    public override autocompleteRun(interaction: AutocompleteInteraction) {
+        return this.autocompleteOrder(interaction, (focused) => ({
+            where: {
+                [Op.or]: {
+                    id: {
+                        [Op.startsWith]: focused
                     },
-                    status: {
-                        [Op.or]: ["uncooked", "cooked"]
+                    order: {
+                        [Op.substring]: focused
                     }
                 },
-                order: [["id", "ASC"]]
-            });
-        return interaction.respond(
-            found
-                .map((order) => {
-                    const {id} = order;
-                    return { name: `${id} - ${order.order}`, value: id };
-                })
-        );
+                status: {
+                    [Op.or]: ["uncooked", "cooked"]
+                }
+            },
+            order: [["id", "ASC"]]
+        }));
     }
 
     public override async chatInputRun(interaction: CommandInteraction) {
@@ -53,26 +42,7 @@ export class RemoveCommand extends Command {
 
         const reason = interaction.options.getString("reason", true);
 
-        const order = await this.container.stores
-            .get("models")
-            .get("order")
-            .findOne({
-                where: {
-                    id: interaction.options.getString("order", true)
-                }
-            });
-
-        if (!order) {
-            return interaction.editReply({
-                embeds: [
-                    new MessageEmbed({
-                        color: "RED",
-                        title: "Order not found",
-                        description: "The order you specified does not exist"
-                    })
-                ]
-            });
-        }
+        const order = await this.getOrder(interaction);
 
         await order.update({
             status: "deleted",

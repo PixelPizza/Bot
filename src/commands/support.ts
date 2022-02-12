@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { CommandInteraction, Message, MessageEmbed, MessageOptions, TextChannel } from "discord.js";
-import { Command } from "../lib/Command";
+import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Get the invite link to the support server"

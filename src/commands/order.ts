@@ -2,7 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
 import { randomInt } from "node:crypto";
-import { Command } from "../lib/Command";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<CommandOptions>({
 	description: "Order some food",
@@ -32,9 +32,8 @@ export class OrderCommand extends Command {
 
 		const order = interaction.options.getString("order", true);
 		const id = await this.generateOrderID();
-		const orders = this.container.stores.get("models").get("order");
 
-		await orders.create({
+		await this.orderModel.create({
 			id,
 			order,
 			customer: interaction.user.id,

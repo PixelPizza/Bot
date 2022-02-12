@@ -40,5 +40,7 @@ declare module "@sapphire/framework" {
 		ChefOnly: never;
 		DelivererOnly: never;
 		ValidOrderData: never;
+		ValidClaimType: never;
+		ExistingOrder: never;
 	}
 }

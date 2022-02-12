@@ -1,13 +1,12 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
-import { Util } from "../lib/Util";
-import { Command } from "../lib/Command";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import { Op } from "sequelize";
 
 @ApplyOptions<CommandOptions>({
 	description: "Cook an order",
-	preconditions: ["ValidOrderData", "ChefOnly"]
+	preconditions: ["ChefOnly", "ValidOrderData"]
 })
 export class CookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -21,73 +20,32 @@ export class CookCommand extends Command {
 		);
 	}
 
-	public override async autocompleteRun(interaction: AutocompleteInteraction) {
-		const focused = interaction.options.getFocused() as string;
-		const found = await this.container.stores
-			.get("models")
-			.get("order")
-			.findAll({
-				where: {
-					[Op.or]: {
-						id: {
-							[Op.startsWith]: focused
-						},
-						order: {
-							[Op.substring]: focused
-						}
+	public override autocompleteRun(interaction: AutocompleteInteraction) {
+		return this.autocompleteOrder(interaction, (focused) => ({
+			where: {
+				[Op.or]: {
+					id: {
+						[Op.startsWith]: focused
 					},
-					chef: interaction.user.id,
-					status: "uncooked"
+					order: {
+						[Op.substring]: focused
+					}
 				},
-				order: [["id", "ASC"]]
-			});
-		return interaction.respond(
-			found
-				.map((order) => {
-					const {id} = order;
-					return { name: `${id} - ${order.order}`, value: id };
-				})
-		);
+				chef: interaction.user.id,
+				status: "uncooked"
+			},
+			order: [["id", "ASC"]]
+		}));
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply();
 
-		const orderId = interaction.options.getString("order", true);
-		const order = await this.container.stores
-			.get("models")
-			.get("order")
-			.findOne({
-				where: {
-					id: orderId,
-					chef: interaction.user.id
-				}
-			});
-
-		if (!order) {
-			return interaction.editReply({
-				embeds: [
-					new MessageEmbed({
-						color: "RED",
-						title: "Invalid order",
-						description: "The order you specified does not exist, has not been claimed, or is not claimed by you."
-					})
-				]
-			});
-		}
-
+		const order = await this.getOrder(interaction, { chef: interaction.user.id });
 		const image = interaction.options.getString("image", true);
 
-		if (!Util.isImage(image)) {
-			return interaction.editReply({
-				embeds: [
-					new MessageEmbed({
-						color: "RED",
-						title: "Invalid image",
-						description: "The image you specified is not a valid image."
-					})
-				]
-			});
+		if (!this.isImage(image)) {
+			throw new Error("The image you specified is not a valid image.");
 		}
 
 		await interaction.editReply({
@@ -95,7 +53,7 @@ export class CookCommand extends Command {
 				new MessageEmbed({
 					color: "DARK_GREEN",
 					title: "Cooking order",
-					description: `Cooking order ${orderId}`
+					description: `Cooking order ${order.id}`
 				})
 			]
 		});
@@ -115,7 +73,7 @@ export class CookCommand extends Command {
 				new MessageEmbed({
 					color: "GREEN",
 					title: "Order cooked",
-					description: `Order ${orderId} has been cooked.`
+					description: `Order ${order.id} has been cooked.`
 				})
 			]
 		});

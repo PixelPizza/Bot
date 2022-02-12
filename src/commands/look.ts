@@ -1,11 +1,12 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
+import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
 import { Op } from "sequelize";
-import { Command } from "../lib/Command";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<CommandOptions>({
-	description: "Look at an order"
+	description: "Look at an order",
+	preconditions: [["ChefOnly"], ["DelivererOnly"], "ValidOrderData"]
 })
 export class LookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -17,59 +18,31 @@ export class LookCommand extends Command {
 		);
 	}
 
-	public override async autocompleteRun(interaction: AutocompleteInteraction) {
-		const focused = interaction.options.getFocused() as string;
-		const found = await this.container.stores
-			.get("models")
-			.get("order")
-			.findAll({
-				where: {
-					[Op.or]: {
-						id: {
-							[Op.startsWith]: focused
-						},
-						order: {
-							[Op.substring]: focused
-						}
+	public override autocompleteRun(interaction: AutocompleteInteraction) {
+		return this.autocompleteOrder(interaction, (focused) => ({
+			where: {
+				[Op.or]: {
+					id: {
+						[Op.startsWith]: focused
+					},
+					order: {
+						[Op.substring]: focused
 					}
-				},
-				order: [["id", "ASC"]]
-			});
-		return interaction.respond(
-			found
-				.sort((orderA, orderB) => {
-					const {status: statusA} = orderA;
-					const {status: statusB} = orderB;
-					if (statusA === statusB) return 0;
-					if (statusA === "deleted") return 1;
-					if (statusB === "deleted") return -1;
-					return 0;
-				})
-				.map((order) => {
-					const id = order.id;
-					return { name: `${id} - ${order.order}`, value: id };
-				})
-		);
+				}
+			},
+			order: [["id", "ASC"]]
+		}), (orders) => orders.sort((orderA, orderB) => {
+			const { status: statusA } = orderA;
+			const { status: statusB } = orderB;
+			if (statusA === statusB) return 0;
+			if (statusA === "deleted") return 1;
+			if (statusB === "deleted") return -1;
+			return 0;
+		}));
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
-
-		const orderId = interaction.options.getString("order", true);
-		const order = await this.container.stores.get("models").get("order").findByPk(orderId);
-
-		if (!order) {
-			return interaction.editReply({
-				embeds: [
-					new MessageEmbed({
-						color: "RED",
-						title: "Order not found",
-						description: `Order with ID \`${orderId}\` not found`
-					})
-				]
-			});
-		}
-
-		return interaction.editReply({ embeds: [await order.createOrderEmbed()] });
+		return interaction.editReply({ embeds: [await (await this.getOrder(interaction)).createOrderEmbed()] });
 	}
 }

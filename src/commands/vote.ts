@@ -2,7 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import { CommandInteraction, Message, MessageEmbed, MessageOptions } from "discord.js";
-import { Command } from "../lib/Command";
+import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "Vote for the bot"

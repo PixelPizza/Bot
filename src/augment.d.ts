@@ -7,6 +7,7 @@ export declare global {
 		interface ProcessEnv {
 			TOKEN: string;
 			COMMAND_GUILDS: string | string[];
+			MAX_ORDERS: number;
 			// Channels
 			INVITE_CHANNEL: string;
 			IMAGE_CHANNEL: string;
@@ -43,5 +44,6 @@ declare module "@sapphire/framework" {
 		ValidClaimType: never;
 		ExistingOrder: never;
 		NoOrder: never;
+		MaxOrders: never;
 	}
 }

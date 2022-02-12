@@ -45,7 +45,7 @@ export class ClaimCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
-		const order = (await this.getOrder(interaction))!;
+		const order = await this.getOrder(interaction);
 		const claimType = interaction.options.getString("type", true) as Command.ClaimType;
 		const isCookClaim = claimType === Command.ClaimType.Cooking;
 

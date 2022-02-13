@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { MessageResolvable } from "discord.js";
+import { MessageEmbed, MessageResolvable } from "discord.js";
 import type { Order } from "../lib/models/Order";
 import { WebhookManager, WebhookManagerOptions } from "../lib/pieces/WebhookManager";
 
@@ -34,6 +34,17 @@ export class KitchenWebhook extends WebhookManager {
         this.messages[orderId] = message;
     }
 
+    private async removeMessage(orderId: string) {
+        const message = this.messages[orderId];
+        await this.container.stores.get("models").get("message").destroy({
+            where: {
+                id: typeof message === "string" ? message : message.id
+            }
+        });
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete this.messages[orderId];
+    }
+
     public async sendOrder(order: Order) {
         await this.initMessages();
         const {id} = order;
@@ -52,5 +63,21 @@ export class KitchenWebhook extends WebhookManager {
             content: `<@&${process.env.CHEF_PING_ROLE}>`,
             embeds: [await order.createOrderEmbed()]
         });
+    }
+
+    public async deleteOrder(order: Order) {
+        await this.initMessages();
+        const {id} = order;
+        if (!(id in this.messages)) return;
+        await this.editMessage(this.messages[id], {
+            embeds: [
+                new MessageEmbed({
+                    color: "DARK_RED",
+                    title: "Order deleted",
+                    description: `This order has been deleted`
+                })
+            ]
+        });
+        await this.removeMessage(id);
     }
 }

@@ -1,8 +1,7 @@
-import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import type { AutocompleteInteraction, CommandInteraction, MessageAttachment } from "discord.js";
 import type { FindOptions, WhereOptions } from "sequelize";
 import { Command } from "./Command";
 import type { Order } from "../models/Order";
-import { isUri } from "valid-url";
 import { stripIndents } from "common-tags";
 
 export abstract class OrderCommand extends Command {
@@ -26,8 +25,8 @@ export abstract class OrderCommand extends Command {
         return `${name}date(?:: *(date|time|datetime))?`;
     }
 
-    protected isImage(url: string) {
-        return Boolean(isUri(url) && /\.(gif|jpe?g|tiff?|png|webp|bmp)(\?[^#]*)?(#.*)?$/i.test(url));
+    protected isImage(image: MessageAttachment) {
+        return image.contentType?.match(/^image\/(gif|jpe?g|tiff?|png|webp|bmp)$/) !== null;
     }
 
     protected defaultDeliveryMessage = stripIndents`

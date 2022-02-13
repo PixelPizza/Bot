@@ -54,7 +54,7 @@ export class CookCommand extends Command {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction, { chef: interaction.user.id });
-		const image = interaction.options.getString("image", true);
+		const image = interaction.options.getAttachment("image", true);
 
 		if (!this.isImage(image)) {
 			throw new Error("The image you specified is not a valid image.");

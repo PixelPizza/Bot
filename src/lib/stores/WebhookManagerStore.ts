@@ -3,6 +3,7 @@ import { WebhookManager } from "../pieces/WebhookManager";
 import type { OrderWebhook } from "../../webhooks/OrderWebhook";
 import type { KitchenWebhook } from "../../webhooks/KitchenWebhook";
 import type { DeliveryWebhook } from "../../webhooks/DeliveryWebhook";
+import type { ImageWebhook } from "../../webhooks/ImageWebhook";
 
 export class WebhookManagerStore extends Store<WebhookManager> {
     public constructor() {
@@ -19,4 +20,5 @@ export interface WebhookManagerStoreEntries {
     order: OrderWebhook;
     kitchen: KitchenWebhook;
     delivery: DeliveryWebhook;
+    image: ImageWebhook;
 }

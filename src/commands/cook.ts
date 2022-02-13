@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import { Op } from "sequelize";
 
@@ -58,9 +58,7 @@ export class CookCommand extends Command {
 			]
 		});
 
-		const imageMessage = await (
-			(await this.container.client.channels.fetch(process.env.IMAGE_CHANNEL)) as TextChannel
-		).send({ files: [image] });
+		const imageMessage = (await this.container.stores.get("webhooks").get("image").sendImage(image))!;
 
 		await order.update({
 			image: imageMessage.attachments.first()!.url,

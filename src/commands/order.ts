@@ -1,10 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
 import { randomInt } from "node:crypto";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "Order some food",
 	requiredClientPermissions: ["CREATE_INSTANT_INVITE"],
 	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders"]

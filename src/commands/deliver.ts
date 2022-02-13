@@ -1,12 +1,12 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import type { Order } from "../lib/models/Order";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "Deliver an order",
 	preconditions: ["DelivererOnly", "ValidOrderData"]
 })

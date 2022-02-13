@@ -87,4 +87,6 @@ export namespace OrderCommand {
         Bot = "bot",
         Personal = "personal"
     }
+
+    export interface Options extends Command.Options {}
 }

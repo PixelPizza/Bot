@@ -1,10 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { codeBlock } from "@discordjs/builders";
 import { type CommandInteraction, type Message, MessageActionRow, MessageSelectMenu, type WebhookEditMessageOptions, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
     description: "Set your delivery message",
     preconditions: ["DelivererOnly"]
 })

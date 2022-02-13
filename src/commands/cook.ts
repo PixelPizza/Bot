@@ -1,10 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import { Op } from "sequelize";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "Cook an order",
 	preconditions: ["ChefOnly", "ValidOrderData"]
 })

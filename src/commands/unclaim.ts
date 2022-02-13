@@ -1,10 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "Unclaim an order",
 	preconditions: ["ValidClaimType", "ExistingOrder"]
 })

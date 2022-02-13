@@ -1,9 +1,9 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { CommandInteraction, Message, MessageEmbed, MessageOptions } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "Invite the bot to your server"
 })
 export class InviteCommand extends Command {

@@ -1,10 +1,11 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
-import { Command } from "../lib/Command";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
-@ApplyOptions<CommandOptions>({
-	description: "Show the current orders"
+@ApplyOptions<Command.Options>({
+	description: "Show the current orders",
+	preconditions: [["ChefOnly"], ["DelivererOnly"]]
 })
 export class OrdersCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -14,7 +15,7 @@ export class OrdersCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const orders = await this.container.stores.get("models").get("order").findAll();
+		const orders = await this.orderModel.findAll();
 
 		await interaction.editReply({
 			embeds: [

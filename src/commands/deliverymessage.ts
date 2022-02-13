@@ -1,11 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { codeBlock } from "@discordjs/builders";
 import { type CommandInteraction, type Message, MessageActionRow, MessageSelectMenu, type WebhookEditMessageOptions, MessageEmbed } from "discord.js";
-import { Command } from "../lib/Command";
-import { Util } from "../lib/Util";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
     description: "Set your delivery message",
     preconditions: ["DelivererOnly"]
 })
@@ -23,11 +22,11 @@ export class DeliveryMessageCommand extends Command {
         name: string;
     } | string)[] = [
         {
-            regex: `{${Util.makeUserRegex("chef")}}`,
+            regex: `{${this.chefRegex}}`,
             name: "{chef}"
         },
         {
-            regex: `{${Util.makeUserRegex("customer")}}`,
+            regex: `{${this.customerRegex}}`,
             name: "{customer}"
         },
         `{image}`,
@@ -44,7 +43,7 @@ export class DeliveryMessageCommand extends Command {
         });
 
         if (!message) {
-            const currentMessage = deliverer.deliveryMessage ?? Util.getDefaults().deliveryMessage;
+            const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
             const replyOptions: WebhookEditMessageOptions = {
                 embeds: [
                     new MessageEmbed({
@@ -96,15 +95,7 @@ export class DeliveryMessageCommand extends Command {
         });
 
         if (missing.length) {
-            return interaction.editReply({
-                embeds: [
-                    new MessageEmbed({
-                        color: "RED",
-                        title: "Invalid delivery message",
-                        description: `Your delivery message is missing the following requirements: ${missing.join(", ")}`
-                    })
-                ]
-            });
+            throw new Error(`Your delivery message is missing the following: ${missing.join(", ")}`);
         }
 
         await deliverer.update({

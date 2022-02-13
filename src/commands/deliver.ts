@@ -1,21 +1,14 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User, MessageEmbed } from "discord.js";
 import { Op } from "sequelize";
-import { Command } from "../lib/Command";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import type { Order } from "../lib/models/Order";
-import { Util } from "../lib/Util";
 
-enum DeliveryMethod {
-	DM = "dm",
-	Bot = "bot",
-	Personal = "personal"
-}
-
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "Deliver an order",
-	preconditions: ["ValidOrderData", "DelivererOnly"]
+	preconditions: ["DelivererOnly", "ValidOrderData"]
 })
 export class DeliverCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -29,46 +22,35 @@ export class DeliverCommand extends Command {
 						.setDescription("The delivery method")
 						.setRequired(true)
 						.addChoices([
-							["Direct Message", DeliveryMethod.DM],
-							["Bot", DeliveryMethod.Bot],
-							["Personally", DeliveryMethod.Personal]
+							["Direct Message", Command.DeliveryMethod.DM],
+							["Bot", Command.DeliveryMethod.Bot],
+							["Personally", Command.DeliveryMethod.Personal]
 						])
 				)
 		);
 	}
 
-	public override async autocompleteRun(interaction: AutocompleteInteraction) {
-		const focused = interaction.options.getFocused() as string;
-		const found = await this.container.stores
-			.get("models")
-			.get("order")
-			.findAll({
-				where: {
-					[Op.or]: {
-						id: {
-							[Op.startsWith]: focused
-						},
-						order: {
-							[Op.substring]: focused
-						}
+	public override autocompleteRun(interaction: AutocompleteInteraction) {
+		return this.autocompleteOrder(interaction, (focused) => ({
+			where: {
+				[Op.or]: {
+					id: {
+						[Op.startsWith]: focused
 					},
-					deliverer: interaction.user.id,
-					status: "cooked"
+					order: {
+						[Op.substring]: focused
+					}
 				},
-				order: [["id", "ASC"]]
-			});
-		return interaction.respond(
-			found
-				.map((order) => {
-					const {id} = order;
-					return { name: `${id} - ${order.order}`, value: id };
-				})
-		);
+				deliverer: interaction.user.id,
+				status: "cooked"
+			},
+			order: [["id", "ASC"]]
+		}));
 	}
 
 	private makeDateReplacement(name: string, date: Date) {
 		return {
-			type: Util.makeDateRegex(name),
+			type: this.makeDateRegex(name),
 			replacement: (_s: string, type: string) => {
 				switch(type) {
 					case "date":
@@ -85,7 +67,7 @@ export class DeliverCommand extends Command {
 
 	private makeUserReplacement(name: string, user: User | null, escaped: boolean, defaultValue: string) {
 		return {
-			type: Util.makeUserRegex(name),
+			type: this.makeUserRegex(name),
 			replacement: (_s: string, type: string) => {
 				const addition = escaped ? "`" : "";
 				const parse = () => {
@@ -161,63 +143,50 @@ export class DeliverCommand extends Command {
 		]);
 	}
 
-	public get modelStore() {
-		return this.container.stores.get("models");
-	}
-
 	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const orderId = interaction.options.getString("order", true);
-		const order = await this.modelStore
-			.get("order")
-			.findOne({
-				where: {
-					id: orderId,
-					deliverer: interaction.user.id
-				}
-			});
-
-		if (!order) {
-			return interaction.editReply({
-				embeds: [
-					new MessageEmbed({
-						color: "RED",
-						title: "Invalid order",
-						description: "The order you specified does not exist, has not been claimed, or is not claimed by you."
-					})
-				]
-			});
-		}
-
-		const method = interaction.options.getString("method", true);
+		const order = await this.getOrder(interaction, { deliverer: interaction.user.id });
+		const method = interaction.options.getString("method", true) as Command.DeliveryMethod;
 
 		order.setDataValue("deliveredAt", new Date());
 
-		const deliverer = await this.modelStore.get("user").findByPk(interaction.user.id);
-		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? Util.getDefaults().deliveryMessage, order, method === DeliveryMethod.Personal);
-		const customer = await order.fetchCustomer();
+		const deliverer = await this.container.stores.get("models").get("user").findByPk(interaction.user.id);
+		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? this.defaultDeliveryMessage, order, method === Command.DeliveryMethod.Personal);
 		const guild = await order.fetchGuild();
 		const channel = await order.fetchChannel();
 
 		try {
 			switch(method) {
-				case DeliveryMethod.Personal:
+				case Command.DeliveryMethod.Personal:
 					await this.deliverPersonal(interaction.user, guild!, channel!, deliveryMessage);
 					break;
-				case DeliveryMethod.DM:
-					await customer!.send(deliveryMessage);
+				case Command.DeliveryMethod.DM:
+					await order.sendCustomerMessage(deliveryMessage);
 					break;
-				case DeliveryMethod.Bot:
+				case Command.DeliveryMethod.Bot:
 					await channel!.send(deliveryMessage);
 					break;
 			}
 
 			await order.update({
-				deliveryMethod: method as DeliveryMethod,
+				deliveryMethod: method,
 				status: "delivered",
 				deliveredAt: order.deliveredAt
 			});
+
+			if (method !== Command.DeliveryMethod.DM) {
+				await order.sendCustomerMessage({
+					embeds: [
+						new MessageEmbed({
+							color: "BLUE",
+							title: "Order Delivered",
+							description: `Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`
+						})
+					]
+				});
+			}
 
 			return await interaction.editReply({
 				embeds: [
@@ -229,19 +198,8 @@ export class DeliverCommand extends Command {
 				]
 			});
 		} catch (error) {
-			return interaction.editReply({
-				embeds: [
-					new MessageEmbed({
-						color: "RED",
-						title: "Delivery failed",
-						description: `Order ${orderId} could not be delivered.`,
-						fields: [{
-							name: "Error",
-							value: error instanceof Error ? error.message : error as string
-						}]
-					})
-				]
-			});
+			this.container.logger.error("delivery error", error);
+			throw new Error(`Order ${orderId} could not be delivered.`);
 		}
 	}
 

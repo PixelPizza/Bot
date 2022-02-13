@@ -38,3 +38,7 @@ export abstract class Command extends SapphireCommand {
 		});
 	}
 }
+
+export namespace Command {
+	export interface Options extends SapphireCommand.Options {}
+}

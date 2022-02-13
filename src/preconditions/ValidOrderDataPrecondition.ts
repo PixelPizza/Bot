@@ -1,19 +1,16 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { Precondition, type PreconditionOptions } from "@sapphire/framework";
+import { ChatInputCommand, Precondition, PreconditionContext, PreconditionStore, type PreconditionOptions } from "@sapphire/framework";
 import type { CommandInteraction } from "discord.js";
 
 @ApplyOptions<PreconditionOptions>({
     name: "ValidOrderData"
 })
 export class ValidOrderDataPrecondition extends Precondition {
-    public override async chatInputRun(interaction: CommandInteraction) {
-        const orderModel = this.container.stores.get("models").get("order");
-        const order = await orderModel.findOne({
-            where: {
-                id: interaction.options.getString("order", true)
-            }
-        });
-        if (!order) return this.error({ message: "Order not found" });
+    public override async chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext) {
+        const store = this.store as PreconditionStore;
+        const result = await store.get("ExistingOrder")!.chatInputRun!(interaction, command, context);
+        if (!result.success) return result;
+        const order = (await this.container.stores.get("models").get("order").findByPk(interaction.options.getString("order", true)))!;
         try {
             await order.fetchCustomer(true);
             await order.fetchGuild(true);

@@ -1,13 +1,13 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
 import { randomInt } from "node:crypto";
-import { Command } from "../lib/Command";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "Order some food",
 	requiredClientPermissions: ["CREATE_INSTANT_INVITE"],
-	preconditions: ["GuildOnly", "GuildTextOnly"]
+	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders"]
 })
 export class OrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -32,9 +32,8 @@ export class OrderCommand extends Command {
 
 		const order = interaction.options.getString("order", true);
 		const id = await this.generateOrderID();
-		const orders = this.container.stores.get("models").get("order");
 
-		await orders.create({
+		await this.orderModel.create({
 			id,
 			order,
 			customer: interaction.user.id,

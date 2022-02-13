@@ -45,5 +45,6 @@ declare module "@sapphire/framework" {
 		ExistingOrder: never;
 		NoOrder: never;
 		MaxOrders: never;
+		HasOrder: never;
 	}
 }

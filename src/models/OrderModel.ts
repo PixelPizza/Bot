@@ -79,6 +79,12 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
                 if (model.status !== "uncooked") {
                     await webhooks.get("delivery").sendOrder(model);
                 }
+            },
+            async afterDestroy(model: Order) {
+                const webhooks = container.stores.get("webhooks");
+                await webhooks.get("order").deleteOrder(model);
+                await webhooks.get("kitchen").deleteOrder(model);
+                await webhooks.get("delivery").deleteOrder(model);
             }
         }
     },

@@ -10,26 +10,11 @@ import { Op } from "sequelize";
 })
 export class CookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		// TODO: change to builder
-		this.registerPrivateChatInputCommand(registry, {
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					type: "STRING",
-					name: "order",
-					description: "The order to cook",
-					required: true,
-					autocomplete: true
-				},
-				{
-					type: "ATTACHMENT",
-					name: "image",
-					description: "The url of the image to use",
-					required: true
-				}
-			]
-		});
+		this.registerPrivateChatInputCommand(registry,
+			this.defaultChatInputCommand
+				.addStringOption((input) => input.setName("order").setDescription("The order to cook").setRequired(true).setAutocomplete(true))
+				.addAttachmentOption((input) => input.setName("image").setDescription("The image to use").setRequired(true))
+		);
 	}
 
 	public override autocompleteRun(interaction: AutocompleteInteraction) {

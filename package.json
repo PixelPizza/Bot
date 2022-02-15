@@ -47,6 +47,7 @@
 		"common-tags": "^1.8.0",
 		"discord-api-types": "^0.26.1",
 		"discord.js": "github:monbrey/discord.js#attachment-option",
+		"discord-oversimplified": "^0.6.5-next.d3e32eb.0",
 		"dotenv": "^10.0.0",
 		"dotenv-parse-variables": "^2.0.0",
 		"sequelize": "^6.9.0",

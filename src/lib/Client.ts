@@ -1,14 +1,16 @@
-import { container, LogLevel, SapphireClient } from "@sapphire/framework";
+import { container, LogLevel } from "@sapphire/framework";
+import { Client as DosClient } from "discord-oversimplified";
 import { Sequelize } from "sequelize";
 
-export class Client extends SapphireClient {
+export class Client extends DosClient {
 	public constructor() {
 		super({
 			intents: ["GUILDS", "GUILD_MESSAGES"],
 			loadMessageCommandListeners: true,
 			logger: {
 				level: LogLevel.Debug
-			}
+			},
+			databasesEnabled: false
 		});
 
 		container.database = new Sequelize({

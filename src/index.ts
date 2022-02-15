@@ -8,12 +8,18 @@ import { join } from "path";
 import { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 process.env = parseEnv(config().parsed!) as NodeJS.ProcessEnv;
 
-const client = new Client();
+async function main() {
+    const client = new Client();
 
-ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
+    ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
-client.stores
-    .register(new ModelManagerStore().registerPath(join(__dirname, "models")))
-    .register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
+    client.stores
+        .register(new ModelManagerStore().registerPath(join(__dirname, "models")))
+        .register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
 
-void client.login(process.env.TOKEN);
+    await client.login(process.env.TOKEN);
+
+    client.commandsIn(join(__dirname, "commands", "dos"));
+}
+
+void main();

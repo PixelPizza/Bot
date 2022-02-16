@@ -1,14 +1,14 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import type { MessageResolvable } from "discord.js";
+import { MessageEmbed, MessageResolvable } from "discord.js";
 import type { Order } from "../lib/models/Order";
 import { WebhookManager, WebhookManagerOptions } from "../lib/pieces/WebhookManager";
 
 @ApplyOptions<WebhookManagerOptions>({
-    name: "order",
+    name: "orderlog",
     webhookName: `Pixel Pizza Orders`,
-    channelId: process.env.ORDERS_CHANNEL
+    channelId: process.env.ORDER_LOG_CHANNEL
 })
-export class OrderWebhook extends WebhookManager {
+export class OrderLogWebhook extends WebhookManager {
     private readonly messages: {
         [key: string]: MessageResolvable;
     } = {};
@@ -67,7 +67,15 @@ export class OrderWebhook extends WebhookManager {
         await this.initMessages();
         const {id} = order;
         if (!(id in this.messages)) return;
-        await this.deleteMessage(this.messages[id]);
+        await this.editMessage(this.messages[id], {
+            embeds: [
+                new MessageEmbed({
+                    color: "DARK_RED",
+                    title: "Order deleted",
+                    description: `This order has been deleted`
+                })
+            ]
+        });
         await this.removeMessage(id);
     }
 }

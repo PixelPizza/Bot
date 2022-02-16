@@ -69,22 +69,29 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
         hooks: {
             async afterCreate(model: Order) {
                 const webhooks = container.stores.get("webhooks");
-                await webhooks.get("order").sendOrder(model);
+                await webhooks.get("orderlog").sendOrder(model);
                 await webhooks.get("kitchen").sendOrder(model);
+                await webhooks.get("order").sendOrder(model);
             },
             async afterUpdate(model: Order) {
                 const webhooks = container.stores.get("webhooks");
-                await webhooks.get("order").editOrder(model);
+                await webhooks.get("orderlog").editOrder(model);
                 await webhooks.get("kitchen").editOrder(model);
                 if (model.status !== "uncooked") {
                     await webhooks.get("delivery").sendOrder(model);
                 }
+                if (["delivered", "deleted"].includes(model.status)) {
+                    await webhooks.get("order").deleteOrder(model);
+                } else {
+                    await webhooks.get("order").editOrder(model);
+                }
             },
             async afterDestroy(model: Order) {
                 const webhooks = container.stores.get("webhooks");
-                await webhooks.get("order").deleteOrder(model);
+                await webhooks.get("orderlog").deleteOrder(model);
                 await webhooks.get("kitchen").deleteOrder(model);
                 await webhooks.get("delivery").deleteOrder(model);
+                await webhooks.get("order").deleteOrder(model);
             }
         }
     },

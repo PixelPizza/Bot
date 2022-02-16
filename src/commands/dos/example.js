@@ -3,14 +3,14 @@
 //
 
 // Common JS
-// module.exports = {
-//   trigger: "example",
-//   code: `
-//     embed();
-//     embed.description("test embed");
-//     reply(true);
-//   `
-// }
+module.exports = {
+    trigger: "example",
+    code: `
+        embed();
+        embed.description("test embed");
+        reply(true);
+    `
+}
 
 // ESM
 // export const trigger = "example";

@@ -1,12 +1,12 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { ChatInputCommand, Precondition, PreconditionContext, PreconditionStore, type PreconditionOptions } from "@sapphire/framework";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 @ApplyOptions<PreconditionOptions>({
     name: "ValidOrderData"
 })
 export class ValidOrderDataPrecondition extends Precondition {
-    public override async chatInputRun(interaction: CommandInteraction, command: ChatInputCommand, context: PreconditionContext) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction, command: ChatInputCommand, context: PreconditionContext) {
         const store = this.store as PreconditionStore;
         const result = await store.get("ExistingOrder")!.chatInputRun!(interaction, command, context);
         if (!result.success) return result;

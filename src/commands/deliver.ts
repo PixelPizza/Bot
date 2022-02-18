@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
-import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User, MessageEmbed } from "discord.js";
+import { type AutocompleteInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User, Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import type { Order } from "../lib/models/Order";
@@ -143,7 +143,7 @@ export class DeliverCommand extends Command {
 		]);
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const orderId = interaction.options.getString("order", true);
@@ -179,8 +179,8 @@ export class DeliverCommand extends Command {
 			if (method !== Command.DeliveryMethod.DM) {
 				await order.sendCustomerMessage({
 					embeds: [
-						new MessageEmbed({
-							color: "BLUE",
+						new Embed({
+							color: Colors.Blue,
 							title: "Order Delivered",
 							description: `Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`
 						})
@@ -190,8 +190,8 @@ export class DeliverCommand extends Command {
 
 			return await interaction.editReply({
 				embeds: [
-					new MessageEmbed({
-						color: "GREEN",
+					new Embed({
+						color: Colors.Green,
 						title: "Order delivered",
 						description: `Order ${orderId} has been delivered.`
 					})

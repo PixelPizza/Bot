@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -12,7 +12,7 @@ export class CancelCommand extends Command {
         registry.registerChatInputCommand(this.defaultChatInputCommand);
     }
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
         await (await this.orderModel.findOne({
@@ -24,8 +24,8 @@ export class CancelCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new MessageEmbed({
-                    color: "GREEN",
+                new Embed({
+                    color: Colors.Green,
                     title: "Order cancelled",
                     description: "Your order has been cancelled."
                 })

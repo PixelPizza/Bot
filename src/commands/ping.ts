@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { type CommandInteraction, Message, MessageEmbed, SnowflakeUtil } from "discord.js";
+import { Message, Embed, Colors, SnowflakeUtil, ChatInputCommandInteraction } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -8,8 +8,8 @@ import { Command } from "../lib/commands/Command";
 })
 export class PingCommand extends Command {
 	private getPingEmbed(messageLatency: number) {
-		return new MessageEmbed({
-			color: "GREEN",
+		return new Embed({
+			color: Colors.Green,
 			title: "🏓 Pong!",
 			fields: [
 				{
@@ -36,13 +36,13 @@ export class PingCommand extends Command {
 		});
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		const reply = await interaction.reply({
 			content: "Pinging...",
 			fetchReply: true
 		});
 		const createdTimestamp =
-			reply instanceof Message ? reply.createdTimestamp : SnowflakeUtil.deconstruct(reply.id).timestamp;
+			reply instanceof Message ? reply.createdTimestamp : Number(SnowflakeUtil.deconstruct(reply.id).timestamp);
 		return interaction.editReply({
 			content: null,
 			embeds: [this.getPingEmbed(createdTimestamp - interaction.createdTimestamp)]

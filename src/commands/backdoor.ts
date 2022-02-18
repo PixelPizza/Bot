@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -35,7 +35,7 @@ export class BackdoorCommand extends Command {
 		}));
 	}
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
         const order = await this.getOrder(interaction, {
@@ -48,8 +48,8 @@ export class BackdoorCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new MessageEmbed({
-                    color: "BLUE",
+                new Embed({
+                    color: Colors.Blue,
                     title: "Invite link",
                     description: invite.url
                 })

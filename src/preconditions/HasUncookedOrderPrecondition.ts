@@ -1,12 +1,12 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { Precondition, PreconditionOptions } from "@sapphire/framework";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 @ApplyOptions<PreconditionOptions>({
     name: "HasUncookedOrder"
 })
 export class HasOrderPrecondition extends Precondition {
-    public override async chatInputRun(interaciton: CommandInteraction) {
+    public override async chatInputRun(interaciton: ChatInputCommandInteraction) {
         const order = await this.container.stores.get("models").get("order").findOne({
             where: {
                 customer: interaciton.user.id,

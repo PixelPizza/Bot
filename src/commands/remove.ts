@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -37,7 +37,7 @@ export class RemoveCommand extends Command {
         }));
     }
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
         await interaction.deferReply();
 
         const reason = interaction.options.getString("reason", true);
@@ -51,8 +51,8 @@ export class RemoveCommand extends Command {
 
         await order.sendCustomerMessage({
             embeds: [
-                new MessageEmbed({
-                    color: "RED",
+                new Embed({
+                    color: Colors.Red,
                     title: "Order removed",
                     description: "Your order has been removed. if you think your order has been incorrectly removed, please contact a staff member in our server.",
                     fields: [{
@@ -65,8 +65,8 @@ export class RemoveCommand extends Command {
 
         return interaction.editReply({
             embeds: [
-                new MessageEmbed({
-                    color: "GREEN",
+                new Embed({
+                    color: Colors.Green,
                     title: "Order removed",
                     description: `Order ${order.id} has been removed`,
                     fields: [{

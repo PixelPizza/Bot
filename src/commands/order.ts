@@ -1,12 +1,12 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { type CommandInteraction, MessageEmbed } from "discord.js";
+import { Embed, Colors, PermissionFlagsBits, ChatInputCommandInteraction } from "discord.js";
 import { randomInt } from "node:crypto";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Order some food",
-	requiredClientPermissions: ["CREATE_INSTANT_INVITE"],
+	requiredClientPermissions: [PermissionFlagsBits.CreateInstantInvite],
 	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders"]
 })
 export class OrderCommand extends Command {
@@ -27,7 +27,7 @@ export class OrderCommand extends Command {
 		return id;
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const order = interaction.options.getString("order", true);
@@ -43,8 +43,8 @@ export class OrderCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed({
-					color: "GREEN",
+				new Embed({
+					color: Colors.Green,
 					title: "Order Placed",
 					description: `Your order has been placed`,
 					fields: [

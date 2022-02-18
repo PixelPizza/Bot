@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { CommandInteraction, Message, MessageEmbed, MessageOptions } from "discord.js";
+import { Message, Embed, Colors, MessageOptions, OAuth2Scopes, PermissionFlagsBits, ChatInputCommandInteraction, InteractionReplyOptions } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -11,15 +11,15 @@ export class InviteCommand extends Command {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 
-	private get replyOptions(): MessageOptions {
+	private get replyOptions(): MessageOptions & InteractionReplyOptions {
 		return {
 			embeds: [
-				new MessageEmbed({
-					color: "BLUE",
+				new Embed({
+					color: Colors.Blue,
 					title: "Invite",
 					description: `Here is the [Pixel Pizza invite link](${this.container.client.generateInvite({
-						scopes: ["applications.commands", "bot"],
-						permissions: ["CREATE_INSTANT_INVITE", "EMBED_LINKS", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS"]
+						scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot],
+						permissions: [PermissionFlagsBits.CreateInstantInvite, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.SendMessages, PermissionFlagsBits.UseExternalEmojis]
 					})})`
 				})
 			]
@@ -30,7 +30,7 @@ export class InviteCommand extends Command {
 		return message.channel.send(this.replyOptions);
 	}
 
-	public override chatInputRun(interaction: CommandInteraction) {
+	public override chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		return interaction.reply(this.replyOptions);
 	}
 }

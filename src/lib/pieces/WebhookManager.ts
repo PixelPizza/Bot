@@ -1,6 +1,6 @@
 import { Piece, PieceContext, PieceOptions } from "@sapphire/framework";
-import type { APIMessage } from "discord-api-types";
-import { MessagePayload, MessageResolvable, ThreadChannel, Webhook, WebhookEditData, WebhookEditMessageOptions, WebhookFetchMessageOptions, WebhookMessageOptions } from "discord.js";
+import type { APIMessage } from "discord-api-types/v10";
+import { ChannelType, MessagePayload, MessageResolvable, ThreadChannel, Webhook, WebhookEditData, WebhookEditMessageOptions, WebhookFetchMessageOptions, WebhookMessageOptions } from "discord.js";
 
 export interface WebhookManagerOptions extends PieceOptions {
     webhookName: string;
@@ -22,7 +22,7 @@ export class WebhookManager extends Piece<WebhookManagerOptions> {
     public override onLoad() {
         this.container.client.on("ready", async (client) => {
             const channel = await this.container.client.channels.fetch(this.options.channelId);
-            if (!channel?.isText() || channel.type === "DM" || channel instanceof ThreadChannel)
+            if (!channel?.isTextBased() || channel.type === ChannelType.DM || channel instanceof ThreadChannel)
                 throw new Error(`Invalid webhook channel for ${this.name}`);
             const webhooks = await channel.fetchWebhooks();
             this.webhook = webhooks.find(webhook => webhook.owner?.id === client.user.id) ?? await channel.createWebhook(this.options.webhookName, {

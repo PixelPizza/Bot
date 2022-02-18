@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import type { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -41,7 +41,7 @@ export class LookCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply({ ephemeral: true });
 		return interaction.editReply({ embeds: [await (await this.getOrder(interaction)).createOrderEmbed()] });
 	}

@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import { Op } from "sequelize";
 
@@ -38,7 +38,7 @@ export class CookCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction, { chef: interaction.user.id });
@@ -50,8 +50,8 @@ export class CookCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed({
-					color: "DARK_GREEN",
+				new Embed({
+					color: Colors.DarkGreen,
 					title: "Cooking order",
 					description: `Cooking order ${order.id}`
 				})
@@ -68,8 +68,8 @@ export class CookCommand extends Command {
 
 		await order.sendCustomerMessage({
 			embeds: [
-				new MessageEmbed({
-					color: "BLUE",
+				new Embed({
+					color: Colors.Blue,
 					title: "Order cooked",
 					description: `Your order ${order.id} has been cooked.`
 				})
@@ -78,8 +78,8 @@ export class CookCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed({
-					color: "GREEN",
+				new Embed({
+					color: Colors.Green,
 					title: "Order cooked",
 					description: `Order ${order.id} has been cooked.`
 				})

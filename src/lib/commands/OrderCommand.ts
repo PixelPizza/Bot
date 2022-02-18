@@ -1,4 +1,4 @@
-import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import type { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 import type { FindOptions, WhereOptions } from "sequelize";
 import { Command } from "./Command";
 import type { Order } from "../models/Order";
@@ -54,7 +54,7 @@ export abstract class OrderCommand extends Command {
         {image}
     `;
 
-    protected async getOrder(interaction: CommandInteraction, where?: WhereOptions<Order["_attributes"]>) {
+    protected async getOrder(interaction: ChatInputCommandInteraction, where?: WhereOptions<Order["_attributes"]>) {
         const order = await this.orderModel.findOne({
             where: {
                 ...where,

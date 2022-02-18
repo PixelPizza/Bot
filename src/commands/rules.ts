@@ -2,7 +2,7 @@ import { codeBlock } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -13,11 +13,11 @@ export class RulesCommand extends Command {
         registry.registerChatInputCommand(this.defaultChatInputCommand);
     }
 
-    public override chatInputRun(interaction: CommandInteraction) {
+    public override chatInputRun(interaction: ChatInputCommandInteraction) {
         return interaction.reply({
             embeds: [
-                new MessageEmbed({
-                    color: "BLUE",
+                new Embed({
+                    color: Colors.Blue,
                     title: "Order Rules and Guidelines",
                     description: codeBlock("markdown", stripIndents`
                         1. No NSFW

@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -11,11 +11,11 @@ export class PPAPCommand extends Command {
         registry.registerChatInputCommand(this.defaultChatInputCommand);
     }
 
-    public override chatInputRun(interaction: CommandInteraction) {
+    public override chatInputRun(interaction: ChatInputCommandInteraction) {
         return interaction.reply({
             embeds: [
-                new MessageEmbed({
-                    color: "YELLOW",
+                new Embed({
+                    color: Colors.Yellow,
                     title: this.description,
                     description: "[Pen Pineapple Apple Pen](https://www.youtube.com/watch?v=Ct6BUPvE2sM)",
                     image: {

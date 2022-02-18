@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry, Args } from "@sapphire/framework";
-import { type CommandInteraction, type Message, MessageEmbed, type MessageOptions } from "discord.js";
+import { type Message, Embed, Colors, type MessageOptions, ChatInputCommandInteraction, InteractionReplyOptions } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -8,14 +8,14 @@ import { Command } from "../lib/commands/Command";
 	description: "Shows a list of commands"
 })
 export class HelpCommand extends Command {
-	private getReplyOptions(commandName: string | null): MessageOptions {
+	private getReplyOptions(commandName: string | null): MessageOptions & InteractionReplyOptions {
 		const command = commandName ? this.container.stores.get("commands").get(commandName) : null;
 
 		if (!command) {
 			return {
 				embeds: [
-					new MessageEmbed({
-						color: "BLUE",
+					new Embed({
+						color: Colors.Blue,
 						title: "Commands",
 						description: this.container.stores
 							.get("commands")
@@ -26,8 +26,8 @@ export class HelpCommand extends Command {
 			};
 		}
 
-		const embed = new MessageEmbed({
-			color: "BLUE",
+		const embed = new Embed({
+			color: Colors.Blue,
 			fields: [
 				{
 					name: "Name",
@@ -36,9 +36,9 @@ export class HelpCommand extends Command {
 			]
 		});
 
-		command.aliases.length && embed.addField("Aliases", command.aliases.join(", "));
+		command.aliases.length && embed.addField({ name: "Aliases", value: command.aliases.join(", ") });
 		(command.detailedDescription || command.description) &&
-			embed.addField("Description", command.detailedDescription || command.description);
+			embed.addField({ name: "Description", value: command.detailedDescription as string || command.description });
 
 		return {
 			embeds: [embed]
@@ -57,7 +57,7 @@ export class HelpCommand extends Command {
 		return message.channel.send(this.getReplyOptions(args.finished ? null : await args.pick("string")));
 	}
 
-	public override chatInputRun(interaction: CommandInteraction) {
+	public override chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		return interaction.reply(this.getReplyOptions(interaction.options.getString("command")));
 	}
 }

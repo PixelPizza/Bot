@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 @ApplyOptions<Command.Options>({
     description: "Show your order",
@@ -12,7 +12,7 @@ export class MyOrderCommand extends Command {
         registry.registerChatInputCommand(this.defaultChatInputCommand);
     }
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
         const order = await this.orderModel.findOne({

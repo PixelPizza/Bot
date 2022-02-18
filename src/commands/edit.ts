@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -15,7 +15,7 @@ export class EditCommand extends Command {
         );
     }
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
         const order = await (await this.orderModel.findOne({
@@ -29,8 +29,8 @@ export class EditCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new MessageEmbed({
-                    color: "GREEN",
+                new Embed({
+                    color: Colors.Green,
                     title: "Order edited",
                     description: "Your order has been edited.",
                     fields: [{

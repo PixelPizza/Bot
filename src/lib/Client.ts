@@ -1,11 +1,12 @@
 import { container, LogLevel } from "@sapphire/framework";
 import { Client as DosClient } from "discord-oversimplified";
+import { IntentsBitField } from "discord.js";
 import { Sequelize } from "sequelize";
 
 export class Client extends DosClient {
 	public constructor() {
 		super({
-			intents: ["GUILDS", "GUILD_MESSAGES"],
+			intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages],
 			loadMessageCommandListeners: true,
 			logger: {
 				level: LogLevel.Debug

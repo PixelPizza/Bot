@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { MessageEmbed, MessageResolvable } from "discord.js";
+import { Colors, MessageResolvable, EmbedBuilder } from "discord.js";
 import type { Order } from "../lib/models/Order";
 import { WebhookManager, WebhookManagerOptions } from "../lib/pieces/WebhookManager";
 
@@ -71,8 +71,8 @@ export class DeliveryWebhook extends WebhookManager {
         if (!(id in this.messages)) return;
         await this.editMessage(this.messages[id], {
             embeds: [
-                new MessageEmbed()
-                    .setColor("DARK_RED")
+                new EmbedBuilder()
+                    .setColor(Colors.DarkRed)
                     .setTitle("Order deleted")
                     .setDescription(`This order has been deleted`)
             ]

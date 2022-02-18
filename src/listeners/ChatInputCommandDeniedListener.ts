@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { type ChatInputCommandDeniedPayload, Events, Listener, type ListenerOptions, type UserError } from "@sapphire/framework";
-import { MessageEmbed } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 
 @ApplyOptions<ListenerOptions>({
 	event: Events.ChatInputCommandDenied
@@ -10,8 +10,8 @@ export class ChatInputCommandDeniedListener extends Listener<typeof Events.ChatI
 	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
 		return interaction.reply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("RED")
+				new EmbedBuilder()
+					.setColor(Colors.Red)
 					.setTitle("Command denied")
 					.setDescription(error.message)
 			],

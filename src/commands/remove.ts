@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, Colors, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -37,7 +37,7 @@ export class RemoveCommand extends Command {
         }));
     }
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
         await interaction.deferReply();
 
         const reason = interaction.options.getString("reason", true);
@@ -51,21 +51,21 @@ export class RemoveCommand extends Command {
 
         await order.sendCustomerMessage({
             embeds: [
-                new MessageEmbed()
-                    .setColor("RED")
+                new EmbedBuilder()
+                    .setColor(Colors.Red)
                     .setTitle("Order removed")
                     .setDescription("Your order has been removed. if you think your order has been incorrectly removed, please contact a staff member in our server.")
-                    .addField("Reason", reason)
+                    .addFields({ name: "Reason", value: reason })
             ]
         });
 
         return interaction.editReply({
             embeds: [
-                new MessageEmbed()
-                    .setColor("GREEN")
+                new EmbedBuilder()
+                    .setColor(Colors.Green)
                     .setTitle("Order removed")
                     .setDescription(`Order ${order.id} has been removed`)
-                    .addField("Reason", reason)
+                    .addFields({ name: "Reason", value: reason })
             ]
         });
     }

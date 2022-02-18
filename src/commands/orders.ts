@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { type CommandInteraction, MessageEmbed } from "discord.js";
+import { Colors, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -12,15 +12,15 @@ export class OrdersCommand extends Command {
 		this.registerPrivateChatInputCommand(registry, this.defaultChatInputCommand);
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const orders = await this.orderModel.findAll();
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Orders")
 					.setDescription(orders.map((order) => `\`${order.id}\``).join(",") || "No orders")
 			]

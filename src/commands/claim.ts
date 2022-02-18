@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
+import { type AutocompleteInteraction, Colors, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -42,7 +42,7 @@ export class ClaimCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction);
@@ -58,8 +58,8 @@ export class ClaimCommand extends Command {
 
 		await order.sendCustomerMessage({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Order claimed")
 					.setDescription(`Your order has been claimed by ${interaction.user.tag} for ${claimType}`)
 			]
@@ -67,8 +67,8 @@ export class ClaimCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Order claimed")
 					.setDescription(`You claimed order \`${order.id}\` for ${claimType}`)
 			]

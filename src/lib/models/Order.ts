@@ -1,4 +1,4 @@
-import { Guild, MessageEmbed, MessageOptions, MessagePayload, NewsChannel, TextChannel, User } from "discord.js";
+import { Guild, Colors, MessageOptions, MessagePayload, NewsChannel, TextChannel, User, EmbedBuilder } from "discord.js";
 import { Model } from "../pieces/ModelManager";
 
 interface OrderTypes {
@@ -74,7 +74,7 @@ export class Order extends Model<OrderTypes, OrderCreateTypes> {
     public async fetchChannel(required = false) {
         const guild = await this.fetchGuild();
         const channel = (await guild?.channels.fetch(this.channel)) ?? guild?.systemChannel ?? null;
-        if (channel && !channel.isText()) throw new Error("Invalid channel");
+        if (channel && !channel.isTextBased()) throw new Error("Invalid channel");
         if (!channel && required) throw new Error("Channel not found");
         return channel;
     }
@@ -153,11 +153,11 @@ export class Order extends Model<OrderTypes, OrderCreateTypes> {
         const chef = await this.fetchChef();
         const deliverer = await this.fetchDeliverer();
 
-        const embed = new MessageEmbed()
-            .setColor("BLUE")
+        const embed = new EmbedBuilder()
+            .setColor(Colors.Blue)
             .setTitle("Order")
             .setDescription(this.order)
-            .addFields([
+            .addFields(
                 {
                     name: "\u200b",
                     value: "\u200b"
@@ -182,14 +182,14 @@ export class Order extends Model<OrderTypes, OrderCreateTypes> {
                     name: "Ordered At",
                     value: this.formatDate(this.orderedAt)
                 }
-            ])
+            )
             .setFooter({ text: `ID: ${this.id} | status: ${this.status}${deliveryMethod ? ` | method: ${deliveryMethod}` : ""}${chef ? ` | chef: ${chef.tag} (${chef.id})` : ""}${deliverer ? ` | deliverer: ${deliverer.tag} (${deliverer.id})` : ""}` });
 
-        if (this.cookedAt) embed.addField("Cooked At", this.formatDate(this.cookedAt));
-        if (this.deliveredAt) embed.addField("Delivered At", this.formatDate(this.deliveredAt));
+        if (this.cookedAt) embed.addFields({ name: "Cooked At", value: this.formatDate(this.cookedAt) });
+        if (this.deliveredAt) embed.addFields({ name: "Delivered At", value: this.formatDate(this.deliveredAt) });
         if (this.image) embed.setImage(this.image);
 
-        embed.addField("\u200b", "\u200b");
+        embed.addFields({ name: "\u200b", value: "\u200b" });
 
         return embed;
     }

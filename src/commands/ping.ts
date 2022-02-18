@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { type CommandInteraction, Message, MessageEmbed, SnowflakeUtil } from "discord.js";
+import { Message, Colors, SnowflakeUtil, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -8,10 +8,10 @@ import { Command } from "../lib/commands/Command";
 })
 export class PingCommand extends Command {
 	private getPingEmbed(messageLatency: number) {
-		return new MessageEmbed()
-			.setColor("GREEN")
+		return new EmbedBuilder()
+			.setColor(Colors.Green)
 			.setTitle("🏓 Pong!")
-			.addFields([
+			.addFields(
 				{
 					name: "API Latency",
 					value: `${Math.round(this.container.client.ws.ping)}ms`
@@ -20,7 +20,7 @@ export class PingCommand extends Command {
 					name: "Message Latency",
 					value: `${messageLatency}ms`
 				}
-			]);
+			);
 	}
 
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -31,17 +31,17 @@ export class PingCommand extends Command {
 		const msg = await message.channel.send("Pinging...");
 		return msg.edit({
 			content: null,
-			embeds: [this.getPingEmbed(msg.createdTimestamp - message.createdTimestamp)]
+			embeds: [this.getPingEmbed(msg.createdTimestamp - message.createdTimestamp).toJSON()]
 		});
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		const reply = await interaction.reply({
 			content: "Pinging...",
 			fetchReply: true
 		});
 		const createdTimestamp =
-			reply instanceof Message ? reply.createdTimestamp : SnowflakeUtil.deconstruct(reply.id).timestamp;
+			reply instanceof Message ? reply.createdTimestamp : Number(SnowflakeUtil.deconstruct(reply.id).timestamp);
 		return interaction.editReply({
 			content: null,
 			embeds: [this.getPingEmbed(createdTimestamp - interaction.createdTimestamp)]

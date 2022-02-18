@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
+import { type AutocompleteInteraction, Colors, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -43,7 +43,7 @@ export class UnclaimCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction);
@@ -58,8 +58,8 @@ export class UnclaimCommand extends Command {
 
 		await order.sendCustomerMessage({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Order unclaimed")
 					.setDescription("Your order has been unclaimed")
 			]
@@ -67,8 +67,8 @@ export class UnclaimCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Order unclaimed")
 					.setDescription(`You unclaimed order \`${order.id}\` for ${claimType}`)
 			]

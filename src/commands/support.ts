@@ -1,18 +1,18 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { CommandInteraction, Message, MessageEmbed, MessageOptions, TextChannel } from "discord.js";
+import { CommandInteraction, Message, Colors, MessageOptions, TextChannel, InteractionReplyOptions, EmbedBuilder } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
 	description: "Get the invite link to the support server"
 })
 export class SupportCommand extends Command {
-	private async getReplyOptions(): Promise<MessageOptions> {
+	private async getReplyOptions(): Promise<MessageOptions & InteractionReplyOptions> {
 		const channel = (await this.container.client.channels.fetch(process.env.INVITE_CHANNEL)) as TextChannel;
 		return {
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Support Server")
 					.setDescription(`Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`)
 			]
@@ -27,7 +27,7 @@ export class SupportCommand extends Command {
 		return message.channel.send(await this.getReplyOptions());
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
 		return interaction.reply(await this.getReplyOptions());
 	}
 }

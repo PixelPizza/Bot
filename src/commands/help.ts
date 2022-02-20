@@ -31,7 +31,7 @@ export class HelpCommand extends Command {
 
 		command.aliases.length && embed.addField("Aliases", command.aliases.join(", "));
 		(command.detailedDescription || command.description) &&
-			embed.addField("Description", command.detailedDescription || command.description);
+			embed.addField("Description", command.detailedDescription as string || command.description);
 
 		return {
 			embeds: [embed]

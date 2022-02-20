@@ -2722,9 +2722,9 @@ discord-api-types@^0.26.0, discord-api-types@^0.26.1:
   integrity sha512-T5PdMQ+Y1MEECYMV5wmyi9VEYPagEDEi4S0amgsszpWY0VB9JJ/hEvM6BgLhbdnKky4gfmZEXtEEtojN8ZKJQQ==
 
 discord-oversimplified@^0.6.5-next.d3e32eb.0:
-  version "0.6.5-next.e662352.0"
-  resolved "https://registry.yarnpkg.com/discord-oversimplified/-/discord-oversimplified-0.6.5-next.e662352.0.tgz#0375ec3811092bc726c29c1c43bf202d65a536ac"
-  integrity sha512-xYNbrse1eEL7ut32KlRwj+mQU5fbOvn1SnyqJbeSoUOEaBkeGUyWf02miM33KyWqzKj2TyfX6IXEP4AcxZ9HTg==
+  version "0.6.5-next.d3e32eb.0"
+  resolved "https://registry.yarnpkg.com/discord-oversimplified/-/discord-oversimplified-0.6.5-next.d3e32eb.0.tgz#095e760a18816b90c025d86aed1bd1f20c832cec"
+  integrity sha512-2d3qUo2smwiimbLfuZ0p2bsc7ln2q4Bnht70RY1LNU2uoZ0Sl0phLOYFXtG1ndTrhw9JslJ/Aq+W7Lo1gujPWA==
   dependencies:
     "@discordextend/interpreter" "^1.1.0"
     "@discordjs/builders" "^0.9.0"

@@ -29,15 +29,11 @@ export class EditCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new MessageEmbed({
-                    color: "GREEN",
-                    title: "Order edited",
-                    description: "Your order has been edited.",
-                    fields: [{
-                        name: "Your order",
-                        value: order.order
-                    }]
-                })
+                new MessageEmbed()
+                    .setColor("GREEN")
+                    .setTitle("Order edited")
+                    .setDescription("Your order has been edited.")
+                    .addField("Your order", order.order)
             ]
         });
     }

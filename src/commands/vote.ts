@@ -12,24 +12,18 @@ export class VoteCommand extends Command {
 		const { client } = this.container;
 		return {
 			embeds: [
-				new MessageEmbed({
-					color: "BLUE",
-					title: "Vote links",
-					description: stripIndents`
+				new MessageEmbed()
+					.setColor("BLUE")
+					.setTitle("Vote links")
+					.setDescription(stripIndents`
 						[top.gg](https://top.gg/bot/${client.user?.id}/vote)
 						[discordbotlist.com](https://discordbotlist.com/bots/pixel-pizza/upvote)
-					`,
-					fields: [
-						{
-							name: "Rewards",
-							value: stripIndents`
-								**Note:** rewards only apply to top.gg
-								${client.emojis.cache.get(process.env.ECO_EMOJI)} 200
-								500 Exp
-							`
-						}
-					]
-				})
+					`)
+					.addField("Rewards", stripIndents`
+						**Note:** rewards only apply to top.gg
+						${client.emojis.cache.get(process.env.ECO_EMOJI)} 200
+						500 Exp
+					`)
 			]
 		};
 	}

@@ -14,31 +14,24 @@ export class HelpCommand extends Command {
 		if (!command) {
 			return {
 				embeds: [
-					new MessageEmbed({
-						color: "BLUE",
-						title: "Commands",
-						description: this.container.stores
+					new MessageEmbed()
+						.setColor("BLUE")
+						.setTitle("Commands")
+						.setDescription(this.container.stores
 							.get("commands")
 							.map((command) => `**${command.name}:** ${command.description}`)
-							.join("\n")
-					})
+							.join("\n"))
 				]
 			};
 		}
 
-		const embed = new MessageEmbed({
-			color: "BLUE",
-			fields: [
-				{
-					name: "Name",
-					value: command.name
-				}
-			]
-		});
+		const embed = new MessageEmbed()
+			.setColor("BLUE")
+			.addField("Name", command.name);
 
 		command.aliases.length && embed.addField("Aliases", command.aliases.join(", "));
 		(command.detailedDescription || command.description) &&
-			embed.addField("Description", command.detailedDescription || command.description);
+			embed.addField("Description", command.detailedDescription as string || command.description);
 
 		return {
 			embeds: [embed]

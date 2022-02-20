@@ -153,11 +153,11 @@ export class Order extends Model<OrderTypes, OrderCreateTypes> {
         const chef = await this.fetchChef();
         const deliverer = await this.fetchDeliverer();
 
-        const embed = new MessageEmbed({
-            color: "BLUE",
-            title: "Order",
-            description: this.order,
-            fields: [
+        const embed = new MessageEmbed()
+            .setColor("BLUE")
+            .setTitle("Order")
+            .setDescription(this.order)
+            .addFields([
                 {
                     name: "\u200b",
                     value: "\u200b"
@@ -182,11 +182,8 @@ export class Order extends Model<OrderTypes, OrderCreateTypes> {
                     name: "Ordered At",
                     value: this.formatDate(this.orderedAt)
                 }
-            ],
-            footer: {
-                text: `ID: ${this.id} | status: ${this.status}${deliveryMethod ? ` | method: ${deliveryMethod}` : ""}${chef ? ` | chef: ${chef.tag} (${chef.id})` : ""}${deliverer ? ` | deliverer: ${deliverer.tag} (${deliverer.id})` : ""}`
-            }
-        });
+            ])
+            .setFooter({ text: `ID: ${this.id} | status: ${this.status}${deliveryMethod ? ` | method: ${deliveryMethod}` : ""}${chef ? ` | chef: ${chef.tag} (${chef.id})` : ""}${deliverer ? ` | deliverer: ${deliverer.tag} (${deliverer.id})` : ""}` });
 
         if (this.cookedAt) embed.addField("Cooked At", this.formatDate(this.cookedAt));
         if (this.deliveredAt) embed.addField("Delivered At", this.formatDate(this.deliveredAt));

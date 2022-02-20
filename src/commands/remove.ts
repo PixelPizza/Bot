@@ -51,29 +51,21 @@ export class RemoveCommand extends Command {
 
         await order.sendCustomerMessage({
             embeds: [
-                new MessageEmbed({
-                    color: "RED",
-                    title: "Order removed",
-                    description: "Your order has been removed. if you think your order has been incorrectly removed, please contact a staff member in our server.",
-                    fields: [{
-                        name: "Reason",
-                        value: reason
-                    }]
-                })
+                new MessageEmbed()
+                    .setColor("RED")
+                    .setTitle("Order removed")
+                    .setDescription("Your order has been removed. if you think your order has been incorrectly removed, please contact a staff member in our server.")
+                    .addField("Reason", reason)
             ]
         });
 
         return interaction.editReply({
             embeds: [
-                new MessageEmbed({
-                    color: "GREEN",
-                    title: "Order removed",
-                    description: `Order ${order.id} has been removed`,
-                    fields: [{
-                        name: "Reason",
-                        value: reason
-                    }]
-                })
+                new MessageEmbed()
+                    .setColor("GREEN")
+                    .setTitle("Order removed")
+                    .setDescription(`Order ${order.id} has been removed`)
+                    .addField("Reason", reason)
             ]
         });
     }

@@ -47,11 +47,10 @@ export class CookCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed({
-					color: "DARK_GREEN",
-					title: "Cooking order",
-					description: `Cooking order ${order.id}`
-				})
+				new MessageEmbed()
+					.setColor("DARK_GREEN")
+					.setTitle("Cooking order")
+					.setDescription(`Cooking order ${order.id}`)
 			]
 		});
 
@@ -65,21 +64,19 @@ export class CookCommand extends Command {
 
 		await order.sendCustomerMessage({
 			embeds: [
-				new MessageEmbed({
-					color: "BLUE",
-					title: "Order cooked",
-					description: `Your order ${order.id} has been cooked.`
-				})
+				new MessageEmbed()
+					.setColor("BLUE")
+					.setTitle("Order cooked")
+					.setDescription(`Your order ${order.id} has been cooked.`)
 			]
 		});
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed({
-					color: "GREEN",
-					title: "Order cooked",
-					description: `Order ${order.id} has been cooked.`
-				})
+				new MessageEmbed()
+					.setColor("GREEN")
+					.setTitle("Order cooked")
+					.setDescription(`Order ${order.id} has been cooked.`)
 			]
 		});
 	}

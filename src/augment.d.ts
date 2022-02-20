@@ -11,6 +11,7 @@ export declare global {
 			// Channels
 			INVITE_CHANNEL: string;
 			IMAGE_CHANNEL: string;
+			ORDERS_CHANNEL: string;
 			KITCHEN_CHANNEL: string;
 			DELIVERY_CHANNEL: string;
 			ORDER_LOG_CHANNEL: string;

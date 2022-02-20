@@ -1,9 +1,10 @@
 import { Store } from "@sapphire/framework";
 import { WebhookManager } from "../pieces/WebhookManager";
-import type { OrderWebhook } from "../../webhooks/OrderWebhook";
+import type { OrderLogWebhook } from "../../webhooks/OrderLogWebhook";
 import type { KitchenWebhook } from "../../webhooks/KitchenWebhook";
 import type { DeliveryWebhook } from "../../webhooks/DeliveryWebhook";
 import type { ImageWebhook } from "../../webhooks/ImageWebhook";
+import type { OrderWebhook } from "../../webhooks/OrderWebhook";
 
 export class WebhookManagerStore extends Store<WebhookManager> {
     public constructor() {
@@ -17,6 +18,7 @@ export class WebhookManagerStore extends Store<WebhookManager> {
 }
 
 export interface WebhookManagerStoreEntries {
+    orderlog: OrderLogWebhook;
     order: OrderWebhook;
     kitchen: KitchenWebhook;
     delivery: DeliveryWebhook;

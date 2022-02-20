@@ -5,15 +5,15 @@ import { MessageEmbed } from "discord.js";
 @ApplyOptions<ListenerOptions>({
 	event: Events.ChatInputCommandDenied
 })
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 export class ChatInputCommandDeniedListener extends Listener<typeof Events.ChatInputCommandDenied> {
 	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
 		return interaction.reply({
 			embeds: [
-				new MessageEmbed({
-					color: "RED",
-					title: "Command denied",
-					description: error.message
-				})
+				new MessageEmbed()
+					.setColor("RED")
+					.setTitle("Command denied")
+					.setDescription(error.message)
 			],
 			ephemeral: true
 		});

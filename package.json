@@ -11,10 +11,10 @@
 		"dist"
 	],
 	"scripts": {
-		"pretest": "npm run build",
+		"pretest": "yarn build",
 		"test": "jest --pass-with-no-tests",
 		"test:ci": "jest --no-stack-trace --verbose --pass-with-no-tests",
-		"prebuild": "npm run clean",
+		"prebuild": "yarn clean",
 		"build": "tsup",
 		"clean": "rimraf dist",
 		"lint": "eslint --ext mjs,js,ts",
@@ -22,7 +22,7 @@
 		"format": "prettier --write **/*.{ts,js,json,yml,yaml}",
 		"prepare": "husky install",
 		"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-		"start": "npm run build && node dist/index.js"
+		"start": "yarn build && node dist/index.js"
 	},
 	"repository": {
 		"type": "git",

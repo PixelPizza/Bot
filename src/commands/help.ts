@@ -14,27 +14,20 @@ export class HelpCommand extends Command {
 		if (!command) {
 			return {
 				embeds: [
-					new Embed({
-						color: Colors.Blue,
-						title: "Commands",
-						description: this.container.stores
+					new Embed()
+						.setColor(Colors.Blue)
+						.setTitle("Commands")
+						.setDescription(this.container.stores
 							.get("commands")
 							.map((command) => `**${command.name}:** ${command.description}`)
-							.join("\n")
-					})
+							.join("\n"))
 				]
 			};
 		}
 
-		const embed = new Embed({
-			color: Colors.Blue,
-			fields: [
-				{
-					name: "Name",
-					value: command.name
-				}
-			]
-		});
+		const embed = new Embed()
+			.setColor(Colors.Blue)
+			.addField({ name: "Name", value: command.name });
 
 		command.aliases.length && embed.addField({ name: "Aliases", value: command.aliases.join(", ") });
 		(command.detailedDescription || command.description) &&

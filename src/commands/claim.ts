@@ -58,21 +58,19 @@ export class ClaimCommand extends Command {
 
 		await order.sendCustomerMessage({
 			embeds: [
-				new Embed({
-					color: Colors.Blue,
-					title: "Order claimed",
-					description: `Your order has been claimed by ${interaction.user.tag} for ${claimType}`
-				})
+				new Embed()
+					.setColor(Colors.Blue)
+					.setTitle("Order claimed")
+					.setDescription(`Your order has been claimed by ${interaction.user.tag} for ${claimType}`)
 			]
 		});
 
 		return interaction.editReply({
 			embeds: [
-				new Embed({
-					color: Colors.Blue,
-					title: "Order claimed",
-					description: `You claimed order \`${order.id}\` for ${claimType}`
-				})
+				new Embed()
+					.setColor(Colors.Blue)
+					.setTitle("Order claimed")
+					.setDescription(`You claimed order \`${order.id}\` for ${claimType}`)
 			]
 		});
 	}

@@ -14,17 +14,12 @@ export class PPAPCommand extends Command {
     public override chatInputRun(interaction: ChatInputCommandInteraction) {
         return interaction.reply({
             embeds: [
-                new Embed({
-                    color: Colors.Yellow,
-                    title: this.description,
-                    description: "[Pen Pineapple Apple Pen](https://www.youtube.com/watch?v=Ct6BUPvE2sM)",
-                    image: {
-                        url: "https://c.tenor.com/U5jXEmtm8aIAAAAC/ppap-dance.gif"
-                    },
-                    footer: {
-                        text: "What did you expect?"
-                    }
-                })
+                new Embed()
+                    .setColor(Colors.Yellow)
+                    .setTitle(this.description)
+                    .setDescription("[Pen Pineapple Apple Pen](https://www.youtube.com/watch?v=Ct6BUPvE2sM)")
+                    .setImage("https://c.tenor.com/U5jXEmtm8aIAAAAC/ppap-dance.gif")
+                    .setFooter({ text: "What did you expect?" })
             ],
             ephemeral: true
         });

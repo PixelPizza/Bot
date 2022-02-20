@@ -44,19 +44,18 @@ export class DeliveryMessageCommand extends Command {
 
         if (!message) {
             const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
-            const replyOptions: WebhookEditMessageOptions & { embeds?: Embed[] } = {
+            const replyOptions: WebhookEditMessageOptions & { embeds: Embed[]; components: ActionRow[] } = {
                 embeds: [
-                    new Embed({
-                        color: Colors.Blue,
-                        title: "Current Delivery Message",
-                        description: codeBlock(currentMessage)
-                    })
+                    new Embed()
+                        .setColor(Colors.Blue)
+                        .setTitle("Current Delivery Message")
+                        .setDescription(codeBlock(currentMessage))
                 ],
                 components: [
-                    new ActionRow()
-                        .addComponents(new SelectMenuComponent({
-                            customId: "message",
-                            options: [
+                    new ActionRow().addComponents(
+                        new SelectMenuComponent()
+                            .setCustomId("message")
+                            .addOptions(
                                 {
                                     label: "Normal",
                                     value: "normal",
@@ -66,19 +65,29 @@ export class DeliveryMessageCommand extends Command {
                                     label: "Colored",
                                     value: "colored"
                                 }
-                            ]
-                        }))
+                            )
+                    )
                 ]
             };
             const reply = await interaction.editReply(replyOptions) as Message;
             reply.createMessageComponentCollector({componentType: ComponentType.SelectMenu, filter: (selectMenu) => selectMenu.customId === "message"}).on("collect", async (interaction) => {
                 const normal = interaction.values[0] === "normal";
-                replyOptions.embeds![0].setDescription((normal ? codeBlock(currentMessage) : codeBlock("ansi", currentMessage))
+                replyOptions.embeds[0].setDescription(normal ? codeBlock(currentMessage) : codeBlock("ansi", currentMessage)
                     .replace(/{(image|invite|orderID|order|guild|server|channel|chef|deliverer|customer|orderdate|cookdate|deliverydate)}/g, (_r, match) => `\x1b[0;34m{\x1b[0;32m${match}\x1b[0;34m}\x1b[0m`)
                     .replace(/{(chef|deliverer|customer)(?:: *(tag|id|username|name|ping|mention))}/g, (_r, name, type) => `\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`)
                     .replace(/{(orderdate|cookdate|deliverydate)(?:: *(date|time|datetime))}/g, (_r, name, type) => `\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`));
-                (replyOptions.components![0].components[0] as SelectMenuComponent).options[0].setDefault(normal);
-                (replyOptions.components![0].components[0] as SelectMenuComponent).options[1].setDefault(!normal);
+                (replyOptions.components[0].components[0] as SelectMenuComponent).setOptions(
+                    {
+                        label: "Normal",
+                        value: "normal",
+                        default: normal
+                    },
+                    {
+                        label: "Colored",
+                        value: "colored",
+                        default: !normal
+                    }
+                );
                 await interaction.update(replyOptions);
             });
             return;
@@ -101,11 +110,10 @@ export class DeliveryMessageCommand extends Command {
 
         return interaction.editReply({
             embeds: [
-                new Embed({
-                    color: Colors.Green,
-                    title: "Delivery Message Set",
-                    description: "Your delivery message has been set"
-                })
+                new Embed()
+                    .setColor(Colors.Green)
+                    .setTitle("Delivery Message Set")
+                    .setDescription("Your delivery message has been set")
             ]
         });
     }

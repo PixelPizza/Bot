@@ -24,11 +24,10 @@ export class CancelCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new Embed({
-                    color: Colors.Green,
-                    title: "Order cancelled",
-                    description: "Your order has been cancelled."
-                })
+                new Embed()
+                    .setColor(Colors.Green)
+                    .setTitle("Order cancelled")
+                    .setDescription("Your order has been cancelled.")
             ]
         });
     }

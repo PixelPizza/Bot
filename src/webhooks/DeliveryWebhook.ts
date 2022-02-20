@@ -71,11 +71,10 @@ export class DeliveryWebhook extends WebhookManager {
         if (!(id in this.messages)) return;
         await this.editMessage(this.messages[id], {
             embeds: [
-                new Embed({
-                    color: Colors.DarkRed,
-                    title: "Order deleted",
-                    description: `This order has been deleted`
-                })
+                new Embed()
+                    .setColor(Colors.DarkRed)
+                    .setTitle("Order deleted")
+                    .setDescription(`This order has been deleted`)
             ]
         });
         await this.removeMessage(id);

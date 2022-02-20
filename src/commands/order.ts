@@ -43,20 +43,12 @@ export class OrderCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new Embed({
-					color: Colors.Green,
-					title: "Order Placed",
-					description: `Your order has been placed`,
-					fields: [
-						{
-							name: "Your order",
-							value: order
-						}
-					],
-					footer: {
-						text: `ID: ${id}`
-					}
-				})
+				new Embed()
+					.setColor(Colors.Green)
+					.setTitle("Order Placed")
+					.setDescription(`Your order has been placed`)
+					.addField({ name: "Your order", value: order })
+					.setFooter({ text: `ID: ${id}` })
 			]
 		});
 	}

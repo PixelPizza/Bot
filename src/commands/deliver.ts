@@ -179,22 +179,20 @@ export class DeliverCommand extends Command {
 			if (method !== Command.DeliveryMethod.DM) {
 				await order.sendCustomerMessage({
 					embeds: [
-						new Embed({
-							color: Colors.Blue,
-							title: "Order Delivered",
-							description: `Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`
-						})
+						new Embed()
+							.setColor(Colors.Blue)
+							.setTitle("Order Delivered")
+							.setDescription(`Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`)
 					]
 				});
 			}
 
 			return await interaction.editReply({
 				embeds: [
-					new Embed({
-						color: Colors.Green,
-						title: "Order delivered",
-						description: `Order ${orderId} has been delivered.`
-					})
+					new Embed()
+						.setColor(Colors.Green)
+						.setTitle("Order Delivered")
+						.setDescription(`Order ${orderId} has been delivered.`)
 				]
 			});
 		} catch (error) {

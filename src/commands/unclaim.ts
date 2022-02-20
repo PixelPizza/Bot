@@ -58,21 +58,19 @@ export class UnclaimCommand extends Command {
 
 		await order.sendCustomerMessage({
 			embeds: [
-				new Embed({
-					color: Colors.Blue,
-					title: "Order unclaimed",
-					description: "Your order has been unclaimed"
-				})
+				new Embed()
+					.setColor(Colors.Blue)
+					.setTitle("Order unclaimed")
+					.setDescription("Your order has been unclaimed")
 			]
 		});
 
 		return interaction.editReply({
 			embeds: [
-				new Embed({
-					color: Colors.Blue,
-					title: "Order unclaimed",
-					description: `You unclaimed order \`${order.id}\` for ${claimType}`
-				})
+				new Embed()
+					.setColor(Colors.Blue)
+					.setTitle("Order unclaimed")
+					.setDescription(`You unclaimed order \`${order.id}\` for ${claimType}`)
 			]
 		});
 	}

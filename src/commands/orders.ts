@@ -19,11 +19,10 @@ export class OrdersCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new Embed({
-					color: Colors.Blue,
-					title: "Orders",
-					description: orders.map((order) => `\`${order.id}\``).join(",") || "No orders"
-				})
+				new Embed()
+					.setColor(Colors.Blue)
+					.setTitle("Orders")
+					.setDescription(orders.map((order) => `\`${order.id}\``).join(",") || "No orders")
 			]
 		});
 	}

@@ -14,14 +14,13 @@ export class InviteCommand extends Command {
 	private get replyOptions(): MessageOptions & InteractionReplyOptions {
 		return {
 			embeds: [
-				new Embed({
-					color: Colors.Blue,
-					title: "Invite",
-					description: `Here is the [Pixel Pizza invite link](${this.container.client.generateInvite({
+				new Embed()
+					.setColor(Colors.Blue)
+					.setTitle("Invite")
+					.setDescription(`Here is the [Pixel Pizza invite link](${this.container.client.generateInvite({
 						scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot],
 						permissions: [PermissionFlagsBits.CreateInstantInvite, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.SendMessages, PermissionFlagsBits.UseExternalEmojis]
-					})})`
-				})
+					})})`)
 			]
 		};
 	}

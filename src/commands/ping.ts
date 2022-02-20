@@ -8,10 +8,10 @@ import { Command } from "../lib/commands/Command";
 })
 export class PingCommand extends Command {
 	private getPingEmbed(messageLatency: number) {
-		return new Embed({
-			color: Colors.Green,
-			title: "🏓 Pong!",
-			fields: [
+		return new Embed()
+			.setColor(Colors.Green)
+			.setTitle("🏓 Pong!")
+			.addFields(
 				{
 					name: "API Latency",
 					value: `${Math.round(this.container.client.ws.ping)}ms`
@@ -20,8 +20,7 @@ export class PingCommand extends Command {
 					name: "Message Latency",
 					value: `${messageLatency}ms`
 				}
-			]
-		});
+			);
 	}
 
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

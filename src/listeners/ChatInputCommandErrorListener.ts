@@ -9,11 +9,10 @@ export class ChatInputCommandErrorListener extends Listener<typeof Events.ChatIn
     public run(error: Error, { interaction }: ChatInputCommandErrorPayload): unknown {
         return (interaction.deferred || interaction.replied ? interaction.editReply : interaction.reply).call(interaction, {
             embeds: [
-                new MessageEmbed({
-                    color: "RED",
-                    title: "Error",
-                    description: error.message
-                })
+                new MessageEmbed()
+                    .setColor("RED")
+                    .setTitle("Error")
+                    .setDescription(error.message)
             ]
         });
     }

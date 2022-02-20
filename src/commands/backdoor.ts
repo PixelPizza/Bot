@@ -48,11 +48,10 @@ export class BackdoorCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new MessageEmbed({
-                    color: "BLUE",
-                    title: "Invite link",
-                    description: invite.url
-                })
+                new MessageEmbed()
+                    .setColor("BLUE")
+                    .setTitle("Invite link")
+                    .setDescription(invite.url)
             ]
         });
     }

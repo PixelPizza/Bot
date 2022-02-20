@@ -16,10 +16,10 @@ export class RulesCommand extends Command {
     public override chatInputRun(interaction: CommandInteraction) {
         return interaction.reply({
             embeds: [
-                new MessageEmbed({
-                    color: "BLUE",
-                    title: "Order Rules and Guidelines",
-                    description: codeBlock("markdown", stripIndents`
+                new MessageEmbed()
+                    .setColor("BLUE")
+                    .setTitle("Order Rules and Guidelines")
+                    .setDescription(codeBlock("markdown", stripIndents`
                         1. No NSFW
                         2. No items that are offensive or are related/imply any form of discrimination
                         3. No items related to child exploitation (this includes Pedophilia, Child abuse, or any other form of exploitation to minors)
@@ -39,8 +39,7 @@ export class RulesCommand extends Command {
                         17. no profile pictures on items
                         18. Orders have to be in english
                         19. Your server must have easy verification (Member screening,reacting Etc) or no verification at all.
-                    `)
-                })
+                    `))
             ],
             ephemeral: true
         });

@@ -9,11 +9,10 @@ export class ChatInputCommandDeniedListener extends Listener<typeof Events.ChatI
 	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
 		return interaction.reply({
 			embeds: [
-				new MessageEmbed({
-					color: "RED",
-					title: "Command denied",
-					description: error.message
-				})
+				new MessageEmbed()
+					.setColor("RED")
+					.setTitle("Command denied")
+					.setDescription(error.message)
 			],
 			ephemeral: true
 		});

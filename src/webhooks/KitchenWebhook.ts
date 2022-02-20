@@ -71,11 +71,10 @@ export class KitchenWebhook extends WebhookManager {
         if (!(id in this.messages)) return;
         await this.editMessage(this.messages[id], {
             embeds: [
-                new MessageEmbed({
-                    color: "DARK_RED",
-                    title: "Order deleted",
-                    description: `This order has been deleted`
-                })
+                new MessageEmbed()
+                    .setColor("DARK_RED")
+                    .setTitle("Order deleted")
+                    .setDescription(`This order has been deleted`)
             ]
         });
         await this.removeMessage(id);

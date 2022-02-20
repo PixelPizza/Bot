@@ -11,11 +11,10 @@ export class SupportCommand extends Command {
 		const channel = (await this.container.client.channels.fetch(process.env.INVITE_CHANNEL)) as TextChannel;
 		return {
 			embeds: [
-				new MessageEmbed({
-					color: "BLUE",
-					title: "Support Server",
-					description: `Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`
-				})
+				new MessageEmbed()
+					.setColor("BLUE")
+					.setTitle("Support Server")
+					.setDescription(`Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`)
 			]
 		};
 	}

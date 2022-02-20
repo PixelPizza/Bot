@@ -14,9 +14,7 @@ export class ChangeCommand extends Command {
             registry,
             this.defaultChatInputCommand
                 .addStringOption((input) => input.setName("order").setRequired(true).setDescription("The order to change the image of").setAutocomplete(true))
-                .addStringOption((input) =>
-                    input.setName("image").setRequired(true).setDescription("The url of the image to use")
-                )
+                .addAttachmentOption((input) => input.setName("image").setRequired(true).setDescription("The image to use"))
         );
     }
 
@@ -42,7 +40,7 @@ export class ChangeCommand extends Command {
         await interaction.deferReply();
 
         const order = await this.getOrder(interaction, { chef: interaction.user.id });
-        const image = interaction.options.getString("image", true);
+        const image = interaction.options.getAttachment("image", true);
 
         if (!this.isImage(image)) {
             throw new Error("The image you specified is not a valid image.");

@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, Embed, Colors, ChatInputCommandInteraction } from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -38,7 +38,7 @@ export class ChangeCommand extends Command {
         }));
     }
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply();
 
         const order = await this.getOrder(interaction, { chef: interaction.user.id });
@@ -50,8 +50,8 @@ export class ChangeCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new MessageEmbed()
-                    .setColor("DARK_GREEN")
+                new Embed()
+                    .setColor(Colors.DarkGreen)
                     .setTitle("Changing order image")
                     .setDescription(`Changing order ${order.id} image`)
             ]
@@ -63,8 +63,8 @@ export class ChangeCommand extends Command {
 
         await interaction.editReply({
             embeds: [
-                new MessageEmbed()
-                    .setColor("DARK_GREEN")
+                new Embed()
+                    .setColor(Colors.DarkGreen)
                     .setTitle("Order image changed")
                     .setDescription(`Order ${order.id} image changed`)
             ]

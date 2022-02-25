@@ -77,8 +77,10 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
                 const webhooks = container.stores.get("webhooks");
                 await webhooks.get("orderlog").editOrder(model);
                 await webhooks.get("kitchen").editOrder(model);
-                if (model.status !== "uncooked") {
+                if (["cooked", "delivered"].includes(model.status)) {
                     await webhooks.get("delivery").sendOrder(model);
+                } else {
+                    await webhooks.get("delivery").editOrder(model);
                 }
                 if (["delivered", "deleted"].includes(model.status)) {
                     await webhooks.get("order").deleteOrder(model);

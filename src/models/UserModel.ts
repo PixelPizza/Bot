@@ -16,7 +16,6 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
             defaultValue: 0
         }
     },
-    model: User,
-    forceSync: true
+    model: User
 })
 export class UserModel extends ModelManager<User> {}

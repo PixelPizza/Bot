@@ -3,6 +3,7 @@ import { Model } from "../pieces/ModelManager";
 interface UserTypes {
 	id: string;
     deliveryMessage: string | null;
+    balance: number;
 }
 
 interface UserCreateTypes {
@@ -16,5 +17,9 @@ export class User extends Model<UserTypes, UserCreateTypes> {
 
     public get deliveryMessage() {
         return this.getDataValue("deliveryMessage");
+    }
+
+    public get balance() {
+        return this.getDataValue("balance");
     }
 }

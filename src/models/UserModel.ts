@@ -10,8 +10,13 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
             type: DataTypes.STRING(18),
             primaryKey: true
         },
-        deliveryMessage: DataTypes.STRING(1000)
+        deliveryMessage: DataTypes.STRING(1000),
+        balance: {
+            type: DataTypes.INTEGER(),
+            defaultValue: 0
+        }
     },
-    model: User
+    model: User,
+    forceSync: true
 })
 export class UserModel extends ModelManager<User> {}

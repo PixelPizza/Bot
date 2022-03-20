@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { DataTypes, ModelCtor } from "sequelize";
+import { DataTypes } from "sequelize";
 import { Order } from "../lib/models/Order";
 import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
 
@@ -97,6 +97,6 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
             }
         }
     },
-    model: Order as ModelCtor<Order>
+    model: Order
 }))
 export class OrderModel extends ModelManager<Order> {}

@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { DataTypes, ModelCtor } from "sequelize";
+import { DataTypes } from "sequelize";
 import { User } from "../lib/models/User";
 import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
 
@@ -12,6 +12,6 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
         },
         deliveryMessage: DataTypes.STRING(1000)
     },
-    model: User as ModelCtor<User>
+    model: User
 })
 export class UserModel extends ModelManager<User> {}

@@ -1,13 +1,15 @@
 import { container, Piece, PieceContext, PieceOptions } from "@sapphire/framework";
-import { BulkCreateOptions, CountOptions, CreateOptions, DestroyOptions, FindAndCountOptions, FindOptions, FindOrCreateOptions, GroupOption, Identifier, InitOptions, Model as SequelizeModel, ModelAttributes, ModelCtor, TruncateOptions, UpdateOptions } from "sequelize";
-import type { Col, Fn, Literal } from "sequelize/types/lib/utils";
+import { BulkCreateOptions, CountOptions, CreateOptions, DestroyOptions, FindAndCountOptions, FindOptions, FindOrCreateOptions, GroupOption, Identifier, InitOptions, Model as SequelizeModel, ModelAttributes, ModelStatic, TruncateOptions, UpdateOptions } from "sequelize";
+import type { Col, Fn, Literal } from "sequelize/types/utils";
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 export class Model<TModelAttributes = any, TCreationAttributes = TModelAttributes> extends SequelizeModel<TModelAttributes, TCreationAttributes> {
     public readonly container = container;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 export abstract class ModelManager<ModelClass extends Model<ModelClass["_attributes"], ModelClass["_creationAttributes"]>> extends Piece<ModelManagerOptions<ModelClass>> {
-    private readonly model: ModelCtor<ModelClass>;
+    private readonly model: ModelStatic<ModelClass>;
     
     public constructor(context: PieceContext, options: ModelManagerOptions<ModelClass>) {
         super(context, options);
@@ -92,7 +94,7 @@ export interface ModelManagerOptions<ModelClass extends Model> extends PieceOpti
     /**
      * The model to use.
      */
-    model: ModelCtor<ModelClass>;
+    model: ModelStatic<ModelClass>;
     /**
      * The options to initialize the model with.
      */

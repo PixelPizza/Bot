@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { DataTypes, ModelCtor } from "sequelize";
+import { DataTypes } from "sequelize";
 import { Message } from "../lib/models/Message";
 import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
 
@@ -19,6 +19,6 @@ import { ModelManager, ModelManagerOptions } from "../lib/pieces/ModelManager";
             allowNull: false
         }
     },
-    model: Message as ModelCtor<Message>
+    model: Message
 })
 export class MessageModel extends ModelManager<Message> {}

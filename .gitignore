@@ -2,3 +2,4 @@ node_modules
 dist
 .env
 database.sqlite
+.yarn/install-state.gz

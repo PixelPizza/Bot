@@ -1513,6 +1513,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@devtomio/plugin-botlist@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@devtomio/plugin-botlist@npm:1.2.0"
+  dependencies:
+    "@sapphire/fetch": ^2.3.0
+    tiny-typed-emitter: ^2.1.0
+    tslib: ^2.3.1
+  checksum: 9aefff1d6f3a418f70f3fb57feb8627a9c285f03c05f93a9dd0fda0c4eb13e11bfcdc830f151536ec38957b834b3d3ef7ed650f39445f53bc64fa43d00f6c59e
+  languageName: node
+  linkType: hard
+
 "@discordextend/interpreter@npm:^1.1.0":
   version: 1.1.0
   resolution: "@discordextend/interpreter@npm:1.1.0"
@@ -1977,6 +1988,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/fetch@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@sapphire/fetch@npm:2.3.0"
+  dependencies:
+    cross-fetch: ^3.1.5
+  checksum: b7e77606a7dc219122e69b0a9139b0bb660675c07547c436aa62a931d22a815bc04bb7f8d67d55f9cb9044753592187fa62c8034fc705385fff99b454ec3d58a
+  languageName: node
+  linkType: hard
+
 "@sapphire/framework@npm:^3.0.0-next.18259a7.0, @sapphire/framework@npm:^3.0.0-next.35d02d8.0":
   version: 3.0.0-next.fd7be0b.0
   resolution: "@sapphire/framework@npm:3.0.0-next.fd7be0b.0"
@@ -2142,13 +2162,6 @@ __metadata:
   dependencies:
     "@types/ms": "*"
   checksum: 0a7b89d8ed72526858f0b61c6fd81f477853e8c4415bb97f48b1b5545248d2ae389931680b94b393b993a7cfe893537a200647d93defe6d87159b96812305adc
-  languageName: node
-  linkType: hard
-
-"@types/dotenv-parse-variables@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@types/dotenv-parse-variables@npm:2.0.1"
-  checksum: 336916fc01e29b08718a3e0ff8c97172af7f480c3b77adc3c2c3f1d0cee64423d850aa932d3d4fe15102b716297dea3031bef67e2909e31529450bc9ca78c694
   languageName: node
   linkType: hard
 
@@ -3543,6 +3556,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-fetch@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "cross-fetch@npm:3.1.5"
+  dependencies:
+    node-fetch: 2.6.7
+  checksum: f6b8c6ee3ef993ace6277fd789c71b6acf1b504fd5f5c7128df4ef2f125a429e29cd62dc8c127523f04a5f2fa4771ed80e3f3d9695617f441425045f505cf3bb
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -3858,16 +3880,6 @@ __metadata:
   version: 5.1.0
   resolution: "dotenv-expand@npm:5.1.0"
   checksum: 8017675b7f254384915d55f9eb6388e577cf0a1231a28d54b0ca03b782be9501b0ac90ac57338636d395fa59051e6209e9b44b8ddf169ce6076dffb5dea227d3
-  languageName: node
-  linkType: hard
-
-"dotenv-parse-variables@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "dotenv-parse-variables@npm:2.0.0"
-  dependencies:
-    debug: ^4.3.1
-    is-string-and-not-blank: ^0.0.2
-  checksum: b68bd5e94358443c746d49a9d3f6d7142ef3929700c4f48a7fd7ea1ce78262eda3bb2ad8c896fe5a59048783aafde73094926ce8a3f03b3051b9db356c2979cd
   languageName: node
   linkType: hard
 
@@ -5522,22 +5534,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-string-and-not-blank@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "is-string-and-not-blank@npm:0.0.2"
-  dependencies:
-    is-string-blank: ^1.0.1
-  checksum: 9b0fff4f0974ffaceb382dcf012587d1ad5d5013d7260a4e85621b67fbcb29ca906bcd607fe71bdd72c642f7b56b5b9e779f9d54224b826da9aa48b2003b6113
-  languageName: node
-  linkType: hard
-
-"is-string-blank@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "is-string-blank@npm:1.0.1"
-  checksum: 00a0955c2bac08cc84f9f878d2a3fdba86997ac23c0b661e50f39efba635444d9cec84237337200be9a4e07234069318498592817614525cd959ae0d43df2151
-  languageName: node
-  linkType: hard
-
 "is-string@npm:^1.0.5, is-string@npm:^1.0.7":
   version: 1.0.7
   resolution: "is-string@npm:1.0.7"
@@ -6871,7 +6867,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.1":
+"node-fetch@npm:2.6.7, node-fetch@npm:^2.6.1":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
   dependencies:
@@ -7446,13 +7442,13 @@ __metadata:
     "@babel/preset-typescript": ^7.15.0
     "@commitlint/cli": ^13.2.1
     "@commitlint/config-angular": ^13.2.0
+    "@devtomio/plugin-botlist": ^1.2.0
     "@discordjs/builders": ^0.12.0
     "@kaname-png/plugin-env": ^1.1.0
     "@sapphire/decorators": ^4.0.2
     "@sapphire/framework": ^3.0.0-next.18259a7.0
     "@sapphire/plugin-logger": ^2.0.2
     "@types/common-tags": ^1.8.1
-    "@types/dotenv-parse-variables": ^2.0.1
     "@types/jest": ^27.0.2
     "@types/node": ^17.0.13
     "@types/require-all": ^3.0.3
@@ -7466,8 +7462,6 @@ __metadata:
     discord-api-types: ^0.26.1
     discord-oversimplified: ^0.6.5-next.d3e32eb.0
     discord.js: ^13.6.0
-    dotenv: ^10.0.0
-    dotenv-parse-variables: ^2.0.0
     eslint: ^8.6.0
     eslint-config-marine: ^9.3.2
     eslint-config-prettier: ^8.3.0
@@ -8685,6 +8679,13 @@ __metadata:
   version: 2.3.8
   resolution: "through@npm:2.3.8"
   checksum: a38c3e059853c494af95d50c072b83f8b676a9ba2818dcc5b108ef252230735c54e0185437618596c790bbba8fcdaef5b290405981ffa09dce67b1f1bf190cbd
+  languageName: node
+  linkType: hard
+
+"tiny-typed-emitter@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "tiny-typed-emitter@npm:2.1.0"
+  checksum: 709bca410054e08df4dc29d5ea0916328bb2900d60245c6a743068ea223887d9fd2c945b6070eb20336275a557a36c2808e5c87d2ed4b60633458632be4a3e10
   languageName: node
   linkType: hard
 

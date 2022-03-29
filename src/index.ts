@@ -1,6 +1,7 @@
 process.env.NODE_ENV ??= "development";
 import "@kaname-png/plugin-env/register";
 import "@sapphire/plugin-logger/register";
+import "@kaname-png/plugin-statcord/register";
 import "@devtomio/plugin-botlist/register";
 import { Client } from "./lib/Client";
 import { ApplicationCommandRegistries, container, RegisterBehavior } from "@sapphire/framework";

@@ -15,6 +15,7 @@ export class Client extends DosClient {
 			},
 			databasesEnabled: false,
 			env: {
+				enabled: true,
 				debug: true
 			},
 			botList: {
@@ -24,6 +25,12 @@ export class Client extends DosClient {
 					topGG: env.string("TOPGG_API_KEY"),
 					discordBotList: env.string("DBL_API_KEY")
 				}
+			},
+			statcord: {
+				client_id: env.string("CLIENT_ID"),
+				key: env.string("STATCORD_API_KEY"),
+				autopost: true,
+				debug: true
 			}
 		});
 

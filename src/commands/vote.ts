@@ -21,7 +21,7 @@ export class VoteCommand extends Command {
 					`)
 					.addField("Rewards", stripIndents`
 						**Note:** rewards only apply to top.gg
-						${client.emojis.cache.get(process.env.ECO_EMOJI)} 200
+						${client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))} 200
 						500 Exp
 					`)
 			]

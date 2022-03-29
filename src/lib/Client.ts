@@ -10,7 +10,11 @@ export class Client extends DosClient {
 			logger: {
 				level: LogLevel.Debug
 			},
-			databasesEnabled: false
+			databasesEnabled: false,
+			env: {
+				enabled: true,
+				debug: true
+			}
 		});
 
 		container.database = new Sequelize({

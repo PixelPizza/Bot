@@ -3,11 +3,11 @@ import { MessageEmbed, MessageResolvable } from "discord.js";
 import type { Order } from "../lib/models/Order";
 import { WebhookManager, WebhookManagerOptions } from "../lib/pieces/WebhookManager";
 
-@ApplyOptions<WebhookManagerOptions>({
+@ApplyOptions<WebhookManagerOptions>(({ container }) => ({
     name: "orderlog",
     webhookName: `Pixel Pizza Orders`,
-    channelId: process.env.ORDER_LOG_CHANNEL
-})
+    channelId: container.env.string("ORDER_LOG_CHANNEL")
+}))
 export class OrderLogWebhook extends WebhookManager {
     private readonly messages: {
         [key: string]: MessageResolvable;

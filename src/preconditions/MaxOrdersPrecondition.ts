@@ -11,7 +11,7 @@ export class MaxOrdersPrecondition extends Precondition {
                 status: ["uncooked", "cooked"]
             }
         });
-        if (orders > process.env.MAX_ORDERS) return this.error({ message: "The maximum number of orders has been reached" });
+        if (orders > this.container.env.integer("MAX_ORDERS")) return this.error({ message: "The maximum number of orders has been reached" });
         return this.ok();
     }
 }

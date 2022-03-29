@@ -34,7 +34,7 @@ export abstract class Command extends SapphireCommand {
 	) {
 		return registry.registerChatInputCommand(command, {
 			...options,
-			guildIds: [process.env.COMMAND_GUILDS].flat()
+			guildIds: this.container.env.array("COMMAND_GUILDS")
 		});
 	}
 }

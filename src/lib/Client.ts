@@ -1,9 +1,12 @@
+import { EnvClient } from "@kaname-png/plugin-env";
 import { container, LogLevel } from "@sapphire/framework";
 import { Client as DosClient } from "discord-oversimplified";
 import { Sequelize } from "sequelize";
 
 export class Client extends DosClient {
 	public constructor() {
+		// Env client before login
+		const env = new EnvClient({});
 		super({
 			intents: ["GUILDS", "GUILD_MESSAGES"],
 			loadMessageCommandListeners: true,
@@ -12,8 +15,15 @@ export class Client extends DosClient {
 			},
 			databasesEnabled: false,
 			env: {
-				enabled: true,
 				debug: true
+			},
+			botList: {
+				debug: true,
+				clientId: env.string("CLIENT_ID"),
+				keys: {
+					topGG: env.string("TOPGG_API_KEY"),
+					discordBotList: env.string("DBL_API_KEY")
+				}
 			}
 		});
 

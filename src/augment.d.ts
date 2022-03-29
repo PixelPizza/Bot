@@ -13,6 +13,7 @@ export declare global {
 declare module "@kaname-png/plugin-env" {
 	interface EnvKeys {
 		TOKEN: never;
+		CLIENT_ID: never;
 		COMMAND_GUILDS: never;
 		MAX_ORDERS: never;
 		// Channels
@@ -29,6 +30,9 @@ declare module "@kaname-png/plugin-env" {
 		CHEF_PING_ROLE: never;
 		DELIVERER_ROLE: never;
 		DELIVERER_PING_ROLE: never;
+		// API Keys
+		TOPGG_API_KEY: never;
+		DBL_API_KEY: never;
 	}
 }
 

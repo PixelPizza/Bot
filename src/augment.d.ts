@@ -5,24 +5,30 @@ import type { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 export declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
-			TOKEN: string;
-			COMMAND_GUILDS: string | string[];
-			MAX_ORDERS: number;
-			// Channels
-			INVITE_CHANNEL: string;
-			IMAGE_CHANNEL: string;
-			ORDERS_CHANNEL: string;
-			KITCHEN_CHANNEL: string;
-			DELIVERY_CHANNEL: string;
-			ORDER_LOG_CHANNEL: string;
-			// Emojis
-			ECO_EMOJI: string;
-			// Roles
-			CHEF_ROLE: string;
-			CHEF_PING_ROLE: string;
-			DELIVERER_ROLE: string;
-			DELIVERER_PING_ROLE: string;
+			NODE_ENV?: "development" | "production";
 		}
+	}
+}
+
+declare module "@kaname-png/plugin-env" {
+	interface EnvKeys {
+		TOKEN: never;
+		COMMAND_GUILDS: never;
+		MAX_ORDERS: never;
+		// Channels
+		INVITE_CHANNEL: never;
+		IMAGE_CHANNEL: never;
+		ORDERS_CHANNEL: never;
+		KITCHEN_CHANNEL: never;
+		DELIVERY_CHANNEL: never;
+		ORDER_LOG_CHANNEL: never;
+		// Emojis
+		ECO_EMOJI: never;
+		// Roles
+		CHEF_ROLE: never;
+		CHEF_PING_ROLE: never;
+		DELIVERER_ROLE: never;
+		DELIVERER_PING_ROLE: never;
 	}
 }
 

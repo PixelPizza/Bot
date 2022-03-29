@@ -1,12 +1,11 @@
+import "@kaname-png/plugin-env/register";
 import "@sapphire/plugin-logger/register";
 import { Client } from "./lib/Client";
-import { config } from "dotenv";
-import parseEnv from "dotenv-parse-variables";
-import { ApplicationCommandRegistries, RegisterBehavior } from "@sapphire/framework";
+import { ApplicationCommandRegistries, container, RegisterBehavior } from "@sapphire/framework";
 import { ModelManagerStore } from "./lib/stores/ModelManagerStore";
 import { join } from "path";
 import { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
-process.env = parseEnv(config().parsed!) as NodeJS.ProcessEnv;
+process.env.NODE_ENV ??= "development";
 
 async function main() {
     const client = new Client();
@@ -17,7 +16,7 @@ async function main() {
         .register(new ModelManagerStore().registerPath(join(__dirname, "models")))
         .register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
 
-    await client.login(process.env.TOKEN);
+    await client.login(container.env.string("TOKEN"));
 
     client.commandsIn(join(__dirname, "commands", "dos"));
 }

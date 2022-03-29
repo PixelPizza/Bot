@@ -24,7 +24,7 @@ export class BalanceCommand extends Command {
                 new MessageEmbed()
                     .setColor("BLUE")
                     .setTitle(`${interaction.user.username}'s balance`)
-                    .setDescription(`${this.container.client.emojis.cache.get(process.env.ECO_EMOJI)!.toString()} ${user.balance}`)
+                    .setDescription(`${this.container.client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))!.toString()} ${user.balance}`)
             ]
         });
     }

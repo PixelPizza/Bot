@@ -3,11 +3,11 @@ import { MessageEmbed, MessageResolvable } from "discord.js";
 import type { Order } from "../lib/models/Order";
 import { WebhookManager, WebhookManagerOptions } from "../lib/pieces/WebhookManager";
 
-@ApplyOptions<WebhookManagerOptions>({
+@ApplyOptions<WebhookManagerOptions>(({ container }) => ({
     name: "delivery",
-    channelId: process.env.DELIVERY_CHANNEL,
+    channelId: container.env.string("DELIVERY_CHANNEL"),
     webhookName: "Pixel Pizza Delivery"
-})
+}))
 export class DeliveryWebhook extends WebhookManager {
     private readonly messages: {
         [key: string]: MessageResolvable;
@@ -50,7 +50,7 @@ export class DeliveryWebhook extends WebhookManager {
         const {id} = order;
         if (id in this.messages) return this.editOrder(order);
         await this.addMessage(id, (await this.send({
-            content: `<@&${process.env.DELIVERER_PING_ROLE}>`,
+            content: `<@&${this.container.env.string("DELIVERER_PING_ROLE")}>`,
             embeds: [await order.createOrderEmbed()]
         })).id);
     }
@@ -60,7 +60,7 @@ export class DeliveryWebhook extends WebhookManager {
         const {id} = order;
         if (!(id in this.messages)) return;
         await this.editMessage(this.messages[id], {
-            content: `<@&${process.env.DELIVERER_PING_ROLE}>`,
+            content: `<@&${this.container.env.string("DELIVERER_PING_ROLE")}>`,
             embeds: [await order.createOrderEmbed()]
         });
     }

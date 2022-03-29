@@ -102,7 +102,7 @@ export class DeliverCommand extends Command {
 		const customer = await orderModel.fetchCustomer();
 		const guild = await orderModel.fetchGuild();
 		const channel = await orderModel.fetchChannel();
-		const inviteChannel = (await this.container.client.channels.fetch(process.env.INVITE_CHANNEL)) as TextChannel;
+		const inviteChannel = (await this.container.client.channels.fetch(this.container.env.string("INVITE_CHANNEL"))) as TextChannel;
 		const invite = await inviteChannel.createInvite({ maxAge: 0, maxUses: 1, unique: false });
 		const guildName = guild ? guild.name : "Unknown Guild";
 		return this.replace(message, [

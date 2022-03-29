@@ -8,7 +8,7 @@ import { Command } from "../lib/commands/Command";
 })
 export class SupportCommand extends Command {
 	private async getReplyOptions(): Promise<MessageOptions> {
-		const channel = (await this.container.client.channels.fetch(process.env.INVITE_CHANNEL)) as TextChannel;
+		const channel = (await this.container.client.channels.fetch(this.container.env.string("INVITE_CHANNEL"))) as TextChannel;
 		return {
 			embeds: [
 				new MessageEmbed()

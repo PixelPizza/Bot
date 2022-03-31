@@ -1,3 +1,4 @@
+import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { CommandInteraction, MessageEmbed } from "discord.js";
@@ -15,12 +16,14 @@ export class CancelCommand extends Command {
     public override async chatInputRun(interaction: CommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
-        await (await this.orderModel.findOne({
+        await this.orderModel.deleteMany({
             where: {
                 customer: interaction.user.id,
-                status: ["uncooked", "cooked"]
+                status: {
+                    in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
+                }
             }
-        }))!.destroy();
+        });
 
         await interaction.editReply({
             embeds: [

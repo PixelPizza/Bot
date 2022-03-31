@@ -1,13 +1,12 @@
 import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
-import type { FindOptions, WhereOptions } from "sequelize";
 import { Command } from "./Command";
-import type { Order } from "../models/Order";
 import { isUri } from "valid-url";
 import { stripIndents } from "common-tags";
+import type { Order, Prisma } from "@prisma/client";
 
 export abstract class OrderCommand extends Command {
     protected get orderModel() {
-        return this.container.stores.get("models").get("order");
+        return this.container.prisma.order;
     }
 
     protected makeUserRegex(name: string) {
@@ -54,8 +53,8 @@ export abstract class OrderCommand extends Command {
         {image}
     `;
 
-    protected async getOrder(interaction: CommandInteraction, where?: WhereOptions<Order["_attributes"]>) {
-        const order = await this.orderModel.findOne({
+    protected async getOrder(interaction: CommandInteraction, where?: Prisma.OrderWhereInput) {
+        const order = await this.orderModel.findFirst({
             where: {
                 ...where,
                 id: interaction.options.getString("order", true)
@@ -65,8 +64,8 @@ export abstract class OrderCommand extends Command {
         return order;
     }
 
-    protected async autocompleteOrder(interaction: AutocompleteInteraction, optionsGenerator: (focused: string) => FindOptions<Order["_attributes"]>, modifier?: (orders: Order[]) => Order[]) {
-        const found = await this.orderModel.findAll(optionsGenerator(interaction.options.getFocused() as string));
+    protected async autocompleteOrder(interaction: AutocompleteInteraction, optionsGenerator: (focused: string) => Prisma.OrderFindManyArgs, modifier?: (orders: Order[]) => Order[]) {
+        const found = await this.orderModel.findMany(optionsGenerator(interaction.options.getFocused() as string));
         return interaction.respond(
             (modifier ? modifier(found) : found).map((order) => ({
                 name: `${order.id} - ${order.order}`,

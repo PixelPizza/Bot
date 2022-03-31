@@ -8,6 +8,7 @@ import { ApplicationCommandRegistries, container, RegisterBehavior } from "@sapp
 import { ModelManagerStore } from "./lib/stores/ModelManagerStore";
 import { join } from "path";
 import { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
+import "./container";
 
 async function main() {
     const client = new Client();
@@ -23,4 +24,4 @@ async function main() {
     client.commandsIn(join(__dirname, "commands", "dos"));
 }
 
-void main();
+void main().finally(() => void container.prisma.$disconnect());

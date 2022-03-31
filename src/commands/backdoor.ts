@@ -1,7 +1,7 @@
+import { DeliveryMethod, OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
-import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -18,20 +18,22 @@ export class BackdoorCommand extends Command {
 
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
-			where: {
-				[Op.or]: {
-					id: {
-						[Op.startsWith]: focused
-					},
-					order: {
-						[Op.substring]: focused
-					}
-				},
-				deliverer: interaction.user.id,
-				status: "delivered",
-                deliveryMethod: "personal"
-			},
-			order: [["id", "ASC"]]
+            where: {
+                OR: {
+                    id: {
+                        startsWith: focused
+                    },
+                    order: {
+                        contains: focused
+                    }
+                },
+                deliverer: interaction.user.id,
+                status: OrderStatus.DELIVERED,
+                deliveryMethod: DeliveryMethod.PERSONAL
+            },
+            orderBy: {
+                id: "asc"
+            }
 		}));
 	}
 
@@ -40,11 +42,15 @@ export class BackdoorCommand extends Command {
 
         const order = await this.getOrder(interaction, {
             deliverer: interaction.user.id,
-            status: "delivered",
-            deliveryMethod: "personal"
+            status: OrderStatus.DELIVERED,
+            deliveryMethod: DeliveryMethod.PERSONAL
         });
 
-        const invite = await (await order.fetchChannel(true)).createInvite({ maxAge: 0, maxUses: 1, reason: `Deliverer ${interaction.user.tag} generated new invite for order ${order.id}` });
+        const channel = await this.container.client.channels.fetch(order.channel);
+
+        if (!channel?.isText() || channel.type === "DM" || channel.isThread()) throw new Error("Invalid channel");
+
+        const invite = await channel.createInvite({ maxAge: 0, maxUses: 1, reason: `Deliverer ${interaction.user.tag} generated new invite for order ${order.id}` });
 
         await interaction.editReply({
             embeds: [

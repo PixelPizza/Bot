@@ -14,10 +14,7 @@ export class BalanceCommand extends Command {
     public override async chatInputRun(interaction: CommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
-        const [user] = await this.container.stores.get("models").get("user").findOrCreate({
-            where: { id: interaction.user.id },
-            defaults: { id: interaction.user.id }
-        }); 
+        const user = await this.container.prisma.user.findFirst({ where: { id: interaction.user.id } }) ?? await this.container.prisma.user.create({ data: { id: interaction.user.id } });
 
         await interaction.editReply({
             embeds: [

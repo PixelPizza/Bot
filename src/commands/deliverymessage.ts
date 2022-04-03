@@ -37,10 +37,7 @@ export class DeliveryMessageCommand extends Command {
         await interaction.deferReply({ ephemeral: true });
 
         const message = interaction.options.getString("message");
-        const [deliverer] = await this.container.stores.get("models").get("user").findOrCreate({
-            where: { id: interaction.user.id },
-            defaults: { id: interaction.user.id }
-        });
+        const deliverer = (await this.container.prisma.user.findFirst({ where: { id: interaction.user.id } })) ?? await this.container.prisma.user.create({ data: { id: interaction.user.id } });
 
         if (!message) {
             const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
@@ -104,8 +101,11 @@ export class DeliveryMessageCommand extends Command {
             throw new Error(`Your delivery message is missing the following: ${missing.join(", ")}`);
         }
 
-        await deliverer.update({
-            deliveryMessage: message.replaceAll("\\n", "\n")
+        await this.container.prisma.user.update({
+            where: { id: deliverer.id },
+            data: {
+                deliveryMessage: message.replaceAll("\\n", "\n")
+            }
         });
 
         return interaction.editReply({

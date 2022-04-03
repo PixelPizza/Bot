@@ -1,7 +1,7 @@
+import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
-import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -27,16 +27,16 @@ export class ClaimCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				[Op.or]: {
+				OR: {
 					id: {
-						[Op.startsWith]: focused
+						startsWith: focused
 					},
 					order: {
-						[Op.substring]: focused
+						contains: focused
 					}
 				},
 				status: {
-					[Op.or]: ["uncooked", "cooked"]
+					in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
 				}
 			}
 		}));
@@ -54,9 +54,9 @@ export class ClaimCommand extends Command {
 		}
 
 		const { id: userId } = interaction.user;
-		await order.update(isCookClaim ? { chef: userId } : { deliverer: userId });
+		await this.orderModel.update({ where: { id: order.id }, data: isCookClaim ? { chef: userId } : { deliverer: userId } });
 
-		await order.sendCustomerMessage({
+		await this.sendCustomerMessage(order, {
 			embeds: [
 				new MessageEmbed()
 					.setColor("BLUE")

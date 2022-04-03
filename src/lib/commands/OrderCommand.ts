@@ -1,4 +1,4 @@
-import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import type { AutocompleteInteraction, CommandInteraction, MessageOptions, MessagePayload } from "discord.js";
 import { Command } from "./Command";
 import { isUri } from "valid-url";
 import { stripIndents } from "common-tags";
@@ -72,6 +72,11 @@ export abstract class OrderCommand extends Command {
                 value: order.id
             }))
         );
+    }
+
+    protected sendCustomerMessage(order: Order, options: string | MessagePayload | MessageOptions) {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return this.container.client.users.fetch(order.customer).then(customer => customer.send(options)).catch(() => {});
     }
 }
 

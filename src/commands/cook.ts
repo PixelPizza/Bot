@@ -2,7 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
-import { Op } from "sequelize";
+import { OrderStatus } from "@prisma/client";
 
 @ApplyOptions<Command.Options>({
 	description: "Cook an order",
@@ -23,18 +23,20 @@ export class CookCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				[Op.or]: {
+				OR: {
 					id: {
-						[Op.startsWith]: focused
+						startsWith: focused
 					},
 					order: {
-						[Op.substring]: focused
+						contains: focused
 					}
 				},
 				chef: interaction.user.id,
-				status: "uncooked"
+				status: OrderStatus.UNCOOKED
 			},
-			order: [["id", "ASC"]]
+			orderBy: {
+				id: "asc"
+			}
 		}));
 	}
 
@@ -59,13 +61,16 @@ export class CookCommand extends Command {
 
 		const imageMessage = (await this.container.stores.get("webhooks").get("image").sendImage(image))!;
 
-		await order.update({
-			image: imageMessage.attachments.first()!.url,
-			status: "cooked",
-			cookedAt: new Date()
+		await this.orderModel.update({
+			where: { id: order.id },
+			data: {
+				image: imageMessage.attachments.first()!.url,
+				status: OrderStatus.COOKED,
+				cookedAt: new Date()
+			}
 		});
 
-		await order.sendCustomerMessage({
+		await this.sendCustomerMessage(order, {
 			embeds: [
 				new MessageEmbed()
 					.setColor("BLUE")

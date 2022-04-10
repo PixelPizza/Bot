@@ -1,7 +1,7 @@
+import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
-import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -21,19 +21,21 @@ export class RemoveCommand extends Command {
     public override autocompleteRun(interaction: AutocompleteInteraction) {
         return this.autocompleteOrder(interaction, (focused) => ({
             where: {
-                [Op.or]: {
+                OR: {
                     id: {
-                        [Op.startsWith]: focused
+                        startsWith: focused
                     },
                     order: {
-                        [Op.substring]: focused
+                        contains: focused
                     }
                 },
                 status: {
-                    [Op.or]: ["uncooked", "cooked"]
+                    in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
                 }
             },
-            order: [["id", "ASC"]]
+            orderBy: {
+                id: "asc"
+            }
         }));
     }
 
@@ -44,12 +46,15 @@ export class RemoveCommand extends Command {
 
         const order = await this.getOrder(interaction);
 
-        await order.update({
-            status: "deleted",
-            deleteReason: reason
+        await this.orderModel.update({
+            where: { id: order.id },
+            data: {
+                status: OrderStatus.DELETED,
+                deleteReason: reason
+            }
         });
 
-        await order.sendCustomerMessage({
+        await this.sendCustomerMessage(order, { 
             embeds: [
                 new MessageEmbed()
                     .setColor("RED")

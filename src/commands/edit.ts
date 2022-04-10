@@ -1,3 +1,4 @@
+import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { CommandInteraction, MessageEmbed } from "discord.js";
@@ -18,15 +19,22 @@ export class EditCommand extends Command {
     public override async chatInputRun(interaction: CommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
-        const order = await (await this.orderModel.findOne({
+        const order = (await this.orderModel.findFirst({
             where: {
                 customer: interaction.user.id,
-                status: "uncooked"
+                status: OrderStatus.UNCOOKED
             }
-        }))!.update({
-            order: interaction.options.getString("order", true)
-        });
+        }))!;
 
+        await this.orderModel.update({
+            data: {
+                order: interaction.options.getString("order", true)
+            },
+            where: {
+                id: order.id
+            }
+        });
+        
         await interaction.editReply({
             embeds: [
                 new MessageEmbed()

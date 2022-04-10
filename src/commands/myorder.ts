@@ -2,6 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import type { CommandInteraction } from "discord.js";
+import { OrderStatus } from "@prisma/client";
 
 @ApplyOptions<Command.Options>({
     description: "Show your order",
@@ -15,13 +16,15 @@ export class MyOrderCommand extends Command {
     public override async chatInputRun(interaction: CommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
-        const order = await this.orderModel.findOne({
+        const order = await this.orderModel.findFirst({
             where: {
                 customer: interaction.user.id,
-                status: ["uncooked", "cooked"]
+                status: {
+                    in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
+                }
             }
         });
 
-        await interaction.editReply({ embeds: [await order!.createOrderEmbed()] });
+        await interaction.editReply({ embeds: [await this.createOrderEmbed(order!)] });
     }
 }

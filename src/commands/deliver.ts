@@ -1,10 +1,9 @@
+import { DeliveryMethod, Order, OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User, MessageEmbed } from "discord.js";
-import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
-import type { Order } from "../lib/models/Order";
 
 @ApplyOptions<Command.Options>({
 	description: "Deliver an order",
@@ -22,9 +21,9 @@ export class DeliverCommand extends Command {
 						.setDescription("The delivery method")
 						.setRequired(true)
 						.addChoices([
-							["Direct Message", Command.DeliveryMethod.DM],
-							["Bot", Command.DeliveryMethod.Bot],
-							["Personally", Command.DeliveryMethod.Personal]
+							["Direct Message", DeliveryMethod.DM],
+							["Bot", DeliveryMethod.BOT],
+							["Personally", DeliveryMethod.PERSONAL]
 						])
 				)
 		);
@@ -33,18 +32,20 @@ export class DeliverCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				[Op.or]: {
+				OR: {
 					id: {
-						[Op.startsWith]: focused
+						startsWith: focused
 					},
 					order: {
-						[Op.substring]: focused
+						contains: focused
 					}
 				},
 				deliverer: interaction.user.id,
-				status: "cooked"
+				status: OrderStatus.COOKED
 			},
-			order: [["id", "ASC"]]
+			orderBy: {
+				id: "asc"
+			}
 		}));
 	}
 
@@ -96,12 +97,12 @@ export class DeliverCommand extends Command {
 		return message;
 	}
 
-	private async createDeliveryMessage(message: string, orderModel: Order, escaped: boolean) {
-		const chef = await orderModel.fetchChef();
-		const deliverer = await orderModel.fetchDeliverer();
-		const customer = await orderModel.fetchCustomer();
-		const guild = await orderModel.fetchGuild();
-		const channel = await orderModel.fetchChannel();
+	private async createDeliveryMessage(message: string, order: Order, escaped: boolean) {
+		const chef = order.chef ? await this.container.client.users.fetch(order.chef).catch(() => null) : null;
+		const deliverer = order.deliverer ? await this.container.client.users.fetch(order.deliverer).catch(() => null) : null;
+		const customer = await this.container.client.users.fetch(order.customer).catch(() => null);
+		const guild = await this.container.client.guilds.fetch(order.guild).catch(() => null);
+		const channel = await guild?.channels.fetch(order.channel).catch(() => null) ?? null;
 		const inviteChannel = (await this.container.client.channels.fetch(this.container.env.string("INVITE_CHANNEL"))) as TextChannel;
 		const invite = await inviteChannel.createInvite({ maxAge: 0, maxUses: 1, unique: false });
 		const guildName = guild ? guild.name : "Unknown Guild";
@@ -111,7 +112,7 @@ export class DeliverCommand extends Command {
 			this.makeUserReplacement("customer", customer, escaped, "Unknown Customer"),
 			{
 				type: "image",
-				replacement: orderModel.image!
+				replacement: order.image!
 			},
 			{
 				type: "invite",
@@ -119,15 +120,15 @@ export class DeliverCommand extends Command {
 			},
 			{
 				type: "orderID",
-				replacement: orderModel.id
+				replacement: order.id
 			},
 			{
 				type: "order",
-				replacement: orderModel.order
+				replacement: order.order
 			},
-			this.makeDateReplacement("order", orderModel.orderedAt),
-			this.makeDateReplacement("cook", orderModel.cookedAt!),
-			this.makeDateReplacement("delivery", orderModel.deliveredAt!),
+			this.makeDateReplacement("order", order.orderedAt),
+			this.makeDateReplacement("cook", order.cookedAt!),
+			this.makeDateReplacement("delivery", order.deliveredAt!),
 			{
 				type: "guild",
 				replacement: guildName
@@ -148,41 +149,46 @@ export class DeliverCommand extends Command {
 
 		const orderId = interaction.options.getString("order", true);
 		const order = await this.getOrder(interaction, { deliverer: interaction.user.id });
-		const method = interaction.options.getString("method", true) as Command.DeliveryMethod;
+		const method = interaction.options.getString("method", true) as DeliveryMethod;
 
-		order.setDataValue("deliveredAt", new Date());
+		order.deliveredAt = new Date();
 
-		const deliverer = await this.container.stores.get("models").get("user").findByPk(interaction.user.id);
-		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? this.defaultDeliveryMessage, order, method === Command.DeliveryMethod.Personal);
-		const guild = await order.fetchGuild();
-		const channel = await order.fetchChannel();
+		const deliverer = await this.container.prisma.user.findFirst({ where: { id: interaction.user.id } });
+		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? this.defaultDeliveryMessage, order, method === DeliveryMethod.PERSONAL);
+		const guild = await this.container.client.guilds.fetch(order.guild);
+		const channel = await guild.channels.fetch(order.channel);
 
 		try {
 			switch(method) {
-				case Command.DeliveryMethod.Personal:
-					await this.deliverPersonal(interaction.user, guild!, channel!, deliveryMessage);
+				case DeliveryMethod.PERSONAL:
+					if (!channel?.isText()) return;
+					await this.deliverPersonal(interaction.user, guild, channel, deliveryMessage);
 					break;
-				case Command.DeliveryMethod.DM:
-					await order.sendCustomerMessage(deliveryMessage);
+				case DeliveryMethod.DM:
+					await this.sendCustomerMessage(order, deliveryMessage);
 					break;
-				case Command.DeliveryMethod.Bot:
-					await channel!.send(deliveryMessage);
+				case DeliveryMethod.BOT:
+					if (!channel?.isText()) return;
+					await channel.send(deliveryMessage);
 					break;
 			}
 
-			await order.update({
-				deliveryMethod: method,
-				status: "delivered",
-				deliveredAt: order.deliveredAt
+			await this.orderModel.update({
+				data: {
+					deliveryMethod: method,
+					status: OrderStatus.DELIVERED,
+					deliveredAt: order.deliveredAt
+				},
+				where: { id: order.id }
 			});
 
-			if (method !== Command.DeliveryMethod.DM) {
-				await order.sendCustomerMessage({
+			if (method !== DeliveryMethod.DM) {
+				await this.sendCustomerMessage(order, {
 					embeds: [
 						new MessageEmbed()
 							.setColor("BLUE")
 							.setTitle("Order Delivered")
-							.setDescription(`Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`)
+							.setDescription(`Your order ${method === DeliveryMethod.BOT ? "has been delivered" : "is being delivered"}`)
 					]
 				});
 			}

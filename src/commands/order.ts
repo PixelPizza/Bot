@@ -34,11 +34,13 @@ export class OrderCommand extends Command {
 		const id = await this.generateOrderID();
 
 		await this.orderModel.create({
-			id,
-			order,
-			customer: interaction.user.id,
-			guild: interaction.guildId!,
-			channel: interaction.channelId
+			data: {
+				id,
+				order,
+				customer: interaction.user.id,
+				guild: interaction.guildId!,
+				channel: interaction.channelId
+			}
 		});
 
 		await interaction.editReply({

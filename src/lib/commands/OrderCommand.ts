@@ -1,4 +1,4 @@
-import type { AutocompleteInteraction, CommandInteraction, MessageOptions, MessagePayload } from "discord.js";
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed, MessageOptions, MessagePayload } from "discord.js";
 import { Command } from "./Command";
 import { isUri } from "valid-url";
 import { stripIndents } from "common-tags";
@@ -77,6 +77,57 @@ export abstract class OrderCommand extends Command {
     protected sendCustomerMessage(order: Order, options: string | MessagePayload | MessageOptions) {
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         return this.container.client.users.fetch(order.customer).then(customer => customer.send(options)).catch(() => {});
+    }
+    
+    public async createOrderEmbed(order: Order) {
+        const { users, guilds } = this.container.client;
+        const { deliveryMethod } = order;
+        const customer = await users.fetch(order.customer);
+        const guild = await guilds.fetch(order.guild);
+        const channel = await guild.channels.fetch(order.channel);
+        if (!channel) throw new Error("Channel not found");
+        const chef = order.chef ? await users.fetch(order.chef).catch(() => null) : null;
+        const deliverer = order.deliverer ? await users.fetch(order.deliverer).catch(() => null) : null;
+
+        const embed = new MessageEmbed()
+            .setColor("BLUE")
+            .setTitle("Order")
+            .setDescription(order.order)
+            .addFields([
+                {
+                    name: "\u200b",
+                    value: "\u200b"
+                },
+                {
+                    name: "Customer",
+                    value: `${customer.tag} (${customer.id})`
+                },
+                {
+                    name: "Guild",
+                    value: guild.name
+                },
+                {
+                    name: "Channel",
+                    value: channel.name
+                },
+                {
+                    name: "\u200b",
+                    value: "\u200b"
+                },
+                {
+                    name: "Ordered At",
+                    value: this.container.formatDate(order.orderedAt)
+                }
+            ])
+            .setFooter({ text: `ID: ${order.id} | status: ${order.status}${deliveryMethod ? ` | method: ${deliveryMethod}` : ""}${chef ? ` | chef: ${chef.tag} (${chef.id})` : ""}${deliverer ? ` | deliverer: ${deliverer.tag} (${deliverer.id})` : ""}` });
+
+        if (order.cookedAt) embed.addField("Cooked At", this.container.formatDate(order.cookedAt));
+        if (order.deliveredAt) embed.addField("Delivered At", this.container.formatDate(order.deliveredAt));
+        if (order.image) embed.setImage(order.image);
+
+        embed.addField("\u200b", "\u200b");
+
+        return embed;
     }
 }
 

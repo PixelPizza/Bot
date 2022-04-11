@@ -15,20 +15,25 @@ export class VoteCommand extends Command {
 				new MessageEmbed()
 					.setColor("BLUE")
 					.setTitle("Vote links")
-					.setDescription(stripIndents`
+					.setDescription(
+						stripIndents`
 						[top.gg](https://top.gg/bot/${client.user?.id}/vote)
 						[discordbotlist.com](https://discordbotlist.com/bots/pixel-pizza/upvote)
-					`)
-					.addField("Rewards", stripIndents`
+					`
+					)
+					.addField(
+						"Rewards",
+						stripIndents`
 						**Note:** rewards only apply to top.gg
 						${client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))} 200
 						500 Exp
-					`)
+					`
+					)
 			]
 		};
 	}
 
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 

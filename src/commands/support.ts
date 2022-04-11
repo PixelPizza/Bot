@@ -8,18 +8,22 @@ import { Command } from "../lib/commands/Command";
 })
 export class SupportCommand extends Command {
 	private async getReplyOptions(): Promise<MessageOptions> {
-		const channel = (await this.container.client.channels.fetch(this.container.env.string("INVITE_CHANNEL"))) as TextChannel;
+		const channel = (await this.container.client.channels.fetch(
+			this.container.env.string("INVITE_CHANNEL")
+		)) as TextChannel;
 		return {
 			embeds: [
 				new MessageEmbed()
 					.setColor("BLUE")
 					.setTitle("Support Server")
-					.setDescription(`Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`)
+					.setDescription(
+						`Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`
+					)
 			]
 		};
 	}
 
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 

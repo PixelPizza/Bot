@@ -10,7 +10,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders"]
 })
 export class OrderCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("order").setDescription("The order you want to place").setRequired(true)

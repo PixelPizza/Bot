@@ -23,7 +23,7 @@ export class PingCommand extends Command {
 			]);
 	}
 
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 

@@ -7,7 +7,7 @@ import { Command } from "../lib/commands/Command";
 	description: "Invite the bot to your server"
 })
 export class InviteCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 
@@ -17,10 +17,12 @@ export class InviteCommand extends Command {
 				new MessageEmbed()
 					.setColor("BLUE")
 					.setTitle("Invite")
-					.setDescription(`Here is the [Pixel Pizza invite link](${this.container.client.generateInvite({
-						scopes: ["applications.commands", "bot"],
-						permissions: ["CREATE_INSTANT_INVITE", "EMBED_LINKS", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS"]
-					})})`)
+					.setDescription(
+						`Here is the [Pixel Pizza invite link](${this.container.client.generateInvite({
+							scopes: ["applications.commands", "bot"],
+							permissions: ["CREATE_INSTANT_INVITE", "EMBED_LINKS", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS"]
+						})})`
+					)
 			]
 		};
 	}

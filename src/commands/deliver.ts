@@ -1,7 +1,16 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
-import { type AutocompleteInteraction, type CommandInteraction, type Guild, type GuildTextBasedChannel, type TextChannel, ThreadChannel, type User, MessageEmbed } from "discord.js";
+import {
+	type AutocompleteInteraction,
+	type CommandInteraction,
+	type Guild,
+	type GuildTextBasedChannel,
+	type TextChannel,
+	ThreadChannel,
+	type User,
+	MessageEmbed
+} from "discord.js";
 import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import type { Order } from "../lib/models/Order";
@@ -15,7 +24,9 @@ export class DeliverCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setDescription("The order to deliver").setRequired(true).setAutocomplete(true))
+				.addStringOption((input) =>
+					input.setName("order").setDescription("The order to deliver").setRequired(true).setAutocomplete(true)
+				)
 				.addStringOption((input) =>
 					input
 						.setName("method")
@@ -52,14 +63,16 @@ export class DeliverCommand extends Command {
 		return {
 			type: this.makeDateRegex(name),
 			replacement: (_s: string, type: string) => {
-				switch(type) {
+				switch (type) {
 					case "date":
 						return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} (dd-mm-YYYY)`;
 					case "time":
 						return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} (HH:mm:ss)`;
 					case "datetime":
 					default:
-						return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} (dd-mm-YYYY HH:mm:ss)`;
+						return `${date.getDate()}-${
+							date.getMonth() + 1
+						}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} (dd-mm-YYYY HH:mm:ss)`;
 				}
 			}
 		};
@@ -72,7 +85,7 @@ export class DeliverCommand extends Command {
 				const addition = escaped ? "`" : "";
 				const parse = () => {
 					if (!user) return defaultValue;
-					switch(type) {
+					switch (type) {
 						default:
 						case "tag":
 							return user.tag;
@@ -85,14 +98,23 @@ export class DeliverCommand extends Command {
 						case "mention":
 							return user.toString();
 					}
-				}
+				};
 				return `${addition}${parse()}${addition}`;
 			}
 		};
 	}
 
-	private replace(message: string, replacements: {type: string, replacement: string | ((substring: string, ...args: any[]) => string)}[]) {
-		replacements.forEach(replacement => message = typeof replacement.replacement === "string" ? message.replace(new RegExp(`{${replacement.type}}`, "g"), replacement.replacement) : message.replace(new RegExp(`{${replacement.type}}`, "g"), replacement.replacement));
+	private replace(
+		message: string,
+		replacements: { type: string; replacement: string | ((substring: string, ...args: any[]) => string) }[]
+	) {
+		replacements.forEach(
+			(replacement) =>
+				(message =
+					typeof replacement.replacement === "string"
+						? message.replace(new RegExp(`{${replacement.type}}`, "g"), replacement.replacement)
+						: message.replace(new RegExp(`{${replacement.type}}`, "g"), replacement.replacement))
+		);
 		return message;
 	}
 
@@ -102,7 +124,9 @@ export class DeliverCommand extends Command {
 		const customer = await orderModel.fetchCustomer();
 		const guild = await orderModel.fetchGuild();
 		const channel = await orderModel.fetchChannel();
-		const inviteChannel = (await this.container.client.channels.fetch(this.container.env.string("INVITE_CHANNEL"))) as TextChannel;
+		const inviteChannel = (await this.container.client.channels.fetch(
+			this.container.env.string("INVITE_CHANNEL")
+		)) as TextChannel;
 		const invite = await inviteChannel.createInvite({ maxAge: 0, maxUses: 1, unique: false });
 		const guildName = guild ? guild.name : "Unknown Guild";
 		return this.replace(message, [
@@ -153,12 +177,16 @@ export class DeliverCommand extends Command {
 		order.setDataValue("deliveredAt", new Date());
 
 		const deliverer = await this.container.stores.get("models").get("user").findByPk(interaction.user.id);
-		const deliveryMessage = await this.createDeliveryMessage(deliverer?.deliveryMessage ?? this.defaultDeliveryMessage, order, method === Command.DeliveryMethod.Personal);
+		const deliveryMessage = await this.createDeliveryMessage(
+			deliverer?.deliveryMessage ?? this.defaultDeliveryMessage,
+			order,
+			method === Command.DeliveryMethod.Personal
+		);
 		const guild = await order.fetchGuild();
 		const channel = await order.fetchChannel();
 
 		try {
-			switch(method) {
+			switch (method) {
 				case Command.DeliveryMethod.Personal:
 					await this.deliverPersonal(interaction.user, guild!, channel!, deliveryMessage);
 					break;
@@ -182,7 +210,9 @@ export class DeliverCommand extends Command {
 						new MessageEmbed()
 							.setColor("BLUE")
 							.setTitle("Order Delivered")
-							.setDescription(`Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`)
+							.setDescription(
+								`Your order ${method === Command.DeliveryMethod.Bot ? "has been delivered" : "is being delivered"}`
+							)
 					]
 				});
 			}

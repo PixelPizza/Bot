@@ -17,10 +17,12 @@ export class InviteCommand extends Command {
 				new MessageEmbed()
 					.setColor("BLUE")
 					.setTitle("Invite")
-					.setDescription(`Here is the [Pixel Pizza invite link](${this.container.client.generateInvite({
-						scopes: ["applications.commands", "bot"],
-						permissions: ["CREATE_INSTANT_INVITE", "EMBED_LINKS", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS"]
-					})})`)
+					.setDescription(
+						`Here is the [Pixel Pizza invite link](${this.container.client.generateInvite({
+							scopes: ["applications.commands", "bot"],
+							permissions: ["CREATE_INSTANT_INVITE", "EMBED_LINKS", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS"]
+						})})`
+					)
 			]
 		};
 	}

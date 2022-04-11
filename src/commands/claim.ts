@@ -13,7 +13,9 @@ export class ClaimCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true))
+				.addStringOption((input) =>
+					input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true)
+				)
 				.addStringOption((input) =>
 					input
 						.setName("type")

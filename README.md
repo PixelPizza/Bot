@@ -6,12 +6,14 @@
 </div>
 
 ## About
+
 Pixel Pizza is a discord bot for ordering, cooking and delivering food (not real food, just images). Currently in development using Sapphire
 
 ## Links
-* [Discord Server](https://discord.gg/MzbsFPe)
-* [top.gg](https://top.gg/bot/709705136259334296)
-* [discordbotlist.com](https://discordbotlist.com/bots/pixel-pizza)
+
+- [Discord Server](https://discord.gg/MzbsFPe)
+- [top.gg](https://top.gg/bot/709705136259334296)
+- [discordbotlist.com](https://discordbotlist.com/bots/pixel-pizza)
 
 ## Contributors ✨
 

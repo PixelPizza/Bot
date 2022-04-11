@@ -19,26 +19,31 @@ export class LookCommand extends Command {
 	}
 
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
-		return this.autocompleteOrder(interaction, (focused) => ({
-			where: {
-				[Op.or]: {
-					id: {
-						[Op.startsWith]: focused
-					},
-					order: {
-						[Op.substring]: focused
+		return this.autocompleteOrder(
+			interaction,
+			(focused) => ({
+				where: {
+					[Op.or]: {
+						id: {
+							[Op.startsWith]: focused
+						},
+						order: {
+							[Op.substring]: focused
+						}
 					}
-				}
-			},
-			order: [["id", "ASC"]]
-		}), (orders) => orders.sort((orderA, orderB) => {
-			const { status: statusA } = orderA;
-			const { status: statusB } = orderB;
-			if (statusA === statusB) return 0;
-			if (statusA === "deleted") return 1;
-			if (statusB === "deleted") return -1;
-			return 0;
-		}));
+				},
+				order: [["id", "ASC"]]
+			}),
+			(orders) =>
+				orders.sort((orderA, orderB) => {
+					const { status: statusA } = orderA;
+					const { status: statusB } = orderB;
+					if (statusA === statusB) return 0;
+					if (statusA === "deleted") return 1;
+					if (statusB === "deleted") return -1;
+					return 0;
+				})
+		);
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

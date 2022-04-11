@@ -9,7 +9,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 	preconditions: ["ValidOrderData", "ValidClaimType"]
 })
 export class ClaimCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand

@@ -8,7 +8,7 @@ import type { Client } from "discord.js";
 })
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 export class ReadyListener extends Listener<typeof Events.ClientReady> {
-	public run(client: Client<true>) {
+	public run(client: Client<true>): void  {
 		const { tag, id } = client.user;
 		this.container.logger.info(`Successfully logged in as ${tag} (${id})`);
 	}

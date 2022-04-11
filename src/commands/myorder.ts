@@ -8,7 +8,7 @@ import type { CommandInteraction } from "discord.js";
     preconditions: ["HasOrder"]
 })
 export class MyOrderCommand extends Command {
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+    public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
         registry.registerChatInputCommand(this.defaultChatInputCommand);
     }
 

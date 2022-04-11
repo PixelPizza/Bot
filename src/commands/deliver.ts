@@ -11,7 +11,7 @@ import type { Order } from "../lib/models/Order";
 	preconditions: ["DelivererOnly", "ValidOrderData"]
 })
 export class DeliverCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand

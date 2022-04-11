@@ -7,7 +7,7 @@ import { Command } from "../lib/commands/Command";
     description: "🖊🍍🍎🖊"
 })
 export class PPAPCommand extends Command {
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+    public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
         registry.registerChatInputCommand(this.defaultChatInputCommand);
     }
 

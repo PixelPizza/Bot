@@ -38,7 +38,7 @@ export class HelpCommand extends Command {
 		};
 	}
 
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
 		registry.registerChatInputCommand(
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("command").setDescription("The command to display").setRequired(false)

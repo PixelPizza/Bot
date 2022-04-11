@@ -19,7 +19,7 @@ export class SupportCommand extends Command {
 		};
 	}
 
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 

@@ -7,7 +7,7 @@ import { Command } from "../lib/commands/Command";
 	description: "Invite the bot to your server"
 })
 export class InviteCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 

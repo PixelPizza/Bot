@@ -8,7 +8,7 @@ import type { Guild } from "discord.js";
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 export class GuildDeleteListener extends Listener<typeof Events.GuildDelete> {
     public async run(guild: Guild) {
-        await this.container.stores.get("models").get("order").destroy({
+        await this.container.prisma.order.deleteMany({
             where: {
                 guild: guild.id
             }

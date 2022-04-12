@@ -13,7 +13,9 @@ export class UnclaimCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true))
+				.addStringOption((input) =>
+					input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true)
+				)
 				.addStringOption((input) =>
 					input
 						.setName("type")
@@ -63,10 +65,7 @@ export class UnclaimCommand extends Command {
 
 		await this.sendCustomerMessage(order, {
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
-					.setTitle("Order unclaimed")
-					.setDescription("Your order has been unclaimed")
+				new MessageEmbed().setColor("BLUE").setTitle("Order unclaimed").setDescription("Your order has been unclaimed")
 			]
 		});
 

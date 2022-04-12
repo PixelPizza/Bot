@@ -13,7 +13,9 @@ export class CookCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true))
+				.addStringOption((input) =>
+					input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true)
+				)
 				.addStringOption((input) =>
 					input.setName("image").setRequired(true).setDescription("The url of the image to use")
 				)
@@ -52,10 +54,7 @@ export class CookCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("DARK_GREEN")
-					.setTitle("Cooking order")
-					.setDescription(`Cooking order ${order.id}`)
+				new MessageEmbed().setColor("DARK_GREEN").setTitle("Cooking order").setDescription(`Cooking order ${order.id}`)
 			]
 		});
 

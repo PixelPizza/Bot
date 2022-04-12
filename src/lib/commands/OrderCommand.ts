@@ -136,12 +136,6 @@ export namespace OrderCommand {
         Cooking = "cooking",
         Delivery = "delivery"
     }
-
-    export enum DeliveryMethod {
-        DM = "dm",
-        Bot = "bot",
-        Personal = "personal"
-    }
-
+    
     export interface Options extends Command.Options {}
 }

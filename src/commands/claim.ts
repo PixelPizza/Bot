@@ -13,7 +13,9 @@ export class ClaimCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true))
+				.addStringOption((input) =>
+					input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true)
+				)
 				.addStringOption((input) =>
 					input
 						.setName("type")
@@ -54,7 +56,10 @@ export class ClaimCommand extends Command {
 		}
 
 		const { id: userId } = interaction.user;
-		await this.orderModel.update({ where: { id: order.id }, data: isCookClaim ? { chef: userId } : { deliverer: userId } });
+		await this.orderModel.update({
+			where: { id: order.id },
+			data: isCookClaim ? { chef: userId } : { deliverer: userId }
+		});
 
 		await this.sendCustomerMessage(order, {
 			embeds: [

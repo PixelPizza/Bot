@@ -11,17 +11,17 @@ import { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 import "./container";
 
 async function main() {
-    const client = new Client();
+	const client = new Client();
 
-    ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
+	ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
-    client.stores
-        .register(new ModelManagerStore().registerPath(join(__dirname, "models")))
-        .register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
+	client.stores
+		.register(new ModelManagerStore().registerPath(join(__dirname, "models")))
+		.register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
 
-    await client.login(container.env.string("TOKEN"));
+	await client.login(container.env.string("TOKEN"));
 
-    client.commandsIn(join(__dirname, "commands", "dos"));
+	client.commandsIn(join(__dirname, "commands", "dos"));
 }
 
 void main().finally(() => void container.prisma.$disconnect());

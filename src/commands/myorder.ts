@@ -9,7 +9,7 @@ import { OrderStatus } from "@prisma/client";
 	preconditions: ["HasOrder"]
 })
 export class MyOrderCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 

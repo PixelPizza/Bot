@@ -9,7 +9,7 @@ export abstract class OrderCommand extends Command {
 		return this.container.prisma.order;
 	}
 
-	protected makeUserRegex(name: string) {
+	protected makeUserRegex(name: string): string  {
 		return `${name}(?:: *(tag|id|username|name|ping|mention))?`;
 	}
 
@@ -21,11 +21,11 @@ export abstract class OrderCommand extends Command {
 		return this.makeUserRegex("chef");
 	}
 
-	protected makeDateRegex(name: string) {
+	protected makeDateRegex(name: string): string  {
 		return `${name}date(?:: *(date|time|datetime))?`;
 	}
 
-	protected isImage(url: string) {
+	protected isImage(url: string): boolean  {
 		return Boolean(isUri(url) && /\.(gif|jpe?g|tiff?|png|webp|bmp)(\?[^#]*)?(#.*)?$/i.test(url));
 	}
 

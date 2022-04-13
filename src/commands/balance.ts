@@ -7,7 +7,7 @@ import { Command } from "../lib/commands/Command";
 	description: "Show your current balance."
 })
 export class BalanceCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
 		registry.registerChatInputCommand(this.defaultChatInputCommand, { idHints: ["955071815913472001"] });
 	}
 

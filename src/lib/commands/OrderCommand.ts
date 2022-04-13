@@ -79,11 +79,10 @@ export abstract class OrderCommand extends Command {
 	}
 
 	protected sendCustomerMessage(order: Order, options: string | MessagePayload | MessageOptions) {
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		return this.container.client.users
 			.fetch(order.customer)
 			.then((customer) => customer.send(options))
-			.catch(() => {});
+			.catch(() => null);
 	}
 
 	public async createOrderEmbed(order: Order) {

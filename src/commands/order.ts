@@ -19,11 +19,11 @@ export class OrderCommand extends Command {
 	}
 
 	private async generateOrderID() {
-		const orders = this.container.stores.get("models").get("order");
+		const orders = this.container.prisma.order;
 		let id: string;
 		do {
 			id = `00${randomInt(0, 999)}`.slice(-3);
-		} while (await orders.findByPk(id));
+		} while (await orders.findUnique({ where: { id } }));
 		return id;
 	}
 
@@ -34,11 +34,13 @@ export class OrderCommand extends Command {
 		const id = await this.generateOrderID();
 
 		await this.orderModel.create({
-			id,
-			order,
-			customer: interaction.user.id,
-			guild: interaction.guildId!,
-			channel: interaction.channelId
+			data: {
+				id,
+				order,
+				customer: interaction.user.id,
+				guild: interaction.guildId!,
+				channel: interaction.channelId
+			}
 		});
 
 		await interaction.editReply({

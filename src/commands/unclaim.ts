@@ -1,7 +1,7 @@
+import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
-import { Op } from "sequelize";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -13,7 +13,9 @@ export class UnclaimCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addStringOption((input) => input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true))
+				.addStringOption((input) =>
+					input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true)
+				)
 				.addStringOption((input) =>
 					input
 						.setName("type")
@@ -27,19 +29,21 @@ export class UnclaimCommand extends Command {
 	public override async autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				[Op.or]: {
+				OR: {
 					id: {
-						[Op.startsWith]: focused
+						startsWith: focused
 					},
 					order: {
-						[Op.substring]: focused
+						contains: focused
 					}
 				},
 				status: {
-					[Op.or]: ["uncooked", "cooked"]
+					in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
 				}
 			},
-			order: [["id", "ASC"]]
+			orderBy: {
+				id: "asc"
+			}
 		}));
 	}
 
@@ -54,14 +58,14 @@ export class UnclaimCommand extends Command {
 			throw new Error("The order you specified has not been claimed by you");
 		}
 
-		await order.update(isCookClaim ? { chef: null } : { deliverer: null });
+		await this.orderModel.update({
+			where: { id: order.id },
+			data: isCookClaim ? { chef: null } : { deliverer: null }
+		});
 
-		await order.sendCustomerMessage({
+		await this.sendCustomerMessage(order, {
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
-					.setTitle("Order unclaimed")
-					.setDescription("Your order has been unclaimed")
+				new MessageEmbed().setColor("BLUE").setTitle("Order unclaimed").setDescription("Your order has been unclaimed")
 			]
 		});
 

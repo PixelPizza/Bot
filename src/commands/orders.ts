@@ -15,7 +15,7 @@ export class OrdersCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const orders = await this.orderModel.findAll();
+		const orders = await this.orderModel.findMany();
 
 		await interaction.editReply({
 			embeds: [

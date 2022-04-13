@@ -16,12 +16,16 @@ export class CancelCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		await this.orderModel.deleteMany({
+		await this.orderModel.delete({
 			where: {
-				customer: interaction.user.id,
-				status: {
-					in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
-				}
+				id: (await this.orderModel.findFirst({
+					where: {
+						customer: interaction.user.id,
+						status: {
+							in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
+						}
+					}
+				}))!.id
 			}
 		});
 

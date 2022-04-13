@@ -5,7 +5,7 @@ import "@kaname-png/plugin-statcord/register";
 import "@devtomio/plugin-botlist/register";
 import { Client } from "./lib/Client";
 import { ApplicationCommandRegistries, container, RegisterBehavior } from "@sapphire/framework";
-import { ModelManagerStore } from "./lib/stores/ModelManagerStore";
+import { PrismaHookManagerStore } from "./lib/stores/PrismaHookManagerStore";
 import { join } from "path";
 import { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 import "./container";
@@ -16,7 +16,7 @@ async function main() {
 	ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
 	client.stores
-		.register(new ModelManagerStore().registerPath(join(__dirname, "models")))
+		.register(new PrismaHookManagerStore().registerPath(join(__dirname, "hooks")))
 		.register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
 
 	await client.login(container.env.string("TOKEN"));

@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import type { ModelManagerStore } from "./lib/stores/ModelManagerStore";
+import type { ModelManagerStore } from "./lib/stores/PrismaHookManagerStore";
 import type { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 
 export declare global {

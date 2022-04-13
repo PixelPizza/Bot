@@ -52,7 +52,7 @@ export abstract class PrismaHookManager<Type extends Prisma.ModelName> extends P
 		this.prisma = options.prisma;
 	}
 
-	public override onLoad(): void  {
+	public override onLoad(): void {
 		this.container.logger.info(`--- Loading hooks for ${this.name} ---`);
 		this.addHook("findUnique", this.beforeFindUnique, this.afterFindUnique);
 		this.addHook("findMany", this.beforeFindMany, this.afterFindMany);

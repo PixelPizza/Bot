@@ -9,7 +9,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 	preconditions: ["HasUncookedOrder"]
 })
 export class EditCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("order").setDescription("The new order").setRequired(true)

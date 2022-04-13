@@ -9,7 +9,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 	preconditions: ["DelivererOnly", "ValidOrderData"]
 })
 export class BackdoorCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand.addStringOption((input) =>

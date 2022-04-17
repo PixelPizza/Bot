@@ -1,8 +1,8 @@
-import {LogLevel} from "@sapphire/framework";
-import type {Container} from "@sapphire/pieces";
-import {Logger as SapphireLogger, LoggerOptions} from "@sapphire/plugin-logger";
-import {ColorResolvable, WebhookClient} from "discord.js";
-import {inspect} from "util";
+import { LogLevel } from "@sapphire/framework";
+import type { Container } from "@sapphire/pieces";
+import { Logger as SapphireLogger, LoggerOptions } from "@sapphire/plugin-logger";
+import { ColorResolvable, WebhookClient } from "discord.js";
+import { inspect } from "util";
 
 export class WebhookLogFormat {
 	public readonly color: ColorResolvable;
@@ -28,7 +28,7 @@ export class Logger extends SapphireLogger {
 
 	public constructor(public readonly container: Container, options?: LoggerOptions) {
 		super(options);
-		this.webhook = new WebhookClient({url: this.container.env.string("CONSOLE_URL")})
+		this.webhook = new WebhookClient({ url: this.container.env.string("CONSOLE_URL") });
 	}
 
 	public override write(level: LogLevel, ...values: readonly unknown[]): void {
@@ -44,9 +44,7 @@ export class Logger extends SapphireLogger {
 					color: format!.color,
 					title: format!.title,
 					description: values
-						.map(value =>
-							typeof value === "string" ? value : inspect(value, {colors: false, depth: this.depth})
-						)
+						.map((value) => (typeof value === "string" ? value : inspect(value, { colors: false, depth: this.depth })))
 						.join(this.join),
 					timestamp: Date.now()
 				}

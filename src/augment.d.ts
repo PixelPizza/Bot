@@ -30,6 +30,8 @@ declare module "@kaname-png/plugin-env" {
 		CHEF_PING_ROLE: never;
 		DELIVERER_ROLE: never;
 		DELIVERER_PING_ROLE: never;
+		// Webhooks
+		CONSOLE_URL: never;
 		// API Keys
 		TOPGG_API_KEY: never;
 		DBL_API_KEY: never;

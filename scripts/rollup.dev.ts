@@ -11,8 +11,8 @@ export default {
 	],
 	plugins: [
 		injectProcessEnv({
-        	NODE_ENV: "development"
-    	}),
+			NODE_ENV: "development"
+		}),
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 		uglify()
 	]

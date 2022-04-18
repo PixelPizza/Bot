@@ -20,8 +20,8 @@ async function main() {
 		.register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
 
 	await client.login(container.env.string("TOKEN"));
-	
-	container.logger = new Logger(container, {level: LogLevel.Debug});
+
+	container.logger = new Logger(container, { level: LogLevel.Debug });
 
 	client.commandsIn(join(__dirname, "commands", "dos"));
 }

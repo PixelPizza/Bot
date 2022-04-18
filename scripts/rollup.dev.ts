@@ -8,7 +8,9 @@ export default {
 			format: "cjs"
 		}
 	],
-	plugins: [injectProcessEnv({
-        NODE_ENV: "development"
-    })]
+	plugins: [
+		injectProcessEnv({
+			NODE_ENV: "development"
+		})
+	]
 };

@@ -11,11 +11,9 @@
 		"dist"
 	],
 	"scripts": {
-		"pretest": "yarn build",
-		"test": "jest --pass-with-no-tests",
+		"test": "yarn build && jest --pass-with-no-tests",
 		"test:ci": "jest --no-stack-trace --verbose --pass-with-no-tests",
-		"prebuild": "yarn clean",
-		"build": "tsup",
+		"build": "yarn clean && tsup",
 		"clean": "node scripts/clean-dist.mjs",
 		"lint": "eslint --ext mjs,js,ts",
 		"lint:fix": "eslint --ext mjs,js,ts --fix",

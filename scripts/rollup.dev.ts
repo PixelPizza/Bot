@@ -1,4 +1,5 @@
 import injectProcessEnv from "rollup-plugin-inject-process-env";
+import { uglify } from "rollup-plugin-uglify";
 
 export default {
 	input: "dist/index.js",
@@ -8,7 +9,11 @@ export default {
 			format: "cjs"
 		}
 	],
-	plugins: [injectProcessEnv({
-        NODE_ENV: "development"
-    })]
+	plugins: [
+		injectProcessEnv({
+        	NODE_ENV: "development"
+    	}),
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+		uglify()
+	]
 };

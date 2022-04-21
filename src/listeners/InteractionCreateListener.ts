@@ -10,6 +10,6 @@ export class InteractionCreateListener extends Listener<typeof Events.Interactio
 	public run(interaction: Interaction): unknown {
 		if (!interaction.isCommand()) return;
 
-		return this.container.statcord.postCommand(interaction.commandId, interaction.user.id);
+		return this.container.statcord.postCommand(interaction.commandName, interaction.user.id);
 	}
 }

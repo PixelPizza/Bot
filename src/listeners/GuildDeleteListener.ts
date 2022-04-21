@@ -13,5 +13,6 @@ export class GuildDeleteListener extends Listener<typeof Events.GuildDelete> {
 				guild: guild.id
 			}
 		});
+		return this.container.stores.get("webhooks").get("guild").sendGuild(guild, false);
 	}
 }

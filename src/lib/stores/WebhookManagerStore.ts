@@ -8,21 +8,21 @@ import type { OrderWebhook } from "../../webhooks/OrderWebhook";
 import type { GuildWebhook } from "../../webhooks/GuildWebhook";
 
 export class WebhookManagerStore extends Store<WebhookManager> {
-    public constructor() {
-        super(WebhookManager, { name: "webhooks" });
-    }
+	public constructor() {
+		super(WebhookManager, { name: "webhooks" });
+	}
 
-    public override get<K extends keyof WebhookManagerStoreEntries>(key: K): WebhookManagerStoreEntries[K];
+	public override get<K extends keyof WebhookManagerStoreEntries>(key: K): WebhookManagerStoreEntries[K];
 	public override get(key: string) {
 		return super.get(key);
 	}
 }
 
 export interface WebhookManagerStoreEntries {
-    orderlog: OrderLogWebhook;
-    order: OrderWebhook;
-    kitchen: KitchenWebhook;
-    delivery: DeliveryWebhook;
-    image: ImageWebhook;
-    guild: GuildWebhook;
+	orderlog: OrderLogWebhook;
+	order: OrderWebhook;
+	kitchen: KitchenWebhook;
+	delivery: DeliveryWebhook;
+	image: ImageWebhook;
+	guild: GuildWebhook;
 }

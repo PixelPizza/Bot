@@ -9,7 +9,6 @@ export class Client extends DosClient {
 		const env = new EnvClient({});
 		super({
 			intents: ["GUILDS", "GUILD_MESSAGES"],
-			loadMessageCommandListeners: true,
 			logger: {
 				level: LogLevel.Debug
 			},

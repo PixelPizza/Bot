@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { CommandInteraction, Message, MessageEmbed, MessageOptions } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -11,8 +11,8 @@ export class InviteCommand extends Command {
 		registry.registerChatInputCommand(this.defaultChatInputCommand);
 	}
 
-	private get replyOptions(): MessageOptions {
-		return {
+	public override chatInputRun(interaction: CommandInteraction) {
+		return interaction.reply({
 			embeds: [
 				new MessageEmbed()
 					.setColor("BLUE")
@@ -22,14 +22,6 @@ export class InviteCommand extends Command {
 						permissions: ["CREATE_INSTANT_INVITE", "EMBED_LINKS", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS"]
 					})})`)
 			]
-		};
-	}
-
-	public override messageRun(message: Message) {
-		return message.channel.send(this.replyOptions);
-	}
-
-	public override chatInputRun(interaction: CommandInteraction) {
-		return interaction.reply(this.replyOptions);
+		});
 	}
 }

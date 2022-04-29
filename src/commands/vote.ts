@@ -1,16 +1,20 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
-import { CommandInteraction, Message, MessageEmbed, MessageOptions } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
 	description: "Vote for the bot"
 })
 export class VoteCommand extends Command {
-	private get replyOptions(): MessageOptions {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand(this.defaultChatInputCommand);
+	}
+
+	public override chatInputRun(interaction: CommandInteraction) {
 		const { client } = this.container;
-		return {
+		return interaction.reply({
 			embeds: [
 				new MessageEmbed()
 					.setColor("BLUE")
@@ -25,18 +29,6 @@ export class VoteCommand extends Command {
 						500 Exp
 					`)
 			]
-		};
-	}
-
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
-	}
-
-	public override messageRun(message: Message) {
-		return message.channel.send(this.replyOptions);
-	}
-
-	public override chatInputRun(interaction: CommandInteraction) {
-		return interaction.reply(this.replyOptions);
+		});
 	}
 }

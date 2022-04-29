@@ -26,21 +26,21 @@ export class HelpCommand extends Command {
 					new MessageEmbed()
 						.setColor("BLUE")
 						.setTitle("Commands")
-						.setDescription(this.container.stores
-							.get("commands")
-							.map((command) => `**${command.name}:** ${command.description}`)
-							.join("\n"))
+						.setDescription(
+							this.container.stores
+								.get("commands")
+								.map((command) => `**${command.name}:** ${command.description}`)
+								.join("\n")
+						)
 				]
 			};
 		}
 
-		const embed = new MessageEmbed()
-			.setColor("BLUE")
-			.addField("Name", command.name);
+		const embed = new MessageEmbed().setColor("BLUE").addField("Name", command.name);
 
 		command.aliases.length && embed.addField("Aliases", command.aliases.join(", "));
 		(command.detailedDescription || command.description) &&
-			embed.addField("Description", command.detailedDescription as string || command.description);
+			embed.addField("Description", (command.detailedDescription as string) || command.description);
 
 		return interaction.reply({ embeds: [embed] });
 	}

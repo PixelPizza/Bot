@@ -12,13 +12,17 @@ export class SupportCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {
-		const channel = (await this.container.client.channels.fetch(this.container.env.string("INVITE_CHANNEL"))) as TextChannel;
+		const channel = (await this.container.client.channels.fetch(
+			this.container.env.string("INVITE_CHANNEL")
+		)) as TextChannel;
 		return interaction.reply({
 			embeds: [
 				new MessageEmbed()
 					.setColor("BLUE")
 					.setTitle("Support Server")
-					.setDescription(`Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`)
+					.setDescription(
+						`Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`
+					)
 			]
 		});
 	}

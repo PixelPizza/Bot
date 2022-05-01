@@ -78,7 +78,7 @@ export class WorkCommand extends Command {
 		};
 	}
 
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void  {
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(this.defaultChatInputCommand, {
 			idHints: ["970335390538039296"]
 		});

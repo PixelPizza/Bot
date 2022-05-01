@@ -1,4 +1,3 @@
-import { Sequelize } from "sequelize";
 import type { ModelManagerStore } from "./lib/stores/PrismaHookManagerStore";
 import type { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 
@@ -43,10 +42,6 @@ declare module "@kaname-png/plugin-env" {
 }
 
 declare module "@sapphire/pieces" {
-	interface Container {
-		database: Sequelize;
-	}
-
 	interface StoreRegistryEntries {
 		models: ModelManagerStore;
 		webhooks: WebhookManagerStore;

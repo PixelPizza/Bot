@@ -3,7 +3,7 @@ import type { Options } from "tsup";
 export const tsup: Options = {
 	clean: true,
 	dts: false,
-	entryPoints: ["src/**/*[!.d].ts", "src/commands/dos/*.js"],
+	entryPoints: ["src/**/*.ts", "src/commands/dos/*.js", "!src/augment.d.ts"],
 	format: ["cjs"],
 	minify: true,
 	skipNodeModulesBundle: true,

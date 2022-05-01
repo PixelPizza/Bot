@@ -1,11 +1,13 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { randomInt } from "node:crypto";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
-	description: "Earn money by working"
+	description: "Earn money by working",
+	cooldownDelay: Time.Minute * 30
 })
 export class WorkCommand extends Command {
 	private readonly scenarios = new Set([

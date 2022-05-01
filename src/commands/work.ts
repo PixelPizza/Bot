@@ -87,7 +87,10 @@ export class WorkCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const amount = randomInt(this.container.env.integer("WORK_MIN_REWARD"), this.container.env.integer("WORK_MAX_REWARD"));
+		const amount = randomInt(
+			this.container.env.integer("WORK_MIN_REWARD"),
+			this.container.env.integer("WORK_MAX_REWARD")
+		);
 
 		const user = await this.container.findOrCreateUser(interaction.user.id);
 		await this.container.prisma.user.update({

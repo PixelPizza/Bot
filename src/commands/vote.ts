@@ -28,7 +28,7 @@ export class VoteCommand extends Command {
 					)
 					.addField(
 						"Reward",
-						`${client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))?.toString() ?? ""} 100`
+						`${client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))?.toString() ?? ""} ${this.container.env.string("VOTE_REWARD")}`
 					)
 			]
 		});

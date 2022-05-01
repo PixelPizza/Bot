@@ -48,6 +48,7 @@
 		"@prisma/client": "^3.11.1",
 		"@sapphire/decorators": "^4.0.2",
 		"@sapphire/framework": "^3.0.0-next.18259a7.0",
+		"@sapphire/plugin-api": "^3.2.1",
 		"@sapphire/plugin-logger": "^2.0.2",
 		"common-tags": "^1.8.0",
 		"discord-api-types": "^0.26.1",

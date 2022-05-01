@@ -21,17 +21,14 @@ export class VoteCommand extends Command {
 					.setTitle("Vote links")
 					.setDescription(
 						stripIndents`
-						[top.gg](https://top.gg/bot/${client.user?.id}/vote)
-						[discordbotlist.com](https://discordbotlist.com/bots/pixel-pizza/upvote)
-					`
+							[Top.GG](https://top.gg/bot/${client.user?.id}/vote)
+							[Discord Bot List](https://discordbotlist.com/bots/pixel-pizza/upvote)
+							[Discord Bot Labs](https://bots.discordlabs.org/bot/${client.user?.id}/vote)
+						`
 					)
 					.addField(
-						"Rewards",
-						stripIndents`
-						**Note:** rewards only apply to top.gg
-						${client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))} 200
-						500 Exp
-					`
+						"Reward",
+						`${client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))?.toString() ?? ""} 100`
 					)
 			]
 		});

@@ -30,6 +30,12 @@ export class Client extends DosClient {
 				key: env.string("STATCORD_API_KEY"),
 				autopost: true,
 				debug: true
+			},
+			api: {
+				origin: "*",
+				listenOptions: {
+					port: 4000
+				}
 			}
 		});
 

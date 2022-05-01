@@ -55,7 +55,7 @@
 		"discord-oversimplified": "^0.6.5-next.d3e32eb.0",
 		"discord.js": "^13.6.0",
 		"sequelize": "^6.9.0",
-		"sqlite3": "^5.0.2",
+		"sqlite3": "^5.0.3",
 		"tslib": "^2.3.1",
 		"valid-url": "^1.0.9"
 	},

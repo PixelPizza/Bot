@@ -33,7 +33,7 @@ export class Client extends DosClient {
 			api: {
 				origin: "*",
 				listenOptions: {
-					port: 4000
+					port: env.integer("API_PORT")
 				}
 			}
 		});

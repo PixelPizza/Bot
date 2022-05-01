@@ -15,6 +15,7 @@ declare module "@kaname-png/plugin-env" {
 		CLIENT_ID: never;
 		COMMAND_GUILDS: never;
 		MAX_ORDERS: never;
+		API_PORT: never;
 		// Vote config
 		VOTE_SECRET: never;
 		VOTE_REWARD: never;

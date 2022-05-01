@@ -1,4 +1,4 @@
-import { Order, PrismaClient } from "@prisma/client";
+import { Order, PrismaClient, User } from "@prisma/client";
 import { container } from "@sapphire/framework";
 import { MessageEmbed } from "discord.js";
 
@@ -7,6 +7,7 @@ declare module "@sapphire/pieces" {
 		prisma: PrismaClient;
 		formatDate: (date: Date) => string;
 		createOrderEmbed: (order: Order) => Promise<MessageEmbed>;
+		findOrCreateUser: (id: string) => Promise<User>;
 	}
 }
 
@@ -66,3 +67,8 @@ container.createOrderEmbed = async (order: Order) => {
 
 	return embed;
 };
+
+container.findOrCreateUser = async (id: string) => {
+	const user = await container.prisma.user.findUnique({ where: { id } });
+	return user ?? await container.prisma.user.create({ data: { id } });
+}

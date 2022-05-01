@@ -8,7 +8,7 @@ import { Command } from "../lib/commands/Command";
 	description: "Earn money by working"
 })
 export class WorkCommand extends Command {
-	private readonly senarios = new Set([
+	private readonly scenarios = new Set([
 		"You worked hard and earned... {{amount}}. Wow, that must really have been worth it!",
 		"You worked hard and earned... {{amount}}. You're a hard worker!",
 		"You work for Pixel Pizza and earn {{amount}}. Good job!!",
@@ -63,10 +63,10 @@ export class WorkCommand extends Command {
 		return array[Math.floor(Math.random() * array.length)];
 	}
 
-	private generateSenario(amount: number) {
-		const senario = this.randomItem(this.senarios);
+	private generateScenario(amount: number) {
+		const scenario = this.randomItem(this.scenarios);
 		return {
-			senario: senario
+			scenario: scenario
 				.replace(
 					"{{amount}}",
 					`${
@@ -74,7 +74,7 @@ export class WorkCommand extends Command {
 					} ${amount}`
 				)
 				.replace("{{user}}", this.randomItem(this.names)),
-			index: [...this.senarios].indexOf(senario)
+			index: [...this.scenarios].indexOf(scenario)
 		};
 	}
 
@@ -98,15 +98,15 @@ export class WorkCommand extends Command {
 			data: { balance: user.balance + amount }
 		});
 
-		const senario = this.generateSenario(amount);
+		const scenario = this.generateScenario(amount);
 
 		return interaction.editReply({
 			embeds: [
 				new MessageEmbed()
 					.setColor("BLUE")
 					.setTitle("Work done!")
-					.setDescription(senario.senario)
-					.setFooter({ text: `Senario ${senario.index + 1}/${this.senarios.size}` })
+					.setDescription(scenario.scenario)
+					.setFooter({ text: `Scenario ${scenario.index + 1}/${this.scenarios.size}` })
 			]
 		});
 	}

@@ -7,8 +7,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Change the image of an order",
-	preconditions: ["ChefOnly", "ValidOrderData"],
-	cooldownDelay: Time.Second * 5
+	preconditions: ["ChefOnly", "ValidOrderData"]
 })
 export class ChangeCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

@@ -1,10 +1,12 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
-	description: "Show the order menu"
+	description: "Show the order menu",
+	cooldownDelay: Time.Minute * 5
 })
 export class MenuCommand extends Command {
 	private readonly items: {

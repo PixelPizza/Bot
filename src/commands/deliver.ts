@@ -17,8 +17,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Deliver an order",
-	preconditions: ["DelivererOnly", "ValidOrderData"],
-	cooldownDelay: Time.Second * 5
+	preconditions: ["DelivererOnly", "ValidOrderData"]
 })
 export class DeliverCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

@@ -14,7 +14,10 @@ export class GiveCommand extends Command {
 				.addUserOption((input) => input.setName("user").setDescription("The user to give money to").setRequired(true))
 				.addIntegerOption((input) =>
 					input.setName("amount").setDescription("The amount of money to give").setRequired(true)
-				)
+				),
+			{
+				idHints: ["971839922346545232"]
+			}
 		);
 	}
 

@@ -14,8 +14,7 @@ import { Time } from "@sapphire/time-utilities";
 
 @ApplyOptions<Command.Options>({
 	description: "Set your delivery message",
-	preconditions: ["DelivererOnly"],
-	cooldownDelay: Time.Second * 5
+	preconditions: ["DelivererOnly"]
 })
 export class DeliveryMessageCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

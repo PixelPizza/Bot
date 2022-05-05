@@ -7,7 +7,7 @@ import { Command } from "../lib/commands/Command";
 @ApplyOptions<Command.Options>({
 	description: "Give money to another user",
 	preconditions: ["UserExists", "HasMoneyAmount"],
-	cooldownDelay: Time.Minute
+	cooldownDelay: Time.Minute * 5
 })
 export class GiveCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

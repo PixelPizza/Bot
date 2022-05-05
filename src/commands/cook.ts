@@ -7,8 +7,7 @@ import { Time } from "@sapphire/time-utilities";
 
 @ApplyOptions<Command.Options>({
 	description: "Cook an order",
-	preconditions: ["ChefOnly", "ValidOrderData"],
-	cooldownDelay: Time.Second * 5
+	preconditions: ["ChefOnly", "ValidOrderData"]
 })
 export class CookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

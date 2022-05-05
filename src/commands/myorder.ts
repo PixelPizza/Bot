@@ -8,7 +8,7 @@ import { Time } from "@sapphire/time-utilities";
 @ApplyOptions<Command.Options>({
 	description: "Show your order",
 	preconditions: ["HasOrder"],
-	cooldownDelay: Time.Minute * 5
+	cooldownDelay: Time.Second * 5
 })
 export class MyOrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

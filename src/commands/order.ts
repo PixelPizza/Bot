@@ -7,7 +7,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 @ApplyOptions<Command.Options>({
 	description: "Order some food",
 	requiredClientPermissions: ["CREATE_INSTANT_INVITE"],
-	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders"]
+	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders", "EnoughMoney"]
 })
 export class OrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -29,6 +29,15 @@ export class OrderCommand extends Command {
 
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
+
+		await this.container.prisma.user.update({
+			where: { id: interaction.user.id },
+			data: {
+				balance: {
+					decrement: this.container.env.integer("ORDER_PRICE")
+				}
+			}
+		});
 
 		const order = interaction.options.getString("order", true);
 		const id = await this.generateOrderID();

@@ -67,7 +67,7 @@ export class MenuCommand extends Command {
 	];
 
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, { idHints: ["971732311815114752"] });
 	}
 
 	public override chatInputRun(interaction: CommandInteraction) {

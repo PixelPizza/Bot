@@ -1,8 +1,8 @@
-import {SlashCommandBuilder} from "@discordjs/builders";
-import {ApplyOptions} from "@sapphire/decorators";
-import type {ApplicationCommandRegistry, CommandOptions} from "@sapphire/framework";
-import {CommandInteraction, MessageEmbed} from "discord.js";
-import {Command} from "../lib/commands/Command";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { ApplyOptions } from "@sapphire/decorators";
+import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import { CommandInteraction, MessageEmbed } from "discord.js";
+import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<CommandOptions>({
 	description: "blacklist"
@@ -13,24 +13,20 @@ export class BlacklistCommand extends Command {
 			new SlashCommandBuilder()
 				.setName(this.name)
 				.setDescription(this.description)
-				.addSubcommand(input =>
+				.addSubcommand((input) =>
 					input
 						.setName("add")
 						.setDescription("Add a user to the blacklist")
-						.addUserOption(input =>
-							input.setName("user").setDescription("the user to blacklist").setRequired(true)
-						)
-						.addStringOption(input =>
+						.addUserOption((input) => input.setName("user").setDescription("the user to blacklist").setRequired(true))
+						.addStringOption((input) =>
 							input.setName("reason").setDescription("reason why for being blacklisted").setRequired(true)
 						)
 				)
-				.addSubcommand(input =>
+				.addSubcommand((input) =>
 					input
 						.setName("remove")
 						.setDescription("Remove a user from the blacklist")
-						.addUserOption(input =>
-							input.setName("user").setDescription("the user to unblacklist").setRequired(true)
-						)
+						.addUserOption((input) => input.setName("user").setDescription("the user to unblacklist").setRequired(true))
 				),
 			{
 				guildIds: ["863878432697614337"],
@@ -54,7 +50,7 @@ export class BlacklistCommand extends Command {
 		const user = interaction.options.getUser("user", true);
 		const reason = interaction.options.getString("reason", true);
 
-		if (await this.container.prisma.blacklist.findUnique({where: {user: user.id}})) {
+		if (await this.container.prisma.blacklist.findUnique({ where: { user: user.id } })) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed()
@@ -86,7 +82,7 @@ export class BlacklistCommand extends Command {
 	public async chatInputRemove(interaction: CommandInteraction) {
 		const user = interaction.options.getUser("user", true);
 
-		if (!(await this.container.prisma.blacklist.findUnique({where: {user: user.id}}))) {
+		if (!(await this.container.prisma.blacklist.findUnique({ where: { user: user.id } }))) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed()

@@ -1,5 +1,5 @@
-import {Precondition} from "@sapphire/framework";
-import type {CommandInteraction} from "discord.js";
+import { Precondition } from "@sapphire/framework";
+import type { CommandInteraction } from "discord.js";
 
 export class NotBlacklistedPrecondition extends Precondition {
 	public override async chatInputRun(interaction: CommandInteraction) {
@@ -8,7 +8,7 @@ export class NotBlacklistedPrecondition extends Precondition {
 				user: interaction.user.id
 			}
 		}))
-			? this.error({message: "You are blacklisted"})
+			? this.error({ message: "You are blacklisted" })
 			: this.ok();
 	}
 }

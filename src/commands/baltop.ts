@@ -8,7 +8,7 @@ import { Command } from "../lib/commands/Command";
 })
 export class BaltopCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, { idHints: ["971838800089202739"] });
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {
@@ -17,7 +17,7 @@ export class BaltopCommand extends Command {
 		const topUsers = await this.container.prisma.user.findMany({
 			take: 10,
 			orderBy: {
-				balance: "asc"
+				balance: "desc"
 			}
 		});
 

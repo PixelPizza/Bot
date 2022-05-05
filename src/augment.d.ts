@@ -63,5 +63,7 @@ declare module "@sapphire/framework" {
 		MaxOrders: never;
 		HasOrder: never;
 		HasUncookedOrder: never;
+		HasMoneyAmount: never;
+		UserExists: never;
 	}
 }

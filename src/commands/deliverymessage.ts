@@ -10,10 +10,12 @@ import {
 	MessageEmbed
 } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
+import { Time } from "@sapphire/time-utilities";
 
 @ApplyOptions<Command.Options>({
 	description: "Set your delivery message",
-	preconditions: ["DelivererOnly"]
+	preconditions: ["DelivererOnly"],
+	cooldownDelay: Time.Second * 5
 })
 export class DeliveryMessageCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

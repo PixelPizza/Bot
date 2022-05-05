@@ -3,10 +3,12 @@ import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import { OrderStatus } from "@prisma/client";
+import { Time } from "@sapphire/time-utilities";
 
 @ApplyOptions<Command.Options>({
 	description: "Cook an order",
-	preconditions: ["ChefOnly", "ValidOrderData"]
+	preconditions: ["ChefOnly", "ValidOrderData"],
+	cooldownDelay: Time.Second * 5
 })
 export class CookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

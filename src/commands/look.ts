@@ -1,12 +1,14 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Look at an order",
-	preconditions: [["ChefOnly"], ["DelivererOnly"], "ValidOrderData"]
+	preconditions: [["ChefOnly"], ["DelivererOnly"], "ValidOrderData"],
+	cooldownDelay: Time.Second * 5
 })
 export class LookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

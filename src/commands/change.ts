@@ -1,12 +1,14 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Change the image of an order",
-	preconditions: ["ChefOnly", "ValidOrderData"]
+	preconditions: ["ChefOnly", "ValidOrderData"],
+	cooldownDelay: Time.Second * 5
 })
 export class ChangeCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

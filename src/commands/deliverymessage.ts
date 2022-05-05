@@ -48,9 +48,7 @@ export class DeliveryMessageCommand extends Command {
 		await interaction.deferReply({ ephemeral: true });
 
 		const message = interaction.options.getString("message");
-		const deliverer =
-			(await this.container.prisma.user.findFirst({ where: { id: interaction.user.id } })) ??
-			(await this.container.prisma.user.create({ data: { id: interaction.user.id } }));
+		const deliverer = await this.container.findOrCreateUser(interaction.user.id);
 
 		if (!message) {
 			const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;

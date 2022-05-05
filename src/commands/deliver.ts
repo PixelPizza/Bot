@@ -1,7 +1,6 @@
 import { DeliveryMethod, Order, OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { Time } from "@sapphire/time-utilities";
 import { stripIndents } from "common-tags";
 import {
 	type AutocompleteInteraction,

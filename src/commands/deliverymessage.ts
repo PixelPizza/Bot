@@ -10,7 +10,6 @@ import {
 	MessageEmbed
 } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
-import { Time } from "@sapphire/time-utilities";
 
 @ApplyOptions<Command.Options>({
 	description: "Set your delivery message",

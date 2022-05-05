@@ -7,8 +7,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Unclaim an order",
-	preconditions: ["ValidClaimType", "ExistingOrder"],
-	cooldownDelay: Time.Second * 5
+	preconditions: ["ValidClaimType", "ExistingOrder"]
 })
 export class UnclaimCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

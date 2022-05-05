@@ -10,11 +10,13 @@ export class EnoughMoneyPrecondition extends Precondition {
 	public override async chatInputRun(interaciton: CommandInteraction) {
 		const { balance } = await this.container.findOrCreateUser(interaciton.user.id);
 
-        return balance >= this.container.env.integer("ORDER_PRICE")
-            ? this.ok()
-            : this.error({ message: stripIndents`
+		return balance >= this.container.env.integer("ORDER_PRICE")
+			? this.ok()
+			: this.error({
+					message: stripIndents`
 				You do not have enough money to order.
 				Use \`/work\` or vote for the bot to get money.
-			` });
+			`
+			  });
 	}
 }

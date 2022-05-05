@@ -17,6 +17,9 @@ declare module "@kaname-png/plugin-env" {
 		BOT_MANAGERS: never;
 		MAX_ORDERS: never;
 		API_PORT: never;
+		// Order config
+		MAX_ORDERS: never;
+		ORDER_PRICE: never;
 		// Vote config
 		VOTE_SECRET: never;
 		VOTE_REWARD: never;
@@ -67,5 +70,6 @@ declare module "@sapphire/framework" {
 		NotManager: never;
 		HasMoneyAmount: never;
 		UserExists: never;
+		EnoughMoney: never;
 	}
 }

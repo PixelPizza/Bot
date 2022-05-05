@@ -7,8 +7,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "get invite link of a guild by order",
-	preconditions: ["DelivererOnly", "ValidOrderData"],
-	cooldownDelay: Time.Second * 15
+	preconditions: ["DelivererOnly", "ValidOrderData"]
 })
 export class BackdoorCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

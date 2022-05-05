@@ -18,7 +18,7 @@ container.createOrderEmbed = async (order: Order) => {
 	const { deliveryMethod } = order;
 	const customer = await users.fetch(order.customer);
 	const guild = await guilds.fetch(order.guild);
-	const channel = (await await guild.channels.fetch(order.channel)) ?? guild.systemChannel ?? null;
+	const channel = (await guild.channels.fetch(order.channel)) ?? guild.systemChannel ?? null;
 	if (!channel?.isText()) throw new Error("Invalid channel");
 	const chef = order.chef ? await users.fetch(order.chef).catch(() => null) : null;
 	const deliverer = order.deliverer ? await users.fetch(order.deliverer).catch(() => null) : null;

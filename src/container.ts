@@ -69,5 +69,6 @@ container.createOrderEmbed = async (order: Order) => {
 };
 
 container.findOrCreateUser = async (id: string) =>
-	container.prisma.user.findUnique({ where: { id }, rejectOnNotFound: true })
-	.catch(() => container.prisma.user.create({ data: { id } }));
+	container.prisma.user
+		.findUnique({ where: { id }, rejectOnNotFound: true })
+		.catch(() => container.prisma.user.create({ data: { id } }));

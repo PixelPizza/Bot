@@ -7,8 +7,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Look at an order",
-	preconditions: [["ChefOnly"], ["DelivererOnly"], "ValidOrderData"],
-	cooldownDelay: Time.Second * 5
+	preconditions: [["ChefOnly"], ["DelivererOnly"], "ValidOrderData"]
 })
 export class LookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

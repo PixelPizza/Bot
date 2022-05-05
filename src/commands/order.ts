@@ -34,7 +34,7 @@ export class OrderCommand extends Command {
 			where: { id: interaction.user.id },
 			data: {
 				balance: {
-					decrement: 100
+					decrement: this.container.env.integer("ORDER_PRICE")
 				}
 			}
 		});

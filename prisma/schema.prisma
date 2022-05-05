@@ -51,3 +51,9 @@ model User {
   deliveryMessage String?
   balance Float @default(0)
 }
+
+model Blacklist {
+  user   String @id
+  reason String
+  author String
+}

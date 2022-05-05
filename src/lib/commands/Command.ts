@@ -11,6 +11,13 @@ import {
 import type { ChatInputApplicationCommandData } from "discord.js";
 
 export abstract class Command extends SapphireCommand {
+	public constructor(context: Command.Context, options: Command.Options) {
+		super(context, {
+			...options,
+			preconditions: ["NotBlacklisted", ...(options.preconditions ?? [])]
+		});
+	}
+
 	protected get defaultChatInputCommand() {
 		return new SlashCommandBuilder().setName(this.name).setDescription(this.description);
 	}
@@ -40,5 +47,6 @@ export abstract class Command extends SapphireCommand {
 }
 
 export namespace Command {
+	export type Context = SapphireCommand.Context;
 	export interface Options extends SapphireCommand.Options {}
 }

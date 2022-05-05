@@ -7,8 +7,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Remove an order",
-	preconditions: [["ChefOnly"], ["DelivererOnly"], "ExistingOrder"],
-	cooldownDelay: Time.Second * 5
+	preconditions: [["ChefOnly"], ["DelivererOnly"], "ExistingOrder"]
 })
 export class RemoveCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

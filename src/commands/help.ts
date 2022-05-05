@@ -1,11 +1,13 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
 	aliases: ["commands"],
-	description: "Shows a list of commands"
+	description: "Shows a list of commands",
+	cooldownDelay: Time.Minute * 5
 })
 export class HelpCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

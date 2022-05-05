@@ -1,12 +1,14 @@
 import { DeliveryMethod, OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "get invite link of a guild by order",
-	preconditions: ["DelivererOnly", "ValidOrderData"]
+	preconditions: ["DelivererOnly", "ValidOrderData"],
+	cooldownDelay: Time.Second * 5
 })
 export class BackdoorCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

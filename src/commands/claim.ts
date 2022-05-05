@@ -1,12 +1,14 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Claim an order",
-	preconditions: ["ValidOrderData", "ValidClaimType"]
+	preconditions: ["ValidOrderData", "ValidClaimType"],
+	cooldownDelay: Time.Second * 5
 })
 export class ClaimCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

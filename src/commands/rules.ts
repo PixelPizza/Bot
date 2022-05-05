@@ -1,12 +1,14 @@
 import { codeBlock } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { stripIndents } from "common-tags";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
-    description: "Show the rules for ordering"
+    description: "Show the rules for ordering",
+    cooldownDelay: Time.Minute * 5
 })
 export class RulesCommand extends Command {
     public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

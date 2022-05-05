@@ -14,6 +14,7 @@ declare module "@kaname-png/plugin-env" {
 		TOKEN: never;
 		CLIENT_ID: never;
 		COMMAND_GUILDS: never;
+		BOT_MANAGERS: never;
 		MAX_ORDERS: never;
 		API_PORT: never;
 		// Vote config
@@ -63,5 +64,6 @@ declare module "@sapphire/framework" {
 		MaxOrders: never;
 		HasOrder: never;
 		HasUncookedOrder: never;
+		NotManager: never;
 	}
 }

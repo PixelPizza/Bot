@@ -1,6 +1,10 @@
-import { Precondition } from "@sapphire/framework";
+import { ApplyOptions } from "@sapphire/decorators";
+import { Precondition, PreconditionOptions } from "@sapphire/framework";
 import type { CommandInteraction } from "discord.js";
 
+@ApplyOptions<PreconditionOptions>({
+	name: "NotBlacklisted"
+})
 export class NotBlacklistedPrecondition extends Precondition {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		return (await this.container.prisma.blacklist.findUnique({
@@ -10,11 +14,5 @@ export class NotBlacklistedPrecondition extends Precondition {
 		}))
 			? this.error({ message: "You are blacklisted" })
 			: this.ok();
-	}
-}
-
-declare module "@sapphire/framework" {
-	interface Preconditions {
-		NotBlacklisted: never;
 	}
 }

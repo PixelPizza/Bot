@@ -5,11 +5,13 @@ import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<CommandOptions>({
-	description: "blacklist"
+	description: "blacklist",
+	preconditions: ["NotManager"]
 })
 export class BlacklistCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
-		registry.registerChatInputCommand(
+		this.registerPrivateChatInputCommand(
+			registry,
 			new SlashCommandBuilder()
 				.setName(this.name)
 				.setDescription(this.description)
@@ -29,8 +31,7 @@ export class BlacklistCommand extends Command {
 						.addUserOption((input) => input.setName("user").setDescription("the user to unblacklist").setRequired(true))
 				),
 			{
-				guildIds: ["863878432697614337"],
-				idHints: ["960218037863215195"]
+				idHints: ["971835473569927200", "971835475188916294"]
 			}
 		);
 	}

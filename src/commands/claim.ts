@@ -7,8 +7,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Claim an order",
-	preconditions: ["ValidOrderData", "ValidClaimType"],
-	cooldownDelay: Time.Second * 5
+	preconditions: ["ValidOrderData", "ValidClaimType"]
 })
 export class ClaimCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

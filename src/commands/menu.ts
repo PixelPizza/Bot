@@ -6,7 +6,7 @@ import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
 	description: "Show the order menu",
-	cooldownDelay: Time.Minute * 5
+	cooldownDelay: Time.Minute * 2
 })
 export class MenuCommand extends Command {
 	private readonly items: {

@@ -6,7 +6,7 @@ import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
 	description: "Show the balance leaderboard",
-	cooldownDelay: Time.Minute * 5
+	cooldownDelay: Time.Minute
 })
 export class BaltopCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

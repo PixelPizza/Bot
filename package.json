@@ -74,7 +74,7 @@
 		"babel-plugin-const-enum": "1.2.0",
 		"babel-plugin-transform-typescript-metadata": "0.3.2",
 		"conventional-changelog-cli": "2.2.2",
-		"eslint": "8.9.0",
+		"eslint": "8.15.0",
 		"eslint-config-marine": "9.3.2",
 		"eslint-config-prettier": "8.4.0",
 		"eslint-plugin-import": "2.25.4",

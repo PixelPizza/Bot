@@ -1,3 +1,15 @@
 {
-	"extends": ["config:base"]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:base", "helpers:pinGitHubActionDigests", "group:allNonMajor"],
+	"labels": ["Meta: Dependencies"],
+	"schedule": ["before 12pm on Saturday"],
+	"npm": {
+		"rangeStrategy": "bump",
+		"packageRules": [
+			{
+				"matchDepTypes": ["engines"],
+				"enabled": false
+			}
+		]
+	}
 }

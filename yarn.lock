@@ -4404,19 +4404,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-aqua@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "eslint-config-aqua@npm:9.1.0"
-  checksum: fb0aa73f8847f0db5509c73cea99257f4e100d659d16edac43e3cc9e81ba966e0166b5464319662ce2c66f1ee8edd57a0d8258b30bad08a8b6a883e3a9ce92ec
+"eslint-config-aqua@npm:^9.2.0":
+  version: 9.2.1
+  resolution: "eslint-config-aqua@npm:9.2.1"
+  checksum: f91424cdcc227d29dd299c69bb030dcaa8fb7c03feced29297de24cf04b382d5cf81f0822ac2050321ca6ddbb0345f8f34534315821ecf315e76935ce888238a
   languageName: node
   linkType: hard
 
-"eslint-config-marine@npm:9.3.2":
-  version: 9.3.2
-  resolution: "eslint-config-marine@npm:9.3.2"
+"eslint-config-marine@npm:9.4.1":
+  version: 9.4.1
+  resolution: "eslint-config-marine@npm:9.4.1"
   dependencies:
-    eslint-config-aqua: ^9.1.0
-  checksum: e94d70720ee343c241d0f0fc47530c98ab594cc16a63957a4e941d2fa145193670c6e5fcc0b627390eec5396097975ee87a44af50bf3d84a80c74a43e0ef892b
+    eslint-config-aqua: ^9.2.0
+  checksum: 380969b39b9a5c43fcb8cfc283cee83ef046084e854c59e53dfc6eb08578e92914be12b992eb3cd6231610c008657ac4c03ecd96f8983efaa146c41f0f07cc09
   languageName: node
   linkType: hard
 
@@ -7257,7 +7257,7 @@ __metadata:
     discord-oversimplified: ^0.6.5-next.d3e32eb.0
     discord.js: ^13.6.0
     eslint: 8.15.0
-    eslint-config-marine: 9.3.2
+    eslint-config-marine: 9.4.1
     eslint-config-prettier: 8.5.0
     eslint-plugin-import: 2.25.4
     eslint-plugin-prettier: 4.0.0

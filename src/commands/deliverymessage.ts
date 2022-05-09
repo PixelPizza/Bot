@@ -1,6 +1,6 @@
+import { codeBlock } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { codeBlock } from "@discordjs/builders";
 import {
 	type CommandInteraction,
 	type Message,

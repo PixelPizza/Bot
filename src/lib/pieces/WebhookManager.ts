@@ -1,5 +1,5 @@
 import { Piece, PieceContext, PieceOptions } from "@sapphire/framework";
-import type { APIMessage } from "discord-api-types";
+import type { APIMessage } from "discord-api-types/v9";
 import { MessagePayload, MessageResolvable, ThreadChannel, Webhook, WebhookEditData, WebhookEditMessageOptions, WebhookFetchMessageOptions, WebhookMessageOptions } from "discord.js";
 
 export interface WebhookManagerOptions extends PieceOptions {

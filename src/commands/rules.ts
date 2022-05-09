@@ -1,25 +1,30 @@
 import { codeBlock } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { stripIndents } from "common-tags";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
-    description: "Show the rules for ordering"
+	description: "Show the rules for ordering",
+	cooldownDelay: Time.Minute * 5
 })
 export class RulesCommand extends Command {
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-        registry.registerChatInputCommand(this.defaultChatInputCommand);
-    }
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand(this.defaultChatInputCommand);
+	}
 
-    public override chatInputRun(interaction: CommandInteraction) {
-        return interaction.reply({
-            embeds: [
-                new MessageEmbed()
-                    .setColor("BLUE")
-                    .setTitle("Order Rules and Guidelines")
-                    .setDescription(codeBlock("markdown", stripIndents`
+	public override chatInputRun(interaction: CommandInteraction) {
+		return interaction.reply({
+			embeds: [
+				new MessageEmbed()
+					.setColor("BLUE")
+					.setTitle("Order Rules and Guidelines")
+					.setDescription(
+						codeBlock(
+							"markdown",
+							stripIndents`
                         1. No NSFW
                         2. No items that are offensive or are related/imply any form of discrimination
                         3. No items related to child exploitation (this includes Pedophilia, Child abuse, or any other form of exploitation to minors)
@@ -39,9 +44,11 @@ export class RulesCommand extends Command {
                         17. no profile pictures on items
                         18. Orders have to be in english
                         19. Your server must have easy verification (Member screening,reacting Etc) or no verification at all.
-                    `))
-            ],
-            ephemeral: true
-        });
-    }
+                    `
+						)
+					)
+			],
+			ephemeral: true
+		});
+	}
 }

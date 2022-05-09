@@ -1,12 +1,14 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Edit your order",
-	preconditions: ["HasUncookedOrder"]
+	preconditions: ["HasUncookedOrder"],
+	cooldownDelay: Time.Minute * 5
 })
 export class EditCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

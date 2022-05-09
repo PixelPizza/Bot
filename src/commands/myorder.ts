@@ -3,10 +3,12 @@ import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 import type { CommandInteraction } from "discord.js";
 import { OrderStatus } from "@prisma/client";
+import { Time } from "@sapphire/time-utilities";
 
 @ApplyOptions<Command.Options>({
 	description: "Show your order",
-	preconditions: ["HasOrder"]
+	preconditions: ["HasOrder"],
+	cooldownDelay: Time.Second * 5
 })
 export class MyOrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

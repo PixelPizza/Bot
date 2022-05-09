@@ -1,10 +1,13 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { type CommandInteraction, Message, MessageEmbed, SnowflakeUtil } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
-	description: "Displays the bot ping"
+	description: "Displays the bot ping",
+	cooldownDelay: Time.Minute * 5,
+	cooldownFilteredUsers: ["472312270047674378"]
 })
 export class PingCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

@@ -1,8 +1,8 @@
+import { randomInt } from "node:crypto";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
-import { randomInt } from "node:crypto";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({

@@ -1,8 +1,8 @@
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed, MessageOptions, MessagePayload } from "discord.js";
-import { Command } from "./Command";
-import { isUri } from "valid-url";
-import { stripIndents } from "common-tags";
 import type { Order, Prisma } from "@prisma/client";
+import { stripIndents } from "common-tags";
+import { AutocompleteInteraction, CommandInteraction, MessageEmbed, MessageOptions, MessagePayload } from "discord.js";
+import { isUri } from "valid-url";
+import { Command } from "./Command";
 
 export abstract class OrderCommand extends Command {
 	protected get orderModel() {

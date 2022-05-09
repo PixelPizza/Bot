@@ -1,11 +1,11 @@
 import { Store } from "@sapphire/framework";
-import { WebhookManager } from "../pieces/WebhookManager";
-import type { OrderLogWebhook } from "../../webhooks/OrderLogWebhook";
-import type { KitchenWebhook } from "../../webhooks/KitchenWebhook";
 import type { DeliveryWebhook } from "../../webhooks/DeliveryWebhook";
-import type { ImageWebhook } from "../../webhooks/ImageWebhook";
-import type { OrderWebhook } from "../../webhooks/OrderWebhook";
 import type { GuildWebhook } from "../../webhooks/GuildWebhook";
+import type { ImageWebhook } from "../../webhooks/ImageWebhook";
+import type { KitchenWebhook } from "../../webhooks/KitchenWebhook";
+import type { OrderLogWebhook } from "../../webhooks/OrderLogWebhook";
+import type { OrderWebhook } from "../../webhooks/OrderWebhook";
+import { WebhookManager } from "../pieces/WebhookManager";
 
 export class WebhookManagerStore extends Store<WebhookManager> {
 	public constructor() {

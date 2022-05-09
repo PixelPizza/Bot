@@ -1,8 +1,8 @@
+import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
-import { OrderStatus } from "@prisma/client";
 
 @ApplyOptions<Command.Options>({
 	description: "Cook an order",

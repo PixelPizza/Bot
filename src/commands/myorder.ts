@@ -1,9 +1,9 @@
+import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { OrderCommand as Command } from "../lib/commands/OrderCommand";
-import type { CommandInteraction } from "discord.js";
-import { OrderStatus } from "@prisma/client";
 import { Time } from "@sapphire/time-utilities";
+import type { CommandInteraction } from "discord.js";
+import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Show your order",

@@ -1,5 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
+import { Time } from "@sapphire/time-utilities";
 import { type CommandInteraction, MessageEmbed } from "discord.js";
 import { randomInt } from "node:crypto";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
@@ -7,7 +8,8 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 @ApplyOptions<Command.Options>({
 	description: "Order some food",
 	requiredClientPermissions: ["CREATE_INSTANT_INVITE"],
-	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders", "EnoughMoney"]
+	preconditions: ["GuildOnly", "GuildTextOnly", "NoOrder", "MaxOrders", "EnoughMoney"],
+	cooldownDelay: Time.Hour
 })
 export class OrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

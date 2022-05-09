@@ -8,7 +8,7 @@ import type { CommandInteraction } from "discord.js";
 })
 export class EnoughMoneyPrecondition extends Precondition {
 	public override async chatInputRun(interaciton: CommandInteraction) {
-		const { balance } = await this.container.findOrCreateUser(interaciton.user.id);
+		const { balance } = await this.container.stores.get("models").get("user").findOrCreate(interaciton.user.id);
 
 		return balance >= this.container.env.integer("ORDER_PRICE")
 			? this.ok()

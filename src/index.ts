@@ -7,6 +7,7 @@ import { join } from "path";
 import { ApplicationCommandRegistries, container, LogLevel, RegisterBehavior } from "@sapphire/framework";
 import { Client } from "./lib/Client";
 import { PrismaHookManagerStore } from "./lib/stores/PrismaHookManagerStore";
+import { PrismaModelManagerStore } from "./lib/stores/PrismaModelManagerStore";
 import { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 import "./container";
 import { Logger } from "./logger";
@@ -18,6 +19,7 @@ async function main() {
 
 	client.stores
 		.register(new PrismaHookManagerStore().registerPath(join(__dirname, "hooks")))
+		.register(new PrismaModelManagerStore().registerPath(join(__dirname, "models")))
 		.register(new WebhookManagerStore().registerPath(join(__dirname, "webhooks")));
 
 	await client.login(container.env.string("TOKEN"));

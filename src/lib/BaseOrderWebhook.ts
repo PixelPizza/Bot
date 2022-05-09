@@ -43,12 +43,17 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		delete this.messages[orderId];
 	}
 
+	private get createEmbed() {
+		const orderModel = this.container.stores.get("models").get("order");
+		return orderModel.createEmbed.bind(orderModel);
+	}
+
 	public async sendOrder(order: Order, roleId?: string) {
 		await this.initMessages();
 		const { id } = order;
 		if (id in this.messages) return this.editOrder(order, roleId);
 		const options: MessageOptions = {
-			embeds: [await this.container.createOrderEmbed(order)]
+			embeds: [await this.createEmbed(order)]
 		};
 		if (roleId) options.content = `<@&${roleId}>`;
 		await this.addMessage(id, (await this.send(options)).id);
@@ -59,7 +64,7 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		const { id } = order;
 		if (!(id in this.messages)) return;
 		const options: MessageOptions = {
-			embeds: [await this.container.createOrderEmbed(order)]
+			embeds: [await this.createEmbed(order)]
 		};
 		if (roleId) options.content = `<@&${roleId}>`;
 		await this.editMessage(this.messages[id], options);

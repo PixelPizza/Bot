@@ -94,7 +94,7 @@ export class WorkCommand extends Command {
 			this.container.env.integer("WORK_MAX_REWARD")
 		);
 
-		const user = await this.container.findOrCreateUser(interaction.user.id);
+		const user = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 		await this.container.prisma.user.update({
 			where: { id: user.id },
 			data: { balance: user.balance + amount }

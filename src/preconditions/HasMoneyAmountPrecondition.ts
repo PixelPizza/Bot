@@ -11,7 +11,7 @@ export class HasOrderPrecondition extends Precondition {
 
 		if (!amount) return this.ok();
 
-		const { balance } = await this.container.findOrCreateUser(interaciton.user.id);
+		const { balance } = await this.container.stores.get("models").get("user").findOrCreate(interaciton.user.id);
 
 		return balance >= amount ? this.ok() : this.error({ message: "You do not have enough money for this action" });
 	}

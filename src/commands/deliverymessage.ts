@@ -48,7 +48,7 @@ export class DeliveryMessageCommand extends Command {
 		await interaction.deferReply({ ephemeral: true });
 
 		const message = interaction.options.getString("message");
-		const deliverer = await this.container.findOrCreateUser(interaction.user.id);
+		const deliverer = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 
 		if (!message) {
 			const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;

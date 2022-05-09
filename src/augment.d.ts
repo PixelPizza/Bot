@@ -1,4 +1,4 @@
-import type { ModelManagerStore } from "./lib/stores/PrismaHookManagerStore";
+import type { PrismaModelManagerStore } from "./lib/stores/PrismaModelManagerStore";
 import type { WebhookManagerStore } from "./lib/stores/WebhookManagerStore";
 
 export declare global {
@@ -51,7 +51,7 @@ declare module "@kaname-png/plugin-env" {
 
 declare module "@sapphire/pieces" {
 	interface StoreRegistryEntries {
-		models: ModelManagerStore;
+		models: PrismaModelManagerStore;
 		webhooks: WebhookManagerStore;
 	}
 }

@@ -1,15 +1,5 @@
 import { Piece, PieceContext, PieceOptions } from "@sapphire/framework";
-import type { APIMessage } from "discord-api-types/v9";
-import {
-	MessagePayload,
-	MessageResolvable,
-	ThreadChannel,
-	Webhook,
-	WebhookEditData,
-	WebhookEditMessageOptions,
-	WebhookFetchMessageOptions,
-	WebhookMessageOptions
-} from "discord.js";
+import { ThreadChannel, Webhook } from "discord.js";
 
 export interface WebhookManagerOptions extends PieceOptions {
 	webhookName: string;
@@ -44,23 +34,23 @@ export class WebhookManager extends Piece<WebhookManagerOptions> {
 		return super.onLoad();
 	}
 
-	public fetchMessage(message: string, options?: WebhookFetchMessageOptions) {
-		return this.webhook.fetchMessage(message, options);
+	public get fetchMessage() {
+		return this.webhook.fetchMessage.bind(this.webhook);
 	}
 
-	public deleteMessage(message: MessageResolvable | APIMessage, threadId?: string) {
-		return this.webhook.deleteMessage(message, threadId);
+	public get deleteMessage() {
+		return this.webhook.deleteMessage.bind(this.webhook);
 	}
 
-	public editMessage(message: MessageResolvable, options: string | MessagePayload | WebhookEditMessageOptions) {
-		return this.webhook.editMessage(message, options);
+	public get editMessage() {
+		return this.webhook.editMessage.bind(this.webhook);
 	}
 
-	public edit(options: WebhookEditData, reason?: string) {
-		return this.webhook.edit(options, reason);
+	public get edit() {
+		return this.webhook.edit.bind(this.webhook);
 	}
 
-	public send(options: string | MessagePayload | WebhookMessageOptions) {
-		return this.webhook.send(options);
+	public get send() {
+		return this.webhook.send.bind(this.webhook);
 	}
 }

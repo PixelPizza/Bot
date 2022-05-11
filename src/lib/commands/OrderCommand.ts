@@ -6,7 +6,7 @@ import { Command } from "./Command";
 
 export abstract class OrderCommand extends Command {
 	protected get orderModel() {
-		return this.container.prisma.order;
+		return this.getModel("order");
 	}
 
 	protected makeUserRegex(name: string): string {

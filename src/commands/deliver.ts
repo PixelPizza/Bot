@@ -179,7 +179,7 @@ export class DeliverCommand extends Command {
 
 		order.deliveredAt = new Date();
 
-		const deliverer = await this.container.prisma.user.findFirst({ where: { id: interaction.user.id } });
+		const deliverer = await this.getModel("user").findFirst({ where: { id: interaction.user.id } });
 		const deliveryMessage = await this.createDeliveryMessage(
 			deliverer?.deliveryMessage ?? this.defaultDeliveryMessage,
 			order,

@@ -20,9 +20,12 @@ export class ValidOrderDataPrecondition extends Precondition {
 		const store = this.store as PreconditionStore;
 		const result = await store.get("ExistingOrder")!.chatInputRun!(interaction, command, context);
 		if (!result.success) return result;
-		const order = (await this.container.prisma.order.findUnique({
-			where: { id: interaction.options.getString("order", true) }
-		}))!;
+		const order = (await this.container.stores
+			.get("models")
+			.get("order")
+			.findUnique({
+				where: { id: interaction.options.getString("order", true) }
+			}))!;
 		try {
 			await this.container.client.users.fetch(order.customer);
 			await this.container.client.guilds.fetch(order.guild);

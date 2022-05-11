@@ -51,7 +51,7 @@ export class BlacklistCommand extends Command {
 		const user = interaction.options.getUser("user", true);
 		const reason = interaction.options.getString("reason", true);
 
-		if (await this.container.prisma.blacklist.findUnique({ where: { user: user.id } })) {
+		if (await this.getModel("blacklist").findUnique({ where: { user: user.id } })) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed()
@@ -62,7 +62,7 @@ export class BlacklistCommand extends Command {
 			});
 		}
 
-		await this.container.prisma.blacklist.create({
+		await this.getModel("blacklist").create({
 			data: {
 				user: user.id,
 				reason,
@@ -83,7 +83,7 @@ export class BlacklistCommand extends Command {
 	public async chatInputRemove(interaction: CommandInteraction) {
 		const user = interaction.options.getUser("user", true);
 
-		if (!(await this.container.prisma.blacklist.findUnique({ where: { user: user.id } }))) {
+		if (!(await this.getModel("blacklist").findUnique({ where: { user: user.id } }))) {
 			return interaction.editReply({
 				embeds: [
 					new MessageEmbed()
@@ -94,7 +94,7 @@ export class BlacklistCommand extends Command {
 			});
 		}
 
-		await this.container.prisma.blacklist.delete({
+		await this.getModel("blacklist").delete({
 			where: {
 				user: user.id
 			}

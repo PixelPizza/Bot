@@ -16,7 +16,7 @@ export class BalanceCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const user = await this.container.findOrCreateUser(interaction.user.id);
+		const user = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 
 		await interaction.editReply({
 			embeds: [

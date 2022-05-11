@@ -21,7 +21,10 @@ export class UnclaimCommand extends Command {
 						.setName("type")
 						.setDescription("The type of claim")
 						.setRequired(true)
-						.addChoices(Object.entries(Command.ClaimType))
+						.addChoices(...Object.entries(Command.ClaimType).map(([key, value]) => ({
+							name: key,
+							value
+						})))
 				)
 		);
 	}

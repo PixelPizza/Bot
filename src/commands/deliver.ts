@@ -31,11 +31,20 @@ export class DeliverCommand extends Command {
 						.setName("method")
 						.setDescription("The delivery method")
 						.setRequired(true)
-						.addChoices([
-							["Direct Message", DeliveryMethod.DM],
-							["Bot", DeliveryMethod.BOT],
-							["Personally", DeliveryMethod.PERSONAL]
-						])
+						.addChoices(
+							{
+								name: "Direct Message",
+								value: DeliveryMethod.DM
+							},
+							{
+								name: "Bot",
+								value: DeliveryMethod.BOT
+							},
+							{
+								name: "Personally",
+								value: DeliveryMethod.PERSONAL
+							}
+						)
 				)
 		);
 	}

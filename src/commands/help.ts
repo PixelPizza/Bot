@@ -19,7 +19,7 @@ export class HelpCommand extends Command {
 	}
 
 	public override chatInputRun(interaction: CommandInteraction) {
-		const commandName = interaction.options.getString("command", true);
+		const commandName = interaction.options.getString("command");
 		const command = commandName ? this.container.stores.get("commands").get(commandName) : null;
 
 		if (!command) {

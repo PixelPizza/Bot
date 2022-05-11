@@ -21,7 +21,7 @@ export class OrderCommand extends Command {
 	}
 
 	private async generateOrderID() {
-		const orders = this.container.prisma.order;
+		const orders = this.getModel("order");
 		let id: string;
 		do {
 			id = `00${randomInt(0, 999)}`.slice(-3);
@@ -32,7 +32,7 @@ export class OrderCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		await this.container.prisma.user.update({
+		await this.getModel("user").update({
 			where: { id: interaction.user.id },
 			data: {
 				balance: {

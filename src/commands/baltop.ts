@@ -16,7 +16,7 @@ export class BaltopCommand extends Command {
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const topUsers = await this.container.prisma.user.findMany({
+		const topUsers = await this.getModel("user").findMany({
 			take: 10,
 			orderBy: {
 				balance: "desc"

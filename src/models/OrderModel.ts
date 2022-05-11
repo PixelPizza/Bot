@@ -3,7 +3,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { MessageEmbed } from "discord.js";
 import { PrismaModelManager, PrismaModelManagerOptions } from "../lib/pieces/PrismaModelManager";
 
-@ApplyOptions<PrismaModelManagerOptions<any>>(({ container }) => ({
+@ApplyOptions<PrismaModelManagerOptions<PrismaClient["order"]>>(({ container }) => ({
 	name: "order",
 	prisma: container.prisma.order
 }))

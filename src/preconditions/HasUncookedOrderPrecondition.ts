@@ -8,7 +8,7 @@ import type { CommandInteraction } from "discord.js";
 })
 export class HasOrderPrecondition extends Precondition {
 	public override async chatInputRun(interaciton: CommandInteraction) {
-		const order = await this.container.prisma.order.findFirst({
+		const order = await this.container.stores.get("models").get("order").findFirst({
 			where: {
 				customer: interaciton.user.id,
 				status: {

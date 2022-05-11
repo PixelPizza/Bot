@@ -7,7 +7,7 @@ import { Precondition, PreconditionOptions } from "@sapphire/framework";
 })
 export class MaxOrdersPrecondition extends Precondition {
 	public override async chatInputRun() {
-		const orders = await this.container.prisma.order.count({
+		const orders = await this.container.stores.get("models").get("order").count({
 			where: {
 				status: {
 					in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]

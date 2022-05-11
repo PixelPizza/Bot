@@ -2,7 +2,7 @@ import type { PrismaClient } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import { PrismaModelManager, PrismaModelManagerOptions } from "../lib/pieces/PrismaModelManager";
 
-@ApplyOptions<PrismaModelManagerOptions<any>>(({ container }) => ({
+@ApplyOptions<PrismaModelManagerOptions<PrismaClient["user"]>>(({ container }) => ({
 	name: "user",
 	prisma: container.prisma.user
 }))

@@ -13,7 +13,7 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		if (this.initDone) return;
 		this.initDone = true;
 		(
-			await this.container.prisma.message.findMany({
+			await this.container.stores.get("models").get("message").findMany({
 				where: {
 					channel: this.options.channelId
 				}
@@ -22,7 +22,7 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 	}
 
 	private async addMessage(orderId: string, message: MessageResolvable) {
-		await this.container.prisma.message.create({
+		await this.container.stores.get("models").get("message").create({
 			data: {
 				id: typeof message === "string" ? message : message.id,
 				channel: this.options.channelId,
@@ -34,7 +34,7 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 
 	private async removeMessage(orderId: string) {
 		const message = this.messages[orderId];
-		await this.container.prisma.message.delete({
+		await this.container.stores.get("models").get("message").delete({
 			where: {
 				id: typeof message === "string" ? message : message.id
 			}

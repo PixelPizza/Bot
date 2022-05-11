@@ -128,7 +128,7 @@ export class DeliveryMessageCommand extends Command {
 			throw new Error(`Your delivery message is missing the following: ${missing.join(", ")}`);
 		}
 
-		await this.container.prisma.user.update({
+		await this.getModel("user").update({
 			where: { id: deliverer.id },
 			data: {
 				deliveryMessage: message.replaceAll("\\n", "\n")

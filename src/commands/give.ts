@@ -29,7 +29,7 @@ export class GiveCommand extends Command {
 		const user = interaction.options.getUser("user", true);
 		const amount = interaction.options.getInteger("amount", true);
 
-		await this.container.prisma.user.update({
+		await this.getModel("user").update({
 			where: { id: interaction.user.id },
 			data: {
 				balance: {
@@ -38,7 +38,7 @@ export class GiveCommand extends Command {
 			}
 		});
 
-		await this.container.prisma.user.update({
+		await this.getModel("user").update({
 			where: { id: user.id },
 			data: {
 				balance: {

@@ -16,55 +16,55 @@ export abstract class PrismaModelManager<Delegate extends PrismaClient[Lowercase
 		this.prisma = options.prisma;
 	}
 
-	public get aggregate() {
+	public get aggregate(): Delegate["aggregate"] {
 		return this.prisma.aggregate.bind(this.prisma);
 	}
 
-	public get count() {
+	public get count(): Delegate["count"] {
 		return this.prisma.count.bind(this.prisma);
 	}
 
-	public get create() {
+	public get create(): Delegate["create"] {
 		return this.prisma.create.bind(this.prisma);
 	}
 
-	public get createMany() {
+	public get createMany(): Delegate["createMany"] {
 		return this.prisma.createMany.bind(this.prisma);
 	}
 
-	public get delete() {
+	public get delete(): Delegate["delete"] {
 		return this.prisma.delete.bind(this.prisma);
 	}
 
-	public get deleteMany() {
+	public get deleteMany(): Delegate["deleteMany"] {
 		return this.prisma.deleteMany.bind(this.prisma);
 	}
 
-	public get findFirst() {
+	public get findFirst(): Delegate["findFirst"] {
 		return this.prisma.findFirst.bind(this.prisma);
 	}
 
-	public get findMany() {
+	public get findMany(): Delegate["findMany"] {
 		return this.prisma.findMany.bind(this.prisma);
 	}
 
-	public get findUnique() {
+	public get findUnique(): Delegate["findUnique"] {
 		return this.prisma.findUnique.bind(this.prisma);
 	}
 
-	public get groupBy() {
+	public get groupBy(): Delegate["groupBy"] {
 		return this.prisma.groupBy.bind(this.prisma);
 	}
 
-	public get update() {
+	public get update(): Delegate["update"] {
 		return this.prisma.update.bind(this.prisma);
 	}
 
-	public get updateMany() {
+	public get updateMany(): Delegate["updateMany"] {
 		return this.prisma.updateMany.bind(this.prisma);
 	}
 
-	public get upsert() {
+	public get upsert(): Delegate["upsert"] {
 		return this.prisma.upsert.bind(this.prisma);
 	}
 }

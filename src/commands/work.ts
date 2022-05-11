@@ -95,7 +95,7 @@ export class WorkCommand extends Command {
 		);
 
 		const user = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
-		await this.container.prisma.user.update({
+		await this.getModel("user").update({
 			where: { id: user.id },
 			data: { balance: user.balance + amount }
 		});

@@ -9,6 +9,7 @@ import {
 	Command as SapphireCommand
 } from "@sapphire/framework";
 import type { ChatInputApplicationCommandData } from "discord.js";
+import type { PrismaModelManagerStoreEntries } from "../stores/PrismaModelManagerStore";
 
 export abstract class Command extends SapphireCommand {
 	public constructor(context: Command.Context, options: Command.Options) {
@@ -43,6 +44,10 @@ export abstract class Command extends SapphireCommand {
 			...options,
 			guildIds: this.container.env.array("COMMAND_GUILDS")
 		});
+	}
+
+	public getModel<Name extends keyof PrismaModelManagerStoreEntries>(name: Name): PrismaModelManagerStoreEntries[Name] {
+		return this.container.stores.get("models").get(name);
 	}
 }
 

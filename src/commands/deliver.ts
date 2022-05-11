@@ -27,24 +27,20 @@ export class DeliverCommand extends Command {
 					input.setName("order").setDescription("The order to deliver").setRequired(true).setAutocomplete(true)
 				)
 				.addStringOption((input) =>
-					input
-						.setName("method")
-						.setDescription("The delivery method")
-						.setRequired(true)
-						.addChoices(
-							{
-								name: "Direct Message",
-								value: DeliveryMethod.DM
-							},
-							{
-								name: "Bot",
-								value: DeliveryMethod.BOT
-							},
-							{
-								name: "Personally",
-								value: DeliveryMethod.PERSONAL
-							}
-						)
+					input.setName("method").setDescription("The delivery method").setRequired(true).addChoices(
+						{
+							name: "Direct Message",
+							value: DeliveryMethod.DM
+						},
+						{
+							name: "Bot",
+							value: DeliveryMethod.BOT
+						},
+						{
+							name: "Personally",
+							value: DeliveryMethod.PERSONAL
+						}
+					)
 				)
 		);
 	}

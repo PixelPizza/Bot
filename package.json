@@ -1,6 +1,6 @@
 {
 	"name": "pixelpizza",
-	"version": "2.0.0-alpha",
+	"version": "2.0.0",
 	"description": "The pixel pizza bot. Currently developing using Sapphire",
 	"main": "./dist/index.js",
 	"directories": {

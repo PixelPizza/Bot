@@ -53,6 +53,7 @@
 		"common-tags": "^1.8.2",
 		"discord-oversimplified": "^0.6.5-next.e67c16b.0",
 		"discord.js": "^13.6.0",
+		"ngrok": "^4.3.1",
 		"tslib": "^2.4.0",
 		"valid-url": "^1.0.9"
 	},

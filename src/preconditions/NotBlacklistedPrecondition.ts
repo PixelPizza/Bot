@@ -7,11 +7,14 @@ import type { CommandInteraction } from "discord.js";
 })
 export class NotBlacklistedPrecondition extends Precondition {
 	public override async chatInputRun(interaction: CommandInteraction) {
-		return (await this.container.stores.get("models").get("blacklist").findUnique({
-			where: {
-				user: interaction.user.id
-			}
-		}))
+		return (await this.container.stores
+			.get("models")
+			.get("blacklist")
+			.findUnique({
+				where: {
+					user: interaction.user.id
+				}
+			}))
 			? this.error({ message: "You are blacklisted" })
 			: this.ok();
 	}

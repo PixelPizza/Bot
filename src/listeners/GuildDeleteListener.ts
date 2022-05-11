@@ -8,11 +8,14 @@ import type { Guild } from "discord.js";
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 export class GuildDeleteListener extends Listener<typeof Events.GuildDelete> {
 	public async run(guild: Guild) {
-		await this.container.stores.get("models").get("order").deleteMany({
-			where: {
-				guild: guild.id
-			}
-		});
+		await this.container.stores
+			.get("models")
+			.get("order")
+			.deleteMany({
+				where: {
+					guild: guild.id
+				}
+			});
 		return this.container.stores.get("webhooks").get("guild").sendGuild(guild, false);
 	}
 }

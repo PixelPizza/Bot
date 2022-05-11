@@ -13,32 +13,41 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		if (this.initDone) return;
 		this.initDone = true;
 		(
-			await this.container.stores.get("models").get("message").findMany({
-				where: {
-					channel: this.options.channelId
-				}
-			})
+			await this.container.stores
+				.get("models")
+				.get("message")
+				.findMany({
+					where: {
+						channel: this.options.channelId
+					}
+				})
 		).forEach((message) => (this.messages[message.order] = message.id));
 	}
 
 	private async addMessage(orderId: string, message: MessageResolvable) {
-		await this.container.stores.get("models").get("message").create({
-			data: {
-				id: typeof message === "string" ? message : message.id,
-				channel: this.options.channelId,
-				order: orderId
-			}
-		});
+		await this.container.stores
+			.get("models")
+			.get("message")
+			.create({
+				data: {
+					id: typeof message === "string" ? message : message.id,
+					channel: this.options.channelId,
+					order: orderId
+				}
+			});
 		this.messages[orderId] = message;
 	}
 
 	private async removeMessage(orderId: string) {
 		const message = this.messages[orderId];
-		await this.container.stores.get("models").get("message").delete({
-			where: {
-				id: typeof message === "string" ? message : message.id
-			}
-		});
+		await this.container.stores
+			.get("models")
+			.get("message")
+			.delete({
+				where: {
+					id: typeof message === "string" ? message : message.id
+				}
+			});
 		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		delete this.messages[orderId];
 	}

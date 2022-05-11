@@ -25,13 +25,22 @@ export class VoteRoute extends Route {
 
 		if (!body.test) {
 			const user =
-				(await this.container.stores.get("models").get("user").findUnique({ where: { id: body.user } })) ??
-				(await this.container.stores.get("models").get("user").create({ data: { id: body.user } }));
+				(await this.container.stores
+					.get("models")
+					.get("user")
+					.findUnique({ where: { id: body.user } })) ??
+				(await this.container.stores
+					.get("models")
+					.get("user")
+					.create({ data: { id: body.user } }));
 
-			await this.container.stores.get("models").get("user").update({
-				where: { id: user.id },
-				data: { balance: user.balance + this.container.env.integer("VOTE_REWARD") }
-			});
+			await this.container.stores
+				.get("models")
+				.get("user")
+				.update({
+					where: { id: user.id },
+					data: { balance: user.balance + this.container.env.integer("VOTE_REWARD") }
+				});
 		}
 
 		response.ok();

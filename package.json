@@ -65,7 +65,7 @@
 		"@commitlint/cli": "16.2.4",
 		"@commitlint/config-angular": "16.2.4",
 		"@types/common-tags": "1.8.1",
-		"@types/jest": "27.5.0",
+		"@types/jest": "27.5.1",
 		"@types/node": "17.0.18",
 		"@types/require-all": "3.0.3",
 		"@types/valid-url": "1.0.3",

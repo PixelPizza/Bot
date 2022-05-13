@@ -5,7 +5,7 @@
 	"main": "./dist/index.js",
 	"directories": {
 		"lib": "src",
-		"test": "__tests__"
+		"test": "test"
 	},
 	"files": [
 		"dist"

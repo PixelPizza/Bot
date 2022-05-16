@@ -6,12 +6,15 @@ import {
 import {
 	type ApplicationCommandRegistry,
 	type ApplicationCommandRegistryRegisterOptions,
-	Command as SapphireCommand
+	Command as SapphireCommand,
+	PreconditionArrayResolvable
 } from "@sapphire/framework";
 import type { ChatInputApplicationCommandData } from "discord.js";
 import type { PrismaModelManagerStoreEntries } from "../stores/PrismaModelManagerStore";
 
 export abstract class Command extends SapphireCommand {
+	public static readonly WorkerOnlyPrecondition: PreconditionArrayResolvable = ["ChefOnly", "DelivererOnly"];
+
 	public constructor(context: Command.Context, options: Command.Options) {
 		super(context, {
 			...options,

@@ -6,7 +6,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Look at an order",
-	preconditions: [["ChefOnly"], ["DelivererOnly"], "ValidOrderData"]
+	preconditions: [Command.WorkerOnlyPrecondition, "ValidOrderData"]
 })
 export class LookCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

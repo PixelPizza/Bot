@@ -2258,33 +2258,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord-utilities@npm:^2.10.3":
-  version: 2.10.3
-  resolution: "@sapphire/discord-utilities@npm:2.10.3"
-  dependencies:
-    twemoji-parser: ^14.0.0
-  checksum: b90381b94798e647488a0502fcd22a27c3de62496e55cb07d00240f95e626ae095c28a5c003681e55779ca2da928682dced145890077bf60b7a34f1c5d2a283a
-  languageName: node
-  linkType: hard
-
 "@sapphire/discord-utilities@npm:^2.7.0, @sapphire/discord-utilities@npm:^2.8.0":
   version: 2.8.0
   resolution: "@sapphire/discord-utilities@npm:2.8.0"
   dependencies:
     twemoji-parser: ^13.1.0
   checksum: fc537a40599f41425971b326e2d73abe2b821c3bd268b8c0953b6d1e5cc4884557bf723b85fde134c7000735cc0ae0a1fe15bf65f4b8f1f7bfd2fde5955ca3e0
-  languageName: node
-  linkType: hard
-
-"@sapphire/discord.js-utilities@npm:^4.11.0":
-  version: 4.11.0
-  resolution: "@sapphire/discord.js-utilities@npm:4.11.0"
-  dependencies:
-    "@sapphire/discord-utilities": ^2.10.3
-    "@sapphire/time-utilities": ^1.7.4
-    "@sapphire/utilities": ^3.6.2
-    tslib: ^2.4.0
-  checksum: 93f72b75297e5fa5edd60eef9e0455e808a2322865b03911b875ca62b265af9a49448357e9110ea77ce3556d39d2ce3701549b15eb28739a65345a58dd9e8bc9
   languageName: node
   linkType: hard
 
@@ -2318,7 +2297,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/framework@npm:^3.0.0-next.35d02d8.0":
+"@sapphire/framework@npm:^3.0.0-next.35d02d8.0, @sapphire/framework@npm:^3.0.0-next.fd7be0b.0":
   version: 3.0.0-next.fd7be0b.0
   resolution: "@sapphire/framework@npm:3.0.0-next.fd7be0b.0"
   dependencies:
@@ -2334,23 +2313,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/framework@npm:^3.0.0-next.ce4cfa5.0":
-  version: 3.0.0-next.ce4cfa5.0
-  resolution: "@sapphire/framework@npm:3.0.0-next.ce4cfa5.0"
-  dependencies:
-    "@sapphire/discord-utilities": ^2.10.3
-    "@sapphire/discord.js-utilities": ^4.11.0
-    "@sapphire/pieces": ^3.3.3
-    "@sapphire/ratelimits": ^2.4.4
-    "@sapphire/result": ^1.1.1
-    "@sapphire/stopwatch": ^1.4.1
-    "@sapphire/utilities": ^3.6.2
-    lexure: ^0.17.0
-    tslib: ^2.4.0
-  checksum: 9d0eb3015919b396954f23ffdf351d4dedd54ad9f7efc59bc5e22a6190c0986eebcf2edd0044dd9437df22fea4d033ca13983eb279cabe6b9d0b44786e1c30df
-  languageName: node
-  linkType: hard
-
 "@sapphire/pieces@npm:^3.2.0":
   version: 3.2.0
   resolution: "@sapphire/pieces@npm:3.2.0"
@@ -2359,17 +2321,6 @@ __metadata:
     "@sapphire/utilities": ^3.1.0
     tslib: ^2.3.1
   checksum: b9404d34e2eea55e0e708354ddecde7e132de4459975f2d12650da07b661e7d786f34dfaf62bfcfd3c856ca695b5755b3be901322ef5b3dbfe5141456777b433
-  languageName: node
-  linkType: hard
-
-"@sapphire/pieces@npm:^3.3.3":
-  version: 3.3.3
-  resolution: "@sapphire/pieces@npm:3.3.3"
-  dependencies:
-    "@discordjs/collection": ^0.6.0
-    "@sapphire/utilities": ^3.6.2
-    tslib: ^2.4.0
-  checksum: 468f71bb52ba8314e4d1ce0c4cb31ac268b51b15294ac9e500d2bd2cf76611d6f2d5b90b8cfd2d77a0c671b3c5f94b41068cd29a4fca115609f01bc64b51a4af
   languageName: node
   linkType: hard
 
@@ -2407,22 +2358,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ratelimits@npm:^2.4.4":
-  version: 2.4.4
-  resolution: "@sapphire/ratelimits@npm:2.4.4"
-  dependencies:
-    "@sapphire/time-utilities": ^1.7.4
-  checksum: 8bb31173f2fd61ca64b4f34ff3a927de00e339ee8d4dad7b8d80fa10e9020889033fc1f3ec0560256f54b8aedf3d2973378fe24d87f6aa1ca98be936eea35fcb
-  languageName: node
-  linkType: hard
-
-"@sapphire/result@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@sapphire/result@npm:1.1.1"
-  checksum: ccb3fcd051523f439c5f9871a251273e10ffeebcb5d6817c1c7efb24b60d8866fd5a781e0c77fe15a66a2dd5c5831b00258e70c76b6a82bb43bb150e10598767
-  languageName: node
-  linkType: hard
-
 "@sapphire/shapeshift@npm:^2.0.0":
   version: 2.2.0
   resolution: "@sapphire/shapeshift@npm:2.2.0"
@@ -2436,15 +2371,6 @@ __metadata:
   dependencies:
     tslib: ^2.3.1
   checksum: 7f0227eb1006c9352811fa4868a8818bd582a3be37a37c34445dd108e854f812c4cc61b2b2ab31f4d5d87d9ef725dc3323100f4a3454f38db6226bc66ccdda79
-  languageName: node
-  linkType: hard
-
-"@sapphire/stopwatch@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "@sapphire/stopwatch@npm:1.4.1"
-  dependencies:
-    tslib: ^2.3.1
-  checksum: 084462d9ca7ace45fd06d61e346a7a3326362d6d598c8721c908acf35772634b68f0224db998f0c59448a17b32b0d163248c6bc76c7f6f2d1db8a4f2ffc9fa68
   languageName: node
   linkType: hard
 
@@ -7549,7 +7475,7 @@ __metadata:
     "@kaname-png/plugin-statcord": ^1.3.4
     "@prisma/client": ^3.14.0
     "@sapphire/decorators": ^4.3.4
-    "@sapphire/framework": ^3.0.0-next.ce4cfa5.0
+    "@sapphire/framework": ^3.0.0-next.fd7be0b.0
     "@sapphire/plugin-api": ^3.2.1
     "@sapphire/plugin-logger": ^2.2.1
     "@sapphire/time-utilities": ^1.7.4
@@ -8877,13 +8803,6 @@ __metadata:
   version: 13.1.0
   resolution: "twemoji-parser@npm:13.1.0"
   checksum: 8046ce003c03dd92d68c2648cfbfa39c659fca4f05c10da8d14957985dc3c0c680f3ecf2de8245dc1ddffedc5b2a675f2032053e1e77cc7474301a88fe192ad3
-  languageName: node
-  linkType: hard
-
-"twemoji-parser@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "twemoji-parser@npm:14.0.0"
-  checksum: 8eede69cf71f94735de7b6fddf5dfbfe3cb2e01baefc3201360984ccc97cfc659f206c8f73bd1405a2282779af3b79a8c9bed3864c672e15e2dc6f8ce4810452
   languageName: node
   linkType: hard
 

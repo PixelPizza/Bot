@@ -5,7 +5,7 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
 	description: "Show the current orders",
-	preconditions: [["ChefOnly"], ["DelivererOnly"]]
+	preconditions: [Command.WorkerOnlyPrecondition]
 })
 export class OrdersCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {

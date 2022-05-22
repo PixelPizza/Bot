@@ -1,8 +1,8 @@
 import { EnvClient } from "@kaname-png/plugin-env";
 import { LogLevel } from "@sapphire/framework";
-import { Client as DosClient } from "discord-oversimplified";
+import { Client as SDJSClient } from "@simpledjs/framework";
 
-export class Client extends DosClient {
+export class Client extends SDJSClient {
 	public constructor() {
 		// Env client before login
 		const env = new EnvClient({});

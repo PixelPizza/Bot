@@ -15,7 +15,7 @@ export class GiveCommand extends Command {
 			this.defaultChatInputCommand
 				.addUserOption((input) => input.setName("user").setDescription("The user to give money to").setRequired(true))
 				.addIntegerOption((input) =>
-					input.setName("amount").setDescription("The amount of money to give").setRequired(true)
+					input.setName("amount").setDescription("The amount of money to give").setRequired(true).setMinValue(1)
 				),
 			{
 				idHints: ["971839922346545232"]

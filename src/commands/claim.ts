@@ -21,10 +21,12 @@ export class ClaimCommand extends Command {
 						.setName("type")
 						.setDescription("The type of claim")
 						.setRequired(true)
-						.addChoices(...Object.entries(Command.ClaimType).map(([key, value]) => ({
-							name: key,
-							value
-						})))
+						.addChoices(
+							...Object.entries(Command.ClaimType).map(([key, value]) => ({
+								name: key,
+								value
+							}))
+						)
 				)
 		);
 	}

@@ -2,11 +2,11 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { Events, Listener } from "@sapphire/framework";
 
 @ApplyOptions<Listener.Options>({
-    event: Events.Error
+	event: Events.Error
 })
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
 export class ErrorListener extends Listener<typeof Events.Error> {
-    public run(error: Error): void {
-        this.container.logger.error(error);
-    }
+	public run(error: Error): void {
+		this.container.logger.error(error);
+	}
 }

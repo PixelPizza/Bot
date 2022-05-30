@@ -16,8 +16,8 @@ export class CookCommand extends Command {
 				.addStringOption((input) =>
 					input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true)
 				)
-				.addStringOption((input) =>
-					input.setName("image").setRequired(true).setDescription("The url of the image to use")
+				.addAttachmentOption((input) =>
+					input.setName("image").setRequired(true).setDescription("The image to use")
 				)
 		);
 	}
@@ -46,7 +46,7 @@ export class CookCommand extends Command {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction, { chef: interaction.user.id });
-		const image = interaction.options.getString("image", true);
+		const image = interaction.options.getAttachment("image", true);
 
 		if (!this.isImage(image)) {
 			throw new Error("The image you specified is not a valid image.");
@@ -58,7 +58,7 @@ export class CookCommand extends Command {
 			]
 		});
 
-		const imageMessage = (await this.container.stores.get("webhooks").get("image").sendImage(image))!;
+		const imageMessage = await this.container.stores.get("webhooks").get("image").sendImage(image);
 
 		await this.orderModel.update({
 			where: { id: order.id },

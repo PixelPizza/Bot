@@ -20,8 +20,8 @@ export class DeliveryMessageCommand extends Command {
 		this.registerPrivateChatInputCommand(
 			registry,
 			this.defaultChatInputCommand
-				.addSubcommand(input => input.setName("show").setDescription("Show your current delivery message"))
-				.addSubcommand(input => input.setName("set").setDescription("Set your delivery message"))
+				.addSubcommand((input) => input.setName("show").setDescription("Show your current delivery message"))
+				.addSubcommand((input) => input.setName("set").setDescription("Set your delivery message"))
 		);
 	}
 
@@ -69,7 +69,23 @@ export class DeliveryMessageCommand extends Command {
 
 		const deliverer = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 		const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
-	
-		return interaction.showModal(new Modal().setCustomId("deliverymessage/set").setTitle("Delivery Message").setComponents(new MessageActionRow<TextInputComponent>().setComponents(new TextInputComponent().setCustomId("message").setLabel("delivery message").setMinLength(50).setPlaceholder("Enter your delivery message").setRequired(true).setStyle("PARAGRAPH").setValue(currentMessage))));
+
+		return interaction.showModal(
+			new Modal()
+				.setCustomId("deliverymessage/set")
+				.setTitle("Delivery Message")
+				.setComponents(
+					new MessageActionRow<TextInputComponent>().setComponents(
+						new TextInputComponent()
+							.setCustomId("message")
+							.setLabel("delivery message")
+							.setMinLength(50)
+							.setPlaceholder("Enter your delivery message")
+							.setRequired(true)
+							.setStyle("PARAGRAPH")
+							.setValue(currentMessage)
+					)
+				)
+		);
 	}
 }

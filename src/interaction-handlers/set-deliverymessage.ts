@@ -3,7 +3,7 @@ import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework
 import { MessageEmbed, ModalSubmitInteraction } from "discord.js";
 
 @ApplyOptions<InteractionHandler.Options>({
-    interactionHandlerType: InteractionHandlerTypes.ModalSubmit
+	interactionHandlerType: InteractionHandlerTypes.ModalSubmit
 })
 export class DeliveryMessageInteractionHandler extends InteractionHandler {
 	private makeUserRegex(name: string): string {
@@ -37,15 +37,15 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 		`{invite}`
 	];
 
-    public override parse(interaction: ModalSubmitInteraction) {
-        if (interaction.customId !== "deliverymessage/set") return this.none();
-        return this.some();
-    }
+	public override parse(interaction: ModalSubmitInteraction) {
+		if (interaction.customId !== "deliverymessage/set") return this.none();
+		return this.some();
+	}
 
-    public override async run(interaction: ModalSubmitInteraction): Promise<any> {
+	public override async run(interaction: ModalSubmitInteraction): Promise<any> {
 		await interaction.deferReply({ ephemeral: true });
 
-        const message = interaction.fields.getTextInputValue("message");
+		const message = interaction.fields.getTextInputValue("message");
 		const deliverer = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 
 		const missing: string[] = [];
@@ -59,12 +59,15 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 			throw new Error(`Your delivery message is missing the following: ${missing.join(", ")}`);
 		}
 
-		await this.container.stores.get("models").get("user").update({
-			where: { id: deliverer.id },
-			data: {
-				deliveryMessage: message.replaceAll("\\n", "\n")
-			}
-		});
+		await this.container.stores
+			.get("models")
+			.get("user")
+			.update({
+				where: { id: deliverer.id },
+				data: {
+					deliveryMessage: message.replaceAll("\\n", "\n")
+				}
+			});
 
 		return interaction.editReply({
 			embeds: [
@@ -74,5 +77,5 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 					.setDescription("Your delivery message has been set")
 			]
 		});
-    }
+	}
 }

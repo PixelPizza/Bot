@@ -20,9 +20,7 @@ export class ChangeCommand extends Command {
 						.setDescription("The order to change the image of")
 						.setAutocomplete(true)
 				)
-				.addAttachmentOption((input) =>
-					input.setName("image").setRequired(true).setDescription("The image to use")
-				)
+				.addAttachmentOption((input) => input.setName("image").setRequired(true).setDescription("The image to use"))
 		);
 	}
 

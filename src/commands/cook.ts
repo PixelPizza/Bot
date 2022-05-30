@@ -16,9 +16,7 @@ export class CookCommand extends Command {
 				.addStringOption((input) =>
 					input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true)
 				)
-				.addAttachmentOption((input) =>
-					input.setName("image").setRequired(true).setDescription("The image to use")
-				)
+				.addAttachmentOption((input) => input.setName("image").setRequired(true).setDescription("The image to use"))
 		);
 	}
 

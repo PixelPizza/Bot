@@ -1,6 +1,13 @@
 import type { Order, Prisma } from "@prisma/client";
 import { stripIndents } from "common-tags";
-import { AutocompleteInteraction, CommandInteraction, MessageAttachment, MessageEmbed, MessageOptions, MessagePayload } from "discord.js";
+import {
+	AutocompleteInteraction,
+	CommandInteraction,
+	MessageAttachment,
+	MessageEmbed,
+	MessageOptions,
+	MessagePayload
+} from "discord.js";
 import { Command } from "./Command";
 
 export abstract class OrderCommand extends Command {

@@ -2415,14 +2415,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kaname-png/plugin-statcord@npm:^1.3.4":
-  version: 1.3.4
-  resolution: "@kaname-png/plugin-statcord@npm:1.3.4"
+"@kaname-png/plugin-statcord@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@kaname-png/plugin-statcord@npm:2.0.1"
   dependencies:
-    "@sapphire/fetch": ^2.3.1
-    systeminformation: ^5.11.14
+    "@sapphire/fetch": ^2.4.0
+    systeminformation: ^5.11.21
     tslib: ^2.4.0
-  checksum: 2870011a4d0c55eea916b734536fe7bd4ab1a8eb196ac7f13e757280bf93cc8a9fd994ecb007a51edac6d65e8be516d0de17be2734d31d8a4c5c662d888a8188
+  checksum: 5767ddd9abbd9d93b513bc0a989612bb6b654158c169d6e9d279688bff9fcb5f51ed8ab5401398e957b29ab53682fca8370873d1a24ebc9760ed968c3cd81aca
   languageName: node
   linkType: hard
 
@@ -2568,12 +2568,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/fetch@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "@sapphire/fetch@npm:2.3.1"
+"@sapphire/fetch@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@sapphire/fetch@npm:2.4.0"
   dependencies:
     cross-fetch: ^3.1.5
-  checksum: 3cb6d2a74fd107901d6902b8949ae7b3780da7efb519fc411fee1496d4d0d72cec1a68e19fc6ac47984f37f509567dbbc4ce82bea5c1ff437f119fc0afa8359d
+  checksum: be03ec367ef1b49b38bfe06c3cf7fa507eefb4635bcccf3c5330857bddefd40c7a98c15e102deae8d78ebfbd816a94b5c9040d77b30a7742fd17506186f993b7
   languageName: node
   linkType: hard
 
@@ -7815,7 +7815,7 @@ __metadata:
     "@devtomio/plugin-botlist": ^1.2.0
     "@discordjs/builders": ^0.14.0
     "@kaname-png/plugin-env": ^1.1.2
-    "@kaname-png/plugin-statcord": ^1.3.4
+    "@kaname-png/plugin-statcord": ^2.0.1
     "@prisma/client": ^3.14.0
     "@sapphire/decorators": ^4.3.4
     "@sapphire/framework": ^3.0.0-next.fd7be0b.0
@@ -8831,12 +8831,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:^5.11.14":
-  version: 5.11.14
-  resolution: "systeminformation@npm:5.11.14"
+"systeminformation@npm:^5.11.21":
+  version: 5.11.21
+  resolution: "systeminformation@npm:5.11.21"
   bin:
     systeminformation: lib/cli.js
-  checksum: 4e40f71da55899df2722288bd4b44562c22d9427e08591bb39e285303a4cce98b32ef0ccd1570a0264dca7863786fdf8cb71f75da85f77594361b8b7108898c9
+  checksum: 4cd9a7fee381e0e8c8998c7f73a9023074672698b0d5713ff2e8b2b2faed3ffe228fffbb02dc8420971eaa1ed3f6dd88c8d513d3445ce3b098838eff7284fbee
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

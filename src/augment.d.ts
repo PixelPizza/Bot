@@ -15,7 +15,6 @@ declare module "@kaname-png/plugin-env" {
 		CLIENT_ID: never;
 		COMMAND_GUILDS: never;
 		BOT_MANAGERS: never;
-		MAX_ORDERS: never;
 		API_PORT: never;
 		// Order config
 		MAX_ORDERS: never;

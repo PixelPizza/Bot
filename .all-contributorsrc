@@ -1,0 +1,72 @@
+{
+  "projectName": "Bot",
+  "projectOwner": "PixelPizza",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "contributors": [
+    {
+      "login": "JaronZ",
+      "name": "Jaron",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60853956?v=4",
+      "profile": "https://github.com/JaronZ",
+      "contributions": [
+        "code",
+        "projectManagement",
+        "infra"
+      ]
+    },
+    {
+      "login": "DirtKingy",
+      "name": "DirtKingy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/92637772?v=4",
+      "profile": "https://github.com/DirtKingy",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "Spit-fires",
+      "name": "Spit-fires",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84981998?v=4",
+      "profile": "https://github.com/Spit-fires",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "mcpsbot",
+      "name": "mcpsbot",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83839790?v=4",
+      "profile": "https://github.com/mcpsbot",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "soyalk9",
+      "name": "soyal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45419988?v=4",
+      "profile": "https://github.com/soyalk9",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "allcontributors[bot]",
+      "name": "allcontributors[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+      "profile": "https://github.com/apps/allcontributors",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ]
+}

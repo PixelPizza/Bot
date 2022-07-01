@@ -3,11 +3,11 @@ import injectProcessEnv from "rollup-plugin-inject-process-env";
 import { uglify } from "rollup-plugin-uglify";
 
 export default {
-	input: "dist/index.mjs",
+	input: "dist/index.js",
 	output: [
 		{
-			file: "./dist/index.mjs",
-			format: "esm"
+			file: "./dist/index.js",
+			format: "cjs"
 		}
 	],
 	plugins: [

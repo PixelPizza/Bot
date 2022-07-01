@@ -48,7 +48,7 @@ model Order {
 
 model User {
   id String @id
-  deliveryMessage String?
+  deliveryMessage String? @db.Text
   balance Float @default(0)
 }
 

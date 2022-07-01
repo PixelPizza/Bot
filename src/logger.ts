@@ -44,7 +44,9 @@ export class Logger extends SapphireLogger {
 					color: format!.color,
 					title: format!.title,
 					description: values
-						.map((value) => (typeof value === "string" ? value : inspect(value, { colors: false, depth: this.depth })))
+						.map((value) =>
+							typeof value === "string" ? value : inspect(value, { colors: false, depth: this.depth })
+						)
 						.join(this.join),
 					timestamp: Date.now()
 				}

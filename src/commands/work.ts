@@ -60,29 +60,9 @@ export class WorkCommand extends Command {
 		"Jasmine"
 	]);
 
-	private randomItem(iterable: Iterable<string>): string {
-		const array = Array.from(iterable);
-		return array[Math.floor(Math.random() * array.length)];
-	}
-
-	private generateScenario(amount: number) {
-		const scenario = this.randomItem(this.scenarios);
-		return {
-			scenario: scenario
-				.replace(
-					"{{amount}}",
-					`${
-						this.container.client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))?.toString() ?? ""
-					} ${amount}`
-				)
-				.replace("{{user}}", this.randomItem(this.names)),
-			index: [...this.scenarios].indexOf(scenario)
-		};
-	}
-
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
 		registry.registerChatInputCommand(this.defaultChatInputCommand, {
-			idHints: ["970335390538039296"]
+			idHints: ["992383767996022794", "970448813229748285"]
 		});
 	}
 
@@ -111,5 +91,25 @@ export class WorkCommand extends Command {
 					.setFooter({ text: `Scenario ${scenario.index + 1}/${this.scenarios.size}` })
 			]
 		});
+	}
+
+	private randomItem(iterable: Iterable<string>): string {
+		const array = Array.from(iterable);
+		return array[Math.floor(Math.random() * array.length)];
+	}
+
+	private generateScenario(amount: number) {
+		const scenario = this.randomItem(this.scenarios);
+		return {
+			scenario: scenario
+				.replace(
+					"{{amount}}",
+					`${
+						this.container.client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))?.toString() ?? ""
+					} ${amount}`
+				)
+				.replace("{{user}}", this.randomItem(this.names)),
+			index: [...this.scenarios].indexOf(scenario)
+		};
 	}
 }

@@ -10,7 +10,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class SupportCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383763076108348", "946548300339888138"]
+		});
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

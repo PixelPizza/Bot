@@ -1,8 +1,7 @@
 import { EnvClient } from "@kaname-png/plugin-env";
-import { LogLevel } from "@sapphire/framework";
-import { Client as SDJSClient } from "@simpledjs/framework";
+import { LogLevel, SapphireClient } from "@sapphire/framework";
 
-export class Client extends SDJSClient {
+export class Client extends SapphireClient {
 	public constructor() {
 		// Env client before login
 		const env = new EnvClient({});
@@ -11,7 +10,6 @@ export class Client extends SDJSClient {
 			logger: {
 				level: LogLevel.Debug
 			},
-			databasesEnabled: false,
 			env: {
 				enabled: true,
 				debug: true

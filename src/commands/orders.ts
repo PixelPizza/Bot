@@ -9,7 +9,9 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 })
 export class OrdersCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		this.registerPrivateChatInputCommand(registry, this.defaultChatInputCommand);
+		this.registerPrivateChatInputCommand(registry, this.defaultChatInputCommand, {
+			idHints: ["992383682050543686", "992383683258482771", "946548214708985856", "946548215589781555"]
+		});
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

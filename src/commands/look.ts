@@ -14,7 +14,10 @@ export class LookCommand extends Command {
 			registry,
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("order").setDescription("The ID of the order").setRequired(true).setAutocomplete(true)
-			)
+			),
+			{
+				idHints: ["992383592841875516", "992383594238591067", "946548211361935391", "946548212284669982"]
+			}
 		);
 	}
 

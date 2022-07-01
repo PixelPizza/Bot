@@ -1,10 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
-import type { ApplicationCommandRegistry, CommandOptions } from "@sapphire/framework";
+import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
-@ApplyOptions<CommandOptions>({
+@ApplyOptions<Command.Options>({
 	description: "blacklist",
 	preconditions: ["NotManager"]
 })
@@ -19,7 +19,9 @@ export class BlacklistCommand extends Command {
 					input
 						.setName("add")
 						.setDescription("Add a user to the blacklist")
-						.addUserOption((input) => input.setName("user").setDescription("the user to blacklist").setRequired(true))
+						.addUserOption((input) =>
+							input.setName("user").setDescription("the user to blacklist").setRequired(true)
+						)
 						.addStringOption((input) =>
 							input.setName("reason").setDescription("reason why for being blacklisted").setRequired(true)
 						)
@@ -28,10 +30,12 @@ export class BlacklistCommand extends Command {
 					input
 						.setName("remove")
 						.setDescription("Remove a user from the blacklist")
-						.addUserOption((input) => input.setName("user").setDescription("the user to unblacklist").setRequired(true))
+						.addUserOption((input) =>
+							input.setName("user").setDescription("the user to unblacklist").setRequired(true)
+						)
 				),
 			{
-				idHints: ["971835473569927200", "971835475188916294"]
+				idHints: ["992383499854168064", "992383503796813914", "974010003772026882", "974010005126799400"]
 			}
 		);
 	}

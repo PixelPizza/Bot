@@ -11,7 +11,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class PingCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383684948787260", "946548296464343090"]
+		});
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

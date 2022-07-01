@@ -6,10 +6,6 @@ import { MessageEmbed, ModalSubmitInteraction } from "discord.js";
 	interactionHandlerType: InteractionHandlerTypes.ModalSubmit
 })
 export class DeliveryMessageInteractionHandler extends InteractionHandler {
-	private makeUserRegex(name: string): string {
-		return `${name}(?:: *(tag|id|username|name|ping|mention))?`;
-	}
-
 	private get customerRegex() {
 		return this.makeUserRegex("customer");
 	}
@@ -77,5 +73,9 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 					.setDescription("Your delivery message has been set")
 			]
 		});
+	}
+
+	private makeUserRegex(name: string): string {
+		return `${name}(?:: *(tag|id|username|name|ping|mention))?`;
 	}
 }

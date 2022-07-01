@@ -11,7 +11,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class VoteCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383767018749952", "946548302621605970"]
+		});
 	}
 
 	public override chatInputRun(interaction: CommandInteraction) {

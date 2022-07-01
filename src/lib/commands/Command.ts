@@ -13,13 +13,10 @@ import type { ChatInputApplicationCommandData } from "discord.js";
 import type { PrismaModelManagerStoreEntries } from "../stores/PrismaModelManagerStore";
 
 export abstract class Command extends SapphireCommand {
-	public static readonly WorkerOnlyPrecondition: PreconditionArrayResolvable = ["ChefOnly", "DelivererOnly"];
-
-	public constructor(context: Command.Context, options: Command.Options) {
-		super(context, {
-			...options,
-			preconditions: ["NotBlacklisted", ...(options.preconditions ?? [])]
-		});
+	public getModel<Name extends keyof PrismaModelManagerStoreEntries>(
+		name: Name
+	): PrismaModelManagerStoreEntries[Name] {
+		return this.container.stores.get("models").get(name);
 	}
 
 	protected get defaultChatInputCommand() {
@@ -49,12 +46,16 @@ export abstract class Command extends SapphireCommand {
 		});
 	}
 
-	public getModel<Name extends keyof PrismaModelManagerStoreEntries>(name: Name): PrismaModelManagerStoreEntries[Name] {
-		return this.container.stores.get("models").get(name);
-	}
+	public static readonly WorkerOnlyPrecondition: PreconditionArrayResolvable = ["ChefOnly", "DelivererOnly"];
 }
 
 export namespace Command {
+	export type AutocompleteInteraction = SapphireCommand.AutocompleteInteraction;
+	export type ChatInputInteraction = SapphireCommand.ChatInputInteraction;
 	export type Context = SapphireCommand.Context;
-	export interface Options extends SapphireCommand.Options {}
+	export type ContextMenuInteraction = SapphireCommand.ContextMenuInteraction;
+	export type JSON = SapphireCommand.JSON;
+	export type Options = SapphireCommand.Options;
+	export type Registry = SapphireCommand.Registry;
+	export type RunInTypes = SapphireCommand.RunInTypes;
 }

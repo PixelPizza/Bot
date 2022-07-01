@@ -54,3 +54,7 @@ export class WebhookManager extends Piece<WebhookManagerOptions> {
 		return this.webhook.send.bind(this.webhook);
 	}
 }
+
+export namespace WebhookManager {
+	export type Options = WebhookManagerOptions;
+}

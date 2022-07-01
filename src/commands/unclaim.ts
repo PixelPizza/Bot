@@ -27,7 +27,10 @@ export class UnclaimCommand extends Command {
 								value
 							}))
 						)
-				)
+				),
+			{
+				idHints: ["992383764074340462", "992383765760454686", "946548300880961617", "946548301443006485"]
+			}
 		);
 	}
 
@@ -70,7 +73,10 @@ export class UnclaimCommand extends Command {
 
 		await this.sendCustomerMessage(order, {
 			embeds: [
-				new MessageEmbed().setColor("BLUE").setTitle("Order unclaimed").setDescription("Your order has been unclaimed")
+				new MessageEmbed()
+					.setColor("BLUE")
+					.setTitle("Order unclaimed")
+					.setDescription("Your order has been unclaimed")
 			]
 		});
 

@@ -9,7 +9,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class StopCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		this.registerPrivateChatInputCommand(registry);
+		this.registerPrivateChatInputCommand(registry, this.defaultChatInputCommand, {
+			idHints: ["992383692368511047", "992383693907836980", "966796802953199636", "966796803586555944"]
+		});
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

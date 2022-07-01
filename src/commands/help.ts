@@ -14,7 +14,10 @@ export class HelpCommand extends Command {
 		registry.registerChatInputCommand(
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("command").setDescription("The command to display").setRequired(false)
-			)
+			),
+			{
+				idHints: ["992383590849577080", "946548210233671730"]
+			}
 		);
 	}
 

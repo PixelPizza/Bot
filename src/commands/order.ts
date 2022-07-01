@@ -16,17 +16,11 @@ export class OrderCommand extends Command {
 		registry.registerChatInputCommand(
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("order").setDescription("The order you want to place").setRequired(true)
-			)
+			),
+			{
+				idHints: ["992383677461970994", "946548214050455552"]
+			}
 		);
-	}
-
-	private async generateOrderID() {
-		const orders = this.getModel("order");
-		let id: string;
-		do {
-			id = `00${randomInt(0, 999)}`.slice(-3);
-		} while (await orders.findUnique({ where: { id } }));
-		return id;
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {
@@ -64,5 +58,14 @@ export class OrderCommand extends Command {
 					.setFooter({ text: `ID: ${id}` })
 			]
 		});
+	}
+
+	private async generateOrderID() {
+		const orders = this.getModel("order");
+		let id: string;
+		do {
+			id = `00${randomInt(0, 999)}`.slice(-3);
+		} while (await orders.findUnique({ where: { id } }));
+		return id;
 	}
 }

@@ -13,12 +13,18 @@ export class GiveCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
 		registry.registerChatInputCommand(
 			this.defaultChatInputCommand
-				.addUserOption((input) => input.setName("user").setDescription("The user to give money to").setRequired(true))
+				.addUserOption((input) =>
+					input.setName("user").setDescription("The user to give money to").setRequired(true)
+				)
 				.addIntegerOption((input) =>
-					input.setName("amount").setDescription("The amount of money to give").setRequired(true).setMinValue(1)
+					input
+						.setName("amount")
+						.setDescription("The amount of money to give")
+						.setRequired(true)
+						.setMinValue(1)
 				),
 			{
-				idHints: ["971839922346545232"]
+				idHints: ["992383590031687710", "974010001733603440"]
 			}
 		);
 	}

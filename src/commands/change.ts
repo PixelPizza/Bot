@@ -22,7 +22,10 @@ export class ChangeCommand extends Command {
 				)
 				.addStringOption((input) =>
 					input.setName("image").setRequired(true).setDescription("The url of the image to use")
-				)
+				),
+			{
+				idHints: ["992383506078502952", "992383507282264124", "946548123713536050", "946548124489494618"]
+			}
 		);
 	}
 
@@ -67,7 +70,10 @@ export class ChangeCommand extends Command {
 
 		const imageMessage = (await this.container.stores.get("webhooks").get("image").sendImage(image))!;
 
-		await this.orderModel.update({ where: { id: order.id }, data: { image: imageMessage.attachments.first()!.url } });
+		await this.orderModel.update({
+			where: { id: order.id },
+			data: { image: imageMessage.attachments.first()!.url }
+		});
 
 		await interaction.editReply({
 			embeds: [

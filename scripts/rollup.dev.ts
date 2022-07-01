@@ -1,4 +1,5 @@
 import injectProcessEnv from "rollup-plugin-inject-process-env";
+// @ts-expect-error Types don't exist
 import { uglify } from "rollup-plugin-uglify";
 
 export default {

@@ -82,11 +82,13 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 						)
 						.replace(
 							/{(chef|deliverer|customer)(?:: *(tag|id|username|name|ping|mention))}/g,
-							(_r, name, type) => `\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
+							(_r, name, type) =>
+								`\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
 						)
 						.replace(
 							/{(orderdate|cookdate|deliverydate)(?:: *(date|time|datetime))}/g,
-							(_r, name, type) => `\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
+							(_r, name, type) =>
+								`\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
 						)
 		);
 		(replyOptions.components[0].components[0] as MessageSelectMenu).setOptions([

@@ -9,6 +9,43 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 
 	private initDone = false;
 
+	public async sendOrder(order: Order, roleId?: string) {
+		await this.initMessages();
+		const { id } = order;
+		if (id in this.messages) return this.editOrder(order, roleId);
+		const options: MessageOptions = {
+			embeds: [await this.createEmbed(order)]
+		};
+		if (roleId) options.content = `<@&${roleId}>`;
+		await this.addMessage(id, (await this.send(options)).id);
+	}
+
+	public async editOrder(order: Order, roleId?: string) {
+		await this.initMessages();
+		const { id } = order;
+		if (!(id in this.messages)) return;
+		const options: MessageOptions = {
+			embeds: [await this.createEmbed(order)]
+		};
+		if (roleId) options.content = `<@&${roleId}>`;
+		await this.editMessage(this.messages[id], options);
+	}
+
+	public async deleteOrder(order: Order) {
+		await this.initMessages();
+		const { id } = order;
+		if (!(id in this.messages)) return;
+		await this.editMessage(this.messages[id], {
+			embeds: [
+				new MessageEmbed()
+					.setColor("DARK_RED")
+					.setTitle("Order deleted")
+					.setDescription(`This order has been deleted`)
+			]
+		});
+		await this.removeMessage(id);
+	}
+
 	private async initMessages() {
 		if (this.initDone) return;
 		this.initDone = true;
@@ -56,38 +93,8 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		const orderModel = this.container.stores.get("models").get("order");
 		return orderModel.createEmbed.bind(orderModel);
 	}
+}
 
-	public async sendOrder(order: Order, roleId?: string) {
-		await this.initMessages();
-		const { id } = order;
-		if (id in this.messages) return this.editOrder(order, roleId);
-		const options: MessageOptions = {
-			embeds: [await this.createEmbed(order)]
-		};
-		if (roleId) options.content = `<@&${roleId}>`;
-		await this.addMessage(id, (await this.send(options)).id);
-	}
-
-	public async editOrder(order: Order, roleId?: string) {
-		await this.initMessages();
-		const { id } = order;
-		if (!(id in this.messages)) return;
-		const options: MessageOptions = {
-			embeds: [await this.createEmbed(order)]
-		};
-		if (roleId) options.content = `<@&${roleId}>`;
-		await this.editMessage(this.messages[id], options);
-	}
-
-	public async deleteOrder(order: Order) {
-		await this.initMessages();
-		const { id } = order;
-		if (!(id in this.messages)) return;
-		await this.editMessage(this.messages[id], {
-			embeds: [
-				new MessageEmbed().setColor("DARK_RED").setTitle("Order deleted").setDescription(`This order has been deleted`)
-			]
-		});
-		await this.removeMessage(id);
-	}
+export namespace BaseOrderWebhook {
+	export type Options = WebhookManager.Options;
 }

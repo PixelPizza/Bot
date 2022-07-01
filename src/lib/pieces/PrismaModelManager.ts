@@ -1,7 +1,8 @@
 import type { PrismaClient, Prisma } from "@prisma/client";
 import { Piece, PieceContext, PieceOptions } from "@sapphire/framework";
 
-export interface PrismaModelManagerOptions<Delegate> extends PieceOptions {
+export interface PrismaModelManagerOptions<Delegate extends PrismaClient[Lowercase<Prisma.ModelName>]>
+	extends PieceOptions {
 	prisma: Delegate;
 }
 
@@ -67,4 +68,9 @@ export abstract class PrismaModelManager<Delegate extends PrismaClient[Lowercase
 	public get upsert(): Delegate["upsert"] {
 		return this.prisma.upsert.bind(this.prisma);
 	}
+}
+
+export namespace PrismaModelManager {
+	export type Options<Delegate extends PrismaClient[Lowercase<Prisma.ModelName>]> =
+		PrismaModelManagerOptions<Delegate>;
 }

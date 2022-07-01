@@ -1,8 +1,8 @@
 import { Store } from "@sapphire/framework";
-import type { BlacklistModel } from "../../models/BlacklistModel";
-import type { MessageModel } from "../../models/MessageModel";
-import type { OrderModel } from "../../models/OrderModel";
-import type { UserModel } from "../../models/UserModel";
+import type { BlacklistModel } from "../../models/blacklist";
+import type { MessageModel } from "../../models/message";
+import type { OrderModel } from "../../models/order";
+import type { UserModel } from "../../models/user";
 import { PrismaModelManager } from "../pieces/PrismaModelManager";
 
 export class PrismaModelManagerStore extends Store<PrismaModelManager<any>> {

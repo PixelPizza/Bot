@@ -10,7 +10,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class PPAPCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383685858955314", "946548296837636097"]
+		});
 	}
 
 	public override chatInputRun(interaction: CommandInteraction) {

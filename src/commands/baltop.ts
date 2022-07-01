@@ -10,7 +10,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class BaltopCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand, { idHints: ["971838800089202739"] });
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383498998513724", "974010008058617866"]
+		});
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

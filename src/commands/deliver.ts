@@ -24,7 +24,11 @@ export class DeliverCommand extends Command {
 			registry,
 			this.defaultChatInputCommand
 				.addStringOption((input) =>
-					input.setName("order").setDescription("The order to deliver").setRequired(true).setAutocomplete(true)
+					input
+						.setName("order")
+						.setDescription("The order to deliver")
+						.setRequired(true)
+						.setAutocomplete(true)
 				)
 				.addStringOption((input) =>
 					input.setName("method").setDescription("The delivery method").setRequired(true).addChoices(
@@ -41,7 +45,10 @@ export class DeliverCommand extends Command {
 							value: DeliveryMethod.PERSONAL
 						}
 					)
-				)
+				),
+			{
+				idHints: ["992383582792319086", "992383584465854534", "946548128398589995", "946548129434595328"]
+			}
 		);
 	}
 
@@ -63,6 +70,90 @@ export class DeliverCommand extends Command {
 				id: "asc"
 			}
 		}));
+	}
+
+	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+		await interaction.deferReply();
+
+		const orderId = interaction.options.getString("order", true);
+		const order = await this.getOrder(interaction, { deliverer: interaction.user.id });
+		const method = interaction.options.getString("method", true) as DeliveryMethod;
+
+		order.deliveredAt = new Date();
+
+		const deliverer = await this.getModel("user").findFirst({ where: { id: interaction.user.id } });
+		const deliveryMessage = await this.createDeliveryMessage(
+			deliverer?.deliveryMessage ?? this.defaultDeliveryMessage,
+			order,
+			method === DeliveryMethod.PERSONAL
+		);
+		const guild = await this.container.client.guilds.fetch(order.guild);
+		const channel = await guild.channels.fetch(order.channel);
+
+		try {
+			switch (method) {
+				case DeliveryMethod.PERSONAL:
+					if (!channel?.isText()) return;
+					await this.deliverPersonal(interaction.user, guild, channel, deliveryMessage);
+					break;
+				case DeliveryMethod.DM:
+					await this.sendCustomerMessage(order, deliveryMessage);
+					break;
+				case DeliveryMethod.BOT:
+					if (!channel?.isText()) return;
+					await channel.send(deliveryMessage);
+					break;
+			}
+
+			await this.orderModel.update({
+				data: {
+					deliveryMethod: method,
+					status: OrderStatus.DELIVERED,
+					deliveredAt: order.deliveredAt
+				},
+				where: { id: order.id }
+			});
+
+			if (method !== DeliveryMethod.DM) {
+				await this.sendCustomerMessage(order, {
+					embeds: [
+						new MessageEmbed()
+							.setColor("BLUE")
+							.setTitle("Order Delivered")
+							.setDescription(
+								`Your order ${
+									method === DeliveryMethod.BOT ? "has been delivered" : "is being delivered"
+								}`
+							)
+					]
+				});
+			}
+
+			return await interaction.editReply({
+				embeds: [
+					new MessageEmbed()
+						.setColor("GREEN")
+						.setTitle("Order Delivered")
+						.setDescription(`Order ${orderId} has been delivered.`)
+				]
+			});
+		} catch (error) {
+			this.container.logger.error("delivery error", error);
+			throw new Error(`Order ${orderId} could not be delivered.`);
+		}
+	}
+
+	private async deliverPersonal(user: User, guild: Guild, channel: GuildTextBasedChannel, message: string) {
+		if (channel instanceof ThreadChannel) {
+			if (!channel.parent) throw new Error("Invalid channel");
+			channel = channel.parent;
+		}
+		const invite = await guild.invites.create(channel, { maxAge: 0, reason: "Delivering an order" });
+		await user.send(message);
+		await user.send(stripIndents`
+			Don't send this link to the customer!
+			${invite.url}
+		`);
 	}
 
 	private makeDateReplacement(name: string, date: Date) {
@@ -173,87 +264,5 @@ export class DeliverCommand extends Command {
 				replacement: channel ? channel.name : "Unknown Channel"
 			}
 		]);
-	}
-
-	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
-		await interaction.deferReply();
-
-		const orderId = interaction.options.getString("order", true);
-		const order = await this.getOrder(interaction, { deliverer: interaction.user.id });
-		const method = interaction.options.getString("method", true) as DeliveryMethod;
-
-		order.deliveredAt = new Date();
-
-		const deliverer = await this.getModel("user").findFirst({ where: { id: interaction.user.id } });
-		const deliveryMessage = await this.createDeliveryMessage(
-			deliverer?.deliveryMessage ?? this.defaultDeliveryMessage,
-			order,
-			method === DeliveryMethod.PERSONAL
-		);
-		const guild = await this.container.client.guilds.fetch(order.guild);
-		const channel = await guild.channels.fetch(order.channel);
-
-		try {
-			switch (method) {
-				case DeliveryMethod.PERSONAL:
-					if (!channel?.isText()) return;
-					await this.deliverPersonal(interaction.user, guild, channel, deliveryMessage);
-					break;
-				case DeliveryMethod.DM:
-					await this.sendCustomerMessage(order, deliveryMessage);
-					break;
-				case DeliveryMethod.BOT:
-					if (!channel?.isText()) return;
-					await channel.send(deliveryMessage);
-					break;
-			}
-
-			await this.orderModel.update({
-				data: {
-					deliveryMethod: method,
-					status: OrderStatus.DELIVERED,
-					deliveredAt: order.deliveredAt
-				},
-				where: { id: order.id }
-			});
-
-			if (method !== DeliveryMethod.DM) {
-				await this.sendCustomerMessage(order, {
-					embeds: [
-						new MessageEmbed()
-							.setColor("BLUE")
-							.setTitle("Order Delivered")
-							.setDescription(
-								`Your order ${method === DeliveryMethod.BOT ? "has been delivered" : "is being delivered"}`
-							)
-					]
-				});
-			}
-
-			return await interaction.editReply({
-				embeds: [
-					new MessageEmbed()
-						.setColor("GREEN")
-						.setTitle("Order Delivered")
-						.setDescription(`Order ${orderId} has been delivered.`)
-				]
-			});
-		} catch (error) {
-			this.container.logger.error("delivery error", error);
-			throw new Error(`Order ${orderId} could not be delivered.`);
-		}
-	}
-
-	private async deliverPersonal(user: User, guild: Guild, channel: GuildTextBasedChannel, message: string) {
-		if (channel instanceof ThreadChannel) {
-			if (!channel.parent) throw new Error("Invalid channel");
-			channel = channel.parent;
-		}
-		const invite = await guild.invites.create(channel, { maxAge: 0, reason: "Delivering an order" });
-		await user.send(message);
-		await user.send(stripIndents`
-			Don't send this link to the customer!
-			${invite.url}
-		`);
 	}
 }

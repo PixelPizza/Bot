@@ -11,30 +11,6 @@ import {
 import { Command } from "./Command";
 
 export abstract class OrderCommand extends Command {
-	protected get orderModel() {
-		return this.getModel("order");
-	}
-
-	protected makeUserRegex(name: string): string {
-		return `${name}(?:: *(tag|id|username|name|ping|mention))?`;
-	}
-
-	protected get customerRegex() {
-		return this.makeUserRegex("customer");
-	}
-
-	protected get chefRegex() {
-		return this.makeUserRegex("chef");
-	}
-
-	protected makeDateRegex(name: string): string {
-		return `${name}date(?:: *(date|time|datetime))?`;
-	}
-
-	protected isImage(attachment: MessageAttachment): boolean {
-		return attachment.contentType?.match(/^image\/(gif|jpeg|tiff|png|webp|bmp)$/) !== null;
-	}
-
 	protected defaultDeliveryMessage = stripIndents`
         Hello {customer:tag},
 
@@ -58,38 +34,6 @@ export abstract class OrderCommand extends Command {
         I hope you have a great day! bye!
         {image}
     `;
-
-	protected async getOrder(interaction: CommandInteraction, where?: Prisma.OrderWhereInput) {
-		const order = await this.orderModel.findFirst({
-			where: {
-				...where,
-				id: interaction.options.getString("order", true)
-			}
-		});
-		if (!order) throw new Error("Order not found");
-		return order;
-	}
-
-	protected async autocompleteOrder(
-		interaction: AutocompleteInteraction,
-		optionsGenerator: (focused: string) => Prisma.OrderFindManyArgs,
-		modifier?: (orders: Order[]) => Order[]
-	) {
-		const found = await this.orderModel.findMany(optionsGenerator(interaction.options.getFocused() as string));
-		return interaction.respond(
-			(modifier ? modifier(found) : found).map((order) => ({
-				name: `${order.id} - ${order.order}`,
-				value: order.id
-			}))
-		);
-	}
-
-	protected sendCustomerMessage(order: Order, options: string | MessagePayload | MessageOptions) {
-		return this.container.client.users
-			.fetch(order.customer)
-			.then((customer) => customer.send(options))
-			.catch(() => null);
-	}
 
 	public async createOrderEmbed(order: Order) {
 		const { users, guilds } = this.container.client;
@@ -132,9 +76,11 @@ export abstract class OrderCommand extends Command {
 				}
 			])
 			.setFooter({
-				text: `ID: ${order.id} | status: ${order.status}${deliveryMethod ? ` | method: ${deliveryMethod}` : ""}${
-					chef ? ` | chef: ${chef.tag} (${chef.id})` : ""
-				}${deliverer ? ` | deliverer: ${deliverer.tag} (${deliverer.id})` : ""}`
+				text: `ID: ${order.id} | status: ${order.status}${
+					deliveryMethod ? ` | method: ${deliveryMethod}` : ""
+				}${chef ? ` | chef: ${chef.tag} (${chef.id})` : ""}${
+					deliverer ? ` | deliverer: ${deliverer.tag} (${deliverer.id})` : ""
+				}`
 			});
 
 		if (order.cookedAt) embed.addField("Cooked At", this.container.formatDate(order.cookedAt));
@@ -144,6 +90,62 @@ export abstract class OrderCommand extends Command {
 		embed.addField("\u200b", "\u200b");
 
 		return embed;
+	}
+
+	protected get orderModel() {
+		return this.getModel("order");
+	}
+
+	protected makeUserRegex(name: string): string {
+		return `${name}(?:: *(tag|id|username|name|ping|mention))?`;
+	}
+
+	protected get customerRegex() {
+		return this.makeUserRegex("customer");
+	}
+
+	protected get chefRegex() {
+		return this.makeUserRegex("chef");
+	}
+
+	protected makeDateRegex(name: string): string {
+		return `${name}date(?:: *(date|time|datetime))?`;
+	}
+
+	protected isImage(attachment: MessageAttachment): boolean {
+		return attachment.contentType?.match(/^image\/(gif|jpeg|tiff|png|webp|bmp)$/) !== null;
+	}
+
+	protected async getOrder(interaction: CommandInteraction, where?: Prisma.OrderWhereInput) {
+		const order = await this.orderModel.findFirst({
+			where: {
+				...where,
+				id: interaction.options.getString("order", true)
+			}
+		});
+		if (!order) throw new Error("Order not found");
+		return order;
+	}
+
+	protected async autocompleteOrder(
+		interaction: AutocompleteInteraction,
+		optionsGenerator: (focused: string) => Prisma.OrderFindManyArgs,
+		modifier?: (orders: Order[]) => Order[]
+	) {
+		const found = await this.orderModel.findMany(optionsGenerator(interaction.options.getFocused() as string));
+		return interaction.respond(
+			(modifier ? modifier(found) : found).map((order) => ({
+				name: `${order.id} - ${order.order}`,
+				value: order.id
+			}))
+		);
+	}
+
+	protected sendCustomerMessage(order: Order, options: string | MessagePayload | MessageOptions) {
+		return this.container.client.users
+			.fetch(order.customer)
+			.then((customer) => customer.send(options))
+			.catch(() => null);
 	}
 }
 

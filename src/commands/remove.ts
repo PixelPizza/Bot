@@ -16,7 +16,12 @@ export class RemoveCommand extends Command {
 				.addStringOption((input) =>
 					input.setName("order").setDescription("The order to remove").setRequired(true).setAutocomplete(true)
 				)
-				.addStringOption((input) => input.setName("reason").setDescription("The reason to remove").setRequired(true))
+				.addStringOption((input) =>
+					input.setName("reason").setDescription("The reason to remove").setRequired(true)
+				),
+			{
+				idHints: ["992383688694304819", "992383690359447602", "946548297940746250", "946548298741866598"]
+			}
 		);
 	}
 

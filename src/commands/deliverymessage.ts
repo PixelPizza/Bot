@@ -16,15 +16,6 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 	preconditions: ["DelivererOnly"]
 })
 export class DeliveryMessageCommand extends Command {
-	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
-		this.registerPrivateChatInputCommand(
-			registry,
-			this.defaultChatInputCommand.addStringOption((input) =>
-				input.setName("message").setDescription("Your delivery message")
-			)
-		);
-	}
-
 	private readonly requirements: (
 		| {
 				regex: string;
@@ -44,6 +35,18 @@ export class DeliveryMessageCommand extends Command {
 		`{invite}`
 	];
 
+	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
+		this.registerPrivateChatInputCommand(
+			registry,
+			this.defaultChatInputCommand.addStringOption((input) =>
+				input.setName("message").setDescription("Your delivery message")
+			),
+			{
+				idHints: ["992383585959030814", "992383587909378108", "946548207691903057", "946548208467857470"]
+			}
+		);
+	}
+
 	public override async chatInputRun(interaction: CommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
@@ -52,29 +55,30 @@ export class DeliveryMessageCommand extends Command {
 
 		if (!message) {
 			const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
-			const replyOptions: WebhookEditMessageOptions & { embeds: MessageEmbed[]; components: MessageActionRow[] } = {
-				embeds: [
-					new MessageEmbed()
-						.setColor("BLUE")
-						.setTitle("Current Delivery Message")
-						.setDescription(codeBlock(currentMessage))
-				],
-				components: [
-					new MessageActionRow().addComponents(
-						new MessageSelectMenu().setCustomId("message").addOptions([
-							{
-								label: "Normal",
-								value: "normal",
-								default: true
-							},
-							{
-								label: "Colored",
-								value: "colored"
-							}
-						])
-					)
-				]
-			};
+			const replyOptions: WebhookEditMessageOptions & { embeds: MessageEmbed[]; components: MessageActionRow[] } =
+				{
+					embeds: [
+						new MessageEmbed()
+							.setColor("BLUE")
+							.setTitle("Current Delivery Message")
+							.setDescription(codeBlock(currentMessage))
+					],
+					components: [
+						new MessageActionRow().addComponents(
+							new MessageSelectMenu().setCustomId("message").addOptions([
+								{
+									label: "Normal",
+									value: "normal",
+									default: true
+								},
+								{
+									label: "Colored",
+									value: "colored"
+								}
+							])
+						)
+					]
+				};
 			const reply = (await interaction.editReply(replyOptions)) as Message;
 			reply
 				.createMessageComponentCollector({
@@ -93,11 +97,13 @@ export class DeliveryMessageCommand extends Command {
 									)
 									.replace(
 										/{(chef|deliverer|customer)(?:: *(tag|id|username|name|ping|mention))}/g,
-										(_r, name, type) => `\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
+										(_r, name, type) =>
+											`\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
 									)
 									.replace(
 										/{(orderdate|cookdate|deliverydate)(?:: *(date|time|datetime))}/g,
-										(_r, name, type) => `\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
+										(_r, name, type) =>
+											`\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
 									)
 					);
 					(replyOptions.components[0].components[0] as MessageSelectMenu).setOptions([

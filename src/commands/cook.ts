@@ -16,7 +16,12 @@ export class CookCommand extends Command {
 				.addStringOption((input) =>
 					input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true)
 				)
-				.addAttachmentOption((input) => input.setName("image").setRequired(true).setDescription("The image to use"))
+				.addAttachmentOption((input) =>
+					input.setName("image").setRequired(true).setDescription("The image to use")
+				),
+			{
+				idHints: ["992383511359131648", "992383513355616347", "946548126884446208", "946548127811379220"]
+			}
 		);
 	}
 
@@ -52,7 +57,10 @@ export class CookCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed().setColor("DARK_GREEN").setTitle("Cooking order").setDescription(`Cooking order ${order.id}`)
+				new MessageEmbed()
+					.setColor("DARK_GREEN")
+					.setTitle("Cooking order")
+					.setDescription(`Cooking order ${order.id}`)
 			]
 		});
 

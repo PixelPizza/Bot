@@ -14,7 +14,10 @@ export class BackdoorCommand extends Command {
 			registry,
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("order").setRequired(true).setDescription("The order to cook").setAutocomplete(true)
-			)
+			),
+			{
+				idHints: ["992383494640644126", "992383494640644126", "946548121134039090", "946548122291666984"]
+			}
 		);
 	}
 

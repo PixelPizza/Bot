@@ -16,7 +16,10 @@ export class OrderCommand extends Command {
 		registry.registerChatInputCommand(
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("order").setDescription("The order you want to place").setRequired(true)
-			)
+			),
+			{
+				idHints: ["992383677461970994", "946548214050455552"]
+			}
 		);
 	}
 

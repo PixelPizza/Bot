@@ -45,7 +45,10 @@ export class DeliverCommand extends Command {
 							value: DeliveryMethod.PERSONAL
 						}
 					)
-				)
+				),
+			{
+				idHints: ["992383582792319086", "992383584465854534", "946548128398589995", "946548129434595328"]
+			}
 		);
 	}
 

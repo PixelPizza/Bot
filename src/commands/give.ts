@@ -24,7 +24,7 @@ export class GiveCommand extends Command {
 						.setMinValue(1)
 				),
 			{
-				idHints: ["971839922346545232"]
+				idHints: ["992383590031687710", "974010001733603440"]
 			}
 		);
 	}

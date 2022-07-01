@@ -18,7 +18,10 @@ export class CookCommand extends Command {
 				)
 				.addStringOption((input) =>
 					input.setName("image").setRequired(true).setDescription("The url of the image to use")
-				)
+				),
+			{
+				idHints: ["992383511359131648", "992383513355616347", "946548126884446208", "946548127811379220"]
+			}
 		);
 	}
 

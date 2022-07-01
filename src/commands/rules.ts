@@ -12,7 +12,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class RulesCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383691517071380", "946548299714932746"]
+		});
 	}
 
 	public override chatInputRun(interaction: CommandInteraction) {

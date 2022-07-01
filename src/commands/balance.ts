@@ -10,7 +10,9 @@ import { Command } from "../lib/commands/Command";
 })
 export class BalanceCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
-		registry.registerChatInputCommand(this.defaultChatInputCommand, { idHints: ["955071815913472001"] });
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383498109325312", "955077772592685096"]
+		});
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

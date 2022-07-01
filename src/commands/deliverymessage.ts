@@ -40,7 +40,10 @@ export class DeliveryMessageCommand extends Command {
 			registry,
 			this.defaultChatInputCommand.addStringOption((input) =>
 				input.setName("message").setDescription("Your delivery message")
-			)
+			),
+			{
+				idHints: ["992383585959030814", "992383587909378108", "946548207691903057", "946548208467857470"]
+			}
 		);
 	}
 

@@ -12,7 +12,9 @@ import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 })
 export class MyOrderCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {
-		registry.registerChatInputCommand(this.defaultChatInputCommand);
+		registry.registerChatInputCommand(this.defaultChatInputCommand, {
+			idHints: ["992383676203683880", "946548213140291684"]
+		});
 	}
 
 	public override async chatInputRun(interaction: CommandInteraction) {

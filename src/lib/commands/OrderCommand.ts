@@ -1,7 +1,13 @@
 import type { Order, Prisma } from "@prisma/client";
 import { stripIndents } from "common-tags";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed, MessageOptions, MessagePayload } from "discord.js";
-import { isUri } from "valid-url";
+import {
+	AutocompleteInteraction,
+	CommandInteraction,
+	MessageAttachment,
+	MessageEmbed,
+	MessageOptions,
+	MessagePayload
+} from "discord.js";
 import { Command } from "./Command";
 
 export abstract class OrderCommand extends Command {
@@ -106,8 +112,8 @@ export abstract class OrderCommand extends Command {
 		return `${name}date(?:: *(date|time|datetime))?`;
 	}
 
-	protected isImage(url: string): boolean {
-		return Boolean(isUri(url) && /\.(gif|jpe?g|tiff?|png|webp|bmp)(\?[^#]*)?(#.*)?$/i.test(url));
+	protected isImage(attachment: MessageAttachment): boolean {
+		return attachment.contentType?.match(/^image\/(gif|jpeg|tiff|png|webp|bmp)$/) !== null;
 	}
 
 	protected async getOrder(interaction: CommandInteraction, where?: Prisma.OrderWhereInput) {

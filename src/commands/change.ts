@@ -20,8 +20,8 @@ export class ChangeCommand extends Command {
 						.setDescription("The order to change the image of")
 						.setAutocomplete(true)
 				)
-				.addStringOption((input) =>
-					input.setName("image").setRequired(true).setDescription("The url of the image to use")
+				.addAttachmentOption((input) =>
+					input.setName("image").setRequired(true).setDescription("The image to use")
 				),
 			{
 				idHints: ["992383506078502952", "992383507282264124", "946548123713536050", "946548124489494618"]
@@ -53,7 +53,7 @@ export class ChangeCommand extends Command {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction, { chef: interaction.user.id });
-		const image = interaction.options.getString("image", true);
+		const image = interaction.options.getAttachment("image", true);
 
 		if (!this.isImage(image)) {
 			throw new Error("The image you specified is not a valid image.");
@@ -68,7 +68,7 @@ export class ChangeCommand extends Command {
 			]
 		});
 
-		const imageMessage = (await this.container.stores.get("webhooks").get("image").sendImage(image))!;
+		const imageMessage = await this.container.stores.get("webhooks").get("image").sendImage(image);
 
 		await this.orderModel.update({
 			where: { id: order.id },

@@ -65,8 +65,6 @@ export class DeliveryMessageCommand extends Command {
 	}
 
 	public async chatInputSet(interaction: CommandInteraction) {
-		await interaction.deferReply({ ephemeral: true });
-
 		const deliverer = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 		const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
 

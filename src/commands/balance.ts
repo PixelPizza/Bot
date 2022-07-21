@@ -1,12 +1,10 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { Time } from "@sapphire/time-utilities";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
-	description: "Show your current balance.",
-	cooldownDelay: Time.Minute * 5
+	description: "Show your current balance."
 })
 export class BalanceCommand extends Command {
 	public override registerApplicationCommands(registry: ApplicationCommandRegistry): void {

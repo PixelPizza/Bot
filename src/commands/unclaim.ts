@@ -14,7 +14,11 @@ export class UnclaimCommand extends Command {
 			registry,
 			this.defaultChatInputCommand
 				.addStringOption((input) =>
-					input.setName("order").setDescription("The order to claim").setRequired(true).setAutocomplete(true)
+					input
+						.setName("order")
+						.setDescription("The order to unclaim")
+						.setRequired(true)
+						.setAutocomplete(true)
 				)
 				.addStringOption((input) =>
 					input

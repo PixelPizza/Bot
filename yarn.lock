@@ -258,7 +258,7 @@ __metadata:
     "@prisma/client": ^4.1.0
     "@sapphire/decorators": ^4.3.8
     "@sapphire/eslint-config": ^4.3.7
-    "@sapphire/framework": 3.0.0-next.72b48bb.0
+    "@sapphire/framework": 3.0.0-next.fd7be0b.0
     "@sapphire/plugin-api": ^3.2.4
     "@sapphire/plugin-logger": ^2.2.3
     "@sapphire/ts-config": ^3.3.4
@@ -340,14 +340,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/discord-utilities@npm:^2.11.4":
-  version: 2.11.4
-  resolution: "@sapphire/discord-utilities@npm:2.11.4"
-  checksum: 3c79c0a83f028c44d3a0020209a8e0502a4d0dfba1fe9720bfe4f433d37cdb280c72d5529f08e361ae06ce19d6fab59a3d92992a7216af4e4920166e9b1502cb
+"@sapphire/discord-utilities@npm:^2.7.0":
+  version: 2.11.5
+  resolution: "@sapphire/discord-utilities@npm:2.11.5"
+  checksum: 5a507d845372f51012486d5bb6ec82fa4ac7e305b49d336517539d05267f82603ce4c0add3d7903afd19f0046efc6986f1837c041d0ec1edecd77cad48d27061
   languageName: node
   linkType: hard
 
-"@sapphire/discord.js-utilities@npm:^4.11.3":
+"@sapphire/discord.js-utilities@npm:^4.11.3, @sapphire/discord.js-utilities@npm:^4.6.0":
   version: 4.11.3
   resolution: "@sapphire/discord.js-utilities@npm:4.11.3"
   dependencies:
@@ -383,21 +383,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/framework@npm:3.0.0-next.72b48bb.0":
-  version: 3.0.0-next.72b48bb.0
-  resolution: "@sapphire/framework@npm:3.0.0-next.72b48bb.0"
+"@sapphire/framework@npm:3.0.0-next.fd7be0b.0":
+  version: 3.0.0-next.fd7be0b.0
+  resolution: "@sapphire/framework@npm:3.0.0-next.fd7be0b.0"
   dependencies:
-    "@discordjs/builders": ^0.15.0
-    "@sapphire/discord-utilities": ^2.11.4
-    "@sapphire/discord.js-utilities": ^4.11.3
-    "@sapphire/pieces": ^3.3.4
-    "@sapphire/ratelimits": ^2.4.4
-    "@sapphire/result": ^1.1.1
-    "@sapphire/stopwatch": ^1.4.1
-    "@sapphire/utilities": ^3.7.0
+    "@sapphire/discord-utilities": ^2.7.0
+    "@sapphire/discord.js-utilities": ^4.6.0
+    "@sapphire/pieces": ^3.2.0
+    "@sapphire/ratelimits": ^2.3.0
+    "@sapphire/stopwatch": ^1.3.0
+    "@sapphire/utilities": ^3.3.0
     lexure: ^0.17.0
-    tslib: ^2.4.0
-  checksum: 79def21245a3cae9e2611e8cb5af4b5407d0fa969ff73981e0021cfa9940dcc5420f5cba729b82a96e6afc984b8ccafb46cdd231a87b9af5a55a0a69dab83b20
+    tslib: ^2.3.1
+  checksum: 7b5ad79fdc793bac410bc88ce425cb226b31ed5d10d7762afe7c2298d759c1dc8773b23ca69385e7d9ffc7f666fd534eb000a0e142857418cdcb1408b0fac3f9
   languageName: node
   linkType: hard
 
@@ -419,7 +417,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/pieces@npm:^3.3.4":
+"@sapphire/pieces@npm:^3.2.0, @sapphire/pieces@npm:^3.3.4":
   version: 3.3.4
   resolution: "@sapphire/pieces@npm:3.3.4"
   dependencies:
@@ -455,7 +453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ratelimits@npm:^2.4.4":
+"@sapphire/ratelimits@npm:^2.3.0, @sapphire/ratelimits@npm:^2.4.4":
   version: 2.4.4
   resolution: "@sapphire/ratelimits@npm:2.4.4"
   dependencies:
@@ -488,7 +486,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/stopwatch@npm:^1.4.1":
+"@sapphire/stopwatch@npm:^1.3.0, @sapphire/stopwatch@npm:^1.4.1":
   version: 1.4.1
   resolution: "@sapphire/stopwatch@npm:1.4.1"
   dependencies:
@@ -516,17 +514,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sapphire/utilities@npm:^3.3.0":
+  version: 3.7.0
+  resolution: "@sapphire/utilities@npm:3.7.0"
+  checksum: 3b574586242f015859e913123a5311774ad2d6cb79241c2a3d447a585282bdb04cddcd8e086f757a8ae5d2c49f4a25b4f848d63cebe605c7641364b51c3cfa11
+  languageName: node
+  linkType: hard
+
 "@sapphire/utilities@npm:^3.6.2":
   version: 3.6.2
   resolution: "@sapphire/utilities@npm:3.6.2"
   checksum: 71210753b446f3f2835dd9d28fb10767f4c6f005b465eea179082d9f2c071acb7dcd2aebdf7c4974b26aad3ab2374a1dd168a66371b06bd65f248bbca4a90cda
-  languageName: node
-  linkType: hard
-
-"@sapphire/utilities@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "@sapphire/utilities@npm:3.7.0"
-  checksum: 3b574586242f015859e913123a5311774ad2d6cb79241c2a3d447a585282bdb04cddcd8e086f757a8ae5d2c49f4a25b4f848d63cebe605c7641364b51c3cfa11
   languageName: node
   linkType: hard
 

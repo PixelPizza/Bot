@@ -10,10 +10,6 @@
 				"automerge": true
 			},
 			{
-				"matchPackagePatterns": ["@sapphire/framework"],
-				"enabled": false
-			},
-			{
 				"matchPackagePatterns": ["@sapphire"],
 				"groupName": "Sapphire Dependencies"
 			},

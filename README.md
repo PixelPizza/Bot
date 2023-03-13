@@ -13,27 +13,10 @@ Pixel Pizza is a discord bot for ordering, cooking and delivering food (not real
 * [top.gg](https://top.gg/bot/709705136259334296)
 * [discordbotlist.com](https://discordbotlist.com/bots/pixel-pizza)
 
-## Contributors ✨
+## Contributors
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks goes to these wonderful people!
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/JaronZ"><img src="https://avatars.githubusercontent.com/u/60853956?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jaron</b></sub></a><br /><a href="https://github.com/PixelPizza/Bot/commits?author=JaronZ" title="Code">💻</a> <a href="#projectManagement-JaronZ" title="Project Management">📆</a> <a href="#infra-JaronZ" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    <td align="center"><a href="https://github.com/DirtKingy"><img src="https://avatars.githubusercontent.com/u/92637772?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DirtKingy</b></sub></a><br /><a href="#ideas-DirtKingy" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/Spit-fires"><img src="https://avatars.githubusercontent.com/u/84981998?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Spit-fires</b></sub></a><br /><a href="#ideas-Spit-fires" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/mcpsbot"><img src="https://avatars.githubusercontent.com/u/83839790?v=4?s=100" width="100px;" alt=""/><br /><sub><b>mcpsbot</b></sub></a><br /><a href="#ideas-mcpsbot" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://github.com/soyalk9"><img src="https://avatars.githubusercontent.com/u/45419988?v=4?s=100" width="100px;" alt=""/><br /><sub><b>soyal</b></sub></a><br /><a href="https://github.com/PixelPizza/Bot/commits?author=soyalk9" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/apps/allcontributors"><img src="https://avatars.githubusercontent.com/in/23186?v=4?s=100" width="100px;" alt=""/><br /><sub><b>allcontributors[bot]</b></sub></a><br /><a href="https://github.com/PixelPizza/Bot/commits?author=allcontributors[bot]" title="Documentation">📖</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+<a href="https://github.com/PixelPizza/Bot/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=PixelPizza/Bot" />
+</a>

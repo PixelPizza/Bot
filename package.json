@@ -55,7 +55,7 @@
 		"@sapphire/ts-config": "^3.3.4",
 		"@types/common-tags": "^1",
 		"@types/eslint": "^8",
-		"@types/node": "^17.0.21",
+		"@types/node": "^18.16.19",
 		"@types/prettier": "^2",
 		"@types/valid-url": "^1",
 		"@typescript-eslint/eslint-plugin": "^5.30.7",

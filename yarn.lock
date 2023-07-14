@@ -314,7 +314,7 @@ __metadata:
     "@simpledjs/framework": ^0.7.0
     "@types/common-tags": ^1
     "@types/eslint": ^8
-    "@types/node": ^17.0.21
+    "@types/node": ^18.16.19
     "@types/prettier": ^2
     "@types/valid-url": ^1
     "@typescript-eslint/eslint-plugin": ^5.30.7
@@ -774,10 +774,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.21":
+"@types/node@npm:*":
   version: 17.0.23
   resolution: "@types/node@npm:17.0.23"
   checksum: a3517554737cbb042e76c30d0e5482192ac4d9bea0eeb086e2622d9cabf460a0eb52a696b99fcd18e7fcc93c96db6cc7ae507f6608f256ef0b5c1d8c87a5a470
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.16.19":
+  version: 18.16.19
+  resolution: "@types/node@npm:18.16.19"
+  checksum: 63c31f09616508aa7135380a4c79470a897b75f9ff3a70eb069e534dfabdec3f32fb0f9df5939127f1086614d980ddea0fa5e8cc29a49103c4f74cd687618aaf
   languageName: node
   linkType: hard
 

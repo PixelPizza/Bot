@@ -1,5 +1,6 @@
 import { Piece, PieceContext, PieceOptions } from "@sapphire/framework";
 import { ThreadChannel, Webhook } from "discord.js";
+import { ChannelType } from "discord-api-types/v10";
 
 export interface WebhookManagerOptions extends PieceOptions {
 	webhookName: string;
@@ -22,12 +23,13 @@ export class WebhookManager extends Piece<WebhookManagerOptions> {
 	public override onLoad() {
 		this.container.client.on("ready", async (client) => {
 			const channel = await this.container.client.channels.fetch(this.options.channelId);
-			if (!channel?.isText() || channel.type === "DM" || channel instanceof ThreadChannel)
+			if (!channel?.isTextBased() || channel.type === ChannelType.DM || channel instanceof ThreadChannel)
 				throw new Error(`Invalid webhook channel for ${this.name}`);
 			const webhooks = await channel.fetchWebhooks();
 			this.webhook =
 				webhooks.find((webhook) => webhook.owner?.id === client.user.id) ??
-				(await channel.createWebhook(this.options.webhookName, {
+				(await channel.createWebhook({
+					name: this.options.webhookName,
 					avatar: this.options.webhookAvatar ?? client.user.displayAvatarURL()
 				}));
 		});

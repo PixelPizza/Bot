@@ -2,14 +2,15 @@ import { codeBlock } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import {
-	type CommandInteraction,
-	MessageActionRow,
-	MessageSelectMenu,
-	MessageEmbed,
-	Modal,
-	TextInputComponent
+	type ChatInputCommandInteraction,
+	ActionRowBuilder,
+	SelectMenuBuilder,
+	EmbedBuilder,
+	ModalBuilder,
+	Colors, TextInputBuilder
 } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
+import { TextInputStyle } from "discord-api-types/v10";
 
 @ApplyOptions<Command.Options>({
 	description: "Set your delivery message",
@@ -25,7 +26,7 @@ export class DeliveryMessageCommand extends Command {
 		);
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		switch (interaction.options.getSubcommand()) {
 			case "show":
 				return this.chatInputShow(interaction);
@@ -34,21 +35,21 @@ export class DeliveryMessageCommand extends Command {
 		}
 	}
 
-	public async chatInputShow(interaction: CommandInteraction): Promise<any> {
+	public async chatInputShow(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply({ ephemeral: true });
 
 		const deliverer = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
-		const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
+		const currentMessage = deliverer?.deliveryMessage ?? this.defaultDeliveryMessage;
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Current Delivery Message")
 					.setDescription(codeBlock(currentMessage))
 			],
 			components: [
-				new MessageActionRow().addComponents(
-					new MessageSelectMenu().setCustomId("deliverymessage/show").addOptions([
+				new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+					new SelectMenuBuilder().setCustomId("deliverymessage/show").addOptions([
 						{
 							label: "Normal",
 							value: "normal",
@@ -64,23 +65,23 @@ export class DeliveryMessageCommand extends Command {
 		});
 	}
 
-	public async chatInputSet(interaction: CommandInteraction) {
+	public async chatInputSet(interaction: ChatInputCommandInteraction) {
 		const deliverer = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
-		const currentMessage = deliverer.deliveryMessage ?? this.defaultDeliveryMessage;
+		const currentMessage = deliverer?.deliveryMessage ?? this.defaultDeliveryMessage;
 
 		return interaction.showModal(
-			new Modal()
+			new ModalBuilder()
 				.setCustomId("deliverymessage/set")
 				.setTitle("Delivery Message")
 				.setComponents(
-					new MessageActionRow<TextInputComponent>().setComponents(
-						new TextInputComponent()
+					new ActionRowBuilder<TextInputBuilder>().setComponents(
+						new TextInputBuilder()
 							.setCustomId("message")
 							.setLabel("delivery message")
 							.setMinLength(50)
 							.setPlaceholder("Enter your delivery message")
 							.setRequired(true)
-							.setStyle("PARAGRAPH")
+							.setStyle(TextInputStyle.Paragraph)
 							.setValue(currentMessage)
 					)
 				)

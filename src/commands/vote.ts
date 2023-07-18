@@ -2,7 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
 import { stripIndents } from "common-tags";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -16,12 +16,12 @@ export class VoteCommand extends Command {
 		});
 	}
 
-	public override chatInputRun(interaction: CommandInteraction) {
+	public override chatInputRun(interaction: ChatInputCommandInteraction) {
 		const { client } = this.container;
 		return interaction.reply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Vote links")
 					.setDescription(
 						stripIndents`
@@ -30,12 +30,12 @@ export class VoteCommand extends Command {
 							[Discord Bot Labs](https://bots.discordlabs.org/bot/${client.user?.id}/vote)
 						`
 					)
-					.addField(
-						"Reward",
-						`${
+					.addFields({
+						name: "Reward",
+						value: `${
 							client.emojis.cache.get(this.container.env.string("ECO_EMOJI"))?.toString() ?? ""
 						} ${this.container.env.string("VOTE_REWARD")}`
-					)
+					})
 			]
 		});
 	}

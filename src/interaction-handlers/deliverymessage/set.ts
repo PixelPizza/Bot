@@ -1,6 +1,6 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
-import { MessageEmbed, ModalSubmitInteraction } from "discord.js";
+import { Colors, EmbedBuilder, ModalSubmitInteraction } from "discord.js";
 
 @ApplyOptions<InteractionHandler.Options>({
 	interactionHandlerType: InteractionHandlerTypes.ModalSubmit
@@ -59,7 +59,7 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 			.get("models")
 			.get("user")
 			.update({
-				where: { id: deliverer.id },
+				where: { id: deliverer?.id },
 				data: {
 					deliveryMessage: message.replaceAll("\\n", "\n")
 				}
@@ -67,8 +67,8 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.Green)
 					.setTitle("Delivery Message Set")
 					.setDescription("Your delivery message has been set")
 			]

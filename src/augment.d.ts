@@ -35,9 +35,9 @@ declare module "@kaname-png/plugin-env" {
 		// Emojis
 		ECO_EMOJI: never;
 		// Roles
-		CHEF_ROLE: never;
+		CHEF_ROLES: never;
 		CHEF_PING_ROLE: never;
-		DELIVERER_ROLE: never;
+		DELIVERER_ROLES: never;
 		DELIVERER_PING_ROLE: never;
 		// Webhooks
 		CONSOLE_URL: never;

@@ -1,9 +1,9 @@
 import { OrderStatus } from "@prisma/client";
 import { Precondition } from "@sapphire/framework";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 export class HasOrderPrecondition extends Precondition {
-	public override async chatInputRun(interaciton: CommandInteraction) {
+	public override async chatInputRun(interaciton: ChatInputCommandInteraction) {
 		const order = await this.container.stores
 			.get("models")
 			.get("order")

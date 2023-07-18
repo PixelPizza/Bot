@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
-import { type CommandInteraction, MessageEmbed } from "discord.js";
+import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -21,15 +21,15 @@ export class HelpCommand extends Command {
 		);
 	}
 
-	public override chatInputRun(interaction: CommandInteraction) {
+	public override chatInputRun(interaction: ChatInputCommandInteraction) {
 		const commandName = interaction.options.getString("command");
 		const command = commandName ? this.container.stores.get("commands").get(commandName) : null;
 
 		if (!command) {
 			return {
 				embeds: [
-					new MessageEmbed()
-						.setColor("BLUE")
+					new EmbedBuilder()
+						.setColor(Colors.Blue)
 						.setTitle("Commands")
 						.setDescription(
 							this.container.stores
@@ -41,11 +41,11 @@ export class HelpCommand extends Command {
 			};
 		}
 
-		const embed = new MessageEmbed().setColor("BLUE").addField("Name", command.name);
+		const embed = new EmbedBuilder().setColor(Colors.Blue).addFields({ name: "Name", value: command.name });
 
-		command.aliases.length && embed.addField("Aliases", command.aliases.join(", "));
+		command.aliases.length && embed.addFields({ name: "Aliases", value: command.aliases.join(", ") });
 		(command.detailedDescription || command.description) &&
-			embed.addField("Description", (command.detailedDescription as string) || command.description);
+			embed.addFields({ name: "Description", value: (command.detailedDescription as string) || command.description });
 
 		return interaction.reply({ embeds: [embed] });
 	}

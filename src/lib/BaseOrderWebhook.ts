@@ -1,5 +1,5 @@
 import type { Order } from "@prisma/client";
-import { MessageEmbed, MessageOptions, MessageResolvable } from "discord.js";
+import { EmbedBuilder, BaseMessageOptions, MessageResolvable, Colors } from "discord.js";
 import { WebhookManager } from "./pieces/WebhookManager";
 
 export abstract class BaseOrderWebhook extends WebhookManager {
@@ -13,7 +13,7 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		await this.initMessages();
 		const { id } = order;
 		if (id in this.messages) return this.editOrder(order, roleId);
-		const options: MessageOptions = {
+		const options: BaseMessageOptions = {
 			embeds: [await this.createEmbed(order)]
 		};
 		if (roleId) options.content = `<@&${roleId}>`;
@@ -24,7 +24,7 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		await this.initMessages();
 		const { id } = order;
 		if (!(id in this.messages)) return;
-		const options: MessageOptions = {
+		const options: BaseMessageOptions = {
 			embeds: [await this.createEmbed(order)]
 		};
 		if (roleId) options.content = `<@&${roleId}>`;
@@ -37,8 +37,8 @@ export abstract class BaseOrderWebhook extends WebhookManager {
 		if (!(id in this.messages)) return;
 		await this.editMessage(this.messages[id], {
 			embeds: [
-				new MessageEmbed()
-					.setColor("DARK_RED")
+				new EmbedBuilder()
+					.setColor(Colors.DarkRed)
 					.setTitle("Order deleted")
 					.setDescription(`This order has been deleted`)
 			]

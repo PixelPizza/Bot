@@ -6,7 +6,7 @@ export class Client extends SapphireClient {
 		// Env client before login
 		const env = new EnvClient({});
 		super({
-			intents: ["GUILDS", "GUILD_MESSAGES"],
+			intents: ["Guilds", "GuildMessages"],
 			logger: {
 				level: LogLevel.Debug
 			},

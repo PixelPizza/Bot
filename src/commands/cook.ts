@@ -1,7 +1,12 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import {
+	AutocompleteInteraction,
+	EmbedBuilder,
+	Colors,
+	ChatInputCommandInteraction
+} from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -28,14 +33,18 @@ export class CookCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				OR: {
-					id: {
-						startsWith: focused
+				OR: [
+					{
+						id: {
+							startsWith: focused
+						}
 					},
-					order: {
-						contains: focused
+					{
+						order: {
+							contains: focused
+						}
 					}
-				},
+				],
 				chef: interaction.user.id,
 				status: OrderStatus.UNCOOKED
 			},
@@ -45,7 +54,7 @@ export class CookCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction, { chef: interaction.user.id });
@@ -57,8 +66,8 @@ export class CookCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("DARK_GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.DarkGreen)
 					.setTitle("Cooking order")
 					.setDescription(`Cooking order ${order.id}`)
 			]
@@ -77,8 +86,8 @@ export class CookCommand extends Command {
 
 		await this.sendCustomerMessage(order, {
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Order cooked")
 					.setDescription(`Your order ${order.id} has been cooked.`)
 			]
@@ -86,8 +95,8 @@ export class CookCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.Green)
 					.setTitle("Order cooked")
 					.setDescription(`Order ${order.id} has been cooked.`)
 			]

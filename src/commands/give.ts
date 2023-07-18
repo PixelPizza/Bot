@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -29,7 +29,7 @@ export class GiveCommand extends Command {
 		);
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const user = interaction.options.getUser("user", true);
@@ -55,8 +55,8 @@ export class GiveCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.Green)
 					.setTitle("Gave money")
 					.setDescription(`Gave ${amount} to ${user.toString()}`)
 			]

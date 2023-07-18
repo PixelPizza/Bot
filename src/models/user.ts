@@ -8,7 +8,7 @@ import { PrismaModelManager } from "../lib/pieces/PrismaModelManager";
 export class UserModel extends PrismaModelManager<PrismaClient["user"]> {
 	public findOrCreate(id: string) {
 		return this.prisma
-			.findUnique({ where: { id }, rejectOnNotFound: true })
+			.findUnique({ where: { id } })
 			.catch(() => this.prisma.create({ data: { id } }));
 	}
 }

@@ -1,7 +1,12 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { type AutocompleteInteraction, type CommandInteraction, MessageEmbed } from "discord.js";
+import {
+	type AutocompleteInteraction,
+	EmbedBuilder,
+	Colors,
+	ChatInputCommandInteraction
+} from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -37,14 +42,18 @@ export class ClaimCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				OR: {
-					id: {
-						startsWith: focused
+				OR: [
+					{
+						id: {
+							startsWith: focused
+						}
 					},
-					order: {
-						contains: focused
+					{
+						order: {
+							contains: focused
+						}
 					}
-				},
+				],
 				status: {
 					in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
 				}
@@ -52,7 +61,7 @@ export class ClaimCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction);
@@ -71,8 +80,8 @@ export class ClaimCommand extends Command {
 
 		await this.sendCustomerMessage(order, {
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Order claimed")
 					.setDescription(`Your order has been claimed by ${interaction.user.tag} for ${claimType}`)
 			]
@@ -80,8 +89,8 @@ export class ClaimCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Order claimed")
 					.setDescription(`You claimed order \`${order.id}\` for ${claimType}`)
 			]

@@ -2,7 +2,7 @@ import { randomInt } from "node:crypto";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -66,7 +66,7 @@ export class WorkCommand extends Command {
 		});
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const amount = randomInt(
@@ -76,16 +76,16 @@ export class WorkCommand extends Command {
 
 		const user = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 		await this.getModel("user").update({
-			where: { id: user.id },
-			data: { balance: user.balance + amount }
+			where: { id: user?.id },
+			data: { balance: (user?.balance ?? 0) + amount }
 		});
 
 		const scenario = this.generateScenario(amount);
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Work done!")
 					.setDescription(scenario.scenario)
 					.setFooter({ text: `Scenario ${scenario.index + 1}/${this.scenarios.size}` })

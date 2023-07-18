@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
-import { CommandInteraction, MessageEmbed, TextChannel } from "discord.js";
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, TextChannel } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -15,14 +15,14 @@ export class SupportCommand extends Command {
 		});
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		const channel = (await this.container.client.channels.fetch(
 			this.container.env.string("INVITE_CHANNEL")
 		)) as TextChannel;
 		return interaction.reply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Support Server")
 					.setDescription(
 						`Here is the [support server invite link](${(await channel.createInvite({ maxAge: 0 })).url})`

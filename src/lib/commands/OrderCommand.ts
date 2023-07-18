@@ -2,11 +2,10 @@ import type { Order, Prisma } from "@prisma/client";
 import { stripIndents } from "common-tags";
 import {
 	AutocompleteInteraction,
-	CommandInteraction,
-	MessageAttachment,
-	MessageEmbed,
-	MessageOptions,
-	MessagePayload
+	ChatInputCommandInteraction,
+	EmbedBuilder,
+	BaseMessageOptions,
+	MessagePayload, Colors, Attachment
 } from "discord.js";
 import { Command } from "./Command";
 
@@ -45,8 +44,8 @@ export abstract class OrderCommand extends Command {
 		const chef = order.chef ? await users.fetch(order.chef).catch(() => null) : null;
 		const deliverer = order.deliverer ? await users.fetch(order.deliverer).catch(() => null) : null;
 
-		const embed = new MessageEmbed()
-			.setColor("BLUE")
+		const embed = new EmbedBuilder()
+			.setColor(Colors.Blue)
 			.setTitle("Order")
 			.setDescription(order.order)
 			.addFields([
@@ -83,11 +82,11 @@ export abstract class OrderCommand extends Command {
 				}`
 			});
 
-		if (order.cookedAt) embed.addField("Cooked At", this.container.formatDate(order.cookedAt));
-		if (order.deliveredAt) embed.addField("Delivered At", this.container.formatDate(order.deliveredAt));
+		if (order.cookedAt) embed.addFields({ name: "Cooked At", value: this.container.formatDate(order.cookedAt) });
+		if (order.deliveredAt) embed.addFields({ name: "Delivered At", value: this.container.formatDate(order.deliveredAt) });
 		if (order.image) embed.setImage(order.image);
 
-		embed.addField("\u200b", "\u200b");
+		embed.addFields({ name: "\u200b", value: "\u200b" });
 
 		return embed;
 	}
@@ -112,11 +111,11 @@ export abstract class OrderCommand extends Command {
 		return `${name}date(?:: *(date|time|datetime))?`;
 	}
 
-	protected isImage(attachment: MessageAttachment): boolean {
+	protected isImage(attachment: Attachment): boolean {
 		return attachment.contentType?.match(/^image\/(gif|jpeg|tiff|png|webp|bmp)$/) !== null;
 	}
 
-	protected async getOrder(interaction: CommandInteraction, where?: Prisma.OrderWhereInput) {
+	protected async getOrder(interaction: ChatInputCommandInteraction, where?: Prisma.OrderWhereInput) {
 		const order = await this.orderModel.findFirst({
 			where: {
 				...where,
@@ -141,7 +140,7 @@ export abstract class OrderCommand extends Command {
 		);
 	}
 
-	protected sendCustomerMessage(order: Order, options: string | MessagePayload | MessageOptions) {
+	protected sendCustomerMessage(order: Order, options: string | MessagePayload | BaseMessageOptions) {
 		return this.container.client.users
 			.fetch(order.customer)
 			.then((customer) => customer.send(options))

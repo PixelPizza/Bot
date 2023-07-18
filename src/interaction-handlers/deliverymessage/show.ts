@@ -3,11 +3,11 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { InteractionHandler, InteractionHandlerTypes } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import {
-	MessageActionRow,
-	MessageEmbed,
-	MessageSelectMenu,
+	ActionRowBuilder, Colors,
+	EmbedBuilder,
+	SelectMenuBuilder,
 	SelectMenuInteraction,
-	WebhookEditMessageOptions
+	WebhookMessageEditOptions
 } from "discord.js";
 
 @ApplyOptions<InteractionHandler.Options>({
@@ -22,7 +22,7 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 	public override async run(interaction: SelectMenuInteraction): Promise<any> {
 		const deliverer = await this.container.stores.get("models").get("user").findOrCreate(interaction.user.id);
 		const currentMessage =
-			deliverer.deliveryMessage ??
+			deliverer?.deliveryMessage ??
 			stripIndents`
             Hello {customer:tag},
 
@@ -48,16 +48,16 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
         `;
 
 		const normal = interaction.values[0] === "normal";
-		const replyOptions: WebhookEditMessageOptions & { embeds: MessageEmbed[]; components: MessageActionRow[] } = {
+		const replyOptions: WebhookMessageEditOptions & { embeds: EmbedBuilder[]; components: ActionRowBuilder[] } = {
 			embeds: [
-				new MessageEmbed()
-					.setColor("BLUE")
+				new EmbedBuilder()
+					.setColor(Colors.Blue)
 					.setTitle("Current Delivery Message")
 					.setDescription(codeBlock(currentMessage))
 			],
 			components: [
-				new MessageActionRow().addComponents(
-					new MessageSelectMenu().setCustomId("deliverymessage/show").addOptions([
+				new ActionRowBuilder<SelectMenuBuilder>().addComponents(
+					new SelectMenuBuilder().setCustomId("deliverymessage/show").addOptions([
 						{
 							label: "Normal",
 							value: "normal",
@@ -91,7 +91,7 @@ export class DeliveryMessageInteractionHandler extends InteractionHandler {
 								`\x1b[0;34m{\x1b[0;32m${name}\x1b[0;36m:\x1b[0;33m${type}\x1b[0;34m}\x1b[0m`
 						)
 		);
-		(replyOptions.components[0].components[0] as MessageSelectMenu).setOptions([
+		(replyOptions.components[0].components[0] as SelectMenuBuilder).setOptions([
 			{
 				label: "Normal",
 				value: "normal",

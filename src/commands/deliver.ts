@@ -4,13 +4,13 @@ import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import {
 	type AutocompleteInteraction,
-	type CommandInteraction,
 	type Guild,
 	type GuildTextBasedChannel,
 	type TextChannel,
 	ThreadChannel,
 	type User,
-	MessageEmbed
+	EmbedBuilder,
+	Colors, ChatInputCommandInteraction
 } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
@@ -55,14 +55,18 @@ export class DeliverCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				OR: {
-					id: {
-						startsWith: focused
+				OR: [
+					{
+						id: {
+							startsWith: focused
+						}
 					},
-					order: {
-						contains: focused
+					{
+						order: {
+							contains: focused
+						}
 					}
-				},
+				],
 				deliverer: interaction.user.id,
 				status: OrderStatus.COOKED
 			},
@@ -72,7 +76,7 @@ export class DeliverCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		const orderId = interaction.options.getString("order", true);
@@ -93,14 +97,14 @@ export class DeliverCommand extends Command {
 		try {
 			switch (method) {
 				case DeliveryMethod.PERSONAL:
-					if (!channel?.isText()) return;
+					if (!channel?.isTextBased()) return;
 					await this.deliverPersonal(interaction.user, guild, channel, deliveryMessage);
 					break;
 				case DeliveryMethod.DM:
 					await this.sendCustomerMessage(order, deliveryMessage);
 					break;
 				case DeliveryMethod.BOT:
-					if (!channel?.isText()) return;
+					if (!channel?.isTextBased()) return;
 					await channel.send(deliveryMessage);
 					break;
 			}
@@ -117,8 +121,8 @@ export class DeliverCommand extends Command {
 			if (method !== DeliveryMethod.DM) {
 				await this.sendCustomerMessage(order, {
 					embeds: [
-						new MessageEmbed()
-							.setColor("BLUE")
+						new EmbedBuilder()
+							.setColor(Colors.Blue)
 							.setTitle("Order Delivered")
 							.setDescription(
 								`Your order ${
@@ -131,8 +135,8 @@ export class DeliverCommand extends Command {
 
 			return await interaction.editReply({
 				embeds: [
-					new MessageEmbed()
-						.setColor("GREEN")
+					new EmbedBuilder()
+						.setColor(Colors.Green)
 						.setTitle("Order Delivered")
 						.setDescription(`Order ${orderId} has been delivered.`)
 				]
@@ -145,9 +149,10 @@ export class DeliverCommand extends Command {
 
 	private async deliverPersonal(user: User, guild: Guild, channel: GuildTextBasedChannel, message: string) {
 		if (channel instanceof ThreadChannel) {
-			if (!channel.parent) throw new Error("Invalid channel");
+			if (!channel.parent || !channel.parent.isTextBased()) throw new Error("Invalid channel");
 			channel = channel.parent;
 		}
+		if (channel.isThread()) return; // This never happens, but just in case
 		const invite = await guild.invites.create(channel, { maxAge: 0, reason: "Delivering an order" });
 		await user.send(message);
 		await user.send(stripIndents`

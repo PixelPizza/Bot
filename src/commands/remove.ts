@@ -1,7 +1,7 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -28,14 +28,18 @@ export class RemoveCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				OR: {
-					id: {
-						startsWith: focused
+				OR: [
+					{
+						id: {
+							startsWith: focused
+						}
 					},
-					order: {
-						contains: focused
+					{
+						order: {
+							contains: focused
+						}
 					}
-				},
+				],
 				status: {
 					in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
 				}
@@ -46,7 +50,7 @@ export class RemoveCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply();
 
 		const reason = interaction.options.getString("reason", true);
@@ -63,23 +67,23 @@ export class RemoveCommand extends Command {
 
 		await this.sendCustomerMessage(order, {
 			embeds: [
-				new MessageEmbed()
-					.setColor("RED")
+				new EmbedBuilder()
+					.setColor(Colors.Red)
 					.setTitle("Order removed")
 					.setDescription(
 						"Your order has been removed. if you think your order has been incorrectly removed, please contact a staff member in our server."
 					)
-					.addField("Reason", reason)
+					.addFields({ name: "Reason", value: reason })
 			]
 		});
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.Green)
 					.setTitle("Order removed")
 					.setDescription(`Order ${order.id} has been removed`)
-					.addField("Reason", reason)
+					.addFields({ name: "Reason", value: reason })
 			]
 		});
 	}

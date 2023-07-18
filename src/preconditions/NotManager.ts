@@ -1,8 +1,8 @@
 import { Precondition } from "@sapphire/framework";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 export class NotManagerPrecondition extends Precondition {
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		const user = interaction.options.getUser("user");
 
 		if (user && this.container.env.array("BOT_MANAGERS").includes(user.id)) {

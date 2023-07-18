@@ -12,8 +12,8 @@
 	"scripts": {
 		"update": "yarn up \"*\" -i",
 		"build": "yarn clean && tsup",
-		"build:dev": "yarn build && rollup -c scripts/rollup.dev.ts",
-		"build:prod": "yarn build && rollup -c scripts/rollup.prod.ts",
+		"build:dev": "yarn build && rollup -c scripts/rollup.dev.mjs",
+		"build:prod": "yarn build && rollup -c scripts/rollup.prod.mjs",
 		"clean": "node scripts/clean-dist.mjs",
 		"lint": "eslint --ext mjs,js,ts --fix",
 		"format": "prettier --write **/*.{ts,js,json,yml,yaml}",

@@ -1,6 +1,6 @@
 import type { Order, PrismaClient } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
-import { MessageEmbed } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import { PrismaModelManager } from "../lib/pieces/PrismaModelManager";
 
 @ApplyOptions<PrismaModelManager.Options<PrismaClient["order"]>>(({ container }) => ({
@@ -14,12 +14,12 @@ export class OrderModel extends PrismaModelManager<PrismaClient["order"]> {
 		const customer = await users.fetch(order.customer);
 		const guild = await guilds.fetch(order.guild);
 		const channel = (await guild.channels.fetch(order.channel)) ?? guild.systemChannel ?? null;
-		if (!channel?.isText()) throw new Error("Invalid channel");
+		if (!channel?.isTextBased()) throw new Error("Invalid channel");
 		const chef = order.chef ? await users.fetch(order.chef).catch(() => null) : null;
 		const deliverer = order.deliverer ? await users.fetch(order.deliverer).catch(() => null) : null;
 
-		const embed = new MessageEmbed()
-			.setColor("BLUE")
+		const embed = new EmbedBuilder()
+			.setColor(Colors.Blue)
 			.setTitle("Order")
 			.setDescription(order.order)
 			.addFields([
@@ -56,11 +56,11 @@ export class OrderModel extends PrismaModelManager<PrismaClient["order"]> {
 				}`
 			});
 
-		if (order.cookedAt) embed.addField("Cooked At", container.formatDate(order.cookedAt));
-		if (order.deliveredAt) embed.addField("Delivered At", container.formatDate(order.deliveredAt));
+		if (order.cookedAt) embed.addFields({ name: "Cooked At", value: container.formatDate(order.cookedAt) });
+		if (order.deliveredAt) embed.addFields({ name: "Delivered At", value: container.formatDate(order.deliveredAt) });
 		if (order.image) embed.setImage(order.image);
 
-		embed.addField("\u200b", "\u200b");
+		embed.addFields({ name: "\u200b", value: "\u200b" });
 
 		return embed;
 	}

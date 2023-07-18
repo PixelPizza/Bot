@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -15,11 +15,11 @@ export class PPAPCommand extends Command {
 		});
 	}
 
-	public override chatInputRun(interaction: CommandInteraction) {
+	public override chatInputRun(interaction: ChatInputCommandInteraction) {
 		return interaction.reply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("YELLOW")
+				new EmbedBuilder()
+					.setColor(Colors.Yellow)
 					.setTitle(this.description)
 					.setDescription("[Pen Pineapple Apple Pen](https://www.youtube.com/watch?v=Ct6BUPvE2sM)")
 					.setImage("https://c.tenor.com/U5jXEmtm8aIAAAAC/ppap-dance.gif")

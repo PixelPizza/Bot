@@ -1,9 +1,9 @@
 import { ChatInputCommand, Precondition, PreconditionStore } from "@sapphire/framework";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 import { OrderCommand } from "../lib/commands/OrderCommand";
 
 export class ValidClaimTypePrecondition extends Precondition {
-	public override chatInputRun(interaction: CommandInteraction, command: ChatInputCommand) {
+	public override chatInputRun(interaction: ChatInputCommandInteraction, command: ChatInputCommand) {
 		const type = interaction.options.getString("type", true) as OrderCommand.ClaimType;
 		const store = this.store as PreconditionStore;
 

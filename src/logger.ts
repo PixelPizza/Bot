@@ -2,7 +2,7 @@ import { inspect } from "util";
 import { LogLevel } from "@sapphire/framework";
 import type { Container } from "@sapphire/pieces";
 import { Logger as SapphireLogger, LoggerOptions } from "@sapphire/plugin-logger";
-import { ColorResolvable, WebhookClient } from "discord.js";
+import { ColorResolvable, Colors, EmbedBuilder, WebhookClient } from "discord.js";
 
 export class WebhookLogFormat {
 	public readonly color: ColorResolvable;
@@ -17,13 +17,13 @@ export class WebhookLogFormat {
 export class Logger extends SapphireLogger {
 	private readonly webhook: WebhookClient;
 	private readonly webhookFormats = new Map<LogLevel, WebhookLogFormat>([
-		[LogLevel.Trace, new WebhookLogFormat("GREY", "Trace")],
+		[LogLevel.Trace, new WebhookLogFormat(Colors.Grey, "Trace")],
 		[LogLevel.Debug, new WebhookLogFormat("#ff00ff", "Debug")], // Magenta
 		[LogLevel.Info, new WebhookLogFormat("#00ffff", "Info")], // Cyan
-		[LogLevel.Warn, new WebhookLogFormat("YELLOW", "Warn")],
-		[LogLevel.Error, new WebhookLogFormat("RED", "Error")],
-		[LogLevel.Fatal, new WebhookLogFormat("DARK_RED", "Fatal")],
-		[LogLevel.None, new WebhookLogFormat("DEFAULT", "")]
+		[LogLevel.Warn, new WebhookLogFormat(Colors.Yellow, "Warn")],
+		[LogLevel.Error, new WebhookLogFormat(Colors.Red, "Error")],
+		[LogLevel.Fatal, new WebhookLogFormat(Colors.DarkRed, "Fatal")],
+		[LogLevel.None, new WebhookLogFormat(Colors.Default, "")]
 	]);
 
 	public constructor(public readonly container: Container, options?: LoggerOptions) {
@@ -40,16 +40,15 @@ export class Logger extends SapphireLogger {
 
 		void this.webhook.send({
 			embeds: [
-				{
-					color: format!.color,
-					title: format!.title,
-					description: values
+				new EmbedBuilder()
+					.setColor(format!.color)
+					.setTitle(format!.title)
+					.setDescription(values
 						.map((value) =>
 							typeof value === "string" ? value : inspect(value, { colors: false, depth: this.depth })
 						)
-						.join(this.join),
-					timestamp: Date.now()
-				}
+						.join(this.join))
+						.setTimestamp()
 			],
 			username: "PixelPizza Console",
 			avatarURL: this.container.client.user!.displayAvatarURL()

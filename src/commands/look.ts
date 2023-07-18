@@ -1,7 +1,7 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import type { AutocompleteInteraction, CommandInteraction } from "discord.js";
+import type { AutocompleteInteraction, ChatInputCommandInteraction } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -26,14 +26,18 @@ export class LookCommand extends Command {
 			interaction,
 			(focused) => ({
 				where: {
-					OR: {
-						id: {
-							startsWith: focused
+					OR: [
+						{
+							id: {
+								startsWith: focused
+							}
 						},
-						order: {
-							contains: focused
+						{
+							order: {
+								contains: focused
+							}
 						}
-					}
+					]
 				},
 				orderBy: {
 					id: "asc"
@@ -51,7 +55,7 @@ export class LookCommand extends Command {
 		);
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 		return interaction.editReply({ embeds: [await this.createOrderEmbed(await this.getOrder(interaction))] });
 	}

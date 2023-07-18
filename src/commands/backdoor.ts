@@ -1,8 +1,9 @@
 import { DeliveryMethod, OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import { AutocompleteInteraction, ChatInputCommandInteraction, EmbedBuilder, Colors } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
+import { ChannelType } from "discord-api-types/v10";
 
 @ApplyOptions<Command.Options>({
 	description: "get invite link of a guild by order",
@@ -24,14 +25,18 @@ export class BackdoorCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				OR: {
-					id: {
-						startsWith: focused
+				OR: [
+					{
+						id: {
+							startsWith: focused
+						}
 					},
-					order: {
-						contains: focused
+					{
+						order: {
+							contains: focused
+						}
 					}
-				},
+				],
 				deliverer: interaction.user.id,
 				status: OrderStatus.DELIVERED,
 				deliveryMethod: DeliveryMethod.PERSONAL
@@ -42,7 +47,7 @@ export class BackdoorCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const order = await this.getOrder(interaction, {
@@ -53,7 +58,7 @@ export class BackdoorCommand extends Command {
 
 		const channel = await this.container.client.channels.fetch(order.channel);
 
-		if (!channel?.isText() || channel.type === "DM" || channel.isThread()) throw new Error("Invalid channel");
+		if (!channel?.isTextBased() || channel.type === ChannelType.DM || channel.isThread()) throw new Error("Invalid channel");
 
 		const invite = await channel.createInvite({
 			maxAge: 0,
@@ -62,7 +67,7 @@ export class BackdoorCommand extends Command {
 		});
 
 		await interaction.editReply({
-			embeds: [new MessageEmbed().setColor("BLUE").setTitle("Invite link").setDescription(invite.url)]
+			embeds: [new EmbedBuilder().setColor(Colors.Blue).setTitle("Invite link").setDescription(invite.url)]
 		});
 	}
 }

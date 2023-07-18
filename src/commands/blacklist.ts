@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { EmbedBuilder, Colors, ChatInputCommandInteraction } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -40,7 +40,7 @@ export class BlacklistCommand extends Command {
 		);
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction): Promise<any> {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction): Promise<any> {
 		await interaction.deferReply();
 
 		switch (interaction.options.getSubcommand(true)) {
@@ -51,15 +51,15 @@ export class BlacklistCommand extends Command {
 		}
 	}
 
-	public async chatInputAdd(interaction: CommandInteraction) {
+	public async chatInputAdd(interaction: ChatInputCommandInteraction) {
 		const user = interaction.options.getUser("user", true);
 		const reason = interaction.options.getString("reason", true);
 
 		if (await this.getModel("blacklist").findUnique({ where: { user: user.id } })) {
 			return interaction.editReply({
 				embeds: [
-					new MessageEmbed()
-						.setColor("RED")
+					new EmbedBuilder()
+						.setColor(Colors.Red)
 						.setTitle("User already blacklisted")
 						.setDescription(`${user.toString()} is already blacklisted.`)
 				]
@@ -76,22 +76,22 @@ export class BlacklistCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.Green)
 					.setTitle("User blacklisted")
 					.setDescription(`${user.toString()} has been blacklisted.`)
 			]
 		});
 	}
 
-	public async chatInputRemove(interaction: CommandInteraction) {
+	public async chatInputRemove(interaction: ChatInputCommandInteraction) {
 		const user = interaction.options.getUser("user", true);
 
 		if (!(await this.getModel("blacklist").findUnique({ where: { user: user.id } }))) {
 			return interaction.editReply({
 				embeds: [
-					new MessageEmbed()
-						.setColor("RED")
+					new EmbedBuilder()
+						.setColor(Colors.Red)
 						.setTitle("User not blacklisted")
 						.setDescription(`${user.toString()} is not blacklisted.`)
 				]
@@ -106,8 +106,8 @@ export class BlacklistCommand extends Command {
 
 		return interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.Green)
 					.setTitle("User unblacklisted")
 					.setDescription(`${user.toString()} has been unblacklisted.`)
 			]

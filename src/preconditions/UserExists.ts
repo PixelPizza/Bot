@@ -1,8 +1,8 @@
 import { Precondition } from "@sapphire/framework";
-import type { CommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 export class HasOrderPrecondition extends Precondition {
-	public override async chatInputRun(interaciton: CommandInteraction) {
+	public override async chatInputRun(interaciton: ChatInputCommandInteraction) {
 		const user = interaciton.options.getUser("user");
 
 		if (

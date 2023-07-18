@@ -1,5 +1,5 @@
 import { ApplyOptions } from "@sapphire/decorators";
-import { Guild, MessageEmbed } from "discord.js";
+import { Guild, EmbedBuilder, Colors } from "discord.js";
 import { WebhookManager } from "../lib/pieces/WebhookManager";
 
 @ApplyOptions<WebhookManager.Options>({
@@ -10,8 +10,8 @@ export class GuildWebhook extends WebhookManager {
 	public sendGuild(guild: Guild, added: boolean) {
 		return this.send({
 			embeds: [
-				new MessageEmbed()
-					.setColor(added ? "GREEN" : "RED")
+				new EmbedBuilder()
+					.setColor(added ? Colors.Green : Colors.Red)
 					.setTitle(added ? "Added" : "Removed")
 					.setDescription(
 						`${this.container.client.user!.username} has been ${

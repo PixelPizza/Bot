@@ -1,7 +1,12 @@
 import { OrderStatus } from "@prisma/client";
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
-import { AutocompleteInteraction, CommandInteraction, MessageEmbed } from "discord.js";
+import {
+	AutocompleteInteraction,
+	EmbedBuilder,
+	Colors,
+	ChatInputCommandInteraction
+} from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
 
 @ApplyOptions<Command.Options>({
@@ -32,14 +37,18 @@ export class ChangeCommand extends Command {
 	public override autocompleteRun(interaction: AutocompleteInteraction) {
 		return this.autocompleteOrder(interaction, (focused) => ({
 			where: {
-				OR: {
-					id: {
-						startsWith: focused
+				OR: [
+					{
+						id: {
+							startsWith: focused
+						}
 					},
-					order: {
-						contains: focused
+					{
+						order: {
+							contains: focused
+						}
 					}
-				},
+				],
 				chef: interaction.user.id,
 				status: OrderStatus.COOKED
 			},
@@ -49,7 +58,7 @@ export class ChangeCommand extends Command {
 		}));
 	}
 
-	public override async chatInputRun(interaction: CommandInteraction) {
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply();
 
 		const order = await this.getOrder(interaction, { chef: interaction.user.id });
@@ -61,8 +70,8 @@ export class ChangeCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("DARK_GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.DarkGreen)
 					.setTitle("Changing order image")
 					.setDescription(`Changing order ${order.id} image`)
 			]
@@ -77,8 +86,8 @@ export class ChangeCommand extends Command {
 
 		await interaction.editReply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("DARK_GREEN")
+				new EmbedBuilder()
+					.setColor(Colors.DarkGreen)
 					.setTitle("Order image changed")
 					.setDescription(`Order ${order.id} image changed`)
 			]

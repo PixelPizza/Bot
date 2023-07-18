@@ -2,6 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import { Events, Listener } from "@sapphire/framework";
 import { stripIndents } from "common-tags";
 import type { Guild, TextChannel } from "discord.js";
+import { ChannelType } from "discord-api-types/v10";
 
 @ApplyOptions<Listener.Options>({
 	event: Events.GuildCreate
@@ -12,7 +13,7 @@ export class GuildCreateListener extends Listener<typeof Events.GuildCreate> {
 
 		const channel =
 			guild.systemChannel ??
-			(guild.channels.cache.find((channel) => channel.type === "GUILD_TEXT") as TextChannel);
+			(guild.channels.cache.find((channel) => channel.type === ChannelType.GuildText) as TextChannel);
 		return channel.send(stripIndents`
 			> Thank you for adding Pixel Pizza!
 			> Type / to see my commands.

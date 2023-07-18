@@ -1,10 +1,12 @@
 import { Precondition } from "@sapphire/framework";
-import type { CommandInteraction, GuildMember } from "discord.js";
+import type { ChatInputCommandInteraction, GuildMember } from "discord.js";
 
 export class DelivererOnlyPrecondition extends Precondition {
-	public override chatInputRun(interaction: CommandInteraction) {
-		return (interaction.member as GuildMember).roles.cache.has(this.container.env.string("DELIVERER_ROLE"))
-			? this.ok()
-			: this.error({ message: "This command is for deliverers only" });
+	public override chatInputRun(interaction: ChatInputCommandInteraction) {
+		const roles = (interaction.member as GuildMember).roles.cache;
+		for (const role of this.container.env.array("DELIVERER_ROLES")) {
+			if (roles.has(role)) return this.ok();
+		}
+		return this.error({ message: "This command is for deliverers only" });
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@pixelpizza/bot",
-	"version": "2.0.0",
+	"version": "2.1.1",
 	"description": "A bot for ordering and delivering images of food",
 	"main": "./dist/index.js",
 	"directories": {

@@ -3,10 +3,6 @@ import type { ChatInputCommandInteraction, GuildMember } from "discord.js";
 
 export class ChefOnlyPrecondition extends Precondition {
 	public override chatInputRun(interaction: ChatInputCommandInteraction) {
-		const roles = (interaction.member as GuildMember).roles.cache;
-		for (const role of this.container.env.array("CHEF_ROLES")) {
-			if (roles.has(role)) return this.ok();
-		}
-		return this.error({ message: "This command is for chefs only" });
+		return (interaction.member as GuildMember).roles.cache.hasAny(...this.container.env.array("CHEF_ROLES")) ? this.ok() : this.error({ message: "This command is for chefs only" });
 	}
 }

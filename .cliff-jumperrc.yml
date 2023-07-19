@@ -1,0 +1,6 @@
+name: bot
+packagePath: .
+org: pixelpizza
+monoRepo: false
+commitMessageTemplate: "chore(release): release {{new-version}}"
+tagTemplate: v{{new-version}}

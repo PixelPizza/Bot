@@ -1,12 +1,15 @@
-import type { Options } from "tsup";
+import { defineConfig } from "tsup";
 
-export const tsup: Options = {
+export default defineConfig({
 	clean: true,
-	dts: false,
-	entry: ["src/**/*.ts", "src/commands/dos/*.js", "!src/augment.d.ts"],
+	entry: ["src/**/*.ts", "!src/**/*.d.ts"],
 	format: ["cjs"],
 	minify: true,
 	skipNodeModulesBundle: true,
-	sourcemap: false,
-	target: "es2020"
-};
+	target: "esnext",
+	tsconfig: "src/tsconfig.json",
+	keepNames: true,
+	treeshake: true,
+	bundle: false,
+	splitting: false
+});

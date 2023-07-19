@@ -1,26 +1,5 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": ["github>PixelPizza/.github:pixelpizza-renovate"],
-	"npm": {
-		"rangeStrategy": "bump",
-		"packageRules": [
-			{
-				"matchUpdateTypes": ["minor", "patch"],
-				"matchCurrentVersion": "!/^0/",
-				"automerge": true
-			},
-			{
-				"matchPackagePatterns": ["@sapphire"],
-				"groupName": "Sapphire Dependencies"
-			},
-			{
-				"matchPackagePatterns": ["@discordjs", "discord.js"],
-				"groupName": "Discord.JS Dependencies"
-			},
-			{
-				"matchDepTypes": ["engines"],
-				"enabled": false
-			}
-		]
-	}
+	"baseBranches": ["dev"]
 }

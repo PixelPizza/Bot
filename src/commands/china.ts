@@ -1,7 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { Time } from "@sapphire/time-utilities";
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, Colors } from "discord.js";
 import { Command } from "../lib/commands/Command";
 
 @ApplyOptions<Command.Options>({
@@ -15,14 +15,14 @@ export class ChinaCommand extends Command {
 		});
 	}
 
-	public override chatInputRun(interaction: CommandInteraction) {
+	public override chatInputRun(interaction: ChatInputCommandInteraction) {
 		return interaction.reply({
 			embeds: [
-				new MessageEmbed()
-					.setColor("RED")
+				new EmbedBuilder()
+					.setColor(Colors.Red)
 					.setTitle("🇨🇳")
 					.setDescription("China")
-					.setFooter("Powered by China")
+					.setFooter({ text: "Powered by China" })
 			],
 			ephemeral: true
 		});

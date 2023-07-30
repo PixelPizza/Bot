@@ -2,6 +2,7 @@ import { ApplyOptions } from "@sapphire/decorators";
 import type { ApplicationCommandRegistry } from "@sapphire/framework";
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from "discord.js";
 import { OrderCommand as Command } from "../lib/commands/OrderCommand";
+import { OrderStatus } from "@prisma/client";
 
 @ApplyOptions<Command.Options>({
 	description: "Show the current orders",
@@ -17,7 +18,13 @@ export class OrdersCommand extends Command {
 	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const orders = await this.orderModel.findMany();
+		const orders = await this.orderModel.findMany({
+			where: {
+				status: {
+					in: [OrderStatus.UNCOOKED, OrderStatus.COOKED]
+				}
+			}
+		});
 
 		await interaction.editReply({
 			embeds: [

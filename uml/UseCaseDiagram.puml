@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+actor Customer as customer
+actor Staff as staff
+actor Worker as worker
+
+rectangle {
+    (Manage order) << CRUD >> as ManageOrder
+    (Show balance) as ShowBalance
+    (Manage blacklist) << CRUD >> as ManageBlacklist
+    (Manage order claim) << CRUD >> as ManageOrderClaim
+    (Cook order) as CookOrder
+    (Manage delivery message) << CRUD >> as ManageDeliveryMessage
+    (Give money) as GiveMoney
+    (Manage Menu) << CRUD >> as ManageMenu
+    (Manage Rules) << CRUD >> as ManageRules
+    (Do work) as DoWork
+}
+
+customer --> ManageOrder
+customer --> ShowBalance
+customer --> GiveMoney
+customer --> ManageMenu
+customer --> ManageRules
+customer --> DoWork
+staff --> ManageOrder
+staff --> ManageBlacklist
+staff --> ManageMenu
+staff --> ManageRules
+worker --> ManageOrderClaim
+worker --> CookOrder
+worker --> ManageDeliveryMessage
+@enduml

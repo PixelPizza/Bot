@@ -26,7 +26,7 @@ export class HelpCommand extends Command {
 		const command = commandName ? this.container.stores.get("commands").get(commandName) : null;
 
 		if (!command) {
-			return {
+			return interaction.reply({
 				embeds: [
 					new EmbedBuilder()
 						.setColor(Colors.Blue)
@@ -38,7 +38,7 @@ export class HelpCommand extends Command {
 								.join("\n")
 						)
 				]
-			};
+			});
 		}
 
 		const embed = new EmbedBuilder().setColor(Colors.Blue).addFields({ name: "Name", value: command.name });

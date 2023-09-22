@@ -36,7 +36,6 @@
 		"@devtomio/plugin-botlist": "^1.3.0",
 		"@discordjs/builders": "1.6.3",
 		"@kaname-png/plugin-env": "^1.1.7",
-		"@kaname-png/plugin-statcord": "^2.1.12",
 		"@prisma/client": "^5.0.0",
 		"@sapphire/decorators": "^6.0.1",
 		"@sapphire/framework": "4.5.0",

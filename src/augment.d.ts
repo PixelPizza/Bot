@@ -44,7 +44,6 @@ declare module "@kaname-png/plugin-env" {
 		// API Keys
 		TOPGG_API_KEY: never;
 		DBL_API_KEY: never;
-		STATCORD_API_KEY: never;
 	}
 }
 

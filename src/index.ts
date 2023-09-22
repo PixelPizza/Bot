@@ -1,7 +1,6 @@
 import "@kaname-png/plugin-env/register";
 import "@sapphire/plugin-logger/register";
 import "@sapphire/plugin-api/register";
-import "@kaname-png/plugin-statcord/register";
 import "@devtomio/plugin-botlist/register";
 import { join } from "node:path";
 import { config } from "dotenv";

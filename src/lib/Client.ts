@@ -22,12 +22,6 @@ export class Client extends SapphireClient {
 					discordBotList: env.string("DBL_API_KEY")
 				}
 			},
-			statcord: {
-				client_id: env.string("CLIENT_ID"),
-				key: env.string("STATCORD_API_KEY"),
-				autopost: true,
-				debug: true
-			},
 			api: {
 				origin: "*",
 				listenOptions: {

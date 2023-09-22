@@ -439,17 +439,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kaname-png/plugin-statcord@npm:^2.1.12":
-  version: 2.1.12
-  resolution: "@kaname-png/plugin-statcord@npm:2.1.12"
-  dependencies:
-    "@sapphire/fetch": ^2.4.1
-    systeminformation: ^5.18.1
-    tslib: ^2.5.3
-  checksum: f27115db5397e8eb03933e85e7b14ffcd62f99f44d0dc8dce2c90e11fa71e77d1e905460e4434fbd16a51e60642809d3c6a93bd2e33eb7f86b1c6485cc025c7c
-  languageName: node
-  linkType: hard
-
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -505,7 +494,6 @@ __metadata:
     "@devtomio/plugin-botlist": ^1.3.0
     "@discordjs/builders": 1.6.3
     "@kaname-png/plugin-env": ^1.1.7
-    "@kaname-png/plugin-statcord": ^2.1.12
     "@prisma/client": ^5.0.0
     "@sapphire/decorators": ^6.0.1
     "@sapphire/eslint-config": ^4.4.3
@@ -664,15 +652,6 @@ __metadata:
     prettier: ^2.8.8
     typescript: ^5.1.6
   checksum: 37fc27ae1fc56865afea15f53d8f6558178b196f412e10bba69ec0cb43602b4af39b2b907053757ee9c6d6f059e9d8261820a526ce2843f8b481af9566d76f9f
-  languageName: node
-  linkType: hard
-
-"@sapphire/fetch@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "@sapphire/fetch@npm:2.4.1"
-  dependencies:
-    cross-fetch: ^3.1.5
-  checksum: f8ab0baa59dfcb931729a46957073e4e26377b6b5e3bdbbed921ae793c0848a240545ed157efd5db13342d68eed84dc73c6fe83038a5e62af9daa3715326c4a9
   languageName: node
   linkType: hard
 
@@ -1785,15 +1764,6 @@ __metadata:
   version: 1.1.0
   resolution: "console-control-strings@npm:1.1.0"
   checksum: 8755d76787f94e6cf79ce4666f0c5519906d7f5b02d4b884cf41e11dcd759ed69c57da0670afd9236d229a46e0f9cf519db0cd829c6dca820bb5a5c3def584ed
-  languageName: node
-  linkType: hard
-
-"cross-fetch@npm:^3.1.5":
-  version: 3.1.5
-  resolution: "cross-fetch@npm:3.1.5"
-  dependencies:
-    node-fetch: 2.6.7
-  checksum: f6b8c6ee3ef993ace6277fd789c71b6acf1b504fd5f5c7128df4ef2f125a429e29cd62dc8c127523f04a5f2fa4771ed80e3f3d9695617f441425045f505cf3bb
   languageName: node
   linkType: hard
 
@@ -3406,7 +3376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.7, node-fetch@npm:^2.6.1":
+"node-fetch@npm:^2.6.1":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
   dependencies:
@@ -4165,16 +4135,6 @@ __metadata:
     "@pkgr/utils": ^2.3.1
     tslib: ^2.5.0
   checksum: 8a9560e5d8f3d94dc3cf5f7b9c83490ffa30d320093560a37b88f59483040771fd1750e76b9939abfbb1b5a23fd6dfbae77f6b338abffe7cae7329cd9b9bb86b
-  languageName: node
-  linkType: hard
-
-"systeminformation@npm:^5.18.1":
-  version: 5.18.7
-  resolution: "systeminformation@npm:5.18.7"
-  bin:
-    systeminformation: lib/cli.js
-  checksum: 05c540fef599e899cfc5c9e7c81f622914619c0c1dcf8be8641a3f1ddc7df0c7f885cf2783c021a1261d80b57eca50d51dff13b00b3c70a06fa935a784839dd3
-  conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
 

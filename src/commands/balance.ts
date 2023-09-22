@@ -26,7 +26,7 @@ export class BalanceCommand extends Command {
 					.setDescription(
 						`${this.container.client.emojis.cache
 							.get(this.container.env.string("ECO_EMOJI"))!
-							.toString()} ${user?.balance}`
+							.toString()} ${user.balance}`
 					)
 			]
 		});

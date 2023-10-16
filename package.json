@@ -41,8 +41,8 @@
 	"homepage": "https://github.com/PixelPizza/Bot#readme",
 	"dependencies": {
 		"@kaname-png/plugin-env": "^1.1.7",
-		"@sapphire/decorators": "^6.0.1",
-		"@sapphire/framework": "^4.5.0",
+		"@sapphire/decorators": "^6.0.2",
+		"@sapphire/framework": "^4.7.1",
 		"discord.js": "14.x",
 		"dotenv": "^16.3.1"
 	},
@@ -52,7 +52,7 @@
 		"@favware/cliff-jumper": "^2.1.1",
 		"@favware/rollup-type-bundler": "^2.0.0",
 		"@sapphire/eslint-config": "^4.4.3",
-		"@sapphire/ts-config": "^4.0.0",
+		"@sapphire/ts-config": "^4.0.1",
 		"@types/eslint": "^8.44.0",
 		"@types/node": "^18.16.19",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",

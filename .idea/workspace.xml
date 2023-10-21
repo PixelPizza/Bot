@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="862784a0-614e-4f39-944d-68f83c08784e" name="Changes" comment="fix: remove statcord plugin&#10;&#10;This plugin is unmaintained">
+      <change beforePath="$PROJECT_DIR$/.cliff-jumperrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.commitlintrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.test" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/CODEOWNERS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/problemMatchers/eslint.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/problemMatchers/tsc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/renovate.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/codeql-analysis.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/continuous-integration.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/labelsync.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release-crosspost.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.husky/commit-msg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.husky/pre-commit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PixelPizzaBot.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.lintstagedrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/extensions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.yarn/plugins/@yarnpkg/plugin-typescript.cjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.yarn/releases/yarn-3.6.1.cjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.yarnrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/augment.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/container.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/events/client/chatInputCommandDenied.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/events/client/chatInputCommandError.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/events/client/debug.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/events/client/error.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/events/client/ready.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/events/client/warn.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/events/process/unhandledRejection.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/Builders/EmbedBuilder.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/Client.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/EnvManager.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Builders/embedBuilder.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/client.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/envManager.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.base.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.eslint.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsup.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vitest.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2VnzewhF8oJhjBmIyCRVApSDuSt" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="862784a0-614e-4f39-944d-68f83c08784e" name="Changes" comment="fix: remove statcord plugin&#10;&#10;This plugin is unmaintained" />
+      <created>1695486736920</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695486736920</updated>
+      <workItem from="1695486739675" duration="186000" />
+      <workItem from="1697924087369" duration="2000" />
+      <workItem from="1697924112510" duration="165000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

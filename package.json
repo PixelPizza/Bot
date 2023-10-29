@@ -19,7 +19,8 @@
 		"format": "prettier --write **/*.{ts,js,json,yml,yaml}",
 		"prepare": "husky install",
 		"start:dev": "yarn build:dev && node .",
-		"start:prod": "yarn build:prod && node ."
+		"start:prod": "yarn build:prod && node .",
+		"db:push": "dotenv -e .env.local -- yarn prisma db push"
 	},
 	"repository": {
 		"type": "git",
@@ -59,6 +60,7 @@
 		"@types/valid-url": "^1.0.4",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
+		"dotenv-cli": "^7.3.0",
 		"eslint": "^8.45.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-prettier": "^5.0.0",
